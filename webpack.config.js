@@ -1,6 +1,7 @@
 require('webpack');
 
 const path = require('path');
+const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -11,7 +12,17 @@ module.exports = {
         port: 8282
     },
     entry: {
-        chat       : './assets/chat.js',
+        chat: [
+          'core-js/es6',
+          'jquery',
+          'moment',
+          'normalize.css',
+          'font-awesome/scss/font-awesome.scss',
+          './assets/chat/js/notification',
+          './assets/chat/css/style.scss',
+          './assets/chat/css/bbdgg.scss',
+          './assets/chat.js',
+        ],
         streamchat : './assets/streamchat.js',
         test       : './assets/test.js'
     },
@@ -21,7 +32,10 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(['static'], {root: __dirname, verbose: false, exclude: ['cache', 'index.htm']}),
-        new ExtractTextPlugin({filename: '[name].css'})
+        new ExtractTextPlugin({filename: '[name].css'}),
+        new webpack.DefinePlugin({
+          WEBSOCKET_URI: '"wss://www.destiny.gg/ws"',
+        }),
     ],
     watchOptions: {
         ignored: /node_modules/

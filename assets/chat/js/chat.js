@@ -937,6 +937,7 @@ class Chat {
             MessageBuilder.info('Invalid nick - /ignore <nick>').into(this);
         } else {
             this.ignore(username, true);
+            this.autocomplete.remove(username);
             this.removeMessageByNick(username);
             MessageBuilder.status(`Ignoring ${username}`).into(this);
         }

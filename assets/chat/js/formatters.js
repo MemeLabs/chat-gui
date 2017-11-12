@@ -4,7 +4,6 @@ import UserFeatures from './features';
 const tlds = require('../../tld.json');
 const gtld = "(?:"+ tlds.join('|') +")";
 const el = document.createElement('div');
-let gemoteregex, twitchemoteregex;
 
 class HtmlTextFormatter {
 
@@ -18,14 +17,14 @@ class HtmlTextFormatter {
 class EmoteFormatter {
 
     format(chat, str, message=null){
-        if(!gemoteregex || !twitchemoteregex) {
-            const emoticons = [...chat.emoticons].join('|');
-            const twitchemotes = [...chat.twitchemotes].join('|');
-            gemoteregex = new RegExp(`(^|\\s)(${emoticons})(?=$|\\s)`, 'gm');
-            twitchemoteregex = new RegExp(`(^|\\s)(${emoticons}|${twitchemotes})(?=$|\\s)`, 'gm');
+        if (!this.regex) {
+            const emoticons = [
+                ...chat.emoticons,
+                ...chat.twitchemotes,
+            ].join('|');
+            this.regex = new RegExp(`(^|\\s)(${emoticons})(?=$|\\s)`, 'gm');
         }
-        let regex = (message && message.user && message.user.hasFeature(UserFeatures.SUBSCRIBERT0)) || (!message || !message.user) ? twitchemoteregex : gemoteregex;
-        return str.replace(regex, '$1<div title="$2" class="chat-emote chat-emote-$2">$2 </div>');
+        return str.replace(this.regex, '$1<div title="$2" class="chat-emote chat-emote-$2">$2 </div>');
     }
 
 }
@@ -34,21 +33,7 @@ class GreenTextFormatter {
 
     format(chat, str, message=null){
         if(message.user && str.indexOf('&gt;') === 0){
-            if(message.user.hasAnyFeatures(
-                    UserFeatures.SUBSCRIBER,
-                    UserFeatures.SUBSCRIBERT0,
-                    UserFeatures.SUBSCRIBERT1,
-                    UserFeatures.SUBSCRIBERT2,
-                    UserFeatures.SUBSCRIBERT3,
-                    UserFeatures.SUBSCRIBERT4,
-                    UserFeatures.NOTABLE,
-                    UserFeatures.TRUSTED,
-                    UserFeatures.CONTRIBUTOR,
-                    UserFeatures.COMPCHALLENGE,
-                    UserFeatures.ADMIN,
-                    UserFeatures.MODERATOR
-                ))
-                str = `<span class="greentext">${str}</span>`;``
+            str = `<span class="greentext">${str}</span>`;
         }
         return str;
     }
