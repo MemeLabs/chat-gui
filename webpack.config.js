@@ -52,7 +52,7 @@ module.exports = {
             },
             {
                 test    : /\.js$/,
-                exclude : /(node_modules)/,
+                exclude : /(node_modules\/(?!(timestring)\/).*)/,
                 loader  : 'babel-loader',
                 options : {presets: ['es2015']}
             },

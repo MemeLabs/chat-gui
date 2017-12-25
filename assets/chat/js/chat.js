@@ -3,6 +3,7 @@
 import {KEYCODES,DATE_FORMATS,isKeyCode} from './const'
 import debounce from 'throttle-debounce/debounce'
 import moment from 'moment'
+import timestring from 'timestring';
 import EventEmitter from './emitter'
 import ChatSource from './source'
 import ChatUser from './user'
@@ -160,6 +161,7 @@ class Chat {
         this.taggednicks     = new Map();
         this.ignoring        = new Set();
         this.mainwindow      = null;
+        this.nukes           = [];
 
         this.regexhighlightcustom = null;
         this.regexhighlightnicks = null;
@@ -753,7 +755,37 @@ class Chat {
                 MessageBuilder.emote(textonly, data.timestamp, 2).into(this)
             }
         } else if(!this.resolveMessage(data.nick, data.data)){
-            MessageBuilder.message(data.data, this.users.get(data.nick.toLowerCase()), data.timestamp).into(this)
+            const user = this.users.get(data.nick.toLowerCase());
+            MessageBuilder.message(data.data, user, data.timestamp).into(this)
+            if (user.hasAnyFeatures('admin', 'moderator')) {
+                const detect_nuke_re = /^!(?:nuke|annihilate|obliterate|regexnuke|regexpnuke|nukeregex|nukeregexp) *(\d*(?:s|sec|secs|second|seconds|m|min|mins|mine|minutes|h|hr|hrs|hour|hours|d|day|days)?)? +(.+)/.exec(data.data);
+                if (detect_nuke_re) {
+                    const min_linger = 600000;
+                    let linger;
+                    if (detect_nuke_re[1]) {
+                        linger = Math.min(min_linger, timestring(detect_nuke_re[1]) * 1000);
+                    }
+                    else {
+                        linger = min_linger;
+                    }
+                    const remaining_linger = (data.timestamp + linger) - new Date().getTime();
+                    if (remaining_linger > 0) {
+                        MessageBuilder.status(`Nuke detected. "${detect_nuke_re[2]}"`).into(this);
+                        const nuke = setTimeout(() => {
+                            MessageBuilder.status(`Radiation cleared. "${detect_nuke_re[2]}"`).into(this);
+                            const nuke_index = this.nukes.indexOf(nuke);
+                            if (nuke_index !== -1) {
+                                this.nukes.splice(nuke_index, 1);
+                            }
+                        }, remaining_linger);
+                        this.nukes.push(nuke);
+                    }
+                }
+                else if (/^!aegis/.exec(data.data)) {
+                    this.nukes.forEach(clearTimeout);
+                    this.nukes = [];
+                }
+            }
         }
     }
 

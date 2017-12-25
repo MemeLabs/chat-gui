@@ -51,6 +51,7 @@
     "sass-loader": "~6.0.6",
     "style-loader": "~0.19.0",
     "throttle-debounce": "~1.0.1",
+    "timestring": "^5.0.0",
     "ts-loader": "~3.1.0",
     "typescript": "~2.5.3",
     "webpack": "~3.8.1",
