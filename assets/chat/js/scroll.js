@@ -8,19 +8,22 @@ const is_touch_device =  'ontouchstart' in window        // works on most browse
 class ChatScrollPlugin {
 
     constructor(chat, e){
-        const el = $(e);
-        if(el.find('.chat-scroll-notify').length > 0) {
-            el.on('update', () => el.toggleClass('chat-unpinned', !this.isPinned())); //debounce
-            el.on('mousedown', '.chat-scroll-notify', () => false);
-            el.on('mouseup', '.chat-scroll-notify', () => {
+
+        const el = $(e).get(0);
+        if(!el) return;
+
+        const $el = $(e);
+        if($el.find('.chat-scroll-notify').length > 0) {
+            $el.on('update', () => $el.toggleClass('chat-unpinned', !this.isPinned())); //debounce
+            $el.on('mousedown', '.chat-scroll-notify', () => false);
+            $el.on('mouseup', '.chat-scroll-notify', () => {
                 this.updateAndPin(true);
                 return false;
             });
         }
-        this.scroller = el.nanoScroller({
+        this.scroller = $el.nanoScroller({
             sliderMinHeight: 40,
             disableResize: true,
-            preventPageScrolling: true,
             alwaysVisible: is_touch_device
         })[0].nanoscroller;
     }
