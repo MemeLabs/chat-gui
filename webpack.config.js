@@ -1,3 +1,4 @@
+require('dotenv').config();
 require('webpack');
 
 const path = require('path');
@@ -24,7 +25,6 @@ module.exports = {
           './assets/chat.js',
         ],
         streamchat : './assets/streamchat.js',
-        test       : './assets/test.js'
     },
     output: {
         path     : __dirname + '/static',
@@ -34,7 +34,9 @@ module.exports = {
         new CleanWebpackPlugin(['static'], {root: __dirname, verbose: false, exclude: ['cache', 'index.htm']}),
         new ExtractTextPlugin({filename: '[name].css'}),
         new webpack.DefinePlugin({
-          WEBSOCKET_URI: '"wss://www.destiny.gg/ws"',
+            WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://www.destiny.gg/ws"',
+            API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '',
+            LOGIN_URI: process.env.LOGIN_URI ? `'${process.env.LOGIN_URI}'` : 'false',
         }),
     ],
     watchOptions: {

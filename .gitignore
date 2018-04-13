@@ -12,8 +12,8 @@
 /scripts/redis/*.hash
 .DS_Store
 *.swp
-
 /.idea
+.env
 
 
 # generated stuff
