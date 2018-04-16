@@ -386,7 +386,7 @@ class Chat {
         this.loginscrn.on('click', '#chat-btn-login', () => {
             this.loginscrn.hide()
             if (LOGIN_URI) {
-                window.location.href = LOGIN_URI;
+                window.top.location.href = LOGIN_URI;
                 return;
             }
             try {
