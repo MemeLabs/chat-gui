@@ -142,7 +142,7 @@ class ChatSettingsMenu extends ChatMenu {
             switch(name){
                 case 'profilesettings':
                     if(!val && this.chat.authenticated)
-                        $.ajax({url: '/api/chat/me/settings', method:'delete'})
+                        $.ajax({url: `${API_URI}/api/chat/me/settings`, method:'delete'})
                     break;
                 case 'notificationwhisper':
                 case 'notificationhighlight':
