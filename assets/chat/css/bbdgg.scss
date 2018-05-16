@@ -54,11 +54,58 @@
   width: 32px;
   height: 32px;
   margin-top: -32px;
-  background: url('../../emotes/emoticons-animated/MiyanoHype-once.gif');
+  overflow: hidden;
+  position: relative;
 }
 
-.chat-emote.chat-emote-MiyanoHype:hover {
-  background: url('../../emotes/emoticons-animated/MiyanoHype.gif');
+.chat-emote.chat-emote-MiyanoHype:before,
+.chat-emote.chat-emote-MiyanoHype:after {
+  height: 32px;
+  width: 32px;
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@keyframes miyanohype-out-anim {
+  0% {
+    visibility: visible;
+    animation-timing-function: steps(1, end);
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+
+@keyframes miyanohype-in-anim {
+  0% {
+    visibility: hidden;
+    animation-timing-function: steps(1, end);
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
+.chat-emote.chat-emote-MiyanoHype:before {
+  animation: miyanohype-in-anim 2.4s 1;
+  background: url('../../emotes/emoticons-animated/MiyanoHype-still.gif') no-repeat;
+}
+
+.chat-emote.chat-emote-MiyanoHype:after {
+  animation: miyanohype-out-anim 2.4s 1;
+  visibility: hidden;
+  background: url('../../emotes/emoticons-animated/MiyanoHype.gif') no-repeat;
+}
+
+.chat-emote.chat-emote-MiyanoHype:hover:before {
+  visibility: hidden;
+}
+
+.chat-emote.chat-emote-MiyanoHype:hover:after {
+  visibility: visible;
 }
 
 // twitch emotes
