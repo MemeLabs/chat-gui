@@ -20,6 +20,7 @@ module.exports = {
             'normalize.css',
             'font-awesome/scss/font-awesome.scss',
             './assets/chat/js/notification',
+            './assets/chat/img/favicon.png',
             './assets/chat/css/style.scss',
             './assets/chat/css/bbdgg.scss',
             './assets/chat.js',
@@ -31,6 +32,7 @@ module.exports = {
             'normalize.css',
             'font-awesome/scss/font-awesome.scss',
             './assets/chat/js/notification',
+            './assets/chat/img/favicon.png',
             './assets/chat/css/style.scss',
             './assets/chat/css/bbdgg.scss',
             './assets/chat/css/onstream.scss',
@@ -38,12 +40,12 @@ module.exports = {
         ],
     },
     output: {
-        path     : __dirname + '/static',
-        filename : '[name].js'
+        path: __dirname + '/static',
+        filename: '[name].js'
     },
     plugins: [
-        new CleanWebpackPlugin(['static'], {root: __dirname, verbose: false, exclude: ['cache', 'index.htm']}),
-        new ExtractTextPlugin({filename: '[name].css'}),
+        new CleanWebpackPlugin(['static'], { root: __dirname, verbose: false, exclude: ['cache', 'index.htm'] }),
+        new ExtractTextPlugin({ filename: '[name].css' }),
         new webpack.DefinePlugin({
             WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://www.destiny.gg/ws"',
             API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '',
@@ -56,39 +58,39 @@ module.exports = {
     module: {
         rules: [
             {
-                test    : /\.(ts|tsx)$/,
-                loader  : 'ts-loader'
+                test: /\.(ts|tsx)$/,
+                loader: 'ts-loader'
             },
             {
-                test    : /\.json$/,
-                loader  : 'json-loader'
+                test: /\.json$/,
+                loader: 'json-loader'
             },
             {
-                test    : /\.js$/,
-                exclude : /(node_modules\/(?!(timestring)\/).*)/,
-                loader  : 'babel-loader',
-                options : {presets: ['es2015']}
+                test: /\.js$/,
+                exclude: /(node_modules\/(?!(timestring)\/).*)/,
+                loader: 'babel-loader',
+                options: { presets: ['es2015'] }
             },
             {
-                test    : /\.(scss|css)$/,
-                loader  : ExtractTextPlugin.extract({
+                test: /\.(scss|css)$/,
+                loader: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
-                        {loader: 'css-loader'},
-                        {loader: 'sass-loader'},
-                        {loader: 'postcss-loader'},
+                        { loader: 'css-loader' },
+                        { loader: 'sass-loader' },
+                        { loader: 'postcss-loader' },
                     ]
                 })
             },
             {
-                test    : /(-webfont|glyphicons-halflings-regular)\.(eot|svg|ttf|woff2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader  : 'file-loader',
-                options : {name: 'fonts/[name].[ext]'}
+                test: /(-webfont|glyphicons-halflings-regular)\.(eot|svg|ttf|woff2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'file-loader',
+                options: { name: 'fonts/[name].[ext]' }
             },
             {
-                test    : /\.(png|jpg|gif|svg)$/,
-                loader  : 'file-loader',
-                options : {name: 'img/[name].[ext]'}
+                test: /\.(png|jpg|gif|svg)$/,
+                loader: 'file-loader',
+                options: { name: 'img/[name].[ext]' }
             }
         ]
     },
@@ -96,7 +98,7 @@ module.exports = {
         alias: {
             jquery: 'jquery/src/jquery'
         },
-        extensions: ['.ts','.tsx','.js']
+        extensions: ['.ts', '.tsx', '.js']
     },
     context: __dirname,
     devtool: false
