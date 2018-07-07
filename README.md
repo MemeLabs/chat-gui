@@ -20,15 +20,11 @@ npm run build
 ```
 or
 ```shell
-webpack -p
+npm run build:production
 ```
 
 #### Building while developing
 
-```shell
-webpack -w
-```
-or
 ```shell
 npm run watch
 ```
