@@ -80,7 +80,7 @@ const settingsdefault = new Map([
     ['highlightnicks', []],
     ['taggednicks', []],
     ['showremoved', 0], // 0 = false (removes), 1 = true (censor), 2 = do nothing
-    ['showhispersinchat', false],
+    ['showhispersinchat', true],
     ['ignorenicks', []],
     ['focusmentioned', false],
     ['notificationtimeout', true],
