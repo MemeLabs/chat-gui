@@ -118,22 +118,6 @@
         filter: hue-rotate(360deg);
     }
 }
-@keyframes picnic-anim {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-}
-@keyframes picnic-anim-hover {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-}
 @keyframes weewoo-anim {
     0%, 100% {
         opacity: 1;
@@ -414,13 +398,6 @@
 }
 .chat-emote-DANKMEMES:hover {
     animation: dankmemes-anim-hover 1s infinite;
-}
-
-.chat-emote-PICNIC {
-    animation: picnic-anim 350ms 3;
-}
-.chat-emote-PICNIC:hover {
-    animation: picnic-anim-hover 350ms infinite;
 }
 
 .chat-emote-WEEWOO {
