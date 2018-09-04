@@ -2,12 +2,17 @@ server {
     listen 443 ssl;
     server_name chat.strims.gg;
 
-    # TODO edit me
+    # TODO change me
     root /tmp/chat-gui/static;
 
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+    add_header X-Frame-Options "ALLOW-FROM https://strims.gg/";
     add_header X-Content-Type-Options nosniff;
+    add_header Referrer-Policy "no-referrer";
+    add_header Feature-Policy "geolocation 'none'; microphone 'none'; camera 'none'";
+    add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' wss:; object-src 'none'";
 
+    # TODO
     set_real_ip_from 0.0.0.0/0;
     real_ip_header CF-Connecting-IP;
 
@@ -17,7 +22,7 @@ server {
     ssl_certificate /etc/letsencrypt/live/strims.gg/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/strims.gg/privkey.pem;
 
-    #backend
+    # chat backend
     location /ws {
         proxy_pass http://localhost:9998;
         proxy_set_header Upgrade $http_upgrade;
@@ -25,6 +30,7 @@ server {
         proxy_set_header Host $host;
     }
 
+    # chat backend
     location /api {
         proxy_pass http://localhost:9998;
     }
@@ -33,5 +39,11 @@ server {
         try_files $uri $uri/ $uri.html =404;
         sendfile on;
     }
+}
+
+server {
+    listen 80;
+    server_name chat.strims.gg;
+    return 302 https://$host$request_uri;
 }
 
