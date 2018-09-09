@@ -1,9 +1,9 @@
 require('dotenv').config();
 require('webpack');
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
@@ -39,13 +39,14 @@ module.exports = {
             './assets/streamchat.js',
         ],
     },
+    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     output: {
         path: __dirname + '/static',
         filename: '[name].js'
     },
     plugins: [
         new CleanWebpackPlugin(['static'], { root: __dirname, verbose: false, exclude: ['cache', 'index.htm'] }),
-        new ExtractTextPlugin({ filename: '[name].css' }),
+        new MiniCssExtractPlugin({ filename: '[name].css' }),
         new webpack.DefinePlugin({
             WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://www.destiny.gg/ws"',
             API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '',
@@ -62,10 +63,6 @@ module.exports = {
                 loader: 'ts-loader'
             },
             {
-                test: /\.json$/,
-                loader: 'json-loader'
-            },
-            {
                 test: /\.js$/,
                 exclude: /(node_modules\/(?!(timestring)\/).*)/,
                 loader: 'babel-loader',
@@ -73,14 +70,12 @@ module.exports = {
             },
             {
                 test: /\.(scss|css)$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        { loader: 'css-loader' },
-                        { loader: 'sass-loader' },
-                        { loader: 'postcss-loader' },
-                    ]
-                })
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader',
+                    'postcss-loader'
+                ],
             },
             {
                 test: /(-webfont|glyphicons-halflings-regular)\.(eot|svg|ttf|woff2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
