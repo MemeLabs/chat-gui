@@ -87,7 +87,8 @@ const settingsdefault = new Map([
     ['ignorementions', false],
     ['autocompletehelper', true],
     ['taggedvisibility', false],
-    ['hidensfw', false]
+    ['hidensfw', false],
+    ['animateforever', false]
 ])
 const commandsinfo = new Map([
     ['help',            {desc: 'Helpful information.'}],
@@ -504,6 +505,21 @@ class Chat {
 
         // Update maxlines
         [...this.windows].forEach(w => w.maxlines = this.settings.get('maxlines'));
+
+        // Infinite animated PNGs
+        const that = this;
+        this.mainwindow.getlines('.msg-user')
+            .find('[class^="chat-emote"]')
+            .each(function() {
+                const element = $(this);
+                const emote = element.attr('title');
+                if (that.settings.get('animateforever')) {
+                    element.addClass(`chat-emote-${emote}-animate-forever`);
+                }
+                else {
+                    element.removeClass(`chat-emote-${emote}-animate-forever`);
+                }
+            });
     }
 
     addUser(data){
