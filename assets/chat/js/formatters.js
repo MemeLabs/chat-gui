@@ -16,15 +16,26 @@ class HtmlTextFormatter {
 
 class EmoteFormatter {
 
-    format(chat, str, message=null){
+    format(chat, str) {
         if (!this.regex) {
             const emoticons = [
                 ...chat.emoticons,
                 ...chat.twitchemotes,
             ].join('|');
-            this.regex = new RegExp(`(^|\\s)(${emoticons})(?=$|\\s)`, 'gm');
+            this.regex = new RegExp(
+                `(^|\\s)(${emoticons})(?=$|\\s)`, 'gm'
+            );
         }
-        return str.replace(this.regex, '$1<div title="$2" class="chat-emote chat-emote-$2">$2 </div>');
+
+        const classes = ['chat-emote', 'chat-emote-$2'];
+        if (chat.settings.get('animateforever')) {
+            classes.push('chat-emote-$2-animate-forever')
+        }
+
+        return str.replace(
+            this.regex,
+            `$1<div title="$2" class="${classes.join(' ')}">$2 </div>`
+        );
     }
 
 }
