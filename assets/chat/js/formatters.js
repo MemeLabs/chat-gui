@@ -24,7 +24,34 @@ class EmoteFormatter {
             ].join('|');
             this.regex = new RegExp(`(^|\\s)(${emoticons})(?=$|\\s)`, 'gm');
         }
-        return str.replace(this.regex, '$1<div title="$2" class="chat-emote chat-emote-$2">$2 </div>');
+        //normal emotes
+        str = str.replace(this.regex, '$1<div title="$2" class="chat-emote chat-emote-$2">$2 </div>');
+        
+        
+        // emote:key; css class to apply
+        const generify_options = {
+            "mirror": "mirror",
+        };
+        if (typeof this.generify_regex === 'undefined') {
+            this.generify_regex =  new Map();
+        }
+        for (var key in generify_options) {
+            if (this.generify_regex.get(key) === undefined ) {
+                const suffix = ':' + key + '|';
+                const emoticons_generify = [
+                    ...chat.emoticons,
+                    ...chat.twitchemotes,
+                ].join(suffix);
+                this.generify_regex = this.generify_regex.set(key, new RegExp(`(^|\\s)(${emoticons_generify})(?=$|\\s)`, 'gm'));
+            }
+            str = str.replace(this.generify_regex.get(key), function(m) {
+                console.log("replacing :mirror text");
+                var emote = m.split(":")[0];
+                emote = emote.replace(/\s/g, '');
+                return '<div title="'+ emote +'" class="chat-emote ' + generify_options[key] + ' chat-emote-'+ emote +'">'+ emote +' </div>';
+            });
+        }
+        return str;
     }
 
 }
