@@ -31,6 +31,8 @@ class EmoteFormatter {
         // emote:key; css class to apply
         const generify_options = {
             "mirror": "mirror",
+            "rain": "weather rain",
+            "snow": "weather snow",
         };
         if (typeof this.generify_regex === 'undefined') {
             this.generify_regex =  new Map();
