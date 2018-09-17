@@ -1,4 +1,6 @@
 import UserFeatures from './features';
+import {GENERIFY_OPTIONS} from './const'
+
 
 /** @var Array tlds */
 const tlds = require('../../tld.json');
@@ -20,11 +22,21 @@ class EmoteFormatter {
         if (!this.regex) {
             const emoticons = [
                 ...chat.emoticons,
-                ...chat.twitchemotes,
             ].join('|');
-            this.regex = new RegExp(`(^|\\s)(${emoticons})(?=$|\\s)`, 'gm');
+            const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
+            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
         }
-        return str.replace(this.regex, '$1<div title="$2" class="chat-emote chat-emote-$2">$2 </div>');
+        
+        return str.replace(this.regex, function(m) {
+            if (!m.includes(':')) {
+                const emote = m.replace(/\s/g, '');
+                return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + '">' + emote + '</span>';
+            } else {
+                const emote = m.split(':')[0].replace(/\s/g, '');
+                const suffix = m.split(':')[1].replace(/\s/g, '');
+                return ' <span class="generify-container ' + GENERIFY_OPTIONS[suffix] + '"><span title="'+ m +'" class="chat-emote chat-emote-'+ emote +'">'+ m +' </span></span>';
+            }
+        });
     }
 
 }

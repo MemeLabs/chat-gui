@@ -3,6 +3,8 @@
 @import "../../emotes/emoticons";
 @import "../../icons/icons";
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,600,700");
+@import "weather.scss";
+@import "generify.scss";
 
 *, *::before, *::after { box-sizing: inherit; }
 html { box-sizing: border-box; }
@@ -1095,6 +1097,7 @@ a.flair12:hover {
     left:0;
     bottom:0;
     right:0;
+    display: none;
 }
 
 /* Settings */
@@ -1104,6 +1107,7 @@ a.flair12:hover {
 .pref-hideflairicons .features {
     display: none;
 }
+
 .pref-autocompletehelper #chat-auto-complete.active {
     opacity: 1;
 }

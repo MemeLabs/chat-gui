@@ -1,0 +1,143 @@
+/* Generifys */
+
+.generify-container {
+    display: inline-block;
+}
+
+.anim-fix {
+    padding-top: 14px;
+    margin-top: -10px;
+    margin-bottom: -12px;
+}
+
+.anim-fix > .chat-emote {
+    margin-bottom: 10px;
+}
+
+.generify-rustle > .chat-emote {
+    animation: rustle 100ms 7;
+}
+
+.generify-rustle > .chat-emote:hover {
+    animation: rustle-hover 100ms infinite;
+}
+
+.mirror {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+
+    //fix "blur" or mirrored emotes
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+.generify-dank {
+    background-image: url("data:image/png;base64,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");
+    background-position: center;
+    min-width: 72px;
+    height: 30px;
+    margin-top: -8px;
+    padding-top: 8px;
+    background-repeat: no-repeat;
+}
+
+.generify-dank > .chat-emote {
+    margin-left: 20px;
+}
+
+.generify-dank {
+    animation: dankmemes-anim 1s 2;
+}
+.generify-dank:hover {
+    animation: dankmemes-anim-hover 1s infinite;
+}
+
+.generify-dank > .chat-emote.chat-emote-DANKMEMES {
+    margin-left: 0px
+}
+.generify-dank > .chat-emote.chat-emote-DuckerZ {
+    margin-left: 0px
+}
+.generify-dank > .chat-emote.chat-emote-CUX {
+    margin-left: 0px
+}
+.generify-dank > .chat-emote.chat-emote-GameOfThrows {
+    margin-left: 0px
+}
+.generify-dank > .chat-emote.chat-emote-AngelThump {
+    margin-left: 0px
+}
+.generify-dank > .chat-emote.chat-emote-RaveDoge {
+    margin-left: 15px
+}
+.generify-dank > .chat-emote.chat-emote-Abathur {
+    margin-left: 10px
+}
+.generify-dank > .chat-emote.chat-emote-TRUMPED {
+    margin-left: 11px
+}
+.generify-dank > .chat-emote.chat-emote-NOTMYTEMPO {
+    margin-left: 12px
+}
+.generify-dank > .chat-emote.chat-emote-AYYYLMAO {
+    margin-left: 0px
+}
+
+
+.generify-worth > .chat-emote:before{
+    content: "💰";
+    text-indent: 0;
+    font-size: 18px;
+    position: absolute;
+    left:-3px;
+    top:-25px;
+    animation: Shekels-anim 0.5s 4;
+}
+.generify-worth > .chat-emote:hover::before{
+    animation: Shekels-anim 0.5s infinite;
+}
+.generify-worth > .chat-emote:after{
+    content: "💰";
+    text-indent: 0;
+    font-size: 18px;
+    position: absolute;
+    right:-3px;
+    top:-25px;
+    animation: Shekels-anim 0.5s 4;
+    animation-delay: 0.25s;
+}
+.generify-worth > .chat-emote:hover::after{
+    animation: Shekels-anim 0.5s infinite;
+    animation-delay: 0.25s;
+}
+
+.generify-hyper > .chat-emote {
+    filter: drop-shadow( 0px 0px 3px rgba( 255, 255, 255, 0.7 ) );
+}
+
+.generify-hyper > .chat-emote::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background-image: inherit;
+    background-position: inherit;
+
+    filter: 
+        opacity( 0.1 )
+        drop-shadow( 0px 0px 0px red ) 
+        drop-shadow( 0px 0px 0px red )
+        drop-shadow( 0px 0px 0px red )
+        drop-shadow( 0px 0px 0px red ) 
+    ;
+    mix-blend-mode: color-dodge;
+}
