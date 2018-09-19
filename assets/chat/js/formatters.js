@@ -47,8 +47,7 @@ class EmoteFormatter {
                 this.generify_regex = this.generify_regex.set(key, new RegExp(`(^|\\s)(${emoticons_generify})(?=$|\\s)`, 'gm'));
             }
             str = str.replace(this.generify_regex.get(key), function(m) {
-                var emote = m.split(":")[0];
-                emote = emote.replace(/\s/g, '');
+                const emote = m.split(":")[0].replace(/\s/g, '');
                 return '<div title="'+ emote +'" class="chat-emote ' + generify_options[key] + ' chat-emote-'+ emote +'">'+ emote +' </div>';
             });
         }
