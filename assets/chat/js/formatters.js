@@ -38,7 +38,7 @@ class EmoteFormatter {
             this.generify_regex =  new Map();
         }
         for (var key in generify_options) {
-            if (this.generify_regex.get(key) === undefined ) {
+            if (! this.generify_regex.has(key)) {
                 const suffix = ':' + key + '|';
                 const emoticons_generify = [
                     ...chat.emoticons,
@@ -47,7 +47,6 @@ class EmoteFormatter {
                 this.generify_regex = this.generify_regex.set(key, new RegExp(`(^|\\s)(${emoticons_generify})(?=$|\\s)`, 'gm'));
             }
             str = str.replace(this.generify_regex.get(key), function(m) {
-                console.log("replacing :mirror text");
                 var emote = m.split(":")[0];
                 emote = emote.replace(/\s/g, '');
                 return '<div title="'+ emote +'" class="chat-emote ' + generify_options[key] + ' chat-emote-'+ emote +'">'+ emote +' </div>';
