@@ -85,7 +85,10 @@ label small {
 
 /* Generifys */
 // TODO maybe move this to anim.scss
-// TODO fix Hhhehehehe emote turning right for animation
+.generify_container {
+    display: inline-block;
+}
+
 .mirror {
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
