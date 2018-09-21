@@ -1,6 +1,5 @@
 
 /*
- * START WEATHER
  * Minecraft weather effects with pure CSS
  * © Copyright 2014 Moritz Marquardt
  *
@@ -11,7 +10,7 @@
 
 /* main element */
 .weather {
-    position: relative; overflow: hidden;
+    position: relative; overflow: visible;
 }
 /* pseudo elements: positioning and setup */
 .weather:before, .weather:after {
@@ -85,6 +84,3 @@
     from { background-position: 64px 64px; }
     to { background-position: 64px 1088px; }
 }
-
-// END WEATHER
-
