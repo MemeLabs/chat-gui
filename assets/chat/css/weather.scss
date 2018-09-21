@@ -10,7 +10,11 @@
 
 /* main element */
 .weather {
-    position: relative; overflow: visible;
+    position: relative; 
+    overflow: hidden;
+    padding-top: 10px;
+    margin-top:-10px;
+    margin-bottom: -8px;
 }
 /* pseudo elements: positioning and setup */
 .weather:before, .weather:after {
