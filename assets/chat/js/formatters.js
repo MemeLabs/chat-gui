@@ -1,4 +1,6 @@
 import UserFeatures from './features';
+import {generify_options} from './const'
+
 
 /** @var Array tlds */
 const tlds = require('../../tld.json');
@@ -20,7 +22,6 @@ class EmoteFormatter {
         if (!this.regex) {
             const emoticons = [
                 ...chat.emoticons,
-                ...chat.twitchemotes,
             ].join('|');
             this.regex = new RegExp(`(^|\\s)(${emoticons})(?=$|\\s)`, 'gm');
         }
@@ -28,12 +29,6 @@ class EmoteFormatter {
         str = str.replace(this.regex, '$1<div title="$2" class="chat-emote chat-emote-$2">$2 </div>');
         
         
-        // emote:key; css class to apply
-        const generify_options = {
-            "mirror": "mirror",
-            "rain": "weather rain",
-            "snow": "weather snow",
-        };
         if (typeof this.generify_regex === 'undefined') {
             this.generify_regex =  new Map();
         }
