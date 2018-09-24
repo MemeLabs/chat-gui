@@ -23,30 +23,21 @@ class EmoteFormatter {
             const emoticons = [
                 ...chat.emoticons,
             ].join('|');
-            this.regex = new RegExp(`(^|\\s)(${emoticons})(?=$|\\s)`, 'gm');
+            const suffixes = 'mirror|snow|rain';
+            //const suffixes = keys(generify_options).join('|');
+            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\s)`, 'gm');
         }
-        //normal emotes
-        str = str.replace(this.regex, '$1<div title="$2" class="chat-emote chat-emote-$2">$2 </div>');
         
-        
-        if (typeof this.generify_regex === 'undefined') {
-            this.generify_regex = new Map();
-        }
-        for (var key in generify_options) {
-            if (!this.generify_regex.has(key)) {
-                const suffix = ':' + key + '|';
-                const emoticons_generify = [
-                    ...chat.emoticons,
-                    ...chat.twitchemotes,
-                ].join(suffix);
-                this.generify_regex = this.generify_regex.set(key, new RegExp(`(^|\\s)(${emoticons_generify})(?=$|\\s)`, 'gm'));
-            }
-            str = str.replace(this.generify_regex.get(key), function(m) {
+        return str.replace(this.regex, function(m) {
+            if (!m.includes(':')) {
+                const emote = m.replace(/\s/g, '');
+                return '<div title=' + emote + ' class="chat-emote chat-emote-' + emote + '">' + emote + '</div>';
+            } else {
                 const emote = m.split(':')[0].replace(/\s/g, '');
-                return '<div class="generify-container ' + generify_options[key] + '"><div title="'+ emote +'" class="chat-emote chat-emote-'+ emote +'">'+ emote +' </div></div>';
-            });
-        }
-        return str;
+                const suffix = m.split(':')[1].replace(/\s/g, '');
+                return '<div class="generify-container ' + generify_options[suffix] + '"><div title="'+ emote +'" class="chat-emote chat-emote-'+ emote +'">'+ emote +' </div></div>';
+            }
+        });
     }
 
 }
