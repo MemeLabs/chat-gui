@@ -426,10 +426,10 @@ class Chat {
         this.emoticons = new Set(emotes['destiny']);
         for (var s in generify_options) {
             for (var e of this.emoticons) {
-                this.twitchemotes.add("" + e + ":" + s);    
+                //this.twitchemotes.add("" + e + ":" + s);    
+                this.twitchemotes.add(`${e}:${s}`);    
             }
         }
-        //this.twitchemotes = new Set(emotes['twitch']);
         return this;
     }
 

@@ -50,9 +50,9 @@ function isKeyCode(e, code){
 
 // emote:key; css class to apply
 const generify_options = {
-    "mirror": "mirror",
-    "rain": "weather rain",
-    "snow": "weather snow",
+    'mirror': 'mirror',
+    'rain': 'weather rain',
+    'snow': 'weather snow',
 };
 
 export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,generify_options}
