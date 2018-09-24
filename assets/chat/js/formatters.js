@@ -23,9 +23,8 @@ class EmoteFormatter {
             const emoticons = [
                 ...chat.emoticons,
             ].join('|');
-            const suffixes = 'mirror|snow|rain';
-            //const suffixes = keys(generify_options).join('|');
-            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\s)`, 'gm');
+            const suffixes = Object.keys(generify_options).join('|');
+            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
         }
         
         return str.replace(this.regex, function(m) {
