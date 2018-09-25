@@ -200,11 +200,10 @@ class ChatAutoComplete {
 
         //for emote suffixes
         if (criteria.orig.includes(' :') && criteria.word.startsWith(':')) {
-            const last_colon = criteria.orig.lastIndexOf(' :')
-            const l = criteria.orig.length
-            //assumption: the last occurrance of " :" is ment to be a emote suffix
-            criteria.orig = criteria.orig.substring(0, last_colon) + ':' + criteria.orig.substring(last_colon + 2, l)
-            criteria.startCaret -= 1;
+            const lastColon = criteria.orig.lastIndexOf(' :')
+            //assumption: the last occurrence of " :" is meant to be a emote suffix
+            criteria.orig = criteria.orig.substring(0, lastColon) + ':' + criteria.orig.substring(lastColon + 2)
+            criteria.startCaret--;
         }
         if(criteria.word.length >= minWordLength) {
             const bucket = this.buckets.get(getBucketId(criteria.word)) || new Map();
