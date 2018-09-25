@@ -294,6 +294,8 @@ class Chat {
             (a['alias'] || []).forEach(k => this.autocomplete.add(`/${k}`))
         });
         this.emoticons.forEach(e => this.autocomplete.add(e, true))
+        const suffixes = Object.keys(generify_options)
+        suffixes.forEach(e => this.autocomplete.add(`:${e}`, true))
         this.autocomplete.bind(this)
         this.applySettings(false)
 
@@ -424,11 +426,6 @@ class Chat {
 
     withEmotes(emotes) {
         this.emoticons = new Set(emotes['destiny']);
-        for (var s in generify_options) {
-            for (var e of this.emoticons) {
-                this.twitchemotes.add(`${e}:${s}`);    
-            }
-        }
         return this;
     }
 

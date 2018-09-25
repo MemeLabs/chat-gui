@@ -197,6 +197,15 @@ class ChatAutoComplete {
         this.selected = -1
         this.results = []
         this.criteria = criteria
+
+        //for emote suffixes
+        if (criteria.orig.includes(' :') && criteria.word.startsWith(':')) {
+            const last_colon = criteria.orig.lastIndexOf(' :')
+            const l = criteria.orig.length
+            //assumption: the last occurrance of " :" is ment to be a emote suffix
+            criteria.orig = criteria.orig.substring(0, last_colon) + ':' + criteria.orig.substring(last_colon + 2, l)
+            criteria.startCaret -= 1;
+        }
         if(criteria.word.length >= minWordLength) {
             const bucket = this.buckets.get(getBucketId(criteria.word)) || new Map();
             const regex = new RegExp('^' + Chat.makeSafeForRegex(criteria.pre), 'i');
@@ -245,11 +254,11 @@ class ChatAutoComplete {
 
         let pre = this.criteria.orig.substr(0, this.criteria.startCaret),
             post = this.criteria.orig.substr(this.criteria.startCaret + this.criteria.word.length)
-
         // always add a space after our completion if there isn't one since people
         // would usually add one anyway
-        if (post[0] !== ' ' || post.length === 0)
+        if (post[0] !== ' ' || post.length === 0) {
             post = ' ' + post
+        }
         this.input.focus().val(pre + result.data + post)
 
         // Move the caret to the end of the replacement string + 1 for the space
