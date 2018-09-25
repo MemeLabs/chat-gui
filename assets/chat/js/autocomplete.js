@@ -198,12 +198,20 @@ class ChatAutoComplete {
         this.results = []
         this.criteria = criteria
 
-        //for emote suffixes
+        //for emote suffixes started from "YEE :"
         if (criteria.orig.includes(' :') && criteria.word.startsWith(':')) {
             const lastColon = criteria.orig.lastIndexOf(' :')
             //assumption: the last occurrence of " :" is meant to be a emote suffix
             criteria.orig = criteria.orig.substring(0, lastColon) + ':' + criteria.orig.substring(lastColon + 2)
             criteria.startCaret--;
+        }
+        //for emote suffixes started from "YEE:"
+        if (criteria.word.includes(':') && !criteria.word.startsWith(':')) {
+            const emote = criteria.word.split(':')[0]
+            const suffix = criteria.word.split(':')[1]
+            criteria.startCaret = criteria.startCaret + emote.length
+            criteria.word = `:${suffix}`
+            criteria.pre = `:${suffix}`
         }
         if(criteria.word.length >= minWordLength) {
             const bucket = this.buckets.get(getBucketId(criteria.word)) || new Map();
