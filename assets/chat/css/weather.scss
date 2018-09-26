@@ -14,8 +14,13 @@
     overflow: hidden;
     padding-top: 10px;
     margin-top:-10px;
-    margin-bottom: -8px;
+    margin-bottom: -12px;
 }
+
+.weather > .chat-emote {
+    margin-bottom: 4px;
+}
+
 /* pseudo elements: positioning and setup */
 .weather:before, .weather:after {
     content: "";
