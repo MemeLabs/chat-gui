@@ -1,5 +1,5 @@
 import UserFeatures from './features';
-import {generify_options} from './const'
+import {GENERIFY_OPTIONS} from './const'
 
 
 /** @var Array tlds */
@@ -23,7 +23,7 @@ class EmoteFormatter {
             const emoticons = [
                 ...chat.emoticons,
             ].join('|');
-            const suffixes = Object.keys(generify_options).join('|');
+            const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
             this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
         }
         
@@ -34,7 +34,7 @@ class EmoteFormatter {
             } else {
                 const emote = m.split(':')[0].replace(/\s/g, '');
                 const suffix = m.split(':')[1].replace(/\s/g, '');
-                return '<div class="generify-container ' + generify_options[suffix] + '"><div title="'+ emote +'" class="chat-emote chat-emote-'+ emote +'">'+ emote +' </div></div>';
+                return '<div class="generify-container ' + GENERIFY_OPTIONS[suffix] + '"><div title="'+ emote +'" class="chat-emote chat-emote-'+ emote +'">'+ emote +' </div></div>';
             }
         });
     }

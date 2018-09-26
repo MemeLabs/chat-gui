@@ -1,6 +1,6 @@
 /* global $, window, document */
 
-import {KEYCODES,DATE_FORMATS,isKeyCode,generify_options} from './const'
+import {KEYCODES,DATE_FORMATS,isKeyCode,GENERIFY_OPTIONS} from './const'
 import debounce from 'throttle-debounce/debounce'
 import moment from 'moment'
 import timestring from 'timestring';
@@ -294,7 +294,7 @@ class Chat {
             (a['alias'] || []).forEach(k => this.autocomplete.add(`/${k}`))
         });
         this.emoticons.forEach(e => this.autocomplete.add(e, true))
-        const suffixes = Object.keys(generify_options)
+        const suffixes = Object.keys(GENERIFY_OPTIONS)
         suffixes.forEach(e => this.autocomplete.add(`:${e}`, true))
         this.autocomplete.bind(this)
         this.applySettings(false)
@@ -426,7 +426,7 @@ class Chat {
 
     withEmotes(emotes) {
         this.emoticons = new Set(emotes['destiny']);
-        for (var s in generify_options) {
+        for (var s in GENERIFY_OPTIONS) {
             for (var e of this.emoticons) {
                 this.emoteswithsuffixes.add(`${e}:${s}`);    
             }

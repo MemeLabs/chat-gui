@@ -49,10 +49,10 @@ function isKeyCode(e, code){
 }
 
 // emote:key; css class to apply
-const generify_options = {
+const GENERIFY_OPTIONS = {
     'mirror': 'mirror',
     'rain': 'weather rain',
     'snow': 'weather snow',
 };
 
-export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,generify_options}
+export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,GENERIFY_OPTIONS}
