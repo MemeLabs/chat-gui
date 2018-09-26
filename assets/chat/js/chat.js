@@ -150,7 +150,7 @@ class Chat {
         this.backlogloading  = false;
         this.unresolved      = [];
         this.emoticons       = new Set();
-        this.twitchemotes    = new Set();
+        this.emoteswithsuffixes    = new Set();
         this.user            = new ChatUser();
         this.users           = new Map();
         this.whispers        = new Map();
@@ -428,7 +428,7 @@ class Chat {
         this.emoticons = new Set(emotes['destiny']);
         for (var s in generify_options) {
             for (var e of this.emoticons) {
-                this.twitchemotes.add(`${e}:${s}`);    
+                this.emoteswithsuffixes.add(`${e}:${s}`);    
             }
         }
         return this;
@@ -754,7 +754,7 @@ class Chat {
 
     onMSG(data){
         let textonly = Chat.extractTextOnly(data.data)
-        const isemote = this.emoticons.has(textonly) || this.twitchemotes.has(textonly)
+        const isemote = this.emoticons.has(textonly) || this.emoteswithsuffixes.has(textonly)
         const win = this.mainwindow
         if(isemote && win.lastmessage !== null && Chat.extractTextOnly(win.lastmessage.message) === textonly){
             if(win.lastmessage.type === MessageTypes.EMOTE) {
@@ -926,7 +926,7 @@ class Chat {
             // MESSAGE
             else {
                 const textonly = (isme ? str.substring(4) : str).trim()
-                if (this.source.isConnected() && !this.emoticons.has(textonly) && !this.twitchemotes.has(textonly)){
+                if (this.source.isConnected() && !this.emoticons.has(textonly) && !this.emoteswithsuffixes.has(textonly)){
                     // We add the message to the gui immediately
                     // But we will also get the MSG event, so we need to make sure we dont add the message to the gui again.
                     // We do this by storing the message in the unresolved array
