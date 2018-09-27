@@ -53,7 +53,6 @@ const GENERIFY_OPTIONS = {
     'mirror': 'mirror',
     'rain': 'weather rain anim-fix',
     'snow': 'weather snow anim-fix',
-    'shine': 'shine anim-fix',
 };
 
 export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,GENERIFY_OPTIONS}
