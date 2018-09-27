@@ -99,6 +99,14 @@ label small {
     margin-bottom: 10px;
 }
 
+.generify-rustle > .chat-emote {
+    animation: rustle 100ms 7;
+}
+
+.generify-rustle > .chat-emote:hover {
+    animation: rustle-hover 100ms infinite;
+}
+
 .mirror {
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
