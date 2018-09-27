@@ -114,6 +114,34 @@ label small {
     transform: scaleX(-1);
 }
 
+.generify-worth > .chat-emote:before{
+    content: "💰";
+    text-indent: 0;
+    font-size: 18px;
+    position: absolute;
+    left:-3px;
+    top:-25px;
+    animation: Shekels-anim 0.5s 4;
+}
+.generify-worth > .chat-emote:hover::before{
+    animation: Shekels-anim 0.5s infinite;
+}
+.generify-worth > .chat-emote:after{
+    content: "💰";
+    text-indent: 0;
+    font-size: 18px;
+    position: absolute;
+    right:-3px;
+    top:-25px;
+    animation: Shekels-anim 0.5s 4;
+    animation-delay: 0.25s;
+}
+.generify-worth > .chat-emote:hover::after{
+    animation: Shekels-anim 0.5s infinite;
+    animation-delay: 0.25s;
+}
+
+
 /* Layout */
 #chat {
     border-radius: 0;
