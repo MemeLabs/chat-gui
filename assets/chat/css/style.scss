@@ -89,6 +89,16 @@ label small {
     display: inline-block;
 }
 
+.anim-fix {
+    padding-top: 14px;
+    margin-top: -10px;
+    margin-bottom: -12px;
+}
+
+.anim-fix > .chat-emote {
+    margin-bottom: 10px;
+}
+
 .shine {
    position: relative;
    overflow: hidden;
