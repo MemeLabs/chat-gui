@@ -30,11 +30,11 @@ class EmoteFormatter {
         return str.replace(this.regex, function(m) {
             if (!m.includes(':')) {
                 const emote = m.replace(/\s/g, '');
-                return '<div title=' + emote + ' class="chat-emote chat-emote-' + emote + '">' + emote + '</div>';
+                return ' <div title=' + emote + ' class="chat-emote chat-emote-' + emote + '">' + emote + '</div>';
             } else {
                 const emote = m.split(':')[0].replace(/\s/g, '');
                 const suffix = m.split(':')[1].replace(/\s/g, '');
-                return '<div class="generify-container ' + GENERIFY_OPTIONS[suffix] + '"><div title="'+ emote +'" class="chat-emote chat-emote-'+ emote +'">'+ emote +' </div></div>';
+                return ' <div class="generify-container ' + GENERIFY_OPTIONS[suffix] + '"><div title="'+ emote +'" class="chat-emote chat-emote-'+ emote +'">'+ emote +' </div></div>';
             }
         });
     }
