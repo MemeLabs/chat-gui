@@ -55,6 +55,7 @@ const GENERIFY_OPTIONS = {
     'snow': 'weather snow anim-fix',
     'rustle': 'generify-rustle',
     'worth': 'generify-worth',
+    'dank': 'generify-dank',
 };
 
 export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,GENERIFY_OPTIONS}
