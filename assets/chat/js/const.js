@@ -58,4 +58,9 @@ const GENERIFY_OPTIONS = {
     'dank': 'generify-dank',
 };
 
-export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,GENERIFY_OPTIONS}
+const CUSTOM_AUTOCOMPLETE_ORDER = [
+    ["monkaS", "monkaMEGA"],
+    [":mirror", ":dank"],
+];
+
+export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER}

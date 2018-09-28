@@ -1,7 +1,7 @@
 /* global $, destiny */
 
 import Chat from "./chat";
-import {KEYCODES,getKeyCode} from "./const";
+import {KEYCODES,getKeyCode, CUSTOM_AUTOCOMPLETE_ORDER} from "./const";
 
 let suggestTimeoutId
 let minWordLength = 1
@@ -27,6 +27,13 @@ function sortResults(a, b){
     // order according to recency third
     if (a.weight !== b.weight)
         return a.weight > b.weight? -1: 1;
+
+    // order by custom autocomplete order - see const.js
+    for (var i in CUSTOM_AUTOCOMPLETE_ORDER) {
+        if (CUSTOM_AUTOCOMPLETE_ORDER[i].includes(a.data) && CUSTOM_AUTOCOMPLETE_ORDER[i].includes(b.data)) {
+            return CUSTOM_AUTOCOMPLETE_ORDER[i].indexOf(a.data) < CUSTOM_AUTOCOMPLETE_ORDER[i].indexOf(b.data) ? -1: 1;
+        }
+    }
 
     // order lexically fourth
     a = a.data.toLowerCase();
