@@ -56,6 +56,7 @@ const GENERIFY_OPTIONS = {
     'rustle': 'generify-rustle',
     'worth': 'generify-worth',
     'dank': 'generify-dank',
+    'hyper': 'generify-hyper generify-rustle',
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
