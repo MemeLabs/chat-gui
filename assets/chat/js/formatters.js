@@ -34,7 +34,7 @@ class EmoteFormatter {
             } else {
                 const emote = m.split(':')[0].replace(/\s/g, '');
                 const suffix = m.split(':')[1].replace(/\s/g, '');
-                return ' <div class="generify-container ' + GENERIFY_OPTIONS[suffix] + '"><div title="'+ emote +'" class="chat-emote chat-emote-'+ emote +'">'+ emote +' </div></div>';
+                return ' <div class="generify-container ' + GENERIFY_OPTIONS[suffix] + '"><div title="'+ m +'" class="chat-emote chat-emote-'+ emote +'">'+ m +' </div></div>';
             }
         });
     }
