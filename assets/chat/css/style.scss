@@ -1099,6 +1099,15 @@ a.flair12:hover {
     right:0;
     display: none;
 }
+
+/* Settings */
+.pref-showtime .time {
+    display: inline !important;
+}
+.pref-hideflairicons .features {
+    display: none;
+}
+
 .pref-autocompletehelper #chat-auto-complete.active {
     opacity: 1;
 }
