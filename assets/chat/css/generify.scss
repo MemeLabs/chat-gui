@@ -122,22 +122,22 @@
 }
 
 .generify-hyper > .chat-emote::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
-  background-image: inherit;
-  background-position: inherit;
-  
-  filter: 
-    opacity( 0.1 )
-    drop-shadow( 0px 0px 0px red ) 
-    drop-shadow( 0px 0px 0px red )
-    drop-shadow( 0px 0px 0px red )
-	drop-shadow( 0px 0px 0px red ) 
+    background-image: inherit;
+    background-position: inherit;
+
+    filter: 
+        opacity( 0.1 )
+        drop-shadow( 0px 0px 0px red ) 
+        drop-shadow( 0px 0px 0px red )
+        drop-shadow( 0px 0px 0px red )
+        drop-shadow( 0px 0px 0px red ) 
     ;
-  mix-blend-mode: color-dodge;
+    mix-blend-mode: color-dodge;
 }
