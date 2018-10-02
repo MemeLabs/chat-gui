@@ -1,7 +1,7 @@
 /* global $, destiny */
 
 import Chat from "./chat";
-import {KEYCODES,getKeyCode} from "./const";
+import {KEYCODES,getKeyCode, CUSTOM_AUTOCOMPLETE_ORDER} from "./const";
 
 let suggestTimeoutId
 let minWordLength = 1
@@ -27,6 +27,13 @@ function sortResults(a, b){
     // order according to recency third
     if (a.weight !== b.weight)
         return a.weight > b.weight? -1: 1;
+
+    // order by custom autocomplete order - see const.js
+    for (var i in CUSTOM_AUTOCOMPLETE_ORDER) {
+        if (CUSTOM_AUTOCOMPLETE_ORDER[i].includes(a.data) && CUSTOM_AUTOCOMPLETE_ORDER[i].includes(b.data)) {
+            return CUSTOM_AUTOCOMPLETE_ORDER[i].indexOf(a.data) < CUSTOM_AUTOCOMPLETE_ORDER[i].indexOf(b.data) ? -1: 1;
+        }
+    }
 
     // order lexically fourth
     a = a.data.toLowerCase();
@@ -197,6 +204,22 @@ class ChatAutoComplete {
         this.selected = -1
         this.results = []
         this.criteria = criteria
+
+        //for emote suffixes started from "YEE :"
+        if (criteria.orig.includes(' :') && criteria.word.startsWith(':')) {
+            const lastColon = criteria.orig.lastIndexOf(' :')
+            //assumption: the last occurrence of " :" is meant to be a emote suffix
+            criteria.orig = criteria.orig.substring(0, lastColon) + ':' + criteria.orig.substring(lastColon + 2)
+            criteria.startCaret--;
+        }
+        //for emote suffixes started from "YEE:"
+        if (criteria.word.includes(':') && !criteria.word.startsWith(':')) {
+            const emote = criteria.word.split(':')[0]
+            const suffix = criteria.word.split(':')[1]
+            criteria.startCaret = criteria.startCaret + emote.length
+            criteria.word = `:${suffix}`
+            criteria.pre = `:${suffix}`
+        }
         if(criteria.word.length >= minWordLength) {
             const bucket = this.buckets.get(getBucketId(criteria.word)) || new Map();
             const regex = new RegExp('^' + Chat.makeSafeForRegex(criteria.pre), 'i');
@@ -245,11 +268,11 @@ class ChatAutoComplete {
 
         let pre = this.criteria.orig.substr(0, this.criteria.startCaret),
             post = this.criteria.orig.substr(this.criteria.startCaret + this.criteria.word.length)
-
         // always add a space after our completion if there isn't one since people
         // would usually add one anyway
-        if (post[0] !== ' ' || post.length === 0)
+        if (post[0] !== ' ' || post.length === 0) {
             post = ' ' + post
+        }
         this.input.focus().val(pre + result.data + post)
 
         // Move the caret to the end of the replacement string + 1 for the space

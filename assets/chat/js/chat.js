@@ -1,6 +1,6 @@
 /* global $, window, document */
 
-import {KEYCODES,DATE_FORMATS,isKeyCode} from './const'
+import {KEYCODES,DATE_FORMATS,isKeyCode,GENERIFY_OPTIONS} from './const'
 import debounce from 'throttle-debounce/debounce'
 import moment from 'moment'
 import timestring from 'timestring';
@@ -150,7 +150,7 @@ class Chat {
         this.backlogloading  = false;
         this.unresolved      = [];
         this.emoticons       = new Set();
-        this.twitchemotes    = new Set();
+        this.emoteswithsuffixes    = new Set();
         this.user            = new ChatUser();
         this.users           = new Map();
         this.whispers        = new Map();
@@ -294,7 +294,8 @@ class Chat {
             (a['alias'] || []).forEach(k => this.autocomplete.add(`/${k}`))
         });
         this.emoticons.forEach(e => this.autocomplete.add(e, true))
-        this.twitchemotes.forEach(e => this.autocomplete.add(e, true))
+        const suffixes = Object.keys(GENERIFY_OPTIONS)
+        suffixes.forEach(e => this.autocomplete.add(`:${e}`, true))
         this.autocomplete.bind(this)
         this.applySettings(false)
 
@@ -425,7 +426,11 @@ class Chat {
 
     withEmotes(emotes) {
         this.emoticons = new Set(emotes['destiny']);
-        this.twitchemotes = new Set(emotes['twitch']);
+        for (var s in GENERIFY_OPTIONS) {
+            for (var e of this.emoticons) {
+                this.emoteswithsuffixes.add(`${e}:${s}`);    
+            }
+        }
         return this;
     }
 
@@ -749,7 +754,7 @@ class Chat {
 
     onMSG(data){
         let textonly = Chat.extractTextOnly(data.data)
-        const isemote = this.emoticons.has(textonly) || this.twitchemotes.has(textonly)
+        const isemote = this.emoticons.has(textonly) || this.emoteswithsuffixes.has(textonly)
         const win = this.mainwindow
         if(isemote && win.lastmessage !== null && Chat.extractTextOnly(win.lastmessage.message) === textonly){
             if(win.lastmessage.type === MessageTypes.EMOTE) {
@@ -921,7 +926,7 @@ class Chat {
             // MESSAGE
             else {
                 const textonly = (isme ? str.substring(4) : str).trim()
-                if (this.source.isConnected() && !this.emoticons.has(textonly) && !this.twitchemotes.has(textonly)){
+                if (this.source.isConnected() && !this.emoticons.has(textonly) && !this.emoteswithsuffixes.has(textonly)){
                     // We add the message to the gui immediately
                     // But we will also get the MSG event, so we need to make sure we dont add the message to the gui again.
                     // We do this by storing the message in the unresolved array

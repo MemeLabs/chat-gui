@@ -48,4 +48,20 @@ function isKeyCode(e, code){
     return getKeyCode(e) === code
 }
 
-export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode}
+// emote:key; css class to apply
+const GENERIFY_OPTIONS = {
+    'mirror': 'mirror',
+    'rain': 'weather rain anim-fix',
+    'snow': 'weather snow anim-fix',
+    'rustle': 'generify-rustle',
+    'worth': 'generify-worth',
+    'dank': 'generify-dank',
+    'hyper': 'generify-hyper generify-rustle',
+};
+
+const CUSTOM_AUTOCOMPLETE_ORDER = [
+    ["monkaS", "monkaMEGA"],
+    [":mirror", ":dank"],
+];
+
+export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER}
