@@ -7,7 +7,7 @@ import timestring from 'timestring';
 import EventEmitter from './emitter'
 import ChatSource from './source'
 import ChatUser from './user'
-import {MessageBuilder, MessageTypes, formatters} from './messages'
+import {MessageBuilder, MessageTypes} from './messages'
 import {ChatMenu, ChatUserMenu, ChatWhisperUsers, ChatEmoteMenu, ChatSettingsMenu} from './menus'
 import ChatAutoComplete from './autocomplete'
 import ChatInputHistory from './history'
@@ -16,7 +16,6 @@ import ChatStore from './store'
 import UserFeatures from './features'
 import Settings from './settings'
 import ChatWindow from './window'
-import {EmoteFormatter, GreenTextFormatter, HtmlTextFormatter, MentionedUserFormatter,UrlFormatter} from './formatters'
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/ig
 const regexsafe = /[\-\[\]\/{}()*+?.\\^$|]/g
