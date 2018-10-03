@@ -7,7 +7,7 @@ import timestring from 'timestring';
 import EventEmitter from './emitter'
 import ChatSource from './source'
 import ChatUser from './user'
-import {MessageBuilder, MessageTypes} from './messages'
+import {MessageBuilder, MessageTypes, formatters} from './messages'
 import {ChatMenu, ChatUserMenu, ChatWhisperUsers, ChatEmoteMenu, ChatSettingsMenu} from './menus'
 import ChatAutoComplete from './autocomplete'
 import ChatInputHistory from './history'
@@ -16,6 +16,7 @@ import ChatStore from './store'
 import UserFeatures from './features'
 import Settings from './settings'
 import ChatWindow from './window'
+import {EmoteFormatter, GreenTextFormatter, HtmlTextFormatter, MentionedUserFormatter,UrlFormatter} from './formatters'
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/ig
 const regexsafe = /[\-\[\]\/{}()*+?.\\^$|]/g
@@ -87,7 +88,12 @@ const settingsdefault = new Map([
     ['ignorementions', false],
     ['autocompletehelper', true],
     ['taggedvisibility', false],
-    ['hidensfw', false]
+    ['hidensfw', false],
+    ['formatter-green', true],
+    ['formatter-emote', true],
+    ['formatter-url', true],
+    ['formatter-mentioned', true],
+    ['formatter-html', true],
 ])
 const commandsinfo = new Map([
     ['help',            {desc: 'Helpful information.'}],
@@ -509,6 +515,11 @@ class Chat {
 
         // Update maxlines
         [...this.windows].forEach(w => w.maxlines = this.settings.get('maxlines'));
+
+        // Formatter enable/disable
+        var messages = require('./messages.js');
+        messages.setFormattersFromSettings(this.settings);
+
     }
 
     addUser(data){

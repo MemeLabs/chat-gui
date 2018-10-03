@@ -17,12 +17,21 @@ const MessageTypes = {
     USER      : 'USER',
     EMOTE     : 'EMOTE'
 }
-const formatters = new Map()
+var formatters = new Map()
 formatters.set('html', new HtmlTextFormatter())
 formatters.set('url', new UrlFormatter())
 formatters.set('emote', new EmoteFormatter())
 formatters.set('mentioned', new MentionedUserFormatter())
 formatters.set('green', new GreenTextFormatter())
+
+exports.setFormattersFromSettings = function(settings) {
+    formatters = new Map();
+    if (settings.get('formatter-html')) formatters.set('html', new HtmlTextFormatter());
+    if (settings.get('formatter-url')) formatters.set('url', new UrlFormatter());
+    if (settings.get('formatter-emote'))  formatters.set('emote', new EmoteFormatter());
+    if (settings.get('formatter-mentioned')) formatters.set('mentioned', new MentionedUserFormatter());
+    if (settings.get('formatter-green')) formatters.set('green', new GreenTextFormatter());
+}
 
 function buildMessageTxt(chat, message){
     // TODO we strip off the `/me ` of every message -- must be a better way to do this
