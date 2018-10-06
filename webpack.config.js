@@ -10,7 +10,9 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'static'),
         compress: true,
-        port: 8282
+        port: 8282,
+        https: process.env.WEBPACK_DEVSERVER_HTTPS === 'true',
+        host: process.env.WEBPACK_DEVSERVER_HOST
     },
     entry: {
         chat: [
