@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     devServer: {
@@ -45,6 +46,10 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(['static'], { root: __dirname, verbose: false, exclude: ['cache', 'index.htm'] }),
+        new CopyWebpackPlugin([
+                'assets/index.html',
+                'assets/chatstreamed.html'
+            ]),
         new MiniCssExtractPlugin({ filename: '[name].css' }),
         new webpack.DefinePlugin({
             WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://www.destiny.gg/ws"',
