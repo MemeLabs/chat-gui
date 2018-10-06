@@ -6,8 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" charset="utf-8">
     <meta name="referrer" content="no-referrer">
-    <link href="/chat.css" rel="stylesheet" media="screen">
-    <link rel="icon" href="/img/favicon.png">
     <style id="chat-styles" type="text/css"></style>
 </head>
 
@@ -89,23 +87,31 @@
                             </div>
 
                             <h4>Notifications</h4>
-                            <div class="form-group checkbox">
-                                <label title="Notification auto close">
-                                    <input name="notificationtimeout" type="checkbox" /> Close after short period
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <p>
-                                    <small id="chat-settings-notification-permissions">(Permission unknown)</small>
-                                </p>
-                            </div>
+                            <button class="enable-notifications-btn">Enable Notifications</button>
+                            <fieldset class="notifications-settings-fieldset" disabled>
+
+                                <div class="form-group checkbox">
+                                    <label title="Notification on highlight">
+                                        <input name="notificationhighlight" type="checkbox" /> Chat notification
+                                    </label>
+                                </div>
+
+                                <div class="form-group checkbox">
+                                    <label title="Notification on whisper">
+                                        <input name="notificationwhisper" type="checkbox" /> Whisper notification
+                                    </label>
+                                </div>
+
+                                <div class="form-group checkbox">
+                                    <label title="Notification auto close">
+                                        <input name="notificationtimeout" type="checkbox" /> Close after short period
+                                    </label>
+                                </div>
+
+                            </fieldset>
 
                             <h4>Whispers</h4>
-                            <div class="form-group checkbox">
-                                <label title="Notification on whisper">
-                                    <input name="notificationwhisper" type="checkbox" /> Notification
-                                </label>
-                            </div>
+
                             <div class="form-group checkbox">
                                 <label title="Whispers shown in chat">
                                     <input name="showhispersinchat" type="checkbox" /> In-line messages
@@ -113,11 +119,7 @@
                             </div>
 
                             <h4>Highlights, Focus &amp; Tags</h4>
-                            <div class="form-group checkbox">
-                                <label title="Notification on highlight">
-                                    <input name="notificationhighlight" type="checkbox" /> Notification
-                                </label>
-                            </div>
+
                             <div class="form-group checkbox">
                                 <label title="Highlights messages you are mentioned in">
                                     <input name="highlight" type="checkbox" /> Highlight when mentioned
@@ -230,8 +232,6 @@
         </div>
 
     </div>
-
-    <script src="/chat.js"></script>
 
 </body>
 

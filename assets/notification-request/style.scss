@@ -1,0 +1,101 @@
+html {
+    background: #222;
+}
+
+body {
+    margin: 0;
+    font-family: "Roboto", Helvetica, "Trebuchet MS", Verdana, sans-serif;
+}
+
+.settings-guide {
+    &-text {
+        margin: 2em;
+        display: inline-block;
+        width: 200px;
+        color: #eee;
+    }
+
+    &-img {
+        position: absolute;
+        right: 0;
+        height: 300px;
+        margin: 10px;
+
+        @media screen and ( max-width: 570px ) {
+            position: relative;
+            display: block;
+            margin: auto;
+        }
+    }
+}
+
+.text-bubble {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    height: 250px;
+
+    &-block {
+        bottom: 50px;
+        left: 45px;
+        min-width: 5em;
+        min-height: 1.2em;
+        margin-right: 0.5em;
+        color: #222;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        background: #b3b3b3;
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    &-tail {
+        position: absolute;
+        bottom: 15px;
+        left: 46px;
+        width: 50px;
+        height: 50px;
+        background: #b3b3b3;
+        clip-path: polygon(16.00% -4.00%, 96% 10%, 8% 96%);
+    }
+}
+
+
+.cursor {
+    position: relative;
+    left: -6px;
+    display: inline-block;
+    width: 4px;
+    height: 1.5em;
+    margin-bottom: -0.25em;
+    background: white;
+    animation: cursor-blink 0.8s infinite;
+}
+
+@keyframes cursor-blink {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.persona {
+    position: absolute;
+    bottom: 0;
+    animation-duration: 0.15s;
+    animation-iteration-count: 6;
+    animation-direction: alternate;
+    animation-timing-function: ease;
+}
+
+@keyframes persona-excite {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
+}
