@@ -516,7 +516,7 @@ class Chat {
         [...this.windows].forEach(w => w.maxlines = this.settings.get('maxlines'));
 
         // Formatter enable/disable
-        var messages = require('./messages.js');
+        const messages = require('./messages.js');
         messages.setFormattersFromSettings(this.settings);
 
     }

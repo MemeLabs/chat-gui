@@ -25,7 +25,7 @@ formatters.set('mentioned', new MentionedUserFormatter())
 formatters.set('green', new GreenTextFormatter())
 
 exports.setFormattersFromSettings = function(settings) {
-    formatters = new Map();
+    formatters.clear();
     if (settings.get('formatter-html')) formatters.set('html', new HtmlTextFormatter());
     if (settings.get('formatter-url')) formatters.set('url', new UrlFormatter());
     if (settings.get('formatter-emote'))  formatters.set('emote', new EmoteFormatter());
