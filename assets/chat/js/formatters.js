@@ -1,5 +1,5 @@
 import UserFeatures from './features';
-import {GENERIFY_OPTIONS} from './const'
+import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST} from './const'
 
 
 /** @var Array tlds */
@@ -16,8 +16,57 @@ class HtmlTextFormatter {
 
 }
 
+function isOctober() {
+    return new Date().getUTCMonth() == 9;
+}
+
+function procChance() {
+    const day = new Date().getUTCDate();
+    return 0.5; // for testing remove later
+    return 1/100 * 1/(Math.pow(10,(1/15))) * Math.pow(Math.pow(10,1/15),day);
+}
+
+//https://stackoverflow.com/a/34842797
+function createHash(str) {
+  return str.split('').reduce((prevHash, currVal) =>
+    (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
+}
+
+// https://stackoverflow.com/questions/521295/javascript-random-seeds
+// Far from ideal RNG, but for emotes it should suffice
+function rng(seed) {
+    var x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+}
+
+function proc(str, chat) {
+    const lastMsg = chat["mainwindow"]["lastmessage"]["message"];
+    const seed = createHash(lastMsg) + createHash(str);
+    return rng(seed) < procChance();
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max) - 1;
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is exclusive and the minimum is inclusive 
+}
+
+function getRandomHalloweenEffect(emote) {
+    if (HALLOWEEN_BLACKLIST.includes(emote)) {
+        return "";
+    }
+
+    const delay = HALLOWEEN_RANDOM_DELAYS[getRandomInt(0, HALLOWEEN_RANDOM_DELAYS.length)];
+    const effect = HALLOWEEN_RANDOM_EFFECTS[getRandomInt(0, HALLOWEEN_RANDOM_EFFECTS.length)];
+
+    return `${delay} ${effect}`;
+}
+
+
 class EmoteFormatter {
 
+
+    
     format(chat, str, message=null){
         if (!this.regex) {
             const emoticons = [
@@ -30,7 +79,12 @@ class EmoteFormatter {
         return str.replace(this.regex, function(m) {
             if (!m.includes(':')) {
                 const emote = m.replace(/\s/g, '');
-                return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + '">' + emote + '</span>';
+                var halloweenEffect = ""
+                //October Halloween effects
+                if (isOctober() && proc(str, chat)) {
+                    halloweenEffect = getRandomHalloweenEffect(emote);
+                }
+                return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + ' ' + halloweenEffect + '">' + emote + '</span>';
             } else {
                 const emote = m.split(':')[0].replace(/\s/g, '');
                 const suffix = m.split(':')[1].replace(/\s/g, '');
