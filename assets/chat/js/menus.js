@@ -174,25 +174,53 @@ class ChatSettingsMenu extends ChatMenu {
 
     notificationPermission(){
         return new Promise((resolve, reject) => {
-            switch(Notification.permission) {
-                case 'default':
-                    Notification.requestPermission(permission => {
-                        switch(permission) {
-                            case 'granted':
-                                resolve(permission);
-                                break;
-                            default:
-                                reject(permission);
-                        }
-                    });
-                    break;
-                case 'granted':
-                    resolve(Notification.permission);
-                    break;
-                case 'denied':
-                default:
-                    reject(Notification.permission);
-                    break;
+            // Whitelist of browsers that allow iframes to make notification
+            // permission requests.
+            // See issue github.com/MemeLabs/chat-gui/issues/12
+<<<<<<< HEAD
+            if( window.Intl && Intl.v8BreakIterator && window.top !== self ) {
+=======
+            const browserWhitelist = new Set(["firefox", "edge"]);
+            const browser = require("detect-browser").detect();
+            const isOnWhitelist = browser && browserWhitelist.has(browser.name);
+
+            if(!isOnWhitelist || Notification.permission === "denied"){
+>>>>>>> 0c37bb1... Switch to a browser whitelist for notification permission requests
+                window.open(
+                    "notification-request.html",
+                    "strimsgg_notification_request",
+                    "width=585,height=340,scrollbars=no,toolbar=no"
+                );
+
+                const onMessage = event => {
+                    if( event.data.name === "notification-request-done"){
+                        window.removeEventListener('message', onMessage);
+                        resolve(Notification.permission);
+                    }
+                };
+
+                window.addEventListener('message', onMessage );
+            } else {
+                switch(Notification.permission) {
+                    case 'default':
+                        Notification.requestPermission(permission => {
+                            switch(permission) {
+                                case 'granted':
+                                    resolve(permission);
+                                    break;
+                                default:
+                                    reject(permission);
+                            }
+                        });
+                        break;
+                    case 'granted':
+                        resolve(Notification.permission);
+                        break;
+                    case 'denied':
+                    default:
+                        reject(Notification.permission);
+                        break;
+                }
             }
         });
     }

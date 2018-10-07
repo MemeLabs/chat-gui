@@ -6,6 +6,32 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const plugins = [
+    new CleanWebpackPlugin(['static'], { root: __dirname, verbose: false, exclude: ['cache', 'index.htm'] }),
+    new CopyWebpackPlugin([
+            'assets/index.html',
+            'assets/chatstreamed.html',
+            'assets/notification-request/notification-request.html'
+        ]),
+    new MiniCssExtractPlugin({ filename: '[name].css' }),
+    new webpack.DefinePlugin({
+        WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://www.destiny.gg/ws"',
+        API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '',
+        LOGIN_URI: process.env.LOGIN_URI ? `'${process.env.LOGIN_URI}'` : 'false'
+    })
+];
+
+if( process.env.NODE_ENV !== 'production' ) {
+    console.log('\n!!!!!!!!!!!! DEVELOPMENT BUILD !!!!!!!!!!!!\n');
+    plugins.push(
+        new CopyWebpackPlugin([
+            { from: 'assets/dev/chat-embedded.html', to: 'dev/' }
+        ])
+    );
+} else {
+    console.log('\n########## PRODUCTION BUILD #############\n');
+}
+
 module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'static'),
@@ -39,6 +65,12 @@ module.exports = {
             './assets/chat/css/bbdgg.scss',
             './assets/chat/css/onstream.scss',
             './assets/streamchat.js'
+        ],
+        'notification-request': [
+            './assets/notification-request/style.scss',
+            './assets/notification-request/persona.png',
+            './assets/notification-request/settings-guide.png',
+            './assets/notification-request/script.js'
         ]
     },
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
@@ -46,19 +78,7 @@ module.exports = {
         path: path.resolve(__dirname, 'static'),
         filename: '[name].js'
     },
-    plugins: [
-        new CleanWebpackPlugin(['static'], { root: __dirname, verbose: false, exclude: ['cache', 'index.htm'] }),
-        new CopyWebpackPlugin([
-                'assets/index.html',
-                'assets/chatstreamed.html'
-            ]),
-        new MiniCssExtractPlugin({ filename: '[name].css' }),
-        new webpack.DefinePlugin({
-            WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://www.destiny.gg/ws"',
-            API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '',
-            LOGIN_URI: process.env.LOGIN_URI ? `'${process.env.LOGIN_URI}'` : 'false'
-        })
-    ],
+    plugins: plugins,
     watchOptions: {
         ignored: /node_modules/
     },
