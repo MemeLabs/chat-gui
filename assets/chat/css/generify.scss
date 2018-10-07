@@ -23,9 +23,6 @@
 }
 
 .mirror {
-    -moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 
     //fix "blur" or mirrored emotes
@@ -35,6 +32,10 @@
     image-rendering: -webkit-optimize-contrast;
     image-rendering: optimize-contrast;
     -ms-interpolation-mode: nearest-neighbor;
+}
+
+.flip {
+    transform: scaleY(-1);
 }
 
 .generify-dank {
@@ -132,12 +133,12 @@
     background-image: inherit;
     background-position: inherit;
 
-    filter: 
+    filter:
         opacity( 0.1 )
-        drop-shadow( 0px 0px 0px red ) 
         drop-shadow( 0px 0px 0px red )
         drop-shadow( 0px 0px 0px red )
-        drop-shadow( 0px 0px 0px red ) 
+        drop-shadow( 0px 0px 0px red )
+        drop-shadow( 0px 0px 0px red )
     ;
     mix-blend-mode: color-dodge;
 }

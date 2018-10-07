@@ -50,13 +50,14 @@ function isKeyCode(e, code){
 
 // emote:key; css class to apply
 const GENERIFY_OPTIONS = {
-    'mirror': 'mirror',
-    'rain': 'weather rain anim-fix',
-    'snow': 'weather snow anim-fix',
-    'rustle': 'generify-rustle',
-    'worth': 'generify-worth',
-//    'dank': 'generify-dank',
-//    'hyper': 'generify-hyper generify-rustle',
+    mirror: 'mirror',
+    rain: 'weather rain anim-fix',
+    snow: 'weather snow anim-fix',
+    rustle: 'generify-rustle',
+    worth: 'generify-worth',
+    // dank: 'generify-dank',
+    // hyper: 'generify-hyper generify-rustle',
+    flip: 'flip',
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [

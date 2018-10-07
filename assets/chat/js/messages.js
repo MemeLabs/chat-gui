@@ -263,6 +263,7 @@ function ChatEmoteMessageCount(message){
         console.error('no combo', message._combo)
     message._combo.attr('class', 'chat-combo' + stepClass)
     message._combo_count.text(`${message.emotecount}`)
+    message._text.html(formatters.get('emote').format(null, message.message, message));
     message.ui.append(message._text.detach(), message._combo.detach())
 }
 const ChatEmoteMessageCountThrottle = throttle(63, ChatEmoteMessageCount)
@@ -289,9 +290,10 @@ class ChatEmoteMessage extends ChatMessage {
         this.ui.append(this._text, this._combo)
     }
 
-    incEmoteCount(){
-        ++this.emotecount
-        ChatEmoteMessageCountThrottle(this)
+    incEmoteCount(message = this.message) {
+        ++this.emotecount;
+        this.message = message;
+        ChatEmoteMessageCountThrottle(this);
     }
 
     completeCombo(){

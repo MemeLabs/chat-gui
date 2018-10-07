@@ -150,7 +150,7 @@ class Chat {
         this.backlogloading  = false;
         this.unresolved      = [];
         this.emoticons       = new Set();
-        this.emoteswithsuffixes    = new Set();
+        this.isEmoteRegex    = null;
         this.user            = new ChatUser();
         this.users           = new Map();
         this.whispers        = new Map();
@@ -293,9 +293,9 @@ class Chat {
             this.autocomplete.add(`/${k}`);
             (a['alias'] || []).forEach(k => this.autocomplete.add(`/${k}`))
         });
+        // TODO - fix me
         this.emoticons.forEach(e => this.autocomplete.add(e, true))
-        const suffixes = Object.keys(GENERIFY_OPTIONS)
-        suffixes.forEach(e => this.autocomplete.add(`:${e}`, true))
+        Object.keys(GENERIFY_OPTIONS).forEach(e => this.autocomplete.add(`:${e}`, true))
         this.autocomplete.bind(this)
         this.applySettings(false)
 
@@ -425,12 +425,8 @@ class Chat {
     }
 
     withEmotes(emotes) {
-        this.emoticons = new Set(emotes['destiny']);
-        for (var s in GENERIFY_OPTIONS) {
-            for (var e of this.emoticons) {
-                this.emoteswithsuffixes.add(`${e}:${s}`);    
-            }
-        }
+        this.emoticons = new Set(emotes);
+        this.isEmoteRegex = new RegExp(`^(${emotes.join('|')})((?::(?:${Object.keys(GENERIFY_OPTIONS).join('|')}))*)$`);
         return this;
     }
 
@@ -753,19 +749,19 @@ class Chat {
     }
 
     onMSG(data){
-        let textonly = Chat.extractTextOnly(data.data)
-        const isemote = this.emoticons.has(textonly) || this.emoteswithsuffixes.has(textonly)
-        const win = this.mainwindow
-        if(isemote && win.lastmessage !== null && Chat.extractTextOnly(win.lastmessage.message) === textonly){
-            if(win.lastmessage.type === MessageTypes.EMOTE) {
-                this.mainwindow.lock()
-                win.lastmessage.incEmoteCount()
-                this.mainwindow.unlock()
+        const textonly = Chat.extractTextOnly(data.data);
+        const isemote = (this.isEmoteRegex && this.isEmoteRegex.test(textonly));
+        const win = this.mainwindow;
+        if (isemote && win.lastmessage !== null && this.extractEmoteOnly(win.lastmessage.message) === this.extractEmoteOnly(textonly)) {
+            if (win.lastmessage.type === MessageTypes.EMOTE) {
+                this.mainwindow.lock();
+                win.lastmessage.incEmoteCount(textonly);
+                this.mainwindow.unlock();
             } else {
-                win.lastmessage.ui.remove()
-                MessageBuilder.emote(textonly, data.timestamp, 2).into(this)
+                win.lastmessage.ui.remove();
+                MessageBuilder.emote(textonly, data.timestamp, 2).into(this);
             }
-        } else if(!this.resolveMessage(data.nick, data.data)){
+        } else if (!this.resolveMessage(data.nick, data.data)) {
             const user = this.users.get(data.nick.toLowerCase());
             MessageBuilder.message(data.data, user, data.timestamp).into(this)
             if (user.hasAnyFeatures('admin', 'moderator')) {
@@ -926,7 +922,7 @@ class Chat {
             // MESSAGE
             else {
                 const textonly = (isme ? str.substring(4) : str).trim()
-                if (this.source.isConnected() && !this.emoticons.has(textonly) && !this.emoteswithsuffixes.has(textonly)){
+                if (this.source.isConnected() && !(this.isEmoteRegex && this.isEmoteRegex.test(textonly))) {
                     // We add the message to the gui immediately
                     // But we will also get the MSG event, so we need to make sure we dont add the message to the gui again.
                     // We do this by storing the message in the unresolved array
@@ -1340,6 +1336,18 @@ class Chat {
 
     static extractTextOnly(msg){
         return (msg.substring(0, 4).toLowerCase() === '/me ' ? msg.substring(4) : msg).trim();
+    }
+
+    extractEmoteOnly(msg) {
+        if (!this.isEmoteRegex){
+            return msg;
+        }
+
+        const re = this.isEmoteRegex.exec(Chat.extractTextOnly(msg));
+        if (!re || !re[1]) {
+            return msg;
+        }
+        return re[1];
     }
 
     static extractNicks(text){

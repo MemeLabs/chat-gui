@@ -20,21 +20,20 @@ class EmoteFormatter {
 
     format(chat, str, message=null){
         if (!this.regex) {
-            const emoticons = [
-                ...chat.emoticons,
-            ].join('|');
+            const emoticons = Array.from(chat.emoticons).join('|');
             const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
-            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
+            this.regex = new RegExp(`(?:^|\\s)(${emoticons})((?::(?:${suffixes}))*)(?=$|\\s)`, 'gm');
         }
-        
+
         return str.replace(this.regex, function(m) {
-            if (!m.includes(':')) {
+            const index_of_suffix = m.indexOf(':');
+            if (index_of_suffix === -1) {
                 const emote = m.replace(/\s/g, '');
                 return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + '">' + emote + '</span>';
             } else {
-                const emote = m.split(':')[0].replace(/\s/g, '');
-                const suffix = m.split(':')[1].replace(/\s/g, '');
-                return ' <span class="generify-container ' + GENERIFY_OPTIONS[suffix] + '"><span title="'+ m +'" class="chat-emote chat-emote-'+ emote +'">'+ m +' </span></span>';
+                const emote = m.slice(0, index_of_suffix).replace(/\s/g, '');
+                const suffixes = m.slice(index_of_suffix + 1).split(':').map(suffix => suffix.replace(/\s/g, ''));
+                return ` <span class="generify-container ${suffixes.map(suffix => GENERIFY_OPTIONS[suffix]).join(' ')}"><span title="${m}" class="chat-emote chat-emote-${emote}">${m} </span></span>`;
             }
         });
     }
