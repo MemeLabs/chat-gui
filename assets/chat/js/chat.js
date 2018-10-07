@@ -293,7 +293,6 @@ class Chat {
             this.autocomplete.add(`/${k}`);
             (a['alias'] || []).forEach(k => this.autocomplete.add(`/${k}`))
         });
-        // TODO - fix me
         this.emoticons.forEach(e => this.autocomplete.add(e, true))
         Object.keys(GENERIFY_OPTIONS).forEach(e => this.autocomplete.add(`:${e}`, true))
         this.autocomplete.bind(this)
@@ -428,6 +427,13 @@ class Chat {
         this.emoticons = new Set(emotes);
         this.isEmoteRegex = new RegExp(`^(${emotes.join('|')})((?::(?:${Object.keys(GENERIFY_OPTIONS).join('|')}))*)$`);
         return this;
+    }
+
+    isEmote(text) {
+        if (!this.isEmoteRegex) {
+            return false;
+        }
+        return this.isEmoteRegex.test(text);
     }
 
     withHistory(history) {
@@ -750,7 +756,7 @@ class Chat {
 
     onMSG(data){
         const textonly = Chat.extractTextOnly(data.data);
-        const isemote = (this.isEmoteRegex && this.isEmoteRegex.test(textonly));
+        const isemote = this.isEmote(textonly);
         const win = this.mainwindow;
         if (isemote && win.lastmessage !== null && this.extractEmoteOnly(win.lastmessage.message) === this.extractEmoteOnly(textonly)) {
             if (win.lastmessage.type === MessageTypes.EMOTE) {
@@ -921,8 +927,7 @@ class Chat {
             }
             // MESSAGE
             else {
-                const textonly = (isme ? str.substring(4) : str).trim()
-                if (this.source.isConnected() && !(this.isEmoteRegex && this.isEmoteRegex.test(textonly))) {
+                if (this.source.isConnected() && !this.isEmote(Chat.extractTextOnly(str))) {
                     // We add the message to the gui immediately
                     // But we will also get the MSG event, so we need to make sure we dont add the message to the gui again.
                     // We do this by storing the message in the unresolved array
