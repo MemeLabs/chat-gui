@@ -1,5 +1,5 @@
 /*
- * repleased under:
+ * released under:
  * Apache License
  * (https://github.com/9inevolt/betterdgg/blob/cfd28724b3dfba50643713504513cf13eb9d3bf3/LICENSE.txt)
  */
@@ -80,7 +80,6 @@
 }
 
 .spooky-fadeIn {
-  opacity: 0;
   -webkit-animation-name: spooky-fadeIn !important;
           animation-name: spooky-fadeIn !important;
   -webkit-animation-duration: 1s !important;
