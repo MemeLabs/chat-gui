@@ -20,10 +20,24 @@ function isOctober() {
     return new Date().getUTCMonth() == 9;
 }
 
+//returns the chance to proc a halloween effect per day
+//chance between 0 and 1
+//to generate different exponential functions use: http://www.wolframalpha.com/input/?i=solve+a*b%5E26+%3D+6;+a*b%5E31%3D20
+//the above link was used to generate the function for day 26 to 31
 function procChance() {
     const day = new Date().getUTCDate();
     return 0.5; // for testing remove later
-    return 1/100 * 1/(Math.pow(10,(1/15))) * Math.pow(Math.pow(10,1/15),day);
+    if (day <= 25) {
+        //http://www.wolframalpha.com/input/?i=1%2F5%5E(1%2F24)+*+(5%5E(1%2F24))%5Ex+from+1+to+25
+        //1% at day 1
+        //5% at day 25
+        return 1/100*(1/Math.pow(5,(1/24)) * Math.pow((Math.pow(5,(1/24))),day));
+    } else {
+        //http://www.wolframalpha.com/input/?i=(729+(3%2F10)%5E(1%2F5))%2F50000+*+((10%2F3)%5E(1%2F5))%5Ex+from+26+to+31
+        //6% at day 26
+        //20% at day 31
+        return 1/100*((729*Math.pow((3/10),(1/5)))/50000 * Math.pow((Math.pow((10/3),(1/5))),day));        
+    }
 }
 
 //https://stackoverflow.com/a/34842797
