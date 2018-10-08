@@ -95,7 +95,6 @@ class EmoteFormatter {
                 var halloweenEffect = ""
                 //October Halloween effects
                 if (isOctober() && proc(str, chat, i++)) {
-                    console.log(i);
                     halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
                 }
                 return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + ' ' + halloweenEffect + '">' + emote + '</span>';
