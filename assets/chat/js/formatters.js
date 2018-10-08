@@ -1,5 +1,5 @@
 import UserFeatures from './features';
-import {GENERIFY_OPTIONS} from './const'
+import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST} from './const'
 
 
 /** @var Array tlds */
@@ -16,8 +16,69 @@ class HtmlTextFormatter {
 
 }
 
-class EmoteFormatter {
+function isOctober() {
+    return new Date().getUTCMonth() == 9;
+}
 
+//returns the chance to proc a halloween effect per day
+//chance between 0 and 1
+//to generate different exponential functions use: http://www.wolframalpha.com/input/?i=solve+a*b%5E26+%3D+6;+a*b%5E31%3D20
+//the above link was used to generate the function for day 26 to 31
+function procChance() {
+    const day = new Date().getUTCDate();
+    if (day <= 25) {
+        //http://www.wolframalpha.com/input/?i=1%2F5%5E(1%2F24)+*+(5%5E(1%2F24))%5Ex+from+1+to+25
+        //1% at day 1
+        //5% at day 25
+        return 1/100*(1/Math.pow(5,(1/24)) * Math.pow((Math.pow(5,(1/24))),day));
+    } else {
+        //http://www.wolframalpha.com/input/?i=(729+(3%2F10)%5E(1%2F5))%2F50000+*+((10%2F3)%5E(1%2F5))%5Ex+from+26+to+31
+        //6% at day 26
+        //20% at day 31
+        return 1/100*((729*Math.pow((3/10),(1/5)))/50000 * Math.pow((Math.pow((10/3),(1/5))),day));        
+    }
+}
+
+//https://stackoverflow.com/a/34842797
+function createHash(str) {
+  return str.split('').reduce((prevHash, currVal) =>
+    (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
+}
+
+// https://stackoverflow.com/questions/521295/javascript-random-seeds
+// Far from ideal RNG, but for emotes it should suffice
+function rng(seed) {
+    var x = Math.sin(seed) * 10000;
+    return Math.abs(x - Math.floor(x));
+}
+
+function proc(str, chat, i) {
+    const lastMsg = chat["mainwindow"]["lastmessage"]["message"];
+    const seed = createHash(lastMsg) + createHash(str) + i;
+    return rng(seed) < procChance();
+}
+
+function getRandomInt(seed, max) {
+    var x = Math.abs(Math.sin(seed) * 100); // increase the 100 if there are more than 100 effects
+    return (Math.floor(x) % max);
+}
+
+
+
+function getRandomHalloweenEffect(emote, seed) {
+    if (HALLOWEEN_BLACKLIST.includes(emote)) {
+        return "";
+    }
+
+    const delay = HALLOWEEN_RANDOM_DELAYS[getRandomInt(seed, HALLOWEEN_RANDOM_DELAYS.length)];
+    const effect = HALLOWEEN_RANDOM_EFFECTS[getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)];
+
+    return `${delay} ${effect}`;
+}
+
+
+class EmoteFormatter {
+    
     format(chat, str, message=null){
         if (!this.regex) {
             const emoticons = [
@@ -26,11 +87,16 @@ class EmoteFormatter {
             const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
             this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
         }
-        
+        var i = 0; // used for halloween effects, so different emotes in the same message have different seeds
         return str.replace(this.regex, function(m) {
             if (!m.includes(':')) {
                 const emote = m.replace(/\s/g, '');
-                return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + '">' + emote + '</span>';
+                var halloweenEffect = ""
+                //October Halloween effects
+                if (isOctober() && proc(str, chat, i++)) {
+                    halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
+                }
+                return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + ' ' + halloweenEffect + '">' + emote + '</span>';
             } else {
                 const emote = m.split(':')[0].replace(/\s/g, '');
                 const suffix = m.split(':')[1].replace(/\s/g, '');

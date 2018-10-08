@@ -64,4 +64,26 @@ const CUSTOM_AUTOCOMPLETE_ORDER = [
 //    [":mirror", ":dank"],
 ];
 
-export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER}
+const HALLOWEEN_RANDOM_EFFECTS = [
+    'spooky-spooker',
+    'spooky-fadeIn',
+    'spooky-pulse',
+    'spooky-blink',
+    'spooky-spin',
+    'spooky-crawl',
+    'spooky-ghost',
+]
+
+const HALLOWEEN_RANDOM_DELAYS = [
+    'spooky-anim-delay-1',
+    'spooky-anim-delay-2',
+    'spooky-anim-delay-3',
+    'spooky-anim-delay-4',
+    'spooky-anim-delay-5',
+]
+
+const HALLOWEEN_BLACKLIST = [
+    'GameOfThrows',
+]
+
+export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST}
