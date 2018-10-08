@@ -25,15 +25,20 @@ class EmoteFormatter {
             this.regex = new RegExp(`(?:^|\\s)(${emoticons})((?::(?:${suffixes}))*)(?=$|\\s)`, 'gm');
         }
 
-        return str.replace(this.regex, function(m) {
-            const index_of_suffix = m.indexOf(':');
+        return str.replace(this.regex, match => {
+            const index_of_suffix = match.indexOf(':');
             if (index_of_suffix === -1) {
-                const emote = m.replace(/\s/g, '');
+                const emote = match.replace(/\s/g, '');
                 return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + '">' + emote + '</span>';
             } else {
-                const emote = m.slice(0, index_of_suffix).replace(/\s/g, '');
-                const suffixes = m.slice(index_of_suffix + 1).split(':').map(suffix => suffix.replace(/\s/g, ''));
-                return ` <span class="generify-container ${suffixes.map(suffix => GENERIFY_OPTIONS[suffix]).join(' ')}"><span title="${m}" class="chat-emote chat-emote-${emote}">${m} </span></span>`;
+                const emote = match.slice(0, index_of_suffix).replace(/\s/g, '');
+                let suffixes = match.slice(index_of_suffix + 1).split(':').map(suffix => suffix.replace(/\s/g, ''));
+                // dedupe
+                suffixes = Object.keys(suffixes.reduce((acc, curr) => {
+                    acc[curr] = true;
+                    return acc;
+                }, {}));
+                return ` <span class="generify-container ${suffixes.map(suffix => GENERIFY_OPTIONS[suffix]).join(' ')}"><span title="${match}" class="chat-emote chat-emote-${emote}">${match} </span></span>`;
             }
         });
     }
