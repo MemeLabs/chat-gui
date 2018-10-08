@@ -430,7 +430,7 @@ class Chat {
         this.emoticons = new Set(emotes['destiny']);
         for (var s in GENERIFY_OPTIONS) {
             for (var e of this.emoticons) {
-                this.emoteswithsuffixes.add(`${e}:${s}`);    
+                this.emoteswithsuffixes.add(`${e}:${s}`);
             }
         }
         return this;
@@ -1372,7 +1372,7 @@ class Chat {
             const n = new Notification(title, {
                 body : message,
                 tag  : `dgg${timestamp}`,
-                icon : '/notifyicon.png?v2',
+                icon : require('../img/notify-icon.png'),
                 dir  : 'auto'
             });
             if(timeout) setTimeout(() => n.close(), 8000);
