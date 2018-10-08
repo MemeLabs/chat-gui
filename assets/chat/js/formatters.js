@@ -26,7 +26,6 @@ function isOctober() {
 //the above link was used to generate the function for day 26 to 31
 function procChance() {
     const day = new Date().getUTCDate();
-    return 0.5; // for testing remove later
     if (day <= 25) {
         //http://www.wolframalpha.com/input/?i=1%2F5%5E(1%2F24)+*+(5%5E(1%2F24))%5Ex+from+1+to+25
         //1% at day 1
