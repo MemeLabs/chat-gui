@@ -73,8 +73,8 @@ const settingsdefault = new Map([
     ['profilesettings', false],
     ['timestampformat', 'HH:mm'],
     ['maxlines', 250],
-    ['notificationwhisper', false],
-    ['notificationhighlight', false],
+    ['notificationwhisper', true],
+    ['notificationhighlight', true],
     ['highlight', true], // todo rename this to `highlightself` or something
     ['customhighlight', []],
     ['highlightnicks', []],

@@ -1023,6 +1023,47 @@ a.flair12:hover {
         margin-bottom: 10px;
     }
 
+    .enable-notifications-btn {
+        position: absolute;
+        right: 0;
+        margin-top: -33px;
+        margin-right: 2.5em;
+        padding: 4px 13px;
+        background: none;
+        border-radius: 20px;
+        border: 1px dashed;
+        font-size: 12px;
+        opacity: 0.6;
+        cursor: pointer;
+
+
+        &:not([disabled]) {
+            color: #ff8700;
+            border-color: #ff8700;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        &:disabled {
+            color: #0a0;
+            border-color: #0a0;
+            cursor: default;
+        }
+    }
+
+    fieldset {
+        border: none;
+        padding: 0;
+        margin: 0;
+        margin-top: -8px;
+
+        &:disabled {
+            opacity: 0.6;
+        }
+    }
+
     hr {
         margin-left: 20px;
         margin-right: 20px;
