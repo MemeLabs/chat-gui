@@ -71,6 +71,7 @@ const HALLOWEEN_RANDOM_EFFECTS = [
     'spooky-blink',
     'spooky-spin',
     'spooky-crawl',
+    'spooky-ghost',
 ]
 
 const HALLOWEEN_RANDOM_DELAYS = [
