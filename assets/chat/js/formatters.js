@@ -59,27 +59,26 @@ function proc(str, chat) {
     return rng(seed) < procChance();
 }
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max) - 1;
-  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is exclusive and the minimum is inclusive 
+function getRandomInt(seed, max) {
+    var x = Math.sin(seed) * 100; // increase the 100 if there are more than 100 effects
+    return (Math.floor(x) % max);
 }
 
-function getRandomHalloweenEffect(emote) {
+
+
+function getRandomHalloweenEffect(emote, seed) {
     if (HALLOWEEN_BLACKLIST.includes(emote)) {
         return "";
     }
 
-    const delay = HALLOWEEN_RANDOM_DELAYS[getRandomInt(0, HALLOWEEN_RANDOM_DELAYS.length)];
-    const effect = HALLOWEEN_RANDOM_EFFECTS[getRandomInt(0, HALLOWEEN_RANDOM_EFFECTS.length)];
+    const delay = HALLOWEEN_RANDOM_DELAYS[getRandomInt(seed, HALLOWEEN_RANDOM_DELAYS.length)];
+    const effect = HALLOWEEN_RANDOM_EFFECTS[getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)];
 
     return `${delay} ${effect}`;
 }
 
 
 class EmoteFormatter {
-
-
     
     format(chat, str, message=null){
         if (!this.regex) {
@@ -96,7 +95,7 @@ class EmoteFormatter {
                 var halloweenEffect = ""
                 //October Halloween effects
                 if (isOctober() && proc(str, chat)) {
-                    halloweenEffect = getRandomHalloweenEffect(emote);
+                    halloweenEffect = getRandomHalloweenEffect(emote, createHash(str));
                 }
                 return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + ' ' + halloweenEffect + '">' + emote + '</span>';
             } else {
