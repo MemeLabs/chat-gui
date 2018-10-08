@@ -53,6 +53,9 @@ function rng(seed) {
 }
 
 function proc(str, chat, i) {
+    if (typeof chat["mainwindow"]["lastmessage"] === 'undefined' || chat["mainwindow"]["lastmessage"] === null) {
+        return false;
+    }
     const lastMsg = chat["mainwindow"]["lastmessage"]["message"];
     const seed = createHash(lastMsg) + createHash(str) + i;
     return rng(seed) < procChance();
