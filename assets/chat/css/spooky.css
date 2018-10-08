@@ -1,5 +1,5 @@
 /*
- * repleased under:
+ * released under:
  * Apache License
  * (https://github.com/9inevolt/betterdgg/blob/cfd28724b3dfba50643713504513cf13eb9d3bf3/LICENSE.txt)
  */
@@ -80,7 +80,6 @@
 }
 
 .spooky-fadeIn {
-  opacity: 0;
   -webkit-animation-name: spooky-fadeIn !important;
           animation-name: spooky-fadeIn !important;
   -webkit-animation-duration: 1s !important;
@@ -333,4 +332,40 @@
           animation-duration: 1.25s;
   -webkit-animation-timing-function: linear;
           animation-timing-function: linear;
+}
+
+
+.spooky-ghost {
+  filter: opacity(0.7) grayscale(1) brightness(1.5) drop-shadow( 0 0 3px #66f );
+  animation:
+    0.6s ease infinite alternate spooky-opacity,
+    0.18s ease infinite alternate spooky-skew;
+}
+
+@keyframes spooky-opacity {
+  0% {
+    opacity: 0.6;
+    top: 9px;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+    top: 11px;
+  }
+}
+ 
+@keyframes spooky-skew {
+  0% {
+    transform: skewX( 2deg );
+  }
+ 
+  50% {
+    transform: skewX( 0deg ) scaleY(1.03);
+  }
+ 
+  100% {
+    transform: skewX( -2deg );
+  }
 }
