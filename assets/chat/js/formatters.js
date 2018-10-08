@@ -50,7 +50,7 @@ function createHash(str) {
 // Far from ideal RNG, but for emotes it should suffice
 function rng(seed) {
     var x = Math.sin(seed) * 10000;
-    return x - Math.floor(x);
+    return Math.abs(x - Math.floor(x));
 }
 
 function proc(str, chat) {
@@ -60,7 +60,7 @@ function proc(str, chat) {
 }
 
 function getRandomInt(seed, max) {
-    var x = Math.sin(seed) * 100; // increase the 100 if there are more than 100 effects
+    var x = Math.abs(Math.sin(seed) * 100); // increase the 100 if there are more than 100 effects
     return (Math.floor(x) % max);
 }
 
