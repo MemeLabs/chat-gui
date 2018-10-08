@@ -17,7 +17,7 @@ const MessageTypes = {
     USER      : 'USER',
     EMOTE     : 'EMOTE'
 }
-var formatters = new Map()
+const formatters = new Map()
 formatters.set('html', new HtmlTextFormatter())
 formatters.set('url', new UrlFormatter())
 formatters.set('emote', new EmoteFormatter())
