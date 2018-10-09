@@ -465,3 +465,15 @@
 .chat-emote-REE:hover {
     animation: ree-anim-hover 100ms infinite;
 }
+
+.chat-emote-DJPepo {
+    animation: dj 500ms 7;
+}
+.chat-emote-DJPepo:hover {
+    animation: dj 500ms infinite;
+}
+
+@keyframes dj {
+    0% { top: 10; }
+    100% { top: 12px; }
+}
