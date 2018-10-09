@@ -181,7 +181,6 @@
 }
 
 .spooky-blink {
-  opacity: 0;
   -webkit-animation-name: spooky-blink;
           animation-name: spooky-blink;
   -webkit-animation-duration: 1.5s;

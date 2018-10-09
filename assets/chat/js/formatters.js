@@ -57,7 +57,9 @@ function proc(str, chat, i) {
         return false;
     }
     const lastMsg = chat["mainwindow"]["lastmessage"]["message"];
-    const seed = createHash(lastMsg) + createHash(str) + i;
+    const day = new Date().getUTCDate(); // to prevent the same messanges to proc 
+    const hours = new Date().getHours(); // the same effect over the whole month
+    const seed = createHash(lastMsg) + createHash(str) + i + hours + day;
     return rng(seed) < procChance();
 }
 
@@ -90,13 +92,14 @@ class EmoteFormatter {
             const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
             this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
         }
+        const emoteCount = ((str || '').match(this.regex) || []).length
         var i = 0; // used for halloween effects, so different emotes in the same message have different seeds
         return str.replace(this.regex, function(m) {
             if (!m.includes(':')) {
                 const emote = m.replace(/\s/g, '');
                 var halloweenEffect = ""
                 //October Halloween effects
-                if (isOctober() && proc(str, chat, i++)) {
+                if (isOctober() && emoteCount < 7 && proc(str, chat, i++)) {
                     halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
                 }
                 return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + ' ' + halloweenEffect + '">' + emote + '</span>';
