@@ -39,14 +39,13 @@ function procChance() {
     }
 }
 
-//https://stackoverflow.com/a/34842797
+// https://stackoverflow.com/a/34842797
 function createHash(str) {
   return str.split('').reduce((prevHash, currVal) =>
     (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
 }
 
 // https://stackoverflow.com/questions/521295/javascript-random-seeds
-// Far from ideal RNG, but for emotes it should suffice
 function rng(seed) {
     var x = Math.sin(seed) * 10000;
     return Math.abs(x - Math.floor(x));
@@ -57,8 +56,10 @@ function proc(str, chat, i) {
         return false;
     }
     const lastMsg = chat["mainwindow"]["lastmessage"]["message"];
-    const day = new Date().getUTCDate(); // to prevent the same messanges to proc 
-    const hours = new Date().getUTCHours(); // the same effect over the whole month
+    // to prevent the same messanges to proc the same effect over the whole month
+    // the seed thus depends on the current message, the prior message, and the current day/hour.
+    const day = new Date().getUTCDate();
+    const hours = new Date().getUTCHours();
     const seed = createHash(lastMsg) + createHash(str) + i + hours + day;
     return rng(seed) < procChance();
 }
@@ -98,8 +99,8 @@ class EmoteFormatter {
             if (!m.includes(':')) {
                 const emote = m.replace(/\s/g, '');
                 var halloweenEffect = ""
-                //October Halloween effects
-                if (isOctober() && emoteCount < 7 && proc(str, chat, i++)) {
+                // halloween effects
+                if (isOctober() && emoteCount <= 7 && proc(str, chat, i++)) {
                     halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
                 }
                 return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + ' ' + halloweenEffect + '">' + emote + '</span>';
@@ -169,7 +170,7 @@ class UrlFormatter {
         this._elem      = $('<div></div>');
     }
 
-    // stolen from angular.js
+    // borrowed from angular.js
     // https://github.com/angular/angular.js/blob/v1.3.14/src/ngSanitize/sanitize.js#L435
     encodeUrl(value){
         return value.
