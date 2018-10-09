@@ -58,7 +58,7 @@ function proc(str, chat, i) {
     }
     const lastMsg = chat["mainwindow"]["lastmessage"]["message"];
     const day = new Date().getUTCDate(); // to prevent the same messanges to proc 
-    const hours = new Date().getHours(); // the same effect over the whole month
+    const hours = new Date().getUTCHours(); // the same effect over the whole month
     const seed = createHash(lastMsg) + createHash(str) + i + hours + day;
     return rng(seed) < procChance();
 }
