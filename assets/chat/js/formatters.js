@@ -16,10 +16,6 @@ class HtmlTextFormatter {
 
 }
 
-function isOctober() {
-    return new Date().getUTCMonth() == 9;
-}
-
 //returns the chance to proc a halloween effect per day
 //chance between 0 and 1
 //to generate different exponential functions use: http://www.wolframalpha.com/input/?i=solve+a*b%5E26+%3D+6;+a*b%5E31%3D20
@@ -70,8 +66,6 @@ function getRandomInt(seed, max) {
     return (Math.floor(x) % max);
 }
 
-
-
 function getRandomHalloweenEffect(emote, seed) {
     if (HALLOWEEN_BLACKLIST.includes(emote)) {
         return "";
@@ -81,6 +75,10 @@ function getRandomHalloweenEffect(emote, seed) {
     const effect = HALLOWEEN_RANDOM_EFFECTS[getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)];
 
     return `${delay} ${effect}`;
+}
+
+function isOctober() {
+    return new Date().getUTCMonth() == 9;
 }
 
 class IdentityFormatter {
@@ -104,19 +102,23 @@ class EmoteFormatter {
         const emoteCount = ((str || '').match(this.regex) || []).length
         var i = 0; // used for halloween effects, so different emotes in the same message have different seeds
         return str.replace(this.regex, function(m) {
-            if (!m.includes(':')) {
-                const emote = m.replace(/\s/g, '');
-                var halloweenEffect = ""
-                // halloween effects
-                if (isOctober() && emoteCount <= 7 && proc(str, chat, i++)) {
-                    halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
-                }
-                return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + ' ' + halloweenEffect + '">' + emote + '</span>';
-            } else {
-                const emote = m.split(':')[0].replace(/\s/g, '');
-                const suffix = m.split(':')[1].replace(/\s/g, '');
-                return ' <span class="generify-container ' + GENERIFY_OPTIONS[suffix] + '"><span title="'+ m +'" class="chat-emote chat-emote-'+ emote +'">'+ m +' </span></span>';
+            // m is "emote:modifier"
+            const input = m.split(':')
+            const emote = input[0].replace(/\s/g, '');
+            var suffix = "";
+            if (input.length > 1) {
+                suffix = input[1].replace(/\s/g, '');
             }
+
+            var halloweenEffect = ""
+            if (isOctober() && emoteCount <= 7 && proc(str, chat, i++)) {
+                halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
+            }
+
+            var modifierEffect = 'generify-container '
+            modifierEffect += GENERIFY_OPTIONS[suffix] || ""
+
+            return ' <span title="'+ m +'" class="chat-emote chat-emote-'+ emote + ' ' + halloweenEffect + ' ' + modifierEffect + '">'+ m +' </span>';
         });
     }
 
