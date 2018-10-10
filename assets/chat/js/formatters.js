@@ -1,5 +1,5 @@
 import UserFeatures from './features';
-import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST} from './const'
+import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HALLOWEEN_GENERIFY_WHITELIST} from './const'
 
 
 /** @var Array tlds */
@@ -105,8 +105,8 @@ class EmoteFormatter {
         return str.replace(this.regex, function(m) {
             if (!m.includes(':')) {
                 const emote = m.replace(/\s/g, '');
-                var halloweenEffect = ""
                 // halloween effects
+                var halloweenEffect = ""
                 if (isOctober() && emoteCount <= 7 && proc(str, chat, i++)) {
                     halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
                 }
@@ -114,7 +114,12 @@ class EmoteFormatter {
             } else {
                 const emote = m.split(':')[0].replace(/\s/g, '');
                 const suffix = m.split(':')[1].replace(/\s/g, '');
-                return ' <span class="generify-container ' + GENERIFY_OPTIONS[suffix] + '"><span title="'+ m +'" class="chat-emote chat-emote-'+ emote +'">'+ m +' </span></span>';
+                //halloween effects
+                var halloweenEffect = "";
+                if (isOctober() && HALLOWEEN_GENERIFY_WHITELIST.includes(suffix) && emoteCount <= 7 && proc(str, chat, i++)) {
+                    halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
+                }
+                return ' <span class="generify-container ' + GENERIFY_OPTIONS[suffix] + ' ' + halloweenEffect + '"><span title="'+ m +'" class="chat-emote chat-emote-'+ emote +'">'+ m +' </span></span>';
             }
         });
     }
