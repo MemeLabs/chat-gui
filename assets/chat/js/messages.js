@@ -1,6 +1,6 @@
 /* global $ */
 
-import {EmoteFormatter, GreenTextFormatter, HtmlTextFormatter, MentionedUserFormatter,UrlFormatter} from './formatters'
+import {EmoteFormatter, GreenTextFormatter, HtmlTextFormatter, MentionedUserFormatter, UrlFormatter, IdentityFormatter} from './formatters'
 import {DATE_FORMATS} from './const'
 import UserFeatures from './features'
 import throttle from 'throttle-debounce/throttle'
@@ -20,16 +20,16 @@ const MessageTypes = {
 const formatters = new Map()
 formatters.set('html', new HtmlTextFormatter())
 formatters.set('url', new UrlFormatter())
-formatters.set('emote', new EmoteFormatter())
 formatters.set('mentioned', new MentionedUserFormatter())
-formatters.set('green', new GreenTextFormatter())
+
+// init with formatters that do nothing, and fill with real ones depending on settings.
+// (other code depends on those formatters existsing...)
+formatters.set('emote', new IdentityFormatter())
+formatters.set('green', new IdentityFormatter())
+
 
 exports.setFormattersFromSettings = function(settings) {
-    formatters.clear();
-    if (settings.get('formatter-html')) formatters.set('html', new HtmlTextFormatter());
-    if (settings.get('formatter-url')) formatters.set('url', new UrlFormatter());
-    if (settings.get('formatter-emote'))  formatters.set('emote', new EmoteFormatter());
-    if (settings.get('formatter-mentioned')) formatters.set('mentioned', new MentionedUserFormatter());
+    if (settings.get('formatter-emote')) formatters.set('emote', new EmoteFormatter());
     if (settings.get('formatter-green')) formatters.set('green', new GreenTextFormatter());
 }
 

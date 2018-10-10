@@ -90,9 +90,6 @@ const settingsdefault = new Map([
     ['hidensfw', false],
     ['formatter-green', true],
     ['formatter-emote', true],
-    ['formatter-url', true],
-    ['formatter-mentioned', true],
-    ['formatter-html', true],
 ])
 const commandsinfo = new Map([
     ['help',            {desc: 'Helpful information.'}],

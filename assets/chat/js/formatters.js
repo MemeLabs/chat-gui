@@ -57,11 +57,11 @@ function proc(str, chat, i) {
     }
     const lastMsg = chat["mainwindow"]["lastmessage"]["message"];
     // to prevent the same messages to proc the same effect the whole month,
-    // make the seed depend on the current message, the prior message, and the current day/hour.
-    // Adding the UTC-Minute was considered too, but inexact clocks would result in desync too often.
+    // make the seed depend on the current message, the prior message, and the current day/time.
     const day = new Date().getUTCDate();
     const hours = new Date().getUTCHours();
-    const seed = createHash(lastMsg) + createHash(str) + i + hours + day;
+    const minutes = new Date().getUTCMinutes();
+    const seed = createHash(lastMsg) + createHash(str) + i + day + hours + Math.floor(minutes/5);
     return rng(seed) < procChance();
 }
 
@@ -83,6 +83,13 @@ function getRandomHalloweenEffect(emote, seed) {
     return `${delay} ${effect}`;
 }
 
+class IdentityFormatter {
+
+    format(chat, str, message=null){
+        return str;
+    }
+
+}
 
 class EmoteFormatter {
     
@@ -219,5 +226,6 @@ export {
     GreenTextFormatter,
     HtmlTextFormatter,
     MentionedUserFormatter,
-    UrlFormatter
+    UrlFormatter,
+    IdentityFormatter
 }
