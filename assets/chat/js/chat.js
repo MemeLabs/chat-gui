@@ -87,7 +87,12 @@ const settingsdefault = new Map([
     ['ignorementions', false],
     ['autocompletehelper', true],
     ['taggedvisibility', false],
-    ['hidensfw', false]
+    ['hidensfw', false],
+    ['formatter-green', true],
+    ['formatter-emote', true],
+    ['formatter-url', true],
+    ['formatter-mentioned', true],
+    ['formatter-html', true],
 ])
 const commandsinfo = new Map([
     ['help',            {desc: 'Helpful information.'}],
@@ -509,6 +514,11 @@ class Chat {
 
         // Update maxlines
         [...this.windows].forEach(w => w.maxlines = this.settings.get('maxlines'));
+
+        // Formatter enable/disable
+        const messages = require('./messages.js');
+        messages.setFormattersFromSettings(this.settings);
+
     }
 
     addUser(data){
