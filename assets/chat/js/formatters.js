@@ -111,14 +111,19 @@ class EmoteFormatter {
             }
 
             var halloweenEffect = ""
-            if (isOctober() && emoteCount <= 7 && proc(str, chat, i++)) {
+            if (isOctober() && emoteCount <= 8 && proc(str, chat, i++)) {
                 halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
             }
 
-            var modifierEffect = 'generify-container '
-            modifierEffect += GENERIFY_OPTIONS[suffix] || ""
+            var modifierEffect = GENERIFY_OPTIONS[suffix] || ""
+            var out = ' <span title="'+ m +'" class="chat-emote chat-emote-'+ emote + ' ' + halloweenEffect + '">'+ m +' </span>';
 
-            return ' <span title="'+ m +'" class="chat-emote chat-emote-'+ emote + ' ' + halloweenEffect + ' ' + modifierEffect + '">'+ m +' </span>';
+            if (modifierEffect !== "") {
+                modifierEffect = 'generify-container ' + modifierEffect
+                out = '<span class="generify-container ' + modifierEffect + '">' + out + '</span>'
+            }
+            return out
+
         });
     }
 
