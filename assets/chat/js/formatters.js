@@ -52,15 +52,22 @@ function rng(seed) {
 }
 
 function proc(str, chat, i) {
-    if (typeof chat["mainwindow"]["lastmessage"] === 'undefined' || chat["mainwindow"]["lastmessage"] === null) {
+    if (typeof chat["mainwindow"]["lastmessage"] === 'undefined' 
+        || chat["mainwindow"]["lastmessage"] === null
+        || typeof chat["mainwindow"]["lastmessage"]["user"] === 'undefined' 
+        || chat["mainwindow"]["lastmessage"]["user"] === null 
+    ) {
         return false;
     }
+
+
     const lastMsg = chat["mainwindow"]["lastmessage"]["message"];
+    const lastNick = chat["mainwindow"]["lastmessage"]["user"]["nick"];
     // to prevent the same messanges to proc the same effect over the whole month
     // the seed thus depends on the current message, the prior message, and the current day/hour.
     const day = new Date().getUTCDate();
     const hours = new Date().getUTCHours();
-    const seed = createHash(lastMsg) + createHash(str) + i + hours + day;
+    const seed = createHash(lastMsg) + createHash(str) + i + hours + day + createHash(lastNick);
     return rng(seed) < procChance();
 }
 
