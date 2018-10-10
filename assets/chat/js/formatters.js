@@ -32,13 +32,8 @@ class EmoteFormatter {
                 return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + '">' + emote + '</span>';
             } else {
                 const emote = match.slice(0, index_of_suffix).replace(/\s/g, '');
-                let suffixes = match.slice(index_of_suffix + 1).split(':').map(suffix => suffix.replace(/\s/g, ''));
-                // dedupe
-                suffixes = Object.keys(suffixes.reduce((acc, curr) => {
-                    acc[curr] = true;
-                    return acc;
-                }, {}));
-                return ` <span class="generify-container ${suffixes.map(suffix => GENERIFY_OPTIONS[suffix]).join(' ')}"><span title="${match}" class="chat-emote chat-emote-${emote}">${match} </span></span>`;
+                const suffixes = new Set(match.slice(index_of_suffix + 1).split(':').map(suffix => suffix.replace(/\s/g, '')));
+                return ` <span class="generify-container ${Array.from(suffixes).map(suffix => GENERIFY_OPTIONS[suffix]).join(' ')}"><span title="${match}" class="chat-emote chat-emote-${emote}">${match} </span></span>`;
             }
         });
     }
