@@ -115,14 +115,9 @@ class EmoteFormatter {
                 halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
             }
 
-            var modifierEffect = GENERIFY_OPTIONS[suffix] || ""
-            var out = ' <span title="'+ m +'" class="chat-emote chat-emote-'+ emote + ' ' + halloweenEffect + '">'+ m +' </span>';
-
-            if (modifierEffect !== "") {
-                modifierEffect = 'generify-container ' + modifierEffect
-                out = '<span class="generify-container ' + modifierEffect + '">' + out + '</span>'
-            }
-            return out
+            const innerEmote = ' <span title="'+ m +'" class="chat-emote chat-emote-'+ emote + ' ' + halloweenEffect + '">'+ m +' </span>';
+            const modifierEffect = GENERIFY_OPTIONS[suffix] || ""
+            return '<span class="generify-container ' + modifierEffect + '">' + innerEmote + '</span>'
 
         });
     }
