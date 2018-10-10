@@ -56,8 +56,9 @@ function proc(str, chat, i) {
         return false;
     }
     const lastMsg = chat["mainwindow"]["lastmessage"]["message"];
-    // to prevent the same messanges to proc the same effect over the whole month
-    // the seed thus depends on the current message, the prior message, and the current day/hour.
+    // to prevent the same messages to proc the same effect the whole month,
+    // make the seed depend on the current message, the prior message, and the current day/hour.
+    // Adding the UTC-Minute was considered too, but inexact clocks would result in desync too often.
     const day = new Date().getUTCDate();
     const hours = new Date().getUTCHours();
     const seed = createHash(lastMsg) + createHash(str) + i + hours + day;
