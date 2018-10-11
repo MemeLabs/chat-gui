@@ -9,10 +9,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const plugins = [
     new CleanWebpackPlugin(['static'], { root: __dirname, verbose: false, exclude: ['cache', 'index.htm'] }),
     new CopyWebpackPlugin([
-            'assets/index.html',
-            'assets/chatstreamed.html',
-            'assets/notification-request/notification-request.html'
-        ]),
+        'assets/index.html',
+        'assets/chatstreamed.html',
+        'assets/notification-request/notification-request.html'
+    ]),
     new MiniCssExtractPlugin({ filename: '[name].css' }),
     new webpack.DefinePlugin({
         WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://www.destiny.gg/ws"',
@@ -21,7 +21,7 @@ const plugins = [
     })
 ];
 
-if( process.env.NODE_ENV !== 'production' ) {
+if (process.env.NODE_ENV !== 'production') {
     console.log('\n!!!!!!!!!!!! DEVELOPMENT BUILD !!!!!!!!!!!!\n');
     plugins.push(
         new CopyWebpackPlugin([
