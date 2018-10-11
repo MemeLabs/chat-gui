@@ -1,10 +1,10 @@
 html {
-	background: #222;
+    background: #222;
 }
 
 body {
     margin: 0;
-	font-family: "Roboto", Helvetica, "Trebuchet MS", Verdana, sans-serif;
+    font-family: "Roboto", Helvetica, "Trebuchet MS", Verdana, sans-serif;
 }
 
 .settings-guide {
@@ -30,9 +30,9 @@ body {
 }
 
 .text-bubble {
-	position: absolute;
-	bottom: 10px;
-	width: 100%;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
     height: 250px;
 
     &-block {
@@ -63,39 +63,39 @@ body {
 
 
 .cursor {
-	position: relative;
-	left: -6px;
-	display: inline-block;
-	width: 4px;
-	height: 1.5em;
-	margin-bottom: -0.25em;
-	background: white;
-	animation: cursor-blink 0.8s infinite;
+    position: relative;
+    left: -6px;
+    display: inline-block;
+    width: 4px;
+    height: 1.5em;
+    margin-bottom: -0.25em;
+    background: white;
+    animation: cursor-blink 0.8s infinite;
 }
 
 @keyframes cursor-blink {
-	0% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 .persona {
-	position: absolute;
-	bottom: 0;
-	animation-duration: 0.15s;
-	animation-iteration-count: 6;
-	animation-direction: alternate;
-	animation-timing-function: ease;
+    position: absolute;
+    bottom: 0;
+    animation-duration: 0.15s;
+    animation-iteration-count: 6;
+    animation-direction: alternate;
+    animation-timing-function: ease;
 }
 
 @keyframes persona-excite {
-	0% {
-		transform: translateY(0);
-	}
-	100% {
-		transform: translateY(-5px);
-	}
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
 }

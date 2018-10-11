@@ -169,7 +169,7 @@ class ChatSettingsMenu extends ChatMenu {
     }
 
     updateNotification(){
-        if( Notification.permission === "granted" ) {
+        if(Notification.permission === "granted") {
             this.enableNotificationsBtn.text("Permission granted ✓");
             this.enableNotificationsBtn.attr('disabled', true);
             this.notificationsFieldset.attr('disabled', false);
@@ -197,15 +197,15 @@ class ChatSettingsMenu extends ChatMenu {
                 );
 
                 const onMessage = event => {
-                    if( event.data.name === "notification-request-done" ){
+                    if(event.data.name === "notification-request-done"){
                         window.removeEventListener('message', onMessage);
                         resolve(Notification.permission);
                     }
                 };
 
-                window.addEventListener( 'message', onMessage );
+                window.addEventListener('message', onMessage);
             } else {
-                Notification.requestPermission( resolve );
+                Notification.requestPermission(resolve);
             }
         });
     }
