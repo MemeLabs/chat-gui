@@ -117,7 +117,7 @@ class EmoteFormatter {
 
             const innerEmote = ' <span title="'+ m +'" class="chat-emote chat-emote-'+ emote + ' ' + halloweenEffect + '">'+ m +' </span>';
             const modifierEffect = GENERIFY_OPTIONS[suffix] || ""
-            return '<span class="generify-container ' + modifierEffect + '">' + innerEmote + '</span>'
+            return ' <span class="generify-container ' + modifierEffect + '">' + innerEmote + '</span>'
 
         });
     }
