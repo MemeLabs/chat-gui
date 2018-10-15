@@ -66,8 +66,6 @@ const CUSTOM_AUTOCOMPLETE_ORDER = [
 
 const HALLOWEEN_RANDOM_EFFECTS = [
     'spooky-spooker',
-    'spooky-fadeIn',
-    'spooky-pulse',
     'spooky-blink',
     'spooky-spin',
     'spooky-crawl',

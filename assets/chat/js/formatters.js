@@ -47,7 +47,7 @@ function rng(seed) {
     return Math.abs(x - Math.floor(x));
 }
 
-function proc(str, chat, i) {
+function genSeed(str, chat, i) {
     if (typeof chat["mainwindow"]["lastmessage"] === 'undefined' || chat["mainwindow"]["lastmessage"] === null) {
         return false;
     }
@@ -58,6 +58,10 @@ function proc(str, chat, i) {
     const hours = new Date().getUTCHours();
     const minutes = new Date().getUTCMinutes();
     const seed = createHash(lastMsg) + createHash(str) + i + day + hours + Math.floor(minutes/5);
+    return seed;
+}
+
+function proc(seed) {
     return rng(seed) < procChance();
 }
 
@@ -100,7 +104,8 @@ class EmoteFormatter {
             this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
         }
         const emoteCount = ((str || '').match(this.regex) || []).length
-        var i = 0; // used for halloween effects, so different emotes in the same message have different seeds
+        // re-seed the rng for halloween effects each emote
+        var i = 0;
         return str.replace(this.regex, function(m) {
             // m is "emote:modifier"
             const input = m.split(':')
@@ -110,15 +115,15 @@ class EmoteFormatter {
                 suffix = input[1].replace(/\s/g, '');
             }
 
-            var halloweenEffect = ""
-            if (isOctober() && emoteCount <= 8 && proc(str, chat, i++)) {
-                halloweenEffect = getRandomHalloweenEffect(emote, createHash(str) + i);
+            var halloweenEffect = "";
+            const seed = genSeed(str, chat, i++);
+            if (isOctober() && emoteCount <= 8 && proc(seed)) {
+                halloweenEffect = getRandomHalloweenEffect(emote, seed);
             }
 
             const innerEmote = ' <span title="'+ m +'" class="chat-emote chat-emote-'+ emote + ' ' + halloweenEffect + '">'+ m +' </span>';
-            const modifierEffect = GENERIFY_OPTIONS[suffix] || ""
-            return ' <span class="generify-container ' + modifierEffect + '">' + innerEmote + '</span>'
-
+            const modifierEffect = GENERIFY_OPTIONS[suffix] || "";
+            return ' <span class="generify-container ' + modifierEffect + '">' + innerEmote + '</span>';
         });
     }
 

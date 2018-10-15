@@ -1,5 +1,5 @@
 /*
- * released under:
+ * partially released under:
  * Apache License
  * (https://github.com/9inevolt/betterdgg/blob/cfd28724b3dfba50643713504513cf13eb9d3bf3/LICENSE.txt)
  */
@@ -31,8 +31,8 @@
 
 .spooky-bat {
   animation: 
-    fly-bounce 0.4s ease-in-out 20,
-    fly-movement 4s ease 2 !important;
+    fly-bounce 0.4s ease-in-out 10,
+    fly-movement 4s ease 1 !important;
 }
 
 .spooky-bat::before, .spooky-bat::after{
@@ -123,17 +123,6 @@
   }
 }
 
-@-webkit-keyframes spooky-fadeIn {
-  0% {opacity: 0.1;}
-  100% {opacity: 0.5;}
-}
-
-@keyframes spooky-fadeIn {
-  0% {opacity: 0.1;}
-  100% {opacity: 0.5;}
-}
-
-
 .spooky-spooker {
   -webkit-animation-name: spooky-spooker;
           animation-name: spooky-spooker;
@@ -171,55 +160,6 @@
   90% {-webkit-transform: rotate(180deg); transform: rotate(180deg);}
 
   100%{filter: invert(100%); -webkit-transform: rotate(180deg); transform: rotate(180deg);}
-}
-
-.spooky-fadeIn {
-  -webkit-animation-name: spooky-fadeIn !important;
-          animation-name: spooky-fadeIn !important;
-  -webkit-animation-duration: 1s !important;
-          animation-duration: 1s !important;
-  /* Removed the fill mode as the animation only puts the emote to 0.5 opacity, so it has to be left to return to how it started */
-}
-
-@-webkit-keyframes spooky-pulse {
-  0% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-
-  50% {
-    -webkit-transform: scale3d(1.1, 1.1, 1.1);
-            transform: scale3d(1.1, 1.1, 1.1);
-  }
-
-  100% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-}
-
-@keyframes spooky-pulse {
-  0% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-
-  50% {
-    -webkit-transform: scale3d(1.1, 1.1, 1.1);
-            transform: scale3d(1.1, 1.1, 1.1);
-  }
-
-  100% {
-    -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-  }
-}
-
-.spooky-pulse {
-  -webkit-animation-name: spooky-pulse;
-          animation-name: spooky-pulse;
-  -webkit-animation-duration: 1.5s;
-          animation-duration: 1.5s;
 }
 
 @-webkit-keyframes spooky-blink {
