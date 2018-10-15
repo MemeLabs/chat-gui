@@ -28,21 +28,6 @@
   }
 }
 
-// animated emotes
-.chat-emote.chat-emote-RaveDoge {
-  width: 44px;
-  height: 30px;
-  margin-top: -30px;
-  background: url('../../emotes/emoticons-animated/RaveDoge.gif');
-}
-
-.chat-emote.chat-emote-CuckCrab {
-  width: 32px;
-  height: 30px;
-  margin-top: -30px;
-  background: url('../../emotes/emoticons-animated/CuckCrab.gif');
-}
-
 @keyframes MiyanoHype-anim {
   100% { background-position: -320px; }
 }
@@ -89,5 +74,37 @@
 
 .chat-emote-COGGERS:hover {
   animation: COGGERS-anim 800ms steps(60) infinite;
+}
+
+@keyframes CuckCrab-anim {
+  100% { background-position: -4032px; }
+}
+
+.chat-emote-CuckCrab {
+  width: 32px;
+  height: 30px;
+  margin-top: -30px;
+  background: url('../../emotes/emoticons-animated/CuckCrab.png') left center;
+  animation: CuckCrab-anim 4000ms steps(126) 2;
+}
+
+.chat-emote-CuckCrab:hover {
+  animation: CuckCrab-anim 4000ms steps(126) infinite;
+}
+
+@keyframes RaveDoge-anim {
+  100% { background-position: -1276px; }
+}
+
+.chat-emote-RaveDoge {
+  width: 44px;
+  height: 30px;
+  margin-top: -30px;
+  background: url('../../emotes/emoticons-animated/RaveDoge.png') left center;
+  animation: RaveDoge-anim 2000ms steps(29) 3;
+}
+
+.chat-emote-RaveDoge:hover {
+  animation: RaveDoge-anim 2000ms steps(29) infinite;
 }
 
