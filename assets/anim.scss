@@ -1,20 +1,235 @@
-@import "common";
+@import 'common';
 
-// infinite loop animation option
-@mixin pngAnimate($animation, $duration, $timingFunction, $iterationCount) {
-  animation: $animation $duration $timingFunction $iterationCount;
-  &:hover {
-    animation: $animation $duration $timingFunction infinite;
-  }
-  &-animate-forever {
-    animation: $animation $duration $timingFunction infinite;
-  }
+$emote-prefix: '.chat-emote-';
+$css-animated-emote-animations: ();
+$context-css-animated-emote-mixin: false;
+
+// Mixin for defining an emote with a css animation.
+// Should be used in combination with emote-animation mixin.
+@mixin css-animated-emote($name, $can-animate-forever: false) {
+    $context-css-animated-emote-mixin: true !global;
+    #{$emote-prefix + $name} {
+        @content;
+        animation: $css-animated-emote-animations;
+        $css-animated-emote-animations: () !global;
+
+        &:hover {
+            animation-iteration-count: infinite;
+        }
+
+        @if $can-animate-forever {
+            &-animate-forever {
+                animation-iteration-count: infinite;
+            }
+        }
+    }
+
+    $context-css-animated-emote-mixin: false !global;
 }
 
-@keyframes flash {
-    0%, 50%, 100% { opacity: 1 }
-    25%, 75% { opacity: 0 }
+// Mixin for defining an animation within a css-animated-emote mixin.
+// $animation-properties takes the same properties as the `animation` property.
+// The mixin body takes the `@keyframes` definition.
+@mixin emote-animation($animation-properties: null){
+    @if not $context-css-animated-emote-mixin {
+        @error '`emote-animation` should be used inside `css-animated-emote` mixin!';
+    }
+
+    $index: length($css-animated-emote-animations);
+    $suffix: if($index != 0, -#{$index}, '');
+    $emote-name: str_slice( inspect(&), 2 + str_length($emote-prefix), -3 );
+    $animation-name: #{$emote-name}-anim#{$suffix};
+
+    @at-root {
+        @keyframes #{$animation-name} {
+            @content;
+        }
+    }
+
+    $css-animated-emote-animations:
+        append(
+            $css-animated-emote-animations,
+            $animation-properties $animation-name,
+            comma
+        ) !global;
 }
+
+@include css-animated-emote(OverRustle) {
+    @include emote-animation(100ms 7) {
+        0% { left: 0; }
+        100% { left: 3px; }
+    }
+}
+
+@include css-animated-emote(MLADY) {
+    transform-origin: 4px bottom;
+
+    @include emote-animation(250ms 3) {
+        0% {
+            transform: rotate(0deg);
+        }
+        30% {
+            transform: rotate(20deg);
+        }
+        80% {
+            transform: rotate(-10deg);
+        }
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+}
+
+@include css-animated-emote(SpookerZ) {
+    @include emote-animation(250ms 3) {
+        0% {
+            transform: translate(0px 0px);
+        }
+        25% {
+            transform: translate(0px, 4px);
+        }
+        75% {
+            transform: rotate(-10deg);
+        }
+        100% {
+            transform: rotate(0deg);
+            transform-origin: 4px bottom;
+        }
+    }
+}
+
+@include css-animated-emote(DANKMEMES) {
+    @include emote-animation(1s 2) {
+        0%, 100% {
+            filter: hue-rotate(0deg);
+        }
+        50% {
+            filter: hue-rotate(360deg);
+        }
+    }
+}
+
+@include css-animated-emote(WEEWOO) {
+    @include emote-animation(1.5s 1) {
+        0%, 100% {
+            opacity: 1;
+        }
+        10% {
+            opacity: 0.5;
+            filter: hue-rotate(0deg);
+        }
+        11% {
+            filter: hue-rotate(170deg);
+        }
+        35% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.2;
+            filter: hue-rotate(170deg);
+        }
+        51% {
+            filter: hue-rotate(310deg);
+        }
+        65% {
+            opacity: 1;
+        }
+        90%{
+            opacity: 0.2;
+            filter: hue-rotate(310deg);
+        }
+        91% {
+            filter: hue-rotate(0deg);
+        }
+    }
+}
+
+@include css-animated-emote(Nappa) {
+    @include emote-animation(750ms 1) {
+        0% {
+            transform: translate(0px 0px) scale(0.5);
+        }
+        5%,15%,25%,35% {
+            transform: translate(0px, 3px);
+        }
+        15%,35%,55% {
+            transform: translate(0px, -3px);
+        }
+        10%,20%,30%,40%,50%{
+            transform: translate(3px, 0px);
+        }
+        15.1% {
+            transform: scale(0.5);
+            filter: hue-rotate(-5deg);
+        }
+        30.1% {
+            transform: scale(0.75);
+            opacity: 0.75;
+            filter: hue-rotate(-5deg) saturate(125%);
+        }
+        60%{
+            transform: scale(1.25);
+            filter: hue-rotate(-25deg) saturate(150%);
+            opacity: 0.75;
+        }
+        70%{
+            opacity: 0;
+        }
+        90%{
+            opacity: 0;
+            transform: scale(0.1);
+        }
+        100%{
+            transform: translate(0px, 0px) scale(1.0);
+            opacity: 1;
+        }
+    }
+}
+
+@include css-animated-emote(Hhhehhehe) {
+    @include emote-animation(500ms 1) {
+        0% {
+            transform: translate(0px, 0px) rotate(-0deg);
+        }
+        20% {
+            transform: translate(0px, 3px) rotate(-6deg);
+        }
+        40% {
+            transform: translate(0px, 0px) rotate(-0deg);
+        }
+        60% {
+            transform: translate(0px, 3px) rotate(-6deg);
+        }
+        80% {
+            transform: translate(0px, 0px) rotate(-0deg);
+        }
+        100% {
+            transform: translate(0px, 3px) rotate(-6deg);
+        }
+    }
+}
+
+@include css-animated-emote(REE) {
+    @include emote-animation(100ms 7) {
+        from { left: 0; }
+        to { left: 3px; }
+    }
+}
+
+@include css-animated-emote(ITSRAWWW) {
+    @include emote-animation(100ms 7) {
+        0% { left: 0; }
+        100% { left: 2px; }
+    }
+}
+
+@include css-animated-emote(DJPepo, true) {
+    @include emote-animation(500ms 7) {
+        0% { top: 10; }
+        100% { top: 12px; }
+    }
+}
+
 @keyframes emote-hit {
     0% { color: #B91010; font-size:200%; }
     1% { color: $color-light; font-size:190%; }
@@ -28,408 +243,14 @@
     from { left: 0; }
     to { left: 3px; }
 }
-@keyframes rustle-hover {
-    from { left: 0; }
-    to { left: 3px; }
-}
 
-@keyframes ree-anim {
-    from { left: 0; }
-    to { left: 3px; }
-}
-
-@keyframes ree-anim-hover {
-    from { left: 0; }
-    to { left: 3px; }
-}
-
-@keyframes tip {
-    0% {
-        transform: rotate(0deg);
-        transform-origin: 4px bottom;
-    }
-    30% {
-        transform: rotate(20deg);
-        transform-origin: 4px bottom;
-    }
-    80% {
-        transform: rotate(-10deg);
-        transform-origin: 4px bottom;
-    }
-    100% {
-        transform: rotate(0deg);
-        transform-origin: 4px bottom;
-    }
-}
-@keyframes tip-hover {
-    0% {
-        transform: rotate(0deg);
-        transform-origin: 4px bottom;
-    }
-    30% {
-        transform: rotate(20deg);
-        transform-origin: 4px bottom;
-    }
-    80% {
-        transform: rotate(-10deg);
-        transform-origin: 4px bottom;
-    }
-    100% {
-        transform: rotate(0deg);
-        transform-origin: 4px bottom;
-    }
-}
-@keyframes spook {
-    0% {
-        transform: translate(0px 0px);
-    }
-    25% {
-        transform: translate(0px,4px)
-    }
-    75% {
-        transform: rotate(-10deg);
-    }
-    100% {
-        transform: rotate(0deg);
-        transform-origin: 4px bottom;
-    }
-}
-@keyframes spook-hover {
-    0% {
-        transform: translate(0px 0px);
-    }
-    25% {
-        transform: translate(0px,4px)
-    }
-    75% {
-        transform: rotate(-10deg);
-    }
-    100% {
-        transform: rotate(0deg);
-        transform-origin: 4px bottom;
-    }
-}
 @keyframes dankmemes-anim {
     0%, 100% {
-        -webkit-filter: hue-rotate(0deg);
         filter: hue-rotate(0deg);
     }
     50% {
-        -webkit-filter: hue-rotate(360deg);
         filter: hue-rotate(360deg);
     }
-}
-@keyframes dankmemes-anim-hover {
-    0%, 100% {
-        -webkit-filter: hue-rotate(0deg);
-        filter: hue-rotate(0deg);
-    }
-    50% {
-        -webkit-filter: hue-rotate(360deg);
-        filter: hue-rotate(360deg);
-    }
-}
-@keyframes weewoo-anim {
-    0%, 100% {
-        opacity: 1;
-    }
-    10% {
-        opacity: 0.5;
-        -webkit-filter: hue-rotate(0deg) ;
-        filter: hue-rotate(0deg) ;
-    }
-    11% {
-        -webkit-filter: hue-rotate(170deg) ;
-        filter: hue-rotate(170deg) ;
-    }
-    35% {
-        opacity: 1
-    }
-    50% {
-        opacity: 0.2;
-        -webkit-filter: hue-rotate(170deg) ;
-        filter: hue-rotate(170deg) ;
-    }
-    51% {
-        -webkit-filter: hue-rotate(310deg) ;
-        filter: hue-rotate(310deg) ;
-    }
-    65% {
-        opacity: 1;
-    }
-    90%{
-        opacity: 0.2;
-        -webkit-filter: hue-rotate(310deg) ;
-        filter: hue-rotate(310deg) ;
-    }
-    91% {
-        -webkit-filter: hue-rotate(0deg) ;
-        filter: hue-rotate(0deg) ;
-    }
-}
-
-@keyframes weewoo-anim-hover {
-    0%, 100% {
-        opacity: 1;
-    }
-    10% {
-        opacity: 0.2;
-        -webkit-filter: hue-rotate(0deg) saturate(100%);
-        filter: hue-rotate(0deg) saturate(100%);
-    }
-    11% {
-        -webkit-filter: hue-rotate(170deg) saturate(200%);
-        filter: hue-rotate(170deg) saturate(200%);
-    }
-    35% {
-        opacity: 1
-    }
-    50% {
-        opacity: 0.2;
-        -webkit-filter: hue-rotate(170deg) saturate(200%);
-        filter: hue-rotate(170deg) saturate(200%);
-    }
-    51% {
-        -webkit-filter: hue-rotate(310deg) saturate(200%);
-        filter: hue-rotate(310deg) saturate(200%);
-    }
-    65% {
-        opacity: 1;
-    }
-    90%{
-        opacity: 0.2;
-        -webkit-filter: hue-rotate(310deg) saturate(200%);
-        filter: hue-rotate(310deg) saturate(200%);
-    }
-    91% {
-        -webkit-filter: hue-rotate(0deg) saturate(100%);
-        filter: hue-rotate(0deg) saturate(100%);
-    }
-}
-
-@keyframes nappa-anim {
-    0% {
-        transform: translate(0px 0px) scale(0.5);
-    }
-    5%,15%,25%,35% {
-        transform: translate(0px,3px)
-    }
-    15%,35%,55% {
-        transform: translate(0px,-3px)
-    }
-    10%,20%,30%,40%,50%{
-        transform: translate(3px,0px)
-    }
-    15.1% {
-        transform: scale(0.5);
-        -webkit-filter: hue-rotate(-5deg);
-        filter: hue-rotate(-5deg);
-    }
-    30.1% {
-        transform: scale(0.75);
-        opacity: 0.75;
-        -webkit-filter: hue-rotate(-15deg) saturate(125%);
-        filter: hue-rotate(-5deg) saturate(125%);;
-
-    }
-    60%{
-        transform: scale(1.25);
-        -webkit-filter: hue-rotate(-25deg) saturate(150%);
-        filter: hue-rotate(-25deg) saturate(150%);;
-
-        opacity: 0.75;
-    }
-    70%{
-        opacity: 0;
-    }
-    90%{
-        opacity: 0;
-        transform: scale(0.1);
-    }
-    100%{
-        transform: translate(0px,0px) scale(1.0);
-        opacity: 1;
-    }
-}
-
-@keyframes nappa-anim-hover {
-    0% {
-        transform: translate(0px 0px) scale(0.5);
-    }
-    5%,15%,25%,35% {
-        transform: translate(0px,3px)
-    }
-    15%,35%,55% {
-        transform: translate(0px,-3px)
-    }
-    10%,20%,30%,40%,50%{
-        transform: translate(3px,0px)
-    }
-    15.1% {
-        transform: scale(0.5);
-        -webkit-filter: hue-rotate(-5deg);
-        filter: hue-rotate(-5deg);
-    }
-    30.1% {
-        transform: scale(0.75);
-        opacity: 0.75;
-        -webkit-filter: hue-rotate(-15deg) saturate(125%);
-        filter: hue-rotate(-5deg) saturate(125%);;
-
-    }
-    60%{
-        transform: scale(1.25);
-        -webkit-filter: hue-rotate(-25deg) saturate(150%);
-        filter: hue-rotate(-25deg) saturate(150%);;
-
-        opacity: 0.75;
-    }
-    70%{
-        opacity: 0;
-    }
-    90%{
-        opacity: 0;
-        transform: scale(0.1);
-    }
-    100%{
-        transform: translate(0px,0px) scale(1.0);
-        opacity: 1;
-    }
-}
-
-
-@keyframes weewoo-anim-hover {
-    0%, 100% {
-        opacity: 1;
-    }
-    10% {
-        opacity: 0.2;
-        -webkit-filter: hue-rotate(0deg) saturate(100%);
-        filter: hue-rotate(0deg) saturate(100%);
-    }
-    11% {
-        -webkit-filter: hue-rotate(170deg) saturate(200%);
-        filter: hue-rotate(170deg) saturate(200%);
-    }
-    35% {
-        opacity: 1
-    }
-    50% {
-        opacity: 0.2;
-        -webkit-filter: hue-rotate(170deg) saturate(200%);
-        filter: hue-rotate(170deg) saturate(200%);
-    }
-    51% {
-        -webkit-filter: hue-rotate(310deg) saturate(200%);
-        filter: hue-rotate(310deg) saturate(200%);
-    }
-    65% {
-        opacity: 1;
-    }
-    90%{
-        opacity: 0.2;
-        -webkit-filter: hue-rotate(310deg) saturate(200%);
-        filter: hue-rotate(310deg) saturate(200%);
-    }
-    91% {
-        -webkit-filter: hue-rotate(0deg) saturate(100%);
-        filter: hue-rotate(0deg) saturate(100%);
-    }
-}
-
-@keyframes hhhehhehe-anim {
-    0% {
-        transform: translate(0px, 0px) rotate(-0deg);
-    }
-    20% {
-        transform: translate(0px, 3px) rotate(-6deg);
-    }
-    40% {
-        transform: translate(0px, 0px) rotate(-0deg);
-    }
-    60% {
-        transform: translate(0px, 3px) rotate(-6deg);
-    }
-    80% {
-        transform: translate(0px, 0px) rotate(-0deg);
-    }
-    100% {
-        transform: translate(0px, 3px) rotate(-6deg);
-    }
-}
-@keyframes hhhehhehe-anim-hover {
-    0% {
-        transform: translate(0px, 0px) rotate(-0deg);
-    }
-    20% {
-        transform: translate(0px, 3px) rotate(-6deg);
-    }
-    40% {
-        transform: translate(0px, 0px) rotate(-0deg);
-    }
-    60% {
-        transform: translate(0px, 3px) rotate(-6deg);
-    }
-    80% {
-        transform: translate(0px, 0px) rotate(-0deg);
-    }
-    100% {
-        transform: translate(0px, 3px) rotate(-6deg);
-    }
-}
-@keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100%{ -webkit-transform: rotate(-360deg); }
-}
-
-
-.chat-emote-OverRustle {
-    animation: rustle 100ms 7;
-}
-.chat-emote-OverRustle:hover {
-    animation: rustle-hover 100ms infinite;
-}
-
-.chat-emote-MLADY {
-    animation: tip 250ms 3;
-}
-.chat-emote-MLADY:hover {
-    animation: tip-hover 250ms infinite;
-}
-
-.chat-emote-SpookerZ {
-    animation: spook 250ms 3;
-}
-.chat-emote-SpookerZ:hover {
-    animation: spook-hover 250ms infinite;
-}
-
-.chat-emote-DANKMEMES {
-    animation: dankmemes-anim 1s 2;
-}
-.chat-emote-DANKMEMES:hover {
-    animation: dankmemes-anim-hover 1s infinite;
-}
-
-.chat-emote-WEEWOO {
-    animation: weewoo-anim 1.5s 1;
-}
-.chat-emote-WEEWOO:hover {
-    animation: weewoo-anim-hover 2s infinite;
-}
-
-.chat-emote-Nappa {
-    animation: nappa-anim 750ms 1;
-}
-.chat-emote-Nappa:hover {
-    animation: nappa-anim-hover 750ms infinite;
-}
-
-.chat-emote-Hhhehhehe {
-    animation: hhhehhehe-anim 500ms 1;
-}
-.chat-emote-Hhhehhehe:hover {
-    animation: hhhehhehe-anim-hover 500ms infinite;
 }
 
 @keyframes Shekels-anim {
@@ -444,110 +265,85 @@
     }
 }
 
-.chat-emote-REE {
-    animation: ree-anim 100ms 7;
-}
-.chat-emote-REE:hover {
-    animation: ree-anim-hover 100ms infinite;
-}
-
 .chat-emote.chat-emote-NOBULLY:hover {
-  -webkit-filter: invert(100%);
-  filter: invert(100%);
+    filter: invert(100%);
 }
 
-.chat-emote.chat-emote-ITSRAWWW:hover {
-  animation: ITSRAWWW-hover 100ms infinite;
+$spritesDir : '../../emotes/emoticons-animated/';
+
+@mixin sprite-animation(
+        $file-name,
+        $frame-count,
+        $sprite-width,
+        $sprite-height,
+        $animation-length,
+        $repeat,
+        $file-ext: '.png') {
+
+    $path: $spritesDir + $file-name + $file-ext;
+
+    @keyframes #{$file-name}-anim {
+        100% { background-position: -#{$sprite-width}; }
+    }
+
+    .chat-emote-#{$file-name}{
+        width: $sprite-width / $frame-count;
+        height: $sprite-height;
+        margin-top: -$sprite-height;
+        background: url($path) left center;
+        animation: #{$file-name}-anim $animation-length steps($frame-count) $repeat;
+
+        &:hover {
+            animation: #{$file-name}-anim $animation-length steps($frame-count) infinite;
+        }
+
+        &-animate-forever {
+            animation: #{$file-name}-anim $animation-length steps($frame-count) infinite;
+        }
+    }
 }
 
-@keyframes ITSRAWWW {
-  from {
-    left: 0;
-  }
+@include sprite-animation(
+    $file-name: MiyanoHype,
+    $frame-count: 10,
+    $sprite-width: 320px,
+    $sprite-height: 32px,
+    $animation-length: 800ms,
+    $repeat: 3
+);
 
-  to {
-    left: 2px;
-  }
-}
-@keyframes ITSRAWWW-hover {
-  from {
-    left: 0;
-  }
+@include sprite-animation(
+    $file-name: Clap,
+    $frame-count: 2,
+    $sprite-width: 44px,
+    $sprite-height: 32px,
+    $animation-length: 400ms,
+    $repeat: 5
+);
 
-  to {
-    left: 2px;
-  }
-}
+@include sprite-animation(
+    $file-name: COGGERS,
+    $frame-count: 60,
+    $sprite-width: 1920px,
+    $sprite-height: 32px,
+    $animation-length: 800ms,
+    $repeat: 2
+);
 
-.chat-emote-DJPepo {
-    animation: dj 500ms 7;
-}
-.chat-emote-DJPepo:hover {
-    animation: dj 500ms infinite;
-}
+@include sprite-animation(
+    $file-name: CuckCrab,
+    $frame-count: 126,
+    $sprite-width: 4032px,
+    $sprite-height: 30px,
+    $animation-length: 4000ms,
+    $repeat: 2
+);
 
-@keyframes dj {
-    0% { top: 10; }
-    100% { top: 12px; }
-}
-
-@keyframes MiyanoHype-anim {
-  100% { background-position: -320px; }
-}
-
-.chat-emote-MiyanoHype {
-  width: 32px;
-  height: 32px;
-  margin-top: -32px;
-  background: url('../../emotes/emoticons-animated/MiyanoHype.png') left center;
-  @include pngAnimate(MiyanoHype-anim, 800ms, steps(10), 3);
-}
-
-@keyframes Clap-anim {
-  100% { background-position: -44px; }
-}
-
-.chat-emote-Clap {
-  width: 22px;
-  height: 32px;
-  margin-top: -32px;
-  background: url('../../emotes/emoticons-animated/Clap.png') left center;
-  @include pngAnimate(Clap-anim, 400ms, steps(2), 5);
-}
-
-@keyframes COGGERS-anim {
-  100% { background-position: -1920px; }
-}
-
-.chat-emote-COGGERS {
-  width: 32px;
-  height: 32px;
-  margin-top: -32px;
-  background: url('../../emotes/emoticons-animated/COGGERS.png') left center;
-  @include pngAnimate(COGGERS-anim, 800ms, steps(60), 2);
-}
-
-@keyframes CuckCrab-anim {
-  100% { background-position: -4032px; }
-}
-
-.chat-emote-CuckCrab {
-  width: 32px;
-  height: 30px;
-  margin-top: -30px;
-  background: url('../../emotes/emoticons-animated/CuckCrab.png') left center;
-  @include pngAnimate(CuckCrab-anim, 4000ms, steps(126), 2);
-}
-
-@keyframes RaveDoge-anim {
-  100% { background-position: -1276px; }
-}
-
-.chat-emote-RaveDoge {
-  width: 44px;
-  height: 30px;
-  margin-top: -30px;
-  background: url('../../emotes/emoticons-animated/RaveDoge.png') left center;
-  @include pngAnimate(RaveDoge-anim, 2000ms, steps(29), 3);
-}
-
+@include sprite-animation(
+    $file-name: RaveDoge,
+    $frame-count: 29,
+    $sprite-width: 1276px,
+    $sprite-height: 30px,
+    $animation-length: 2000ms,
+    $repeat: 3
+);

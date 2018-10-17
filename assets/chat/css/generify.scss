@@ -19,7 +19,7 @@
 }
 
 .generify-rustle > .chat-emote:hover {
-    animation: rustle-hover 100ms infinite;
+    animation: rustle 100ms infinite;
 }
 
 .mirror {
@@ -55,7 +55,7 @@
     animation: dankmemes-anim 1s 2;
 }
 .generify-dank:hover {
-    animation: dankmemes-anim-hover 1s infinite;
+    animation: dankmemes-anim 1s infinite;
 }
 
 .generify-dank > .chat-emote.chat-emote-DANKMEMES {
@@ -132,12 +132,12 @@
     background-image: inherit;
     background-position: inherit;
 
-    filter: 
+    filter:
         opacity( 0.1 )
-        drop-shadow( 0px 0px 0px red ) 
         drop-shadow( 0px 0px 0px red )
         drop-shadow( 0px 0px 0px red )
-        drop-shadow( 0px 0px 0px red ) 
+        drop-shadow( 0px 0px 0px red )
+        drop-shadow( 0px 0px 0px red )
     ;
     mix-blend-mode: color-dodge;
 }
