@@ -421,49 +421,39 @@
     animation: hhhehhehe-anim-hover 500ms infinite;
 }
 
-.chat-emote-Shekels:before{
-    content: "💰";
-    text-indent: 0;
-    font-size: 18px;
-    position: absolute;
-    left:-3px;
-    top:-25px;
-    animation: Shekels-anim 0.5s 4;
-}
-.chat-emote-Shekels:hover::before{
-    animation: Shekels-anim 0.5s infinite;
-}
-.chat-emote-Shekels:after{
-    content: "💰";
-    text-indent: 0;
-    font-size: 18px;
-    position: absolute;
-    right:-3px;
-    top:-25px;
-    animation: Shekels-anim 0.5s 4;
-    animation-delay: 0.25s;
-}
-.chat-emote-Shekels:hover::after{
-    animation: Shekels-anim 0.5s infinite;
-    animation-delay: 0.25s;
-}
-@keyframes Shekels-anim {
-    0% {
-        top: -25px;
-    }
-    99% {
-        top: 30px;
-    }
-    100%{
-        top: -25px;
-    }
-}
-
 .chat-emote-REE {
     animation: ree-anim 100ms 7;
 }
 .chat-emote-REE:hover {
     animation: ree-anim-hover 100ms infinite;
+}
+
+.chat-emote.chat-emote-NOBULLY:hover {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+
+.chat-emote.chat-emote-ITSRAWWW:hover {
+  animation: ITSRAWWW-hover 100ms infinite;
+}
+
+@keyframes ITSRAWWW {
+  from {
+    left: 0;
+  }
+
+  to {
+    left: 2px;
+  }
+}
+@keyframes ITSRAWWW-hover {
+  from {
+    left: 0;
+  }
+
+  to {
+    left: 2px;
+  }
 }
 
 .chat-emote-DJPepo {
@@ -477,3 +467,84 @@
     0% { top: 10; }
     100% { top: 12px; }
 }
+
+@keyframes MiyanoHype-anim {
+  100% { background-position: -320px; }
+}
+
+.chat-emote-MiyanoHype {
+  width: 32px;
+  height: 32px;
+  margin-top: -32px;
+  background: url('../../emotes/emoticons-animated/MiyanoHype.png') left center;
+  animation: MiyanoHype-anim 800ms steps(10) 3;
+}
+
+.chat-emote-MiyanoHype:hover {
+  animation: MiyanoHype-anim 800ms steps(10) infinite;
+}
+
+@keyframes Clap-anim {
+  100% { background-position: -44px; }
+}
+
+.chat-emote-Clap {
+  width: 22px;
+  height: 32px;
+  margin-top: -32px;
+  background: url('../../emotes/emoticons-animated/Clap.png') left center;
+  animation: Clap-anim 400ms steps(2) 5;
+}
+
+.chat-emote-Clap:hover {
+  animation: Clap-anim 400ms steps(2) infinite;
+}
+
+@keyframes COGGERS-anim {
+  100% { background-position: -1920px; }
+}
+
+.chat-emote-COGGERS {
+  width: 32px;
+  height: 32px;
+  margin-top: -32px;
+  background: url('../../emotes/emoticons-animated/COGGERS.png') left center;
+  animation: COGGERS-anim 800ms steps(60) 2;
+}
+
+.chat-emote-COGGERS:hover {
+  animation: COGGERS-anim 800ms steps(60) infinite;
+}
+
+@keyframes CuckCrab-anim {
+  100% { background-position: -4032px; }
+}
+
+.chat-emote-CuckCrab {
+  width: 32px;
+  height: 30px;
+  margin-top: -30px;
+  background: url('../../emotes/emoticons-animated/CuckCrab.png') left center;
+  animation: CuckCrab-anim 4000ms steps(126) 2;
+}
+
+.chat-emote-CuckCrab:hover {
+  animation: CuckCrab-anim 4000ms steps(126) infinite;
+}
+
+@keyframes RaveDoge-anim {
+  100% { background-position: -1276px; }
+}
+
+.chat-emote-RaveDoge {
+  width: 44px;
+  height: 30px;
+  margin-top: -30px;
+  background: url('../../emotes/emoticons-animated/RaveDoge.png') left center;
+  animation: RaveDoge-anim 2000ms steps(29) 3;
+}
+
+.chat-emote-RaveDoge:hover {
+  animation: RaveDoge-anim 2000ms steps(29) infinite;
+}
+

@@ -16,23 +16,22 @@ class HtmlTextFormatter {
 
 }
 
-//returns the chance to proc a halloween effect per day
-//chance between 0 and 1
-//to generate different exponential functions use: http://www.wolframalpha.com/input/?i=solve+a*b%5E26+%3D+6;+a*b%5E31%3D20
-//the above link was used to generate the function for day 26 to 31
+// returns the chance to proc a halloween effect per day
+// chance between 0 and 1
+// to generate different exponential functions use: http://www.wolframalpha.com/input/?i=solve+a*b%5E26+%3D+6;+a*b%5E31%3D20 (e.g. day 26 to 31)
+// http://www.wolframalpha.com/input/?i=1%2F5%5E(1%2F24)+*+(5%5E(1%2F24))%5Ex+from+1+to+25
 function procChance() {
     const day = new Date().getUTCDate();
-    if (day <= 25) {
-        //http://www.wolframalpha.com/input/?i=1%2F5%5E(1%2F24)+*+(5%5E(1%2F24))%5Ex+from+1+to+25
-        //1% at day 1
-        //5% at day 25
-        return 1/100*(1/Math.pow(5,(1/24)) * Math.pow((Math.pow(5,(1/24))),day));
-    } else {
-        //http://www.wolframalpha.com/input/?i=(729+(3%2F10)%5E(1%2F5))%2F50000+*+((10%2F3)%5E(1%2F5))%5Ex+from+26+to+31
-        //6% at day 26
-        //20% at day 31
-        return 1/100*((729*Math.pow((3/10),(1/5)))/50000 * Math.pow((Math.pow((10/3),(1/5))),day));        
+    if (day <= 29) {
+        // 1% at day 1
+        // 2.5% at day 25
+        return 1/100*(1/Math.pow(2.5,(1/24)) * Math.pow((Math.pow(2.5,(1/24))),day));
+    } else if (day == 30) {
+        return 0.05;
+    } else if (day == 31) {
+	return 0.15;
     }
+    return 0;
 }
 
 // https://stackoverflow.com/a/34842797
@@ -47,11 +46,18 @@ function rng(seed) {
     return Math.abs(x - Math.floor(x));
 }
 
-function genSeed(str, chat, i) {
+function getLastMsg(chat) {
     if (typeof chat["mainwindow"]["lastmessage"] === 'undefined' || chat["mainwindow"]["lastmessage"] === null) {
+        return "";
+    }
+    return chat["mainwindow"]["lastmessage"]["message"];
+}
+
+function genSeed(str, chat, i) {
+    const lastMsg = getLastMsg(chat);
+    if (lastMsg == "") {
         return false;
     }
-    const lastMsg = chat["mainwindow"]["lastmessage"]["message"];
     // to prevent the same messages to proc the same effect the whole month,
     // make the seed depend on the current message, the prior message, and the current day/time.
     const day = new Date().getUTCDate();
@@ -61,8 +67,15 @@ function genSeed(str, chat, i) {
     return seed;
 }
 
-function proc(seed) {
-    return rng(seed) < procChance();
+// proc depending on seed and procChance for the day.
+// in some cases we want the chance to be lower, determined by punish.
+function proc(seed, punish) {
+    var randomValue = rng(seed)
+    if (punish) {
+        // higher value lowers occurrence
+        randomValue = randomValue*2;
+    }
+    return randomValue < procChance();
 }
 
 function getRandomInt(seed, max) {
@@ -117,7 +130,9 @@ class EmoteFormatter {
 
             var halloweenEffect = "";
             const seed = genSeed(str, chat, i++);
-            if (isOctober() && emoteCount <= 8 && proc(seed)) {
+            // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
+            const punish = str == getLastMsg(chat)
+            if (isOctober() && emoteCount <= 7 && proc(seed, punish)) {
                 halloweenEffect = getRandomHalloweenEffect(emote, seed);
             }
 
