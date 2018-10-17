@@ -88,6 +88,7 @@ const settingsdefault = new Map([
     ['autocompletehelper', true],
     ['taggedvisibility', false],
     ['hidensfw', false],
+    ['animateforever', false],
     ['formatter-green', true],
     ['formatter-emote', true],
 ])
@@ -511,6 +512,22 @@ class Chat {
 
         // Update maxlines
         [...this.windows].forEach(w => w.maxlines = this.settings.get('maxlines'));
+
+        // Infinite animated emotes
+        const that = this;
+        this.mainwindow.getlines('.msg-user')
+            .find('[class^="chat-emote"]')
+            .each(function() {
+                const element = $(this);
+                // emote titles used in the "middle" of a message include a leading space
+                const emote = element.attr('title').replace(' ','').split(':')[0];
+                if (that.settings.get('animateforever')) {
+                    element.addClass(`chat-emote-${emote}-animate-forever`);
+                }
+                else {
+                    element.removeClass(`chat-emote-${emote}-animate-forever`);
+                }
+            });
 
         // Formatter enable/disable
         const messages = require('./messages.js');

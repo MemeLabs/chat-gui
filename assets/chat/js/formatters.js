@@ -29,7 +29,7 @@ function procChance() {
     } else if (day == 30) {
         return 0.05;
     } else if (day == 31) {
-	return 0.15;
+        return 0.15;
     }
     return 0;
 }
@@ -128,15 +128,20 @@ class EmoteFormatter {
                 suffix = input[1].replace(/\s/g, '');
             }
 
-            var halloweenEffect = "";
+            const innerClasses = ['chat-emote', 'chat-emote-'+emote];
+
             const seed = genSeed(str, chat, i++);
             // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
             const punish = str == getLastMsg(chat)
             if (isOctober() && emoteCount <= 7 && proc(seed, punish)) {
-                halloweenEffect = getRandomHalloweenEffect(emote, seed);
+                innerClasses.push(getRandomHalloweenEffect(emote, seed));
             }
 
-            const innerEmote = ' <span title="'+ m +'" class="chat-emote chat-emote-'+ emote + ' ' + halloweenEffect + '">'+ m +' </span>';
+            if (chat.settings.get('animateforever')) {
+                innerClasses.push('chat-emote-'+emote+'-animate-forever')
+            }
+
+            const innerEmote = ' <span title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             const modifierEffect = GENERIFY_OPTIONS[suffix] || "";
             return ' <span class="generify-container ' + modifierEffect + '">' + innerEmote + '</span>';
         });

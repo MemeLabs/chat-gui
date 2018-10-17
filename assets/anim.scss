@@ -1,5 +1,16 @@
 @import "common";
 
+// infinite loop animation option
+@mixin pngAnimate($animation, $duration, $timingFunction, $iterationCount) {
+  animation: $animation $duration $timingFunction $iterationCount;
+  &:hover {
+    animation: $animation $duration $timingFunction infinite;
+  }
+  &-animate-forever {
+    animation: $animation $duration $timingFunction infinite;
+  }
+}
+
 @keyframes flash {
     0%, 50%, 100% { opacity: 1 }
     25%, 75% { opacity: 0 }
@@ -421,6 +432,18 @@
     animation: hhhehhehe-anim-hover 500ms infinite;
 }
 
+@keyframes Shekels-anim {
+    0% {
+        top: -25px;
+    }
+    99% {
+        top: 30px;
+    }
+    100%{
+        top: -25px;
+    }
+}
+
 .chat-emote-REE {
     animation: ree-anim 100ms 7;
 }
@@ -477,11 +500,7 @@
   height: 32px;
   margin-top: -32px;
   background: url('../../emotes/emoticons-animated/MiyanoHype.png') left center;
-  animation: MiyanoHype-anim 800ms steps(10) 3;
-}
-
-.chat-emote-MiyanoHype:hover {
-  animation: MiyanoHype-anim 800ms steps(10) infinite;
+  @include pngAnimate(MiyanoHype-anim, 800ms, steps(10), 3);
 }
 
 @keyframes Clap-anim {
@@ -493,11 +512,7 @@
   height: 32px;
   margin-top: -32px;
   background: url('../../emotes/emoticons-animated/Clap.png') left center;
-  animation: Clap-anim 400ms steps(2) 5;
-}
-
-.chat-emote-Clap:hover {
-  animation: Clap-anim 400ms steps(2) infinite;
+  @include pngAnimate(Clap-anim, 400ms, steps(2), 5);
 }
 
 @keyframes COGGERS-anim {
@@ -509,11 +524,7 @@
   height: 32px;
   margin-top: -32px;
   background: url('../../emotes/emoticons-animated/COGGERS.png') left center;
-  animation: COGGERS-anim 800ms steps(60) 2;
-}
-
-.chat-emote-COGGERS:hover {
-  animation: COGGERS-anim 800ms steps(60) infinite;
+  @include pngAnimate(COGGERS-anim, 800ms, steps(60), 2);
 }
 
 @keyframes CuckCrab-anim {
@@ -525,11 +536,7 @@
   height: 30px;
   margin-top: -30px;
   background: url('../../emotes/emoticons-animated/CuckCrab.png') left center;
-  animation: CuckCrab-anim 4000ms steps(126) 2;
-}
-
-.chat-emote-CuckCrab:hover {
-  animation: CuckCrab-anim 4000ms steps(126) infinite;
+  @include pngAnimate(CuckCrab-anim, 4000ms, steps(126), 2);
 }
 
 @keyframes RaveDoge-anim {
@@ -541,10 +548,6 @@
   height: 30px;
   margin-top: -30px;
   background: url('../../emotes/emoticons-animated/RaveDoge.png') left center;
-  animation: RaveDoge-anim 2000ms steps(29) 3;
-}
-
-.chat-emote-RaveDoge:hover {
-  animation: RaveDoge-anim 2000ms steps(29) infinite;
+  @include pngAnimate(RaveDoge-anim, 2000ms, steps(29), 3);
 }
 
