@@ -1,7 +1,7 @@
 const DATE_FORMATS = {
     FULL: 'MMMM Do YYYY, h:mm:ss a',
     TIME: 'HH:mm'
-}
+};
 
 const KEYCODES = {
     TAB: 9,
@@ -13,7 +13,7 @@ const KEYCODES = {
     RETURN: 13,
     ENTER: 13,
     BACKSPACE: 8,
-    BCKSP:8,
+    BCKSP: 8,
     ALT: 18,
     ALTR: 17,
     ALTRIGHT: 17,
@@ -38,14 +38,14 @@ const KEYCODES = {
     F10: 121,
     F11: 122,
     F12: 123
+};
+
+function getKeyCode(e) {
+    return e.which || e.keyCode || -1;
 }
 
-function getKeyCode(e){
-    return e.which || e.keyCode || -1
-}
-
-function isKeyCode(e, code){
-    return getKeyCode(e) === code
+function isKeyCode(e, code) {
+    return getKeyCode(e) === code;
 }
 
 // emote:key; css class to apply
@@ -54,7 +54,7 @@ const GENERIFY_OPTIONS = {
     'rain': 'weather rain anim-fix',
     'snow': 'weather snow anim-fix',
     'rustle': 'generify-rustle',
-    'worth': 'generify-worth',
+    'worth': 'generify-worth'
 //    'dank': 'generify-dank',
 //    'hyper': 'generify-hyper generify-rustle',
 };
@@ -70,19 +70,19 @@ const HALLOWEEN_RANDOM_EFFECTS = [
     'spooky-spin',
     'spooky-crawl',
     'spooky-ghost',
-    'spooky-bat',
-]
+    'spooky-bat'
+];
 
 const HALLOWEEN_RANDOM_DELAYS = [
     'spooky-anim-delay-1',
     'spooky-anim-delay-2',
     'spooky-anim-delay-3',
     'spooky-anim-delay-4',
-    'spooky-anim-delay-5',
-]
+    'spooky-anim-delay-5'
+];
 
 const HALLOWEEN_BLACKLIST = [
-    'GameOfThrows',
-]
+    'GameOfThrows'
+];
 
-export {KEYCODES,DATE_FORMATS,isKeyCode,getKeyCode,GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST}
+export {KEYCODES, DATE_FORMATS, isKeyCode, getKeyCode, GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST};
