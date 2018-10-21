@@ -1,10 +1,10 @@
 @import "../../common";
-@import "../../anim";
 @import "../../emotes/emoticons";
 @import "../../icons/icons";
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,600,700");
 @import "weather.scss";
 @import "generify.scss";
+@import "spooky.css";
 
 *, *::before, *::after { box-sizing: inherit; }
 html { box-sizing: border-box; }
@@ -1211,3 +1211,7 @@ button.btn {
     background-color: $color-surface-light1;
     border-color: $color-surface-light3;
 }
+
+/* contains animations of specific emotes that partly override .chat-emote */
+@import "../../anim";
+

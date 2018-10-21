@@ -1,5 +1,5 @@
 import UserFeatures from './features';
-import {GENERIFY_OPTIONS} from './const'
+import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST} from './const'
 
 
 /** @var Array tlds */
@@ -16,6 +16,100 @@ class HtmlTextFormatter {
 
 }
 
+// returns the chance to proc a halloween effect per day
+// chance between 0 and 1
+// to generate different exponential functions use: http://www.wolframalpha.com/input/?i=solve+a*b%5E26+%3D+6;+a*b%5E31%3D20 (e.g. day 26 to 31)
+// http://www.wolframalpha.com/input/?i=1%2F5%5E(1%2F24)+*+(5%5E(1%2F24))%5Ex+from+1+to+25
+function procChance() {
+    const day = new Date().getUTCDate();
+    if (day <= 29) {
+        // 1% at day 1
+        // 2.5% at day 25
+        return 1/100*(1/Math.pow(2.5,(1/24)) * Math.pow((Math.pow(2.5,(1/24))),day));
+    } else if (day == 30) {
+        return 0.05;
+    } else if (day == 31) {
+        return 0.15;
+    }
+    return 0;
+}
+
+// https://stackoverflow.com/a/34842797
+function createHash(str) {
+    return str
+        .split('')
+        .reduce(
+            (prevHash, currVal) => (((prevHash << 5) - prevHash) + currVal.charCodeAt(0)) | 0,
+            0
+        );
+}
+
+// https://stackoverflow.com/questions/521295/javascript-random-seeds
+function rng(seed) {
+    const x = Math.sin(seed) * 10000;
+    return Math.abs(x - Math.floor(x));
+}
+
+function getLastMsg(chat) {
+    if (typeof chat.mainwindow.lastmessage === 'undefined' || chat.mainwindow.lastmessage === null) {
+        return "";
+    }
+    return chat.mainwindow.lastmessage.message;
+}
+
+function genSeed(str, chat, i) {
+    const lastMsg = getLastMsg(chat);
+    if (lastMsg == "") {
+        return false;
+    }
+    // to prevent the same messages to proc the same effect the whole month,
+    // make the seed depend on the current message, the prior message, and the current day/time.
+    const day = new Date().getUTCDate();
+    const hours = new Date().getUTCHours();
+    const minutes = new Date().getUTCMinutes();
+    const seed = createHash(lastMsg) + createHash(str) + i + day + hours + Math.floor(minutes/5);
+    return seed;
+}
+
+// proc depending on seed and procChance for the day.
+// in some cases we want the chance to be lower, determined by punish.
+function proc(seed, punish) {
+    let randomValue = rng(seed)
+    if (punish) {
+        // higher value lowers occurrence
+        randomValue = randomValue*2;
+    }
+    return randomValue < procChance();
+}
+
+function getRandomInt(seed, max) {
+    const x = Math.abs(Math.sin(seed) * 100); // increase the 100 if there are more than 100 effects
+    return (Math.floor(x) % max);
+}
+
+function getRandomHalloweenEffect(emote, seed) {
+    if (HALLOWEEN_BLACKLIST.includes(emote)) {
+        return "";
+    }
+
+    const delay = HALLOWEEN_RANDOM_DELAYS[getRandomInt(seed, HALLOWEEN_RANDOM_DELAYS.length)];
+    const effect = HALLOWEEN_RANDOM_EFFECTS[getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)];
+
+    return `${delay} ${effect}`;
+}
+
+function isOctober() {
+    return new Date().getUTCMonth() == 9;
+}
+
+class IdentityFormatter {
+
+    format(chat, str, message=null){
+        return str;
+    }
+
+}
+
 class EmoteFormatter {
 
     format(chat, str, message=null){
@@ -24,17 +118,37 @@ class EmoteFormatter {
             const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
             this.regex = new RegExp(`(?:^|\\s)(${emoticons})((?::(?:${suffixes}))*)(?=$|\\s)`, 'gm');
         }
-
+        const emoteCount = ((str || '').match(this.regex) || []).length
+        // re-seed the rng for halloween effects each emote
+        let i = 0;
         return str.replace(this.regex, match => {
+            // match is "emote(:modifier)* ... etc"
             const index_of_suffix = match.indexOf(':');
+            let emote;
+            let suffixes = new Set();
             if (index_of_suffix === -1) {
-                const emote = match.replace(/\s/g, '');
-                return ' <span title=' + emote + ' class="chat-emote chat-emote-' + emote + '">' + emote + '</span>';
+                emote = match.replace(/\s/g, '');
             } else {
-                const emote = match.slice(0, index_of_suffix).replace(/\s/g, '');
-                const suffixes = new Set(match.slice(index_of_suffix + 1).split(':').map(suffix => suffix.replace(/\s/g, '')));
-                return ` <span class="generify-container ${Array.from(suffixes).map(suffix => GENERIFY_OPTIONS[suffix]).join(' ')}"><span title="${match}" class="chat-emote chat-emote-${emote}">${match} </span></span>`;
+                emote = match.slice(0, index_of_suffix).replace(/\s/g, '');
+                suffixes = new Set(match.slice(index_of_suffix + 1).split(':').map(suffix => suffix.replace(/\s/g, '')));
             }
+
+            const innerClasses = ['chat-emote', `chat-emote-${emote}`];
+
+            const seed = genSeed(str, chat, i++);
+            // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
+            const punish = str == getLastMsg(chat)
+            if (isOctober() && emoteCount <= 7 && proc(seed, punish)) {
+                innerClasses.push(getRandomHalloweenEffect(emote, seed));
+            }
+
+            if (chat.settings.get('animateforever')) {
+                innerClasses.push(`chat-emote-${emote}-animate-forever`);
+            }
+
+            const innerEmote = ` <span title="${match}" class="${innerClasses.join(' ')}">${match} </span>`;
+            const modifierEffect = Array.from(suffixes).map(suffix => GENERIFY_OPTIONS[suffix]).join(' ');
+            return ` <span class="generify-container ${modifierEffect}">${innerEmote}</span>`;
         });
     }
 
@@ -96,7 +210,7 @@ class UrlFormatter {
         this._elem      = $('<div></div>');
     }
 
-    // stolen from angular.js
+    // borrowed from angular.js
     // https://github.com/angular/angular.js/blob/v1.3.14/src/ngSanitize/sanitize.js#L435
     encodeUrl(value){
         return value.
@@ -144,5 +258,6 @@ export {
     GreenTextFormatter,
     HtmlTextFormatter,
     MentionedUserFormatter,
-    UrlFormatter
+    UrlFormatter,
+    IdentityFormatter
 }

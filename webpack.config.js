@@ -7,7 +7,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     devServer: {
-        contentBase: path.join(__dirname, "static"),
+        contentBase: path.join(__dirname, 'static'),
         compress: true,
         port: 8282
     },
@@ -21,8 +21,7 @@ module.exports = {
             './assets/chat/js/notification',
             './assets/chat/img/favicon.png',
             './assets/chat/css/style.scss',
-            './assets/chat/css/bbdgg.scss',
-            './assets/chat.js',
+            './assets/chat.js'
         ],
         streamchat: [
             'core-js/es6',
@@ -33,14 +32,13 @@ module.exports = {
             './assets/chat/js/notification',
             './assets/chat/img/favicon.png',
             './assets/chat/css/style.scss',
-            './assets/chat/css/bbdgg.scss',
             './assets/chat/css/onstream.scss',
-            './assets/streamchat.js',
-        ],
+            './assets/streamchat.js'
+        ]
     },
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     output: {
-        path: __dirname + '/static',
+        path: path.resolve(__dirname, 'static'),
         filename: '[name].js'
     },
     plugins: [
@@ -49,8 +47,8 @@ module.exports = {
         new webpack.DefinePlugin({
             WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://www.destiny.gg/ws"',
             API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '',
-            LOGIN_URI: process.env.LOGIN_URI ? `'${process.env.LOGIN_URI}'` : 'false',
-        }),
+            LOGIN_URI: process.env.LOGIN_URI ? `'${process.env.LOGIN_URI}'` : 'false'
+        })
     ],
     watchOptions: {
         ignored: /node_modules/
@@ -72,9 +70,9 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
-                    'sass-loader',
-                    'postcss-loader'
-                ],
+                    'postcss-loader',
+                    'sass-loader'
+                ]
             },
             {
                 test: /(-webfont|glyphicons-halflings-regular)\.(eot|svg|ttf|woff2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,

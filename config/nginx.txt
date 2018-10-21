@@ -7,13 +7,14 @@ server {
 
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
     add_header X-Content-Type-Options nosniff;
-    add_header Referrer-Policy "no-referrer";
+    add_header Referrer-Policy "same-origin";
     add_header Feature-Policy "geolocation 'none'; microphone 'none'; camera 'none'";
     add_header Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' wss:; img-src 'self'; frame-ancestors https://strims.gg; base-uri 'self'; form-action 'self'";
 
     # TODO
-    set_real_ip_from 0.0.0.0/0;
-    real_ip_header CF-Connecting-IP;
+    #set_real_ip_from 0.0.0.0/0;
+    #real_ip_recursive on;
+    #real_ip_header CF-Connecting-IP;
 
     error_log /var/log/nginx/error_chat.log;
     access_log /var/log/nginx/access_chat.log;
@@ -45,4 +46,3 @@ server {
     server_name chat.strims.gg;
     return 302 https://$host$request_uri;
 }
-
