@@ -88,6 +88,7 @@ const settingsdefault = new Map([
     ['autocompletehelper', true],
     ['taggedvisibility', false],
     ['hidensfw', false],
+    ['animateforever', true],
     ['formatter-green', true],
     ['formatter-emote', true],
 ])

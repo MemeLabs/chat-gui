@@ -94,8 +94,10 @@ function getRandomHalloweenEffect(emote, seed) {
     return `${delay} ${effect}`;
 }
 
-function isOctober() {
-    return new Date().getUTCMonth() == 9;
+function isHalloween() {
+    const today = new Date();
+    // one UTC day grace period for america
+    return today.getUTCMonth() == 9 || (today.getUTCMonth() == 10 && today.getUTCDate() == 1);
 }
 
 class IdentityFormatter {
@@ -133,7 +135,7 @@ class EmoteFormatter {
             const seed = genSeed(str, chat, i++);
             // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
             const punish = str == getLastMsg(chat)
-            if (isOctober() && emoteCount <= 7 && proc(seed, punish)) {
+            if (isHalloween() && emoteCount <= 7 && proc(seed, punish)) {
                 innerClasses.push(getRandomHalloweenEffect(emote, seed));
             }
 

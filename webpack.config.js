@@ -64,7 +64,7 @@ module.exports = {
             './assets/chat/css/style.scss',
             './assets/chat.js'
         ],
-        'streamchat': [
+        'chatstreamed': [
             'core-js/es6',
             'jquery',
             'normalize.css',
