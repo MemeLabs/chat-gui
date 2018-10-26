@@ -122,7 +122,13 @@ class ChatSettingsMenu extends ChatMenu {
 
     constructor(ui, btn, chat) {
         super(ui, btn, chat)
-        this.notificationEl = this.ui.find('#chat-settings-notification-permissions')
+
+        this.enableNotificationsBtn = this.ui.find('.enable-notifications-btn');
+        this.enableNotificationsBtn.on('click', () => {
+            this.notificationPermission().then(() => this.updateNotification());
+        } );
+        this.notificationsFieldset = this.ui.find('.notifications-settings-fieldset');
+
         this.ui.on('change', 'input[type="checkbox"],select', e => this.onSettingsChange(e))
         this.ui.on('keypress blur', 'textarea[name="customhighlight"]', e => this.onCustomHighlightChange(e))
     }
@@ -144,11 +150,6 @@ class ChatSettingsMenu extends ChatMenu {
                     if(!val && this.chat.authenticated)
                         $.ajax({url: `${API_URI}/api/chat/me/settings`, method:'delete'})
                     break;
-                case 'notificationwhisper':
-                case 'notificationhighlight':
-                    if(val)
-                        this.notificationPermission().then(() => this.updateNotification())
-                    break;
             }
             this.chat.settings.set(name, val)
             this.chat.applySettings(false)
@@ -168,31 +169,43 @@ class ChatSettingsMenu extends ChatMenu {
     }
 
     updateNotification(){
-        const perm = Notification.permission === 'default' ? 'required' : Notification.permission
-        this.notificationEl.text(`(Permission ${perm})`)
+        if(Notification.permission === "granted") {
+            this.enableNotificationsBtn.text("Permission granted ✓");
+            this.enableNotificationsBtn.attr('disabled', true);
+            this.notificationsFieldset.attr('disabled', false);
+        } else {
+            this.enableNotificationsBtn.text("Enable Notifications");
+            this.enableNotificationsBtn.attr('disabled', false);
+            this.notificationsFieldset.attr('disabled', true);
+        }
     }
 
     notificationPermission(){
         return new Promise((resolve, reject) => {
-            switch(Notification.permission) {
-                case 'default':
-                    Notification.requestPermission(permission => {
-                        switch(permission) {
-                            case 'granted':
-                                resolve(permission);
-                                break;
-                            default:
-                                reject(permission);
-                        }
-                    });
-                    break;
-                case 'granted':
-                    resolve(Notification.permission);
-                    break;
-                case 'denied':
-                default:
-                    reject(Notification.permission);
-                    break;
+            // Whitelist of browsers that allow iframes to make notification
+            // permission requests.
+            // See issue github.com/MemeLabs/chat-gui/issues/12
+            const browserWhitelist = new Set(["firefox", "edge"]);
+            const browser = require("detect-browser").detect();
+            const isOnWhitelist = browser && browserWhitelist.has(browser.name);
+
+            if(!isOnWhitelist || Notification.permission === "denied"){
+                window.open(
+                    "notification-request.html",
+                    "strimsgg_notification_request",
+                    "width=585,height=340,scrollbars=no,toolbar=no"
+                );
+
+                const onMessage = event => {
+                    if(event.data.name === "notification-request-done"){
+                        window.removeEventListener('message', onMessage);
+                        resolve(Notification.permission);
+                    }
+                };
+
+                window.addEventListener('message', onMessage);
+            } else {
+                Notification.requestPermission(resolve);
             }
         });
     }
