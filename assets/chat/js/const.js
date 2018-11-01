@@ -60,7 +60,7 @@ const GENERIFY_OPTIONS = {
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
-//    ["monkaS", "monkaMEGA"],
+    ["monkaSMEGA", "monkaHmm"],
 //    [":mirror", ":dank"],
 ];
 
