@@ -301,6 +301,16 @@ label small {
         border-bottom: 6px solid transparent;
         background-clip: padding-box;
     }
+    .features {
+        vertical-align: top;
+        height: 16px;
+        .flair {
+            display: inline-block;
+            margin: 0;
+            opacity: 1;
+            vertical-align: sub;
+        }
+    }
 }
 .msg-chat:first-child {
     margin-top: 0.5em;
@@ -402,21 +412,6 @@ a.flair12:hover {
 .flair.icon-protected,
 .flair.icon-moderator {
     display: none !important;
-}
-
-/* Base ChatUserMessage */
-.msg-user {
-    .features {
-        display: inline-block;
-        vertical-align: top;
-        height: 16px;
-        .flair {
-            display: inline-block;
-            line-height: 16px;
-            margin: 0;
-            opacity: 1;
-        }
-    }
 }
 
 /* Status messages */
