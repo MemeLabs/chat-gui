@@ -1,8 +1,7 @@
 {
-  "name": "dgg-chat-gui",
+  "name": "sgg-chat-gui",
   "version": "2.1.24",
-  "description": "Destiny.gg chat client front-end",
-  "main": "destiny",
+  "description": "Strims.gg chat client front-end",
   "scripts": {
     "lint": "eslint .",
     "tld": "node scripts/tld.js",
@@ -14,18 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/destinygg/chat-gui.git"
+    "url": "git://github.com/MemeLabs/chat-gui.git"
   },
-  "keywords": [
-    "destiny.gg",
-    "destinygg",
-    "dgg"
-  ],
-  "author": "Destiny.gg Foundation",
   "contributors": [],
-  "homepage": "http://www.destiny.gg/",
+  "homepage": "http://www.strims.gg/",
   "license": "SEE LICENSE IN <LICENSE.md>",
-  "bugs": "https://github.com/destinygg/website/issues",
+  "bugs": "https://github.com/MemeLabs/chat-gui/issues",
   "directories": {
     "assets": "./assets",
     "static": "./static"

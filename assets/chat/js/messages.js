@@ -45,8 +45,8 @@ function buildFeatures(user){
         .sort((a, b) => {
             let a1,a2;
 
-            a1 = UserFeatures.DGGBDAY.equals(a);
-            a2 = UserFeatures.DGGBDAY.equals(b);
+            a1 = UserFeatures.SGGBDAY.equals(a);
+            a2 = UserFeatures.SGGBDAY.equals(b);
             if (a1 > a2) return -1; if (a1 < a2) return 1;
 
             a1 = UserFeatures.SUBSCRIBERT4.equals(a);
