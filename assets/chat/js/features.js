@@ -35,9 +35,7 @@ const features = {
     TRUSTED       : new Feature( 'flair4',       'TRUSTED',          'Trusted'              ),
     CONTRIBUTOR   : new Feature( 'flair5',       'CONTRIBUTOR',      'Contributor'          ),
     COMPCHALLENGE : new Feature( 'flair6',       'COMPCHALLENGE',    'Composition winner'   ),
-    EVE           : new Feature( 'flair7',       'EVE',              'EVE'                  ),
-    SC2           : new Feature( 'flair10',      'SC2',              'Starcraft 2'          ),
-    DGGBDAY       : new Feature( 'flair15',      'DGGBDAY',          'DGG Bday'             )
+    SGGBDAY       : new Feature( 'flair15',      'SGGBDAY',          'SGG Bday'             )
 };
 
 const mapping = new Map([
@@ -58,9 +56,7 @@ const mapping = new Map([
     ['flair4', features.TRUSTED],
     ['flair5', features.CONTRIBUTOR],
     ['flair6', features.COMPCHALLENGE],
-    ['flair7', features.EVE],
-    ['flair10', features.SC2],
-    ['flair15', features.DGGBDAY]
+    ['flair15', features.SGGBDAY]
 ]);
 
 features.valueOf = function(str){

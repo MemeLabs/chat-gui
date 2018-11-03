@@ -1,6 +1,6 @@
-# Destiny.gg Chat GUI
+# Strims.gg Chat GUI
 
-Source code for the chat gui [www.destiny.gg](http://www.destiny.gg/)
+Source code for the chat gui [www.strims.gg](http://www.strims.gg/)
 This is a work in progress!
 
 ## License
@@ -37,5 +37,5 @@ npm run server
 
 You can then test it by going to something like this....
 ```
-http://localhost:8282/index.htm?u=wss://www.destiny.gg/ws&a=http://localhost:8181
+http://localhost:8282/
 ```

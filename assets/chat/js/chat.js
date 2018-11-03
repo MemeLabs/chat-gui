@@ -659,7 +659,7 @@ class Chat {
             this.windowselect.empty();
             this.windows.forEach(w => {
                 if(w.name === 'main'){
-                    this.windowselect.append(`<span title="Destiny GG" data-name="main" class="tab win-main tag-${w.tag} ${w.visible? 'active' :''}"><i class="dgg-icon"></i></span>`)
+                    this.windowselect.append(`<span title="Strims Chat" data-name="main" class="tab win-main tag-${w.tag} ${w.visible? 'active' :''}">Strims Chat</span>`)
                 } else {
                     const conv = this.whispers.get(w.name)
                     this.windowselect.append(`<span title="${w.label}" data-name="${w.name}" class="tab win-${w.name} tag-${w.tag} ${w.visible? 'active' :''} ${conv.unread>0? 'unread' :''}">${w.label} ${conv.unread>0? '('+conv.unread+')': ''} <i class="fa fa-close" title="Close" /></span>`)
@@ -950,7 +950,7 @@ class Chat {
     }
 
     cmdEMOTES(){
-        MessageBuilder.info(`Available emoticons: ${[...this.emoticons].join(', ')} (www.destiny.gg/emotes)`).into(this);
+        MessageBuilder.info(`Available emoticons: ${[...this.emoticons].join(', ')}.`).into(this);
     }
 
     cmdHELP(){
@@ -1372,7 +1372,7 @@ class Chat {
         if(Notification.permission === 'granted'){
             const n = new Notification(title, {
                 body : message,
-                tag  : `dgg${timestamp}`,
+                tag  : `sgg${timestamp}`,
                 icon : require('../img/notify-icon.png'),
                 dir  : 'auto'
             });

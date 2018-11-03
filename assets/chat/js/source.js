@@ -5,7 +5,7 @@ const WebSocket = window['WebSocket'] || window['MozWebSocket']
 
 /**
  * Handles the websocket connection, opening, closing, retrying
- * and parsing the standard format from the golang dgg service `$EVENT ${DATA}`
+ * and parsing the standard format from the golang sgg service `$EVENT ${DATA}`
  * extends the EventEmitter so you can bind to the events using source.on(name, fn)
  *
  * e.g.
