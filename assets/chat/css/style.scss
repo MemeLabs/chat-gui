@@ -100,6 +100,8 @@ label small {
     width: 100%;
 }
 #chat-input-frame {
+    background: $color-surface-dark2;
+    border-top: 1px solid #131313;
     padding: $chat-gutter-sm $chat-gutter-sm 0 $chat-gutter-sm;
     width: 100%;
 }
@@ -113,7 +115,7 @@ label small {
 }
 #chat-windows-select {
     box-shadow: 0 2px 6px black;
-    background: $color-surface-dark4;
+    background: $color-surface-dark3;
     white-space: nowrap;
     display: flex;
     z-index: 100;
@@ -189,15 +191,15 @@ label small {
 #chat-input-control {
     height: 52px;
     color: $color-chat-text2;
-    background: $color-surface-dark2;
-    border: 1px solid $color-surface-dark3;
+    background: $color-surface-dark1;
+    border: 1px solid #321a10;
     outline: none;
     resize: none;
     margin: 0;
     padding: 5px;
     width: 100%;
     border-radius: 3px;
-    box-shadow: none;
+    box-shadow: -1px 1px 2px rgba( black, 0.7 ) inset;
     box-sizing: border-box;
     display: block;
 }
@@ -243,10 +245,18 @@ label small {
 .msg-chat {
     clear: both;
     word-wrap: break-word;
-    padding: 3px 12px 3px 6px;
+    padding: 2px 12px 4px 6px;
+    margin-top: 1px;
     color: $color-chat-text2;
     hr {
         margin: 8px 0;
+    }
+    .ctrl {
+        margin-left: -6px;
+        margin-right: 3px;
+        /* display: none; */
+        color: $color-label-user;
+        text-shadow: 1px 1px 0px black;
     }
     .user {
         font-weight: 500;
@@ -262,7 +272,7 @@ label small {
     }
     .time {
         font-size: $text-size-sm;
-        color: $color-chat-disabled;
+        color: $color-chat-time;
         display: none; /* hidden by default */
     }
     .greentext {
@@ -292,6 +302,13 @@ label small {
     .nsfl-link {
         border-bottom: 1px dashed $color-underline-nsfl !important;
     }
+    &.msg-continue {
+        margin-top: 0;
+    }
+    &:last-of-type {
+        border-bottom: 6px solid transparent;
+        background-clip: padding-box;
+    }
 }
 .msg-chat:first-child {
     margin-top: 0.5em;
@@ -303,7 +320,18 @@ label small {
 /* Flairs */
 /* Default */
 a.user {
+    $main-color: $color-user-label-background;
+    $border-color: lighten( $main-color, 2.5 );
+
     color: $color-label-user;
+    background: $main-color;
+    padding: 0.2em;
+    border-radius: 3px;
+    border: 1px solid;
+    padding-right: 0.5em;
+    text-shadow: 1px 1px 0px black;
+    border-color: $border-color $border-color $main-color $main-color;
+    box-shadow: -1px 1px 1px rgba( black, 0.7 );
 }
 a.user:hover {
     color: lighten($color-label-user,20%);
@@ -462,12 +490,16 @@ a.flair12:hover {
 }
 
 /* Continue */
-.msg-continue .text:before {
+.msg-continue:not(.msg-me) .text:before {
     color: $color-chat-disabled;
-    content: '> ';
+    content: "\f105";
+    font: normal normal normal 19px FontAwesome;
+    margin: 0 3px;
+    position: relative;
+    top: 0.1em;
 }
 .msg-continue .features,
-.msg-continue .user {
+.msg-continue:not(.msg-me) .user {
     display: none;
 }
 
@@ -480,8 +512,40 @@ a.flair12:hover {
 }
 
 /* /ME message */
-.msg-me .text {
+.msg-me {
     font-style: italic;
+
+    .features {
+        display: none;
+    }
+
+    .time {
+        font-style: unset;
+    }
+
+    a.user {
+        display: inline-block;
+        position: relative;
+        background: none;
+        border: none;
+        padding: 2px;
+        color: #eee;
+        margin-left: 0.5em;
+        margin-right: 1px;
+        box-shadow: none;
+
+        &::before {
+            content: "*";
+            position: absolute;
+            font-weight: normal;
+            left: -0.4em;
+            color: $color-chat-text2;
+        }
+    }
+
+    &::after {
+        content: "*";
+    }
 }
 
 /* Whispers */
@@ -490,10 +554,12 @@ a.flair12:hover {
 }
 .msg-whisper a.user {
     background: $color-accent;
-    padding: 1px 4px 1px 4px;
+    padding: 2px 5px 2px 5px;
     border-radius: 2px;
     color: white;
     font-weight: normal;
+    margin-right: 0.5em;
+    border: none;
 }
 .msg-whisper a.user:hover {
     text-decoration: none;
@@ -508,6 +574,14 @@ a.flair12:hover {
 }
 .pref-taggedvisibility .msg-tagged {
     background-color: $color-chat-tagged;
+
+    .greentext {
+        color: $color-green-text-highlight;
+    }
+
+    .time {
+        color: $color-chat-text3;
+    }
 }
 .msg-tagged:before {
     position: absolute;
@@ -516,38 +590,20 @@ a.flair12:hover {
     bottom:0;
     min-width: 4px;
     display: block;
-    background: $color-black;
+    background: map-get( $tag-color-map, black );
     content: '';
 }
-.msg-tagged-green:before {
-    background-color: $color-green;
-}
-.msg-tagged-yellow:before {
-    background-color: $color-yellow;
-}
-.msg-tagged-orange:before {
-    background-color: $color-orange;
-}
-.msg-tagged-red:before {
-    background-color: $color-red;
-}
-.msg-tagged-purple:before {
-    background-color: $color-purple;
-}
-.msg-tagged-blue:before {
-    background-color: $color-blue;
-}
-.msg-tagged-sky:before {
-    background-color: $color-sky;
-}
-.msg-tagged-lime:before {
-    background-color: $color-lime;
-}
-.msg-tagged-pink:before {
-    background-color: $color-pink;
-}
-.msg-tagged-black:before {
-    background-color: $color-black;
+
+@each $name, $color in $tag-color-map {
+    .msg-tagged-#{$name} {
+        &:before {
+            background-color: $color;
+        }
+
+        a.user {
+            border-left-color: mix( $color, black, 20 );
+        }
+    }
 }
 
 /* Historical messages */
@@ -587,10 +643,14 @@ a.flair12:hover {
 
 /* Highlight */
 .msg-highlight {
-    color: $color-chat-text1;
+    color: #CCC;
     background-color: $color-chat-highlight;
-    time, .continue {
-        color: $color-chat-text3;
+    .time, .continue {
+        color: lighten( $color-chat-time, 20 );
+    }
+
+    .greentext {
+        color: $color-green-text-highlight;
     }
 }
 .pref-taggedvisibility .msg-highlight {
@@ -724,10 +784,12 @@ a.flair12:hover {
     bottom: 0;
     left: 4px;
     right: 4px;
+    margin: 4px;
     text-align: center;
     cursor: pointer;
     z-index: 130;
     border-radius: 3px;
+    box-shadow: -1px 2px 4px rgba( black, 0.6 );
     line-height: 25px;
 }
 .chat-scroll-notify:hover {
@@ -738,9 +800,6 @@ a.flair12:hover {
 }
 .chat-output.chat-unpinned .chat-scroll-notify {
     display: block;
-}
-#chat.chat-autocomplete-in #chat-input-control  {
-    border-radius: 0 0 3px 3px;
 }
 
 .chat-output-whisper .msg-chat {
@@ -1059,7 +1118,7 @@ a.flair12:hover {
         margin-top: -8px;
 
         &:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
         }
     }
 
@@ -1092,11 +1151,22 @@ a.flair12:hover {
         max-width: 100%;
     }
     .checkbox input {
+        appearance: none;
+        font: normal normal normal 14px FontAwesome;
+        color: #aaa;
         position: absolute;
         margin: 3px 0 0 -20px;
         line-height: normal;
         box-sizing: border-box;
         padding: 0;
+
+        &:after {
+            content: '\f0c8';
+        }
+
+        &:checked::after {
+            content: '\f14a';
+        }
     }
     select {
         border-radius: 4px;
@@ -1195,7 +1265,7 @@ a.flair12:hover {
     opacity               : 0.5;
     background            : $color-surface-light2;
     position              : relative;
-    border-radius         : 0;
+    border-radius         : 3px;
 }
 .nano:hover > .nano-pane,
 .nano-pane.active,
