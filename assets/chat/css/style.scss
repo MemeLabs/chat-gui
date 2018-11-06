@@ -101,7 +101,7 @@ label small {
 }
 #chat-input-frame {
     background: $color-surface-dark2;
-    border-top: 1px solid #131313;
+    border-top: 1px solid #191919;
     padding: $chat-gutter-sm $chat-gutter-sm 0 $chat-gutter-sm;
     width: 100%;
 }
@@ -210,10 +210,18 @@ label small {
     backface-visibility: hidden;
     perspective: 1000px;
     outline: 0 !important;
+
+    /* Creates a space buffer between the chat messages and the bottom */
+    &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 2px;
+    }
 }
 
 .chat-tool-btn {
-    font-size: 20px;
+    font-size: 19px;
     cursor: pointer;
     width: 30px;
     height: 30px;
@@ -230,23 +238,23 @@ label small {
 }
 .chat-tool-btn:hover,
 .chat-tool-btn.active {
-    color: $color-chat-text1;
+    color: $color-chat-text2;
 }
 
 /* Base ChatMessage */
 .msg-chat {
     clear: both;
     word-wrap: break-word;
-    padding: 2px 12px 4px 6px;
+    padding: 3px 12px 3px 7px;
     margin-top: 1px;
     color: $color-chat-text2;
     hr {
         margin: 8px 0;
     }
     .ctrl {
-        margin-left: -6px;
+        font-weight: bold;
+        margin-left: -7px;
         margin-right: 3px;
-        /* display: none; */
         color: $color-label-user;
         text-shadow: 1px 1px 0px black;
     }
@@ -295,11 +303,16 @@ label small {
         border-bottom: 1px dashed $color-underline-nsfl !important;
     }
     &.msg-continue {
-        margin-top: 0;
-    }
-    &:last-of-type {
-        border-bottom: 6px solid transparent;
-        background-clip: padding-box;
+        margin-top: 1px;
+        margin-bottom: 3px;
+        padding-top: 0;
+
+        .msg-highlight + &,
+        .msg-tagged + &.msg-tagged {
+            margin-top: -4px;
+            padding-top: 3px;
+            border-top: none;
+        }
     }
     .features {
         vertical-align: top;
@@ -333,7 +346,7 @@ a.user {
     padding-right: 0.5em;
     text-shadow: 1px 1px 0px black;
     border-color: $border-color $border-color $main-color $main-color;
-    box-shadow: -1px 1px 1px rgba( black, 0.7 );
+    box-shadow: -1px 1px 1px rgba( black, 0.6 );
 }
 a.user:hover {
     color: lighten($color-label-user,20%);
@@ -479,7 +492,7 @@ a.flair12:hover {
 /* Continue */
 .msg-continue:not(.msg-me) .text:before {
     color: $color-chat-disabled;
-    content: "\f105";
+    content: "\f105"; // Chevron-right font-awesome
     font: normal normal normal 19px FontAwesome;
     margin: 0 3px;
     position: relative;
@@ -508,6 +521,10 @@ a.flair12:hover {
 
     .time {
         font-style: unset;
+    }
+
+    .greentext {
+        color: $color-chat-text2;
     }
 
     a.user {
@@ -559,8 +576,15 @@ a.flair12:hover {
     position: relative;
     padding-left: 7px;
 }
-.pref-taggedvisibility .msg-tagged {
+.pref-taggedvisibility .msg-tagged:not(.msg-highlight) {
     background-color: $color-chat-tagged;
+    padding-top: 2px;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+
+    $border-highlight: mix( white, $color-chat-tagged, 2 );
+    border-top: 1px solid $border-highlight;
+    border-bottom: 1px solid $border-highlight;
 
     .greentext {
         color: $color-green-text-highlight;
@@ -580,6 +604,19 @@ a.flair12:hover {
     background: map-get( $tag-color-map, black );
     content: '';
 }
+.pref-taggedvisibility .msg-tagged,
+.msg-tagged.msg-highlight {
+    &::before {
+        top: -1px;
+        bottom: -1px;
+    }
+}
+.pref-taggedvisibility .msg-tagged.msg-continue,
+.msg-highlight.msg-continue {
+    .text:before {
+        color: lighten( $color-chat-disabled, 20 );
+    }
+}
 
 @each $name, $color in $tag-color-map {
     .msg-tagged-#{$name} {
@@ -587,8 +624,8 @@ a.flair12:hover {
             background-color: $color;
         }
 
-        a.user {
-            border-left-color: mix( $color, black, 20 );
+        @at-root .chat:not(.pref-showtime) & a.user {
+            border-left-color: mix( $color, black, 18 );
         }
     }
 }
@@ -632,8 +669,17 @@ a.flair12:hover {
 .msg-highlight {
     color: #CCC;
     background-color: $color-chat-highlight;
+    padding-top: 2px;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+
+    $border-highlight: mix( white, $color-chat-highlight, 3 );
+    border-top: 1px solid $border-highlight;
+    border-bottom: 1px solid $border-highlight;
+
     .time, .continue {
-        color: lighten( $color-chat-time, 20 );
+        color: lighten( $color-chat-time, 18 );
+        border-top: none;
     }
 
     .greentext {
@@ -772,12 +818,22 @@ a.flair12:hover {
     left: 4px;
     right: 4px;
     margin: 4px;
+    margin-bottom: 7px;
     text-align: center;
     cursor: pointer;
     z-index: 130;
     border-radius: 3px;
-    box-shadow: -1px 2px 4px rgba( black, 0.6 );
+    box-shadow: -1px 3px 5px #000;
     line-height: 25px;
+
+    /* Extends clickable area on the bottom */
+    &::after {
+        content: '';
+        display: block;
+        height: 7px;
+        position: absolute;
+        width: 100%;
+    }
 }
 .chat-scroll-notify:hover {
     color: $color-chat-text1;

@@ -54,8 +54,23 @@ i[class^="icon-"],
 .msg-chat .text:before {
     vertical-align: middle !important;
 }
+.msg-continue::before {
+    display: none;
+}
 .msg-emote {
     line-height: 34px;
+}
+
+a.user {
+    border: none;
+    background: none;
+    color: $text-color;
+    box-shadow: none;
+    text-shadow:
+            -1px -1px 0 rgba(black,0.75),
+            1px -1px 1px rgba(black,0.75),
+            -1px 1px 0 rgba(black,0.75),
+            1px 1px 1px rgba(black,0.75);
 }
 
 a.externallink,
