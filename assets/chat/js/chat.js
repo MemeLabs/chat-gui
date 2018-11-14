@@ -723,7 +723,7 @@ class Chat {
                 users.push(this.addUser(data));
             if(data.hasOwnProperty('users'))
                 users = users.concat(Array.from(data.users).map(d => this.addUser(d)));
-            users.forEach(u => this.autocomplete.add(u.nick, false, now));
+            users.forEach(u => this.autocomplete.add(u.nick, false));
         }
     }
 
