@@ -207,8 +207,6 @@ label small {
     font-family: $chat-lines-font;
     font-size: $text-size-md;
     line-height: $chat-line-height;
-    backface-visibility: hidden;
-    perspective: 1000px;
     outline: 0 !important;
 
     /* Creates a space buffer between the chat messages and the bottom */
@@ -307,11 +305,20 @@ label small {
         margin-bottom: 3px;
         padding-top: 0;
 
+        &.msg-me {
+            padding-top: 2px;
+            margin-top: 3px;
+        }
+
         .msg-highlight + &,
         .msg-tagged + &.msg-tagged {
             margin-top: -4px;
-            padding-top: 3px;
+            padding-top: 1px;
             border-top: none;
+
+            &.msg-me {
+                padding-top: 4px;
+            }
         }
     }
     .features {
@@ -340,10 +347,12 @@ a.user {
 
     color: $color-label-user;
     background: $main-color;
-    padding: 0.2em;
+    // background: red;
+    padding: 2px;
+    padding-top: 3px;
+    padding-right: 7px;
     border-radius: 3px;
     border: 1px solid;
-    padding-right: 0.5em;
     text-shadow: 1px 1px 0px black;
     border-color: $border-color $border-color $main-color $main-color;
     box-shadow: -1px 1px 1px rgba( black, 0.6 );
@@ -465,6 +474,18 @@ a.flair12:hover {
 .msg-own {
     background-color: $color-chat-emphasize;
     color: $color-chat-text1;
+    padding-top: 3.5px;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+
+    &.msg-continue {
+        margin-top: -4px;
+        padding-top: 1px;
+    }
+
+    .time {
+        color: lighten( $color-chat-time, 18 );
+    }
 }
 
 /* Emote combo / message */
@@ -514,6 +535,7 @@ a.flair12:hover {
 /* /ME message */
 .msg-me {
     font-style: italic;
+    margin: 4px 0;
 
     .features {
         display: none;
@@ -532,17 +554,17 @@ a.flair12:hover {
         position: relative;
         background: none;
         border: none;
-        padding: 2px;
+        padding: 0 2px;
         color: #eee;
-        margin-left: 0.5em;
-        margin-right: 1px;
+        margin-left: 7px;
+        margin-right: 2px;
         box-shadow: none;
 
         &::before {
             content: "*";
             position: absolute;
             font-weight: normal;
-            left: -0.4em;
+            left: -6px;
             color: $color-chat-text2;
         }
     }
@@ -562,7 +584,7 @@ a.flair12:hover {
     border-radius: 2px;
     color: white;
     font-weight: normal;
-    margin-right: 0.5em;
+    margin-right: 7px;
     border: none;
 }
 .msg-whisper a.user:hover {
@@ -575,12 +597,12 @@ a.flair12:hover {
 .msg-tagged {
     position: relative;
     padding-left: 7px;
+    margin-bottom: 3px;
 }
 .pref-taggedvisibility .msg-tagged:not(.msg-highlight) {
     background-color: $color-chat-tagged;
-    padding-top: 2px;
-    padding-bottom: 3px;
-    margin-bottom: 3px;
+    padding-top: 2.7px;
+    padding-bottom: 2.4px;
 
     $border-highlight: mix( white, $color-chat-tagged, 2 );
     border-top: 1px solid $border-highlight;
@@ -612,7 +634,8 @@ a.flair12:hover {
     }
 }
 .pref-taggedvisibility .msg-tagged.msg-continue,
-.msg-highlight.msg-continue {
+.msg-highlight.msg-continue,
+.msg-own.msg-continue {
     .text:before {
         color: lighten( $color-chat-disabled, 20 );
     }
@@ -669,17 +692,16 @@ a.flair12:hover {
 .msg-highlight {
     color: #CCC;
     background-color: $color-chat-highlight;
-    padding-top: 2px;
-    padding-bottom: 3px;
+    padding-top: 2.7px;
+    padding-bottom: 2.4px;
     margin-bottom: 3px;
 
     $border-highlight: mix( white, $color-chat-highlight, 3 );
     border-top: 1px solid $border-highlight;
     border-bottom: 1px solid $border-highlight;
 
-    .time, .continue {
+    .time {
         color: lighten( $color-chat-time, 18 );
-        border-top: none;
     }
 
     .greentext {
