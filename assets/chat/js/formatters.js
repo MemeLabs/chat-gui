@@ -1,5 +1,5 @@
 import UserFeatures from './features';
-import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST} from './const'
+import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, XMAS_RANDOM_EFFECTS, XMAS_RANDOM_DELAYS, XMAS_BLACKLIST} from './const'
 
 
 /** @var Array tlds */
@@ -20,7 +20,7 @@ class HtmlTextFormatter {
 // chance between 0 and 1
 // to generate different exponential functions use: http://www.wolframalpha.com/input/?i=solve+a*b%5E26+%3D+6;+a*b%5E31%3D20 (e.g. day 26 to 31)
 // http://www.wolframalpha.com/input/?i=1%2F5%5E(1%2F24)+*+(5%5E(1%2F24))%5Ex+from+1+to+25
-function procChance() {
+function procChanceHalloween() {
     const day = new Date().getUTCDate();
     if (day <= 29) {
         // 1% at day 1
@@ -32,6 +32,9 @@ function procChance() {
         return 0.15;
     }
     return 0;
+}
+function procChanceXmas() {
+    return 1;
 }
 
 // https://stackoverflow.com/a/34842797
@@ -69,7 +72,8 @@ function genSeed(str, chat, i) {
 
 // proc depending on seed and procChance for the day.
 // in some cases we want the chance to be lower, determined by punish.
-function proc(seed, punish) {
+// procChance is a function
+function proc(seed, punish, procChance) {
     var randomValue = rng(seed)
     if (punish) {
         // higher value lowers occurrence
@@ -83,13 +87,13 @@ function getRandomInt(seed, max) {
     return (Math.floor(x) % max);
 }
 
-function getRandomHalloweenEffect(emote, seed) {
-    if (HALLOWEEN_BLACKLIST.includes(emote)) {
+function getRandomEffect(emote, seed, BLACKLIST, DELAYS, EFFECTS) {
+    if (BLACKLIST.includes(emote)) {
         return "";
     }
 
-    const delay = HALLOWEEN_RANDOM_DELAYS[getRandomInt(seed, HALLOWEEN_RANDOM_DELAYS.length)];
-    const effect = HALLOWEEN_RANDOM_EFFECTS[getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)];
+    const delay = DELAYS[getRandomInt(seed, DELAYS.length)];
+    const effect = EFFECTS[getRandomInt(seed, EFFECTS.length)];
 
     return `${delay} ${effect}`;
 }
@@ -98,6 +102,12 @@ function isHalloween() {
     const today = new Date();
     // one UTC day grace period for america
     return today.getUTCMonth() == 9 || (today.getUTCMonth() == 10 && today.getUTCDate() == 1);
+}
+
+function isXmas() {
+    return true;
+    const today = new Date();
+    return today.getUTCMonth() == 12;
 }
 
 class IdentityFormatter {
@@ -119,7 +129,7 @@ class EmoteFormatter {
             this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
         }
         const emoteCount = ((str || '').match(this.regex) || []).length
-        // re-seed the rng for halloween effects each emote
+        // re-seed the rng for random effects each emote
         var i = 0;
         return str.replace(this.regex, function(m) {
             // m is "emote:modifier"
@@ -135,9 +145,13 @@ class EmoteFormatter {
             const seed = genSeed(str, chat, i++);
             // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
             const punish = str == getLastMsg(chat)
-            if (isHalloween() && emoteCount <= 7 && proc(seed, punish)) {
-                innerClasses.push(getRandomHalloweenEffect(emote, seed));
+            if (isHalloween() && emoteCount <= 7 && proc(seed, punish, procChanceHalloween)) {
+                innerClasses.push(getRandomEffect(emote, seed, HALLOWEEN_BLACKLIST, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_RANDOM_EFFECTS));
             }
+            if (isXmas() && emoteCount <= 7 && proc(seed, punish, procChanceXmas)) {
+                innerClasses.push(getRandomEffect(emote, seed, XMAS_BLACKLIST, XMAS_RANDOM_DELAYS, XMAS_RANDOM_EFFECTS));
+            }
+
 
             if (chat.settings.get('animateforever')) {
                 innerClasses.push('chat-emote-'+emote+'-animate-forever')
