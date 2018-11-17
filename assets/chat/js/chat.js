@@ -718,7 +718,6 @@ class Chat {
     onDISPATCH({data}){
         if (typeof data === 'object'){
             let users = [];
-            const now = Date.now();
             if(data.hasOwnProperty('nick'))
                 users.push(this.addUser(data));
             if(data.hasOwnProperty('users'))
