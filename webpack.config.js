@@ -35,13 +35,56 @@ const plugins = [
     })
 ];
 
+const entry = {
+    'chat': [
+        'core-js/es6',
+        'jquery',
+        'normalize.css',
+        'font-awesome/scss/font-awesome.scss',
+        './assets/chat/js/notification',
+        './assets/chat/css/style.scss',
+        './assets/chat.js'
+    ],
+    'chatstreamed': [
+        'core-js/es6',
+        'jquery',
+        'normalize.css',
+        'font-awesome/scss/font-awesome.scss',
+        './assets/chat/js/notification',
+        './assets/chat/css/style.scss',
+        './assets/chat/css/onstream.scss',
+        './assets/streamchat.js'
+    ],
+    'notification-request': [
+        './assets/notification-request/style.scss',
+        './assets/notification-request/persona.png',
+        './assets/notification-request/settings-guide.png',
+        './assets/notification-request/script.js'
+    ]
+};
+
 if (process.env.NODE_ENV !== 'production') {
     console.log('\n!!!!!!!!!!!! DEVELOPMENT BUILD !!!!!!!!!!!!\n');
+
     plugins.push(
         new CopyWebpackPlugin([
             { from: 'assets/dev/chat-embedded.html', to: 'dev/' }
-        ])
+        ]),
+        new HTMLWebpackPlugin({
+            filename: 'dev/dev-chat.html',
+            template: 'assets/index.html',
+            chunks: ['dev-chat']
+        })
     );
+
+    entry['dev-chat'] = [
+        'core-js/es6',
+        'jquery',
+        'normalize.css',
+        'font-awesome/scss/font-awesome.scss',
+        './assets/chat/css/style.scss',
+        './assets/dev/dev-chat/dev-chat.js'
+    ];
 } else {
     console.log('\n########## PRODUCTION BUILD #############\n');
 }
@@ -54,33 +97,7 @@ module.exports = {
         https: process.env.WEBPACK_DEVSERVER_HTTPS === 'true',
         host: process.env.WEBPACK_DEVSERVER_HOST
     },
-    entry: {
-        'chat': [
-            'core-js/es6',
-            'jquery',
-            'normalize.css',
-            'font-awesome/scss/font-awesome.scss',
-            './assets/chat/js/notification',
-            './assets/chat/css/style.scss',
-            './assets/chat.js'
-        ],
-        'chatstreamed': [
-            'core-js/es6',
-            'jquery',
-            'normalize.css',
-            'font-awesome/scss/font-awesome.scss',
-            './assets/chat/js/notification',
-            './assets/chat/css/style.scss',
-            './assets/chat/css/onstream.scss',
-            './assets/streamchat.js'
-        ],
-        'notification-request': [
-            './assets/notification-request/style.scss',
-            './assets/notification-request/persona.png',
-            './assets/notification-request/settings-guide.png',
-            './assets/notification-request/script.js'
-        ]
-    },
+    entry: entry,
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     output: {
         path: path.resolve(__dirname, 'static'),
