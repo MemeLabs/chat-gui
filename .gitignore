@@ -5,6 +5,7 @@
 /.buildpath
 /.sass-cache
 /.tscache
+/.vscode
 
 /composer.lock
 /deployment.properties
