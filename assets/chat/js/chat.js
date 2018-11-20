@@ -441,8 +441,8 @@ class Chat {
         if(history && history.length > 0) {
             this.backlogloading = true;
             history.forEach(line => this.source.parseAndDispatch({data: line}));
-            this.backlogloading = false;
             MessageBuilder.element('<hr/>').into(this);
+            this.backlogloading = false;
             this.mainwindow.updateAndPin();
         }
         return this;
@@ -540,7 +540,7 @@ class Chat {
 
         if(win === null)
             win = this.mainwindow
-        win.lock()
+        if(!this.backlogloading) win.lock();
 
         // Break the current combo if this message is not an emote
         // We dont need to check what type the current message is, we just know that its a new message, so the combo is invalid.
@@ -589,7 +589,7 @@ class Chat {
             )
         }
 
-        win.unlock()
+        if(!this.backlogloading) win.unlock();
         return message
     }
 
