@@ -238,16 +238,19 @@ class ChatAutoComplete {
         updateHelpers(this);
     }
 
-    add(str, isemote = false, weight = 1) {
+    add(str, isemote = false) {
         const id = getBucketId(str);
         const bucket = this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
-        const data = Object.assign(bucket.get(str) || {}, {
-            data: str,
-            weight: weight,
-            isemote: isemote
-        });
-        bucket.set(str, data);
-        return data;
+        let candidate = bucket.get(str);
+        if (!candidate) {
+            candidate = {
+                data: str,
+                weight: 0,
+                isemote: isemote
+            };
+            bucket.set(str, candidate);
+        }
+        return candidate;
     }
 
     remove(str) {
