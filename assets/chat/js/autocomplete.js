@@ -241,8 +241,10 @@ class ChatAutoComplete {
     add(str, isemote = false) {
         const id = getBucketId(str);
         const bucket = this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
-        const data = Object.assign(bucket.get(str) || {}, {
+        const candidate = bucket.get(str);
+        const data = Object.assign(candidate || {}, {
             data: str,
+            weight: candidate ? candidate.weight || 0 : 0,
             isemote: isemote
         });
         bucket.set(str, data);
