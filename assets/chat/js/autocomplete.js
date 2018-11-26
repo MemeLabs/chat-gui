@@ -13,7 +13,7 @@ function getBucketId(id) {
 
 function promoteIfSelected(ac) {
     if (ac.selected >= 0 && ac.results[ac.selected]) {
-        ac.results[ac.selected].weight = Date.now();
+        ac.results[ac.selected].lastUsed = Date.now();
     }
 }
 function sortResults(a, b) {
@@ -22,8 +22,11 @@ function sortResults(a, b) {
     // order emotes second
     if (a.isemote !== b.isemote) { return a.isemote && !b.isemote ? -1 : 1; }
 
-    // order according to recency third
-    if (a.weight !== b.weight) { return a.weight > b.weight ? -1 : 1; }
+    // order according to presence if has not been used yet
+    if (!(a.lastUsed || b.lastUsed) && (a.lastSeen !== b.lastSeen)) { return a.lastSeen > b.lastSeen ? -1 : 1; }
+
+    // order according to use third
+    if (a.lastUsed !== b.lastUsed) { return a.lastUsed > b.lastUsed ? -1 : 1; }
 
     // order by custom autocomplete order - see const.js
     for (var i in CUSTOM_AUTOCOMPLETE_ORDER) {
@@ -245,11 +248,22 @@ class ChatAutoComplete {
         if (!candidate) {
             candidate = {
                 data: str,
-                weight: 0,
+                lastSeen: 0,
+                lastUsed: 0,
                 isemote: isemote
             };
             bucket.set(str, candidate);
         }
+        return candidate;
+    }
+
+    update(str) {
+        const id = getBucketId(str);
+        const bucket = this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
+        let candidate = bucket.get(str);
+        if (!candidate) return null;
+        candidate.lastSeen = Date.now();
+        bucket.set(str, candidate);
         return candidate;
     }
 
