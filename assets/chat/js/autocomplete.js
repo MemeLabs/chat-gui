@@ -261,7 +261,7 @@ class ChatAutoComplete {
         const id = getBucketId(str);
         const bucket = this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
         let candidate = bucket.get(str);
-        if (!candidate) return undefined;
+        if (!candidate) return null;
         candidate.lastSeen = Date.now();
         bucket.set(str, candidate);
         return candidate;
