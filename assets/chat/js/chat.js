@@ -773,6 +773,7 @@ class Chat {
                 MessageBuilder.emote(textonly, data.timestamp, 2).into(this)
             }
         } else if(!this.resolveMessage(data.nick, data.data)){
+            this.autocomplete.update(data.nick);
             const user = this.users.get(data.nick.toLowerCase());
             MessageBuilder.message(data.data, user, data.timestamp).into(this)
             if (user.hasAnyFeatures('admin', 'moderator')) {
