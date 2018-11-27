@@ -773,7 +773,7 @@ class Chat {
                 MessageBuilder.emote(textonly, data.timestamp, 2).into(this)
             }
         } else if(!this.resolveMessage(data.nick, data.data)){
-            this.autocomplete.update(data.nick);
+            this.autocomplete.promoteLastSeen(data.nick);
             const user = this.users.get(data.nick.toLowerCase());
             MessageBuilder.message(data.data, user, data.timestamp).into(this)
             if (user.hasAnyFeatures('admin', 'moderator')) {
@@ -912,6 +912,7 @@ class Chat {
             const win = this.getActiveWindow(),
                  isme = str.substring(0, 4).toLowerCase() === '/me ',
             iscommand = !isme && str.substring(0, 1) === '/' && str.substring(0, 2) !== '//'
+            this.autocomplete.parseAndPromoteLastUsed(str);
             // COMMAND
             if (iscommand) {
                 const command = iscommand ? str.split(' ', 1)[0] : '',
