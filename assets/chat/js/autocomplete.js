@@ -11,11 +11,6 @@ function getBucketId(id) {
     return (id.match(/[\S]/)[0] || '_').toLowerCase();
 }
 
-function promoteIfSelected(ac) {
-    if (ac.selected >= 0 && ac.results[ac.selected]) {
-        ac.results[ac.selected].lastUsed = Date.now();
-    }
-}
 function sortResults(a, b) {
     if (!a || !b) { return 0; }
 
@@ -151,10 +146,8 @@ class ChatAutoComplete {
 
             const char = String.fromCharCode(keycode) || '';
             if (keycode === KEYCODES.ENTER) {
-                promoteIfSelected(this);
                 this.reset();
             } else if (char.length > 0) {
-                promoteIfSelected(this);
                 const str = this.input.val().toString();
 
                 const offset = this.input[0].selectionStart + 1;
@@ -257,7 +250,7 @@ class ChatAutoComplete {
         return candidate;
     }
 
-    update(str) {
+    promoteOneLastSeen(str) {
         const id = getBucketId(str);
         const bucket = this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
         let candidate = bucket.get(str);
@@ -265,6 +258,19 @@ class ChatAutoComplete {
         candidate.lastSeen = Date.now();
         bucket.set(str, candidate);
         return candidate;
+    }
+
+    promoteManyLastUsed(words) {
+        for (let i = 0, l = words.length; i < l; i++) {
+            let word = words[i];
+            const bucket = this.buckets.get(getBucketId(word));
+            if (!bucket) continue;
+            let candidate = bucket.get(word);
+            if (!candidate) continue;
+            candidate.lastUsed = Date.now();
+            bucket.set(word, candidate);
+        }
+        return words;
     }
 
     remove(str) {
