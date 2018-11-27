@@ -271,6 +271,7 @@ class ChatAutoComplete {
             candidate.lastUsed = Date.now();
             bucket.set(word, candidate);
         }
+        return words;
     }
 
     remove(str) {

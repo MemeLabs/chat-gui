@@ -912,10 +912,10 @@ class Chat {
             const win = this.getActiveWindow(),
                  isme = str.substring(0, 4).toLowerCase() === '/me ',
             iscommand = !isme && str.substring(0, 1) === '/' && str.substring(0, 2) !== '//'
-            this.autocomplete.parseAndPromoteLastUsed(str);
+            let splittedStr = this.autocomplete.parseAndPromoteLastUsed(str);
             // COMMAND
             if (iscommand) {
-                const command = iscommand ? str.split(' ', 1)[0] : '',
+                const command = iscommand ? splittedStr[0] : '',
                    normalized = command.substring(1).toUpperCase()
                 if(win !== this.mainwindow && normalized !== 'EXIT'){
                     MessageBuilder.error(`No commands in private windows. Try /exit`).into(this, win)
