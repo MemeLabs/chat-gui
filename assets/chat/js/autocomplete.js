@@ -250,7 +250,7 @@ class ChatAutoComplete {
         return candidate;
     }
 
-    promoteLastSeen(str) {
+    promoteOneLastSeen(str) {
         const id = getBucketId(str);
         const bucket = this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
         let candidate = bucket.get(str);
@@ -260,8 +260,7 @@ class ChatAutoComplete {
         return candidate;
     }
 
-    parseAndPromoteLastUsed(msg) {
-        let words = msg.split(' ');
+    promoteManyLastUsed(words) {
         for (let i = 0, l = words.length; i < l; i++) {
             let word = words[i];
             const bucket = this.buckets.get(getBucketId(word));
