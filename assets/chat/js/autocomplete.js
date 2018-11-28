@@ -251,6 +251,7 @@ class ChatAutoComplete {
     }
 
     promoteOneLastSeen(str) {
+        if (!str) return null;
         const id = getBucketId(str);
         const bucket = this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
         let candidate = bucket.get(str);
@@ -263,6 +264,7 @@ class ChatAutoComplete {
     promoteManyLastUsed(words) {
         for (let i = 0, l = words.length; i < l; i++) {
             let word = words[i];
+            if (!word) continue;
             const bucket = this.buckets.get(getBucketId(word));
             if (!bucket) continue;
             let candidate = bucket.get(word);
