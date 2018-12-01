@@ -155,5 +155,5 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js']
     },
     context: __dirname,
-    devtool: false
+    devtool: process.env.NODE_ENV !== 'production' && 'source-map'
 };
