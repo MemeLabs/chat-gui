@@ -5,28 +5,32 @@
  * within the chat GUI
  */
 class ChatUserFocus {
+    private chat;
+    private css;
+    private focused: string[];
 
-    constructor(chat, css){
+    constructor(chat, css) {
         this.chat = chat;
         this.css = css;
         this.focused = [];
         this.chat.output.on('mousedown', e => this.toggleElement(e.target));
     }
 
-    toggleElement(target){
+    toggleElement(target) {
         const t = $(target);
-        if(t.hasClass('chat-user')){
-            if(!this.chat.settings.get('focusmentioned'))
+        if(t.hasClass('chat-user')) {
+            if(!this.chat.settings.get('focusmentioned')) {
                 this.toggleFocus(t.closest('.msg-user').data('username'), true);
+            }
             this.toggleFocus(t.text());
-        } else if(t.hasClass('user')){
+        } else if (t.hasClass('user')) {
             this.toggleFocus(t.text());
-        } else if(this.focused.length > 0) {
+        } else if (this.focused.length > 0) {
             this.clearFocus();
         }
     }
 
-    toggleFocus(username, bool=null){
+    toggleFocus(username: string, bool: boolean | null = null) {
         username = (username || '').toLowerCase();
         const index = this.focused.indexOf(username.toLowerCase()),
             focused = index !== -1;
@@ -39,7 +43,7 @@ class ChatUserFocus {
         return this;
     }
 
-    addCssRule(username){
+    addCssRule(username: string) {
         let rule;
         if(this.chat.settings.get('focusmentioned')) {
             rule = `.msg-user[data-username="${username}"],.msg-user[data-mentioned~="${username}"]{opacity:1 !important;}`;
@@ -51,19 +55,19 @@ class ChatUserFocus {
         this.redraw();
     }
 
-    removeCssRule(index){
+    removeCssRule(index: number) {
         this.css.deleteRule(index);
         this.focused.splice(index, 1);
         this.redraw();
     }
 
-    clearFocus(){
+    clearFocus() {
         this.focused.forEach(i => this.css.deleteRule(0));
         this.focused = [];
         this.redraw();
     }
 
-    redraw(){
+    redraw() {
         this.chat.ui.toggleClass('focus-user', this.focused.length > 0);
     }
 }
