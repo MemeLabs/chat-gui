@@ -27,8 +27,7 @@ formatters.set('mentioned', new MentionedUserFormatter())
 formatters.set('emote', new IdentityFormatter())
 formatters.set('green', new IdentityFormatter())
 
-
-exports.setFormattersFromSettings = function(settings) {
+function setFormattersFromSettings(settings) {
     if (settings.get('formatter-emote')) formatters.set('emote', new EmoteFormatter());
     if (settings.get('formatter-green')) formatters.set('green', new GreenTextFormatter());
 }
@@ -312,6 +311,7 @@ class ChatEmoteMessage extends ChatMessage {
 }
 
 export {
+    setFormattersFromSettings,
     MessageBuilder,
     ChatUIMessage,
     ChatMessage,
