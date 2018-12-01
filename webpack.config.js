@@ -30,7 +30,7 @@ const plugins = [
     new MiniCssExtractPlugin({ filename: '[name].[contentHash].css' }),
     new webpack.DefinePlugin({
         WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://chat.strims.gg/ws"',
-        API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '',
+        API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '""',
         LOGIN_URI: process.env.LOGIN_URI ? `'${process.env.LOGIN_URI}'` : 'false'
     })
 ];
