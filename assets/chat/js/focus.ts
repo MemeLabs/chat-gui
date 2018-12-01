@@ -1,22 +1,24 @@
 /* global $ */
 
+import Chat from './chat';
+
 /**
  * Handles the dimming of the chat when you click on a username
  * within the chat GUI
  */
 class ChatUserFocus {
-    private chat;
-    private css;
+    private chat: Chat;
+    private css: CSSStyleSheet;
     private focused: string[];
 
-    constructor(chat, css) {
+    constructor(chat: Chat, css: CSSStyleSheet) {
         this.chat = chat;
         this.css = css;
         this.focused = [];
         this.chat.output.on('mousedown', e => this.toggleElement(e.target));
     }
 
-    toggleElement(target) {
+    toggleElement<TElement = HTMLElement>(target: TElement) {
         const t = $(target);
         if(t.hasClass('chat-user')) {
             if(!this.chat.settings.get('focusmentioned')) {

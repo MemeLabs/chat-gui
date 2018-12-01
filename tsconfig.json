@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "module": "esnext"
+    "module": "esnext",
+    "strict": true,
+    "target": "es2017"
   },
   "exclude": [
     "node_modules",
