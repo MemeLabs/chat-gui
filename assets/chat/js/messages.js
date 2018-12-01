@@ -212,6 +212,7 @@ class ChatUserMessage extends ChatMessage {
         this.historical = false;
         this.target = null;
         this.tag = null;
+        this.title = '';
         this.slashme = false;
         this.mentioned = [];
     }
@@ -247,7 +248,7 @@ class ChatUserMessage extends ChatMessage {
         else if(this.slashme || this.continued)
             ctrl = '';
 
-        const user = buildFeatures(this.user) + ` <a class="user ${this.user.features.join(' ')}">${this.user.username}</a>`;
+        const user = buildFeatures(this.user) + ` <a title="${this.title}" class="user ${this.user.features.join(' ')}">${this.user.username}</a>`;
         return this.wrap(buildTime(this) + ` ${user}<span class="ctrl">${ctrl}</span> ` + buildMessageTxt(chat, this), classes, attr);
     }
 

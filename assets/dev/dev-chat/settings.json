@@ -26,6 +26,12 @@
             ["tagcolor-black", "black"]
         ]
     ],
+    [
+        "taggednotes",
+        [
+            ["tagged-user", "This is a tagged note" ]
+        ]
+    ],
     ["showremoved", 0],
     ["showhispersinchat", true],
     ["ignorenicks", []],
