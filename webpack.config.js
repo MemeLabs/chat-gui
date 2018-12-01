@@ -116,7 +116,10 @@ module.exports = {
             },
             {
                 test: /\.(ts|tsx)$/,
-                loader: 'ts-loader'
+                use: [
+                    { loader: 'babel-loader', options: { presets: ['es2015'] } },
+                    'ts-loader'
+                ]
             },
             {
                 test: /\.js$/,
