@@ -8,7 +8,14 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const plugins = [
-    new CleanWebpackPlugin(['static'], { root: __dirname, verbose: false, exclude: ['cache', 'index.htm'] }),
+    new CleanWebpackPlugin(
+        ['static'],
+        {
+            root: __dirname,
+            verbose: false,
+            exclude: ['cache', 'index.htm']
+        }
+    ),
     new HTMLWebpackPlugin({
         filename: 'index.html',
         template: 'assets/index.html',
