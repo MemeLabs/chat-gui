@@ -117,15 +117,14 @@ module.exports = {
             {
                 test: /\.(ts|tsx)$/,
                 use: [
-                    { loader: 'babel-loader', options: { presets: ['es2015'] } },
+                    'babel-loader',
                     'ts-loader'
                 ]
             },
             {
                 test: /\.js$/,
                 exclude: /(node_modules\/(?!(timestring)\/).*)/,
-                loader: 'babel-loader',
-                options: { presets: ['es2015'] }
+                loader: 'babel-loader'
             },
             {
                 test: /\.(scss|css)$/,
