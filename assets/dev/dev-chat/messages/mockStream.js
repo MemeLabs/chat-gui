@@ -20,58 +20,93 @@ window.WebSocket = WebSocket;
 
 const url = 'ws://mockServer:8080';
 
-const server = new Server(url);
+export default class MockStream {
+    constructor(config) {
+        const { username } = config;
 
-/**
- * @param {Array} messages Array of messages to send though the mock-server.
- * @param {String?} name A name for the message stream, null to prevent end of
- *                       stream message.
- * @param {String} type Type of server message.
- */
-function sendMessages(messages, name, type = 'MSG') {
-    return new Promise((resolve) => {
-        let index = 0;
+        this.url = url;
+        this.server = new Server(url);
 
-        const sendMessage = function() {
-            if (index < messages.length) {
-                const message = messages[index];
+        this.server.on('connection', socket => {
+            const ownProperties = [
+                ...Object.getOwnPropertyNames(MockStream.prototype).slice(1),
+                ...Object.getOwnPropertyNames(this)
+            ];
 
-                server.emit('message', `${type} ${JSON.stringify(message)}`);
-                setTimeout(sendMessage, 20);
-                index++;
-            } else {
-                if (name) {
-                    const message = {
-                        data: `End of message stream: ${name}`
-                    };
-                    server.emit('message', `BROADCAST ${JSON.stringify(message)}`);
+            const messages = [
+                'Offline chat for development.',
+                'Use the mockStream object in console to playback messages.',
+                `mockStream: { ${ownProperties.join(', ')} }`,
+                'If there are cases not covered, add them yourself PEPE'
+            ].map(data => ({ data }));
+
+            this.sendMessages(messages, null, 'BROADCAST');
+
+            socket.on('message', message => {
+                const [eventname, payload] = message.split(' ');
+
+                let data = null;
+                try {
+                    data = JSON.parse(payload);
+                } catch (ignored) {
+                    data = payload;
                 }
-                resolve();
-            }
-        };
 
-        sendMessage();
-    });
-}
+                if (eventname === 'MSG') {
+                    data.nick = username;
+                    this.server.emit('message', `MSG ${JSON.stringify(data)}`);
+                }
+            });
+        });
+    }
 
-const mockStream = {
-    server,
+    /**
+     * @param {Array} messages Array of messages to send though the mock-server.
+     * @param {String?} name A name for the message stream, null to prevent end of
+     *                       stream message.
+     * @param {String} type Type of server message.
+     */
+    sendMessages(messages, name, type = 'MSG') {
+        return new Promise((resolve) => {
+            let index = 0;
+
+            const sendMessage = () => {
+                if (index < messages.length) {
+                    const message = messages[index];
+
+                    this.server.emit('message', `${type} ${JSON.stringify(message)}`);
+                    setTimeout(sendMessage, 20);
+                    index++;
+                } else {
+                    if (name) {
+                        const message = {
+                            data: `End of message stream: ${name}`
+                        };
+                        this.server.emit('message', `BROADCAST ${JSON.stringify(message)}`);
+                    }
+                    resolve();
+                }
+            };
+
+            sendMessage();
+        });
+    }
 
     sendMessage(nick, message, type = 'MSG') {
         const messageObject = {
             nick,
             data: message
         };
-        server.emit('message', `${type} ${JSON.stringify(messageObject)}`);
-    },
+        this.server.emit('message', `${type} ${JSON.stringify(messageObject)}`);
+    }
 
     highlightedMessages() {
-        return sendMessages(highlightedMessages, 'highlightedMessages');
-    },
+        return this.sendMessages(highlightedMessages, 'highlightedMessages');
+    }
 
     taggedMessages() {
-        return sendMessages(taggedMessages, 'taggedMessages');
-    },
+        return this.sendMessages(taggedMessages, 'taggedMessages');
+    }
 
     allTagColors() {
         const messages = tagColors
@@ -82,8 +117,8 @@ const mockStream = {
                 };
             });
 
-        return sendMessages(messages, 'allTagColors');
-    },
+        return this.sendMessages(messages, 'allTagColors');
+    }
 
     allEmotes() {
         const chunkSize = 7;
@@ -101,8 +136,8 @@ const mockStream = {
                 };
             });
 
-        return sendMessages(messages, 'allEmotes');
-    },
+        return this.sendMessages(messages, 'allEmotes');
+    }
 
     whispers() {
         const messages = new Array(13)
@@ -114,15 +149,15 @@ const mockStream = {
                 };
             });
 
-        sendMessages(messages, 'whispers', 'PRIVMSG');
-    },
+        this.sendMessages(messages, 'whispers', 'PRIVMSG');
+    }
 
     whisperSelf(message = 'I see you :)', username = 'whisperer') {
-        sendMessages([{
+        this.sendMessages([{
             nick: username,
             data: message
         }], null, 'PRIVMSG');
-    },
+    }
 
     combo(amount = 50, emote = 'OverRustle') {
         const messages = new Array(amount)
@@ -134,19 +169,6 @@ const mockStream = {
                 };
             });
 
-        return sendMessages(messages, 'combo');
+        return this.sendMessages(messages, 'combo');
     }
-};
-
-server.on('connection', socket => {
-    const messages = [
-        'Offline chat for development.',
-        'Use the mockStream object in console to playback messages.',
-        `mockStream: { ${Object.getOwnPropertyNames(mockStream).join(', ')} }`,
-        'If there are cases not covered, add them yourself PEPE'
-    ].map(data => ({ data }));
-
-    sendMessages(messages, null, 'BROADCAST');
-});
-
-export { url, mockStream };
+}
