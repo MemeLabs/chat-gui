@@ -1,11 +1,7 @@
 # Strims.gg Chat GUI
 
-Source code for the chat gui [www.strims.gg](http://www.strims.gg/)
+Source code for the chat client at [strims.gg](http://www.strims.gg/)
 This is a work in progress!
-
-## License
-
-See [LICENSE.md](LICENSE.md)
 
 #### Install the node dependencies
 
@@ -15,27 +11,24 @@ npm install
 
 #### You can now build the project.
 
-```shell
+```bash
+# For development
 npm run build
-```
-or
-```shell
+
+# For production
 npm run build:production
-```
-
-#### Building while developing
-
-```shell
-npm run watch
 ```
 
 #### Implementation & Testing
 
-```shell
-npm run server
+```bash
+# Start webpack server at http://localhost:8282/
+npm run start
+
+# Automatically build for when you're running your own webserver
+npm run watch
 ```
 
-You can then test it by going to something like this....
-```
-http://localhost:8282/
-```
+## License
+
+See [LICENSE.md](LICENSE.md)
