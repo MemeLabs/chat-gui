@@ -33,14 +33,25 @@ export default class MockStream {
                 ...Object.getOwnPropertyNames(this)
             ];
 
-            const messages = [
+            // Add some usernames for autocomplete testing
+            const joinMessages = [
+                'CrippleMan',
+                'CozyPan',
+                'CoDirectionalFan',
+                'CoolKikker',
+                'CoolCool'
+            ].map(username => ({ username, nick: username }));
+
+            this.sendMessages(joinMessages, null, 'JOIN');
+
+            const openingMessages = [
                 'Offline chat for development.',
                 'Use the mockStream object in console to playback messages.',
                 `mockStream: { ${ownProperties.join(', ')} }`,
                 'If there are cases not covered, add them yourself PEPE'
             ].map(data => ({ data }));
 
-            this.sendMessages(messages, null, 'BROADCAST');
+            this.sendMessages(openingMessages, null, 'BROADCAST');
 
             socket.on('message', message => {
                 const [eventname, payload] = message.split(' ');

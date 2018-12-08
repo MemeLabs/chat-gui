@@ -30,3 +30,16 @@ mockStream.allTagColors();
 ## Tests.js
 
 Currently `tests.js` only contains 1 test for debugging loading performance of message history. For now, just put tests there that don't belong in `mockStream.js`
+
+## Testing autocomplete
+
+A couple of similar usernames are loaded into chat for autocomplete testing:
+`
+'CrippleMan',
+'CozyPan',
+'CoDirectionalFan',
+'CoolKikker',
+'CoolCool'
+`
+
+If you want to add additional usernames to the chat, sending a message through `mockStream` with the desired username will add it.
