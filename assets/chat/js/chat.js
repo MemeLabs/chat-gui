@@ -59,12 +59,11 @@ const hintstrings = new Map([
     ['tabcompletion', 'Use the tab key to auto-complete names and emotes (for user only completion prepend a @ or press shift)'],
     ['hoveremotes', 'Hovering your mouse over an emote will show you the emote code'],
     ['highlight', 'Chat messages containing your username will be highlighted'],
-    ['notify', 'Use /msg <username> to send a private message to someone'],
+    ['notify', 'Use /w <username> to send a private message to someone'],
     ['ignoreuser', 'Use /ignore <username> to hide messages from pesky chatters'],
     ['mutespermanent', 'Mutes are never persistent, don\'t worry it will pass!'],
     ['stalkmentionshint', 'Use the /stalk <nick> or /mentions <nick> to keep up to date'],
-    ['tagshint', `Use the /tag <nick> <color> to highlight users you like. There are preset colors to choose from ${tagcolors.join(', ')}`],
-    ['bigscreen', `Bigscreen! Did you know you can have the chat on the left or right side of the stream by clicking the swap icon in the top left?`]
+    ['tagshint', `Use the /tag <nick> <color> to highlight users you like. There are preset colors to choose from ${tagcolors.join(', ')}`]
 ])
 const settingsdefault = new Map([
     ['schemaversion', 2],

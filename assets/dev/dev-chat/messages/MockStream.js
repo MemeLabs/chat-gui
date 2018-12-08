@@ -35,7 +35,8 @@ export default class MockStream {
 
             // Add some usernames for autocomplete testing
             const joinMessages = [
-                'CrippleMan',
+                'PepoMan',
+                'PepoDuder',
                 'CozyPan',
                 'CoDirectionalFan',
                 'CoolKikker',

@@ -1,6 +1,6 @@
 # Strims.gg Chat GUI
 
-Source code for the chat client at [strims.gg](http://www.strims.gg/)
+Source code for the chat client at [strims.gg](https://chat.strims.gg/)
 This is a work in progress!
 
 #### Install the node dependencies
@@ -28,6 +28,8 @@ npm run start
 # Automatically build for when you're running your own webserver
 npm run watch
 ```
+
+Conduct the readme at `assets/dev/` for more information on testing.
 
 ## License
 

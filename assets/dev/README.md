@@ -12,13 +12,13 @@ localhost:8282/dev/dev-chat.html
 
 ## Mock server
 
-Dev chat is connected to mocked websocket defined in `mockStream.js`. The `mockStream` object is globally available on the `window` through the console; through which message simulation streams can be triggered.
+Dev chat is connected to mocked websocket defined in `MockStream.js`. The `MockStream` object is globally available on the `window` through the console; through which message simulation streams can be triggered.
 
 Examples:
 
 ```js
 // Send message from any username
-mockStream.sendMessage( 'PussSlayer', 'shes a 10 definitely' )
+mockStream.sendMessage( 'MemeSlayer', 'shes a 10 definitely' )
 
 // Send yourself a whisper
 mockStream.whisperSelf( 'hey, are you a girl' )
@@ -33,13 +33,6 @@ Currently `tests.js` only contains 1 test for debugging loading performance of m
 
 ## Testing autocomplete
 
-A couple of similar usernames are loaded into chat for autocomplete testing:
-`
-'CrippleMan',
-'CozyPan',
-'CoDirectionalFan',
-'CoolKikker',
-'CoolCool'
-`
+A couple of similar usernames are loaded into chat for autocomplete testing - see their names in `MockStream.js`.
 
 If you want to add additional usernames to the chat, sending a message through `mockStream` with the desired username will add it.
