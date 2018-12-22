@@ -545,8 +545,6 @@ class Chat {
 
         // Populate the tag, mentioned users and highlight for this $message.
         if (message.type === MessageTypes.USER) {
-            // strip off `/` if message starts with `//`
-            message.message = message.message.substring(0, 2) === '//' ? message.message.substring(1) : message.message;
             // check if message is `/me `
             message.slashme = message.message.substring(0, 4).toLowerCase() === '/me ';
             // check if this is the current users message
@@ -909,8 +907,11 @@ class Chat {
             const win = this.getActiveWindow();
 
             const isme = str.substring(0, 4).toLowerCase() === '/me ';
-
             const iscommand = !isme && str.substring(0, 1) === '/' && str.substring(0, 2) !== '//';
+
+            // strip off `/` if message starts with `//`
+            str = str.substring(0, 2) === '//' ? str.substring(1) : str;
+
             let splittedStr = str.split(' ');
             this.autocomplete.promoteManyLastUsed(splittedStr);
             // COMMAND
