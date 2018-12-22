@@ -55,7 +55,8 @@ export default class MockStream {
             this.sendMessages(openingMessages, null, 'BROADCAST');
 
             socket.on('message', message => {
-                const [eventname, payload] = message.split(' ');
+                const eventname = message.split(' ', 1)[0].toUpperCase();
+                const payload = message.substring(eventname.length + 1);
 
                 let data = null;
                 try {
