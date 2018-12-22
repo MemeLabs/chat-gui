@@ -530,7 +530,8 @@ class Chat {
     addMessage(message, win = null) {
         // Dont add the gui if user is ignored
         if (message.type === MessageTypes.USER && this.ignored(message.user.nick, message.message)) {
-            return;
+            const isOwn = message.user.username.toLowerCase() === this.user.username.toLowerCase();
+            if (!isOwn) return;
         }
 
         if (win === null) { win = this.mainwindow; }
@@ -983,6 +984,8 @@ class Chat {
             }
         } else if (!nickregex.test(username)) {
             MessageBuilder.info('Invalid nick - /ignore <nick>').into(this);
+        } else if (username.toLowerCase() === this.user.username.toLowerCase()) {
+            MessageBuilder.info('Can\'t ignore yourself').into(this);
         } else {
             this.ignore(username, true);
             this.autocomplete.remove(username);
