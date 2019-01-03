@@ -13,7 +13,7 @@ $chat-chrome-font   : "Roboto", Helvetica, "Trebuchet MS", Verdana, sans-serif;
 $chat-lines-font    : "Roboto", Helvetica, "Trebuchet MS", Verdana, sans-serif;
 $chat-min-width     : 300px;
 $menu-width-max     : 320px;
-$menu-bottom-max    : 90px;
+$menu-bottom-max    : 89px;
 $text-size-sm       : 11px;
 $text-size-md       : 13px;
 $text-size-lg       : 16px;
@@ -93,6 +93,7 @@ label small {
     position: relative;
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 #chat-output-frame {
     flex: 1;
@@ -101,9 +102,11 @@ label small {
 }
 #chat-input-frame {
     background: $color-surface-dark2;
+    box-shadow: 0px 0px 4px 1px rgba(black, 0.5);
     border-top: 1px solid #191919;
     padding: $chat-gutter-sm $chat-gutter-sm 0 $chat-gutter-sm;
     width: 100%;
+    z-index: 230;
 }
 #chat-tools-wrap {
     display: flex;
@@ -834,7 +837,6 @@ a.flair12:hover {
     color: $color-chat-text3;
     background: $color-surface-dark3;
     position: absolute;
-    display: none;
     bottom: 0;
     left: 4px;
     right: 4px;
@@ -846,6 +848,12 @@ a.flair12:hover {
     border-radius: 3px;
     box-shadow: -1px 3px 5px #000;
     line-height: 25px;
+
+    transition-duration: 100ms;
+    transition-property: opacity, transform, visibility;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(20px);
 
     /* Extends clickable area on the bottom */
     &::after {
@@ -863,7 +871,10 @@ a.flair12:hover {
     display: none;
 }
 .chat-output.chat-unpinned .chat-scroll-notify {
-    display: block;
+    transition-duration: 200ms;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .chat-output-whisper .msg-chat {
@@ -927,7 +938,6 @@ a.flair12:hover {
 
 /* Chat menus */
 .chat-menu {
-    display: none;
     position: absolute;
     z-index: 220;
     height: auto;
@@ -936,6 +946,12 @@ a.flair12:hover {
     max-width: $menu-width-max;
     right: 0;
     top: 0;
+
+    transition-duration: 200ms;
+    transition-property: opacity, visibility, transform;
+    visibility: hidden;
+    opacity: 0;
+
     .toolbar {
         position: relative;
         border-bottom: 1px solid $color-surface-dark4;
@@ -972,27 +988,32 @@ a.flair12:hover {
         display: flex;
         flex-direction: column;
         background-color: $color-surface-dark3;
+        box-shadow: 0px 0px 4px 7px rgba(black, 0.4);
     }
     .scrollable {
         flex: 1;
     }
     &.active {
-        display: block;
+        visibility: visible;
+        opacity: 1;
+        transition-duration: 100ms;
     }
     &.left {
         left: 0;
         right: auto;
-        .list-wrap {
-            box-shadow: 2px -2px 12px 4px rgba(black,0.95);
-            border-bottom-right-radius: 2px;
+        transform: translateX(-200px);
+
+        &.active {
+            transform: translateX(0);
         }
     }
     &.right {
         right: 0;
         left: auto;
-        .list-wrap {
-            box-shadow: -2px 2px 12px 4px rgba(black,0.95);
-            border-bottom-left-radius: 2px;
+        transform: translateX(200px);
+
+        &.active {
+            transform: translateX(0);
         }
     }
 }
