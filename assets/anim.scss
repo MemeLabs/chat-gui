@@ -294,11 +294,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
         $sprite-height,
         $animation-length,
         $repeat,
+        $end-on-last-frame: false,
         $file-ext: '.png') {
 
     $path: $spritesDir + $file-name + $file-ext;
 
     @keyframes #{$file-name}-anim {
+        0% { background-position: 0; }
         100% { background-position: -#{$sprite-width}; }
     }
 
@@ -307,7 +309,11 @@ $spritesDir : '../../emotes/emoticons-animated/';
         height: $sprite-height;
         margin-top: -$sprite-height;
         background: url($path) left center;
-        animation: #{$file-name}-anim $animation-length steps($frame-count) $repeat;
+        animation: #{$file-name}-anim $animation-length steps($frame-count) $repeat none;
+
+        @if $end-on-last-frame {
+            background-position: #{$sprite-width / $frame-count};
+        };
 
         &:hover {
             animation: #{$file-name}-anim $animation-length steps($frame-count) infinite;
