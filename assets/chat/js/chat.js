@@ -424,7 +424,7 @@ class Chat {
     }
 
     withEmotes(emotes) {
-        this.emoticons = new Set(emotes['destiny']);
+        this.emoticons = new Set(emotes['default']);
         for (var s in GENERIFY_OPTIONS) {
             for (var e of this.emoticons) {
                 this.emoteswithsuffixes.add(`${e}:${s}`);

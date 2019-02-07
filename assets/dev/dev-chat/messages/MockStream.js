@@ -2,7 +2,7 @@
 import highlightedMessages from './highlighted.json';
 import taggedMessages from './tagged.json';
 import { WebSocket, Server } from 'mock-socket';
-const { destiny: emotes } = require('../../../emotes.json');
+const { default: emotes } = require('../../../emotes.json');
 const tagColors = [
     'green',
     'yellow',

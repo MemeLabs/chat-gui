@@ -230,6 +230,22 @@ $context-css-animated-emote-mixin: false;
     }
 }
 
+@include css-animated-emote(NeneLaugh, true) {
+    @include emote-animation(200ms 5) {
+        0% { transform: translate(0px, 0px); }
+        50% { transform: translate(0px, 3px); }
+        100% { transform: translate(0px, 0px); }
+    }
+}
+
+@include css-animated-emote(PepeLaugh, true) {
+    @include emote-animation(200ms 5) {
+        0% { transform: translate(0px, 0px); }
+        50% { transform: translate(0px, 3px); }
+        100% { transform: translate(0px, 0px); }
+    }
+}
+
 @keyframes emote-hit {
     0% { color: #B91010; font-size:200%; }
     1% { color: $color-light; font-size:190%; }
@@ -332,11 +348,11 @@ $spritesDir : '../../emotes/emoticons-animated/';
 
 @include sprite-animation(
     $file-name: CuckCrab,
-    $frame-count: 126,
-    $sprite-width: 4032px,
-    $sprite-height: 30px,
-    $animation-length: 4000ms,
-    $repeat: 2
+    $frame-count: 20,
+    $sprite-width: 640px,
+    $sprite-height: 32px,
+    $animation-length: 600ms,
+    $repeat: 5
 );
 
 @include sprite-animation(
@@ -347,3 +363,68 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $animation-length: 2000ms,
     $repeat: 3
 );
+
+@include sprite-animation(
+    $file-name: PepoDance,
+    $frame-count: 10,
+    $sprite-width: 460px,
+    $sprite-height: 32px,
+    $animation-length: 500ms,
+    $repeat: 5
+);
+
+@include sprite-animation(
+    $file-name: PepeJam,
+    $frame-count: 4,
+    $sprite-width: 132px,
+    $sprite-height: 32px,
+    $animation-length: 250ms,
+    $repeat: 8
+);
+
+@include sprite-animation(
+    $file-name: LAG,
+    $frame-count: 8,
+    $sprite-width: 272px,
+    $sprite-height: 32px,
+    $animation-length: 4000ms,
+    $repeat: 2
+);
+
+@include sprite-animation(
+    $file-name: SNAP,
+    $frame-count: 15,
+    $sprite-width: 750px,
+    $sprite-height: 32px,
+    $animation-length: 1000ms,
+    $repeat: 2
+);
+
+@include sprite-animation(
+    $file-name: VroomVroom,
+    $frame-count: 101,
+    $sprite-width: 3232px,
+    $sprite-height: 32px,
+    $animation-length: 4000ms,
+    $repeat: 2
+);
+
+@include sprite-animation(
+    $file-name: loliDance,
+    $frame-count: 27,
+    $sprite-width: 864px,
+    $sprite-height: 32px,
+    $animation-length: 3000ms,
+    $repeat: 2
+);
+
+@include sprite-animation(
+    $file-name: WAG,
+    $frame-count: 2,
+    $sprite-width: 76px,
+    $sprite-height: 32px,
+    $animation-length: 500ms,
+    $repeat: 10
+);
+
+

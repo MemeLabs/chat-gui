@@ -339,7 +339,7 @@ class ChatEmoteMenu extends ChatMenu {
     constructor(ui, btn, chat) {
         super(ui, btn, chat);
         this.temotes = this.ui.find('#twitch-emotes');
-        this.demotes = this.ui.find('#destiny-emotes');
+        this.demotes = this.ui.find('#default-emotes');
         this.demotes.append([...this.chat.emoticons].map(buildEmote).join(''));
         this.ui.on('click', '.chat-emote', e => {
             ChatMenu.closeMenus(chat);
