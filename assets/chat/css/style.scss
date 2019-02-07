@@ -283,6 +283,9 @@ label small {
         border-style: solid;
         border-color: transparent;
         border-width: 1px 0 1px 0;
+
+        // padding to improve clickability
+        padding: 3px 0;
     }
     .externallink {
         color: $color-link;
