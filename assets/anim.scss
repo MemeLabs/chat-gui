@@ -394,7 +394,8 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $sprite-width: 272px,
     $sprite-height: 32px,
     $animation-length: 4000ms,
-    $repeat: 2
+    $repeat: 2,
+    $end-on-last-frame: true
 );
 
 @include sprite-animation(
