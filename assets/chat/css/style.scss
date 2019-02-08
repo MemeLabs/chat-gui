@@ -1308,6 +1308,7 @@ a.flair12:hover {
     left:0;
     right:0;
     bottom:0;
+    z-index: 230;
     h2 {
         font-size: 28px;
         font-weight: normal;
@@ -1432,9 +1433,9 @@ button.btn {
     border-radius: 4px;
 }
 .btn-primary {
-    color: $text-color;
-    background-color: $color-accent;
-    border-color: $color-accent;
+    color: white;
+    background-color: $color-btn-confirm;
+    border-color: $color-btn-confirm;
 }
 .btn-default {
     color: $text-color3;
