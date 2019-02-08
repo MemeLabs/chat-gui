@@ -862,9 +862,10 @@ a.flair12:hover {
     &::after {
         content: '';
         display: block;
-        height: 7px;
+        height: 8px;
         position: absolute;
         width: 100%;
+        margin-top: -1px;
     }
 }
 .chat-scroll-notify:hover {
