@@ -6,6 +6,16 @@
 @import "generify.scss";
 @import "spooky.css";
 
+::selection {
+    color: white;
+
+    /**
+    * Blink browsers force a transparency on selections, so an opacity value must
+    * be present to be consistent across browsers.
+    */
+    background: rgba($text-color-selected, 0.99);
+}
+
 *, *::before, *::after { box-sizing: inherit; }
 html { box-sizing: border-box; }
 
