@@ -301,7 +301,7 @@ class ChatAutoComplete {
         if (post[0] !== ' ' || post.length === 0) {
             post = ' ' + post;
         }
-        this.input.focus().val(pre + result.data + post);
+        this.input.focus().val(pre + result.data + post).trigger('input');
 
         // Move the caret to the end of the replacement string + 1 for the space
         const s = pre.length + result.data.length + 1;
