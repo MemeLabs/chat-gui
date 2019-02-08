@@ -15,7 +15,11 @@ class ChatUserFocus {
         this.chat = chat;
         this.css = css;
         this.focused = [];
-        this.chat.output.on('mousedown', e => this.toggleElement(e.target));
+        this.chat.output.on('mousedown', e => {
+            if(e.button === 0) {
+                this.toggleElement(e.target);
+            }
+        });
     }
 
     toggleElement<TElement = HTMLElement>(target: TElement) {
