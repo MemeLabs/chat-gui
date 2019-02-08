@@ -309,10 +309,21 @@ class Chat {
                     this.loginscrn.show();
                 } else {
                     this.control.emit('SEND', this.input.val().toString().trim());
-                    this.input.val('');
+                    this.input.val('').trigger('input');
                 }
                 this.input.focus();
             }
+        });
+
+        /**
+         * Syncing the text content of the scaler with the input, so that
+         * the scaler grows the containing element to the exact size to
+         * contain the text entered.
+         */
+        const inputScaler = this.ui.find('#chat-input-scaler');
+
+        this.input.on('input keydown', () => {
+            inputScaler.text(this.input.val());
         });
 
         // Chat focus / menu close when clicking on some areas
