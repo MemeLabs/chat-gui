@@ -298,6 +298,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
         $file-ext: '.png') {
 
     $path: $spritesDir + $file-name + $file-ext;
+    $frame-width: $sprite-width / $frame-count;
+
+    @if $frame-width != round($frame-width) {
+        @error
+            "$sprite-width should be divisible by $frame-count to prevent blurry rendering
+            Error on sprite-animation \"#{$file-name}\"";
+    }
 
     @keyframes #{$file-name}-anim {
         0% { background-position: 0; }
@@ -305,7 +312,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
     }
 
     .chat-emote-#{$file-name}{
-        width: $sprite-width / $frame-count;
+        width: $frame-width;
         height: $sprite-height;
         margin-top: -$sprite-height;
         background: url($path) left center;
