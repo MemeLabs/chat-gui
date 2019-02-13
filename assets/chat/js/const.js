@@ -54,14 +54,15 @@ const GENERIFY_OPTIONS = {
     'rain': 'weather rain anim-fix',
     'snow': 'weather snow anim-fix',
     'rustle': 'generify-rustle',
-    'worth': 'generify-worth'
-//    'dank': 'generify-dank',
-//    'hyper': 'generify-hyper generify-rustle',
+    'worth': 'generify-worth',
+    // 'dank': 'generify-dank',
+    // 'hyper': 'generify-hyper generify-rustle',
+    'love': 'generify-love'
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
-    ["monkaS", "monkaMEGA"],
-    ["monkaMEGA", "monkaHmm"],
+    ['monkaS', 'monkaMEGA'],
+    ['monkaMEGA', 'monkaHmm']
 //    [":mirror", ":dank"],
 ];
 
