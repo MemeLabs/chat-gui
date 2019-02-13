@@ -426,7 +426,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: loliDance,
     $frame-count: 27,
-    $sprite-width: 864px,
+    $sprite-width: 756px,
     $sprite-height: 32px,
     $animation-length: 3000ms,
     $repeat: 2

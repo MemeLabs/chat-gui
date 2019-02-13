@@ -8,6 +8,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const plugins = [
+    new CopyWebpackPlugin([
+            { from: 'robots.txt' }
+    ]),
     new CleanWebpackPlugin(
         ['static'],
         {
