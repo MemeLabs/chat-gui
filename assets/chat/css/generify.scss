@@ -141,3 +141,85 @@
     ;
     mix-blend-mode: color-dodge;
 }
+
+.generify-love {
+    $animation-duration: 0.8s;
+
+    display: inline-block;
+    position: relative;
+
+    @at-root {
+        @keyframes generify-love__heart--animation {
+            0% {
+                visibility: visible;
+                transform: scale(0);
+                bottom: -5px;
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(0.6);
+            }
+
+            100% {
+                transform: scale(0.6);
+                bottom: 20px;
+                opacity: 0;
+            }
+        }
+    }
+
+    @mixin heart {
+        content: "💗";
+        text-indent: 0;
+        font-size: 18px;
+        position: absolute;
+        bottom: 10px;
+        z-index: 2;
+        visibility: hidden;
+        animation: generify-love__heart--animation $animation-duration 6;
+    }
+
+    &::before {
+        /* left-outer heart */
+        @include heart;
+        left: -8px;
+        animation-delay: -($animation-duration - $animation-duration*0.25);
+    }
+
+    &::after {
+        /* right-outer heart */
+        @include heart;
+        right: -8px;
+        animation-delay: -($animation-duration - $animation-duration*0.50);
+    }
+
+    & .chat-emote {
+        overflow: visible;
+
+        &::before {
+            /* left-inner heart */
+            @include heart;
+            left: -3px;
+            animation-delay: -($animation-duration - ($animation-duration*0.75));
+        }
+
+        &::after {
+            /* right-inner heart */
+            @include heart;
+            right: -3px;
+        }
+    }
+
+    &:hover {
+        &::before, &::after {
+            animation-iteration-count: infinite;
+        }
+
+        & .chat-emote {
+            &::before, &::after {
+                animation-iteration-count: infinite;
+            }
+        }
+    }
+}
