@@ -321,9 +321,21 @@ class Chat {
          * contain the text entered.
          */
         const inputScaler = this.ui.find('#chat-input-scaler');
+        let lastHeightScaler = 0;
 
         this.input.on('input keydown', () => {
+            // Get pinned state before syncing the scaler
+            const wasScrollPinned = this.mainwindow.scrollplugin.isPinned();
             inputScaler.text(this.input.val());
+
+            if (lastHeightScaler !== inputScaler.height()) {
+                lastHeightScaler = inputScaler.height();
+                this.mainwindow.scrollplugin.reset();
+
+                if (wasScrollPinned) {
+                    this.mainwindow.updateAndPin();
+                }
+            }
         });
 
         // Chat focus / menu close when clicking on some areas
