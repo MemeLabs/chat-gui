@@ -150,10 +150,13 @@
 
     @at-root {
         @keyframes generify-love__heart--animation {
+            0%, 2% {
+                opacity: 0;
+            }
             0% {
                 visibility: visible;
                 transform: scale(0);
-                bottom: -5px;
+                bottom: -30%;
             }
 
             50% {
@@ -163,7 +166,7 @@
 
             100% {
                 transform: scale(0.6);
-                bottom: 20px;
+                bottom: 50%;
                 opacity: 0;
             }
         }
@@ -188,15 +191,12 @@
     }
 
     &::after {
-        /* right-outer heart */
+        /* right-inner heart */
         @include heart;
-        right: -8px;
-        animation-delay: -($animation-duration - $animation-duration*0.50);
+        right: -2px;
     }
 
     & .chat-emote {
-        overflow: visible;
-
         &::before {
             /* left-inner heart */
             @include heart;
@@ -205,9 +205,10 @@
         }
 
         &::after {
-            /* right-inner heart */
+            /* right-outer heart */
             @include heart;
-            right: -3px;
+            right: -7px;
+            animation-delay: -($animation-duration - $animation-duration*0.50);
         }
     }
 
