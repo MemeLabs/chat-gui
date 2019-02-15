@@ -1113,7 +1113,7 @@ class Chat {
             if (i === -1) highlights.push(nick);
             break;
         }
-        MessageBuilder.info(command.toUpperCase() === 'HIGHLIGHT' ? `Highlighting ${nick}` : `No longer highlighting ${nick}}`).into(this);
+        MessageBuilder.info(command.toUpperCase() === 'HIGHLIGHT' ? `Highlighting ${nick}` : `No longer highlighting ${nick}`).into(this);
         this.settings.set('highlightnicks', highlights);
         this.applySettings();
     }
