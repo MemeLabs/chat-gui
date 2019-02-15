@@ -201,10 +201,15 @@ label small {
      * which affect scaling, so as containing the same content they result
      * to the same size.
      */
-    width: 100%;
+
+    /* MSEdge seems to not respect `word-wrap` if width is a percentage, so we calculate it manually */
+    width: calc( 100vw - #{$chat-gutter-sm*2} );
+
     box-sizing: border-box;
     padding: 5px;
     border: 1px solid #321a10;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 #chat-input-control {
     /**
