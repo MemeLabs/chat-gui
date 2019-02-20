@@ -295,6 +295,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
         $animation-length,
         $repeat,
         $end-on-last-frame: false,
+        $can-animate-forever: true,
         $file-ext: '.png') {
 
     $path: $spritesDir + $file-name + $file-ext;
@@ -326,8 +327,10 @@ $spritesDir : '../../emotes/emoticons-animated/';
             animation: #{$file-name}-anim $animation-length steps($frame-count) infinite;
         }
 
-        &-animate-forever {
-            animation: #{$file-name}-anim $animation-length steps($frame-count) infinite;
+        @if $can-animate-forever {
+            &-animate-forever {
+                animation: #{$file-name}-anim $animation-length steps($frame-count) infinite;
+            }
         }
     }
 }
@@ -402,7 +405,8 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $sprite-height: 32px,
     $animation-length: 4000ms,
     $repeat: 2,
-    $end-on-last-frame: true
+    $end-on-last-frame: true,
+    $can-animate-forever: false
 );
 
 @include sprite-animation(
