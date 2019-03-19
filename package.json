@@ -61,7 +61,7 @@
     "sass-loader": "~6.0.6",
     "spritesmith": "~3.3.0",
     "timestring": "^5.0.0",
-    "ts-loader": "^5.3.1",
+    "ts-loader": "^5.3.3",
     "typescript": "^3.2.2",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
