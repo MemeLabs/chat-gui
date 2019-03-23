@@ -27,11 +27,12 @@
     "core-js": "~2.5.3",
     "detect-browser": "^3.0.1",
     "font-awesome": "~4.7.0",
-    "jquery-validation": "~1.17.0",
     "jquery": "~3.3.1",
+    "jquery-validation": "~1.17.0",
     "moment": "~2.20.1",
     "nanoscroller": "~0.8.7",
     "normalize.css": "~8.0.0",
+    "roboto-fontface": "^0.10.0",
     "throttle-debounce": "~1.0.1"
   },
   "devDependencies": {

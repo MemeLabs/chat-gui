@@ -146,7 +146,7 @@ module.exports = {
                 ]
             },
             {
-                test: /(-webfont|glyphicons-halflings-regular)\.(eot|svg|ttf|woff2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                test: /\.(eot|svg|ttf|woff2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: 'file-loader',
                 options: { name: 'fonts/[name].[md5:hash:base64:6].[ext]' }
             },
