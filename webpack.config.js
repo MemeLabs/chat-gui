@@ -22,19 +22,19 @@ const plugins = [
     new HTMLWebpackPlugin({
         filename: 'index.html',
         template: 'assets/index.html',
-        favicon: './assets/chat/img/favicon.png',
+        favicon: './assets/chat/img/favicon.ico',
         chunks: ['chat']
     }),
     new HTMLWebpackPlugin({
         filename: 'chatstreamed.html',
         template: 'assets/chatstreamed.html',
-        favicon: './assets/chat/img/favicon.png',
+        favicon: './assets/chat/img/favicon.ico',
         chunks: ['chatstreamed']
     }),
     new HTMLWebpackPlugin({
         filename: 'notification-request.html',
         template: 'assets/notification-request/notification-request.html',
-        favicon: './assets/chat/img/favicon.png',
+        favicon: './assets/chat/img/favicon.ico',
         chunks: ['notification-request']
     }),
     new MiniCssExtractPlugin({ filename: '[name].[contentHash].css' }),

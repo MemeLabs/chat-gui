@@ -5,7 +5,7 @@ This is a work in progress!
 
 #### Install the node dependencies
 
-```shell
+```bash
 npm install
 ```
 
@@ -29,7 +29,15 @@ npm run start
 npm run watch
 ```
 
-Conduct the readme at `assets/dev/` for more information on testing.
+Check the readme at `assets/dev/` for more information on testing.
+
+## Favicon
+
+For future reference, the favicon is generated via
+
+```bash
+convert orig.png -define icon:auto-resize:256,128,96,72,64,48,32,24,16 favicon.ico
+```
 
 ## License
 
