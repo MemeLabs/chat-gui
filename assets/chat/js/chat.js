@@ -1144,7 +1144,12 @@ class Chat {
             MessageBuilder.error('Cannot send a message to yourself').into(this);
         } else {
             const data = parts.slice(1, parts.length).join(' ');
-            this.source.send('PRIVMSG', {nick: parts[0], data: data});
+            const targetnick = parts[0];
+            if (this.settings.get('showhispersinchat')) {
+                // show outgoing private messages in chat. Message id unused.
+                MessageBuilder.whisperoutgoing(data, this.user, targetnick, Date.now(), -1).into(this);
+            }
+            this.source.send('PRIVMSG', {nick: targetnick, data: data});
         }
     }
 
