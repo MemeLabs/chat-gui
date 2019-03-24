@@ -1264,6 +1264,8 @@ class Chat {
         MessageBuilder.info(`Tagged ${parts[0]} as ${color}`).into(this);
 
         this.settings.set('taggednicks', [...this.taggednicks]);
+        // TODO this reinitialized the whole user menu on a tag change. We could only modify the right entry here instead. Same in cmdUNTAG().
+        this.menus.get('users').addAll();
         this.applySettings();
     }
 
@@ -1287,6 +1289,7 @@ class Chat {
             .removeClass(Chat.removeClasses('msg-tagged'));
         MessageBuilder.info(`Un-tagged ${n}`).into(this);
         this.settings.set('taggednicks', [...this.taggednicks]);
+        this.menus.get('users').addAll();
         this.applySettings();
     }
 
