@@ -97,7 +97,7 @@
     position: absolute;
     left:-3px;
     top:-25px;
-    animation: Shekels-anim 0.5s 4;
+    animation: Shekels-anim 0.5s 8;
 }
 .generify-worth > .chat-emote:hover::before{
     animation: Shekels-anim 0.5s infinite;
@@ -109,7 +109,7 @@
     position: absolute;
     right:-3px;
     top:-25px;
-    animation: Shekels-anim 0.5s 4;
+    animation: Shekels-anim 0.5s 8;
     animation-delay: 0.25s;
 }
 .generify-worth > .chat-emote:hover::after{

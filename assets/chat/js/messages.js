@@ -259,7 +259,7 @@ class ChatUserMessage extends ChatMessage {
             ctrl = '';
 
         const user = buildFeatures(this.user) + ` <a class="user ${this.user.features.join(' ')}">${this.user.username}</a>`;
-        let combined = ` ${user} <span class="ctrl">${ctrl}</span> `;
+        let combined = ` ${user}<span class="ctrl">${ctrl}</span> `;
         if (this.targetoutgoing){
             combined = ` <span class="ctrl-leading">${ctrl}</span> <a class="user">${this.targetoutgoing}</a> <span class="ctrl">: </span>`;
         }

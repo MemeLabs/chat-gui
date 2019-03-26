@@ -288,7 +288,7 @@ class ChatUserMenu extends ChatMenu {
 
     addElement(username, sort=false){
         let tag = this.chat.taggednicks.get(username.toLowerCase());
-        tag = tag ? `msg-tagged msg-tagged-${tag}` : "";
+        tag = tag ? `msg-tagged msg-tagged-${tag}` : '';
 
         const user = this.chat.users.get(username.toLowerCase()),
              label = !user.username || user.username === '' ? 'Anonymous' : user.username,
@@ -376,7 +376,8 @@ class ChatWhisperUsers extends ChatMenu {
         this.notif = $(`<span id="chat-whisper-unread-indicator"></span>`);
         this.btn.append(this.notif);
         this.usersEl = ui.find('ul:first');
-        this.usersEl.on('click', '.user', e => chat.openConversation(e.target.getAttribute('data-username')));
+        // TODO removed until this functionality is restored on the backend
+        //this.usersEl.on('click', '.user', e => chat.openConversation(e.target.getAttribute('data-username')));
         this.usersEl.on('click', '.remove', e => this.removeConversation(e.target.getAttribute('data-username')))
     }
 

@@ -788,33 +788,6 @@ class Chat {
             this.autocomplete.promoteOneLastSeen(data.nick);
             const user = this.users.get(data.nick.toLowerCase());
             MessageBuilder.message(data.data, user, data.timestamp).into(this);
-            if (user.hasAnyFeatures('admin', 'moderator')) {
-                const detectNukeRe = /^!(?:nuke|annihilate|obliterate|regexnuke|regexpnuke|nukeregex|nukeregexp) *(\d*(?:s|sec|secs|second|seconds|m|min|mins|mine|minutes|h|hr|hrs|hour|hours|d|day|days)?)? +(.+)/.exec(data.data);
-                if (detectNukeRe) {
-                    const minLinger = 600000;
-                    let linger;
-                    if (detectNukeRe[1]) {
-                        linger = Math.min(minLinger, timestring(detectNukeRe[1]) * 1000);
-                    } else {
-                        linger = minLinger;
-                    }
-                    const remainingLinger = (data.timestamp + linger) - new Date().getTime();
-                    if (remainingLinger > 0) {
-                        MessageBuilder.status(`Nuke detected. "${detectNukeRe[2]}"`).into(this);
-                        const nuke = setTimeout(() => {
-                            MessageBuilder.status(`Radiation cleared. "${detectNukeRe[2]}"`).into(this);
-                            const nukeIndex = this.nukes.indexOf(nuke);
-                            if (nukeIndex !== -1) {
-                                this.nukes.splice(nukeIndex, 1);
-                            }
-                        }, remainingLinger);
-                        this.nukes.push(nuke);
-                    }
-                } else if (/^!aegis/.exec(data.data)) {
-                    this.nukes.forEach(clearTimeout);
-                    this.nukes = [];
-                }
-            }
         }
     }
 
@@ -881,7 +854,7 @@ class Chat {
     }
 
     onPRIVMSGSENT() {
-        if (this.mainwindow.visible) {
+        if (this.mainwindow.visible && !this.settings.get('showhispersinchat')) {
             MessageBuilder.info('Your message has been sent.').into(this);
         }
     }
