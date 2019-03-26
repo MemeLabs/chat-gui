@@ -1144,7 +1144,12 @@ class Chat {
             MessageBuilder.error('Cannot send a message to yourself').into(this);
         } else {
             const data = parts.slice(1, parts.length).join(' ');
-            this.source.send('PRIVMSG', {nick: parts[0], data: data});
+            const targetnick = parts[0];
+            if (this.settings.get('showhispersinchat')) {
+                // show outgoing private messages in chat. Message id unused.
+                MessageBuilder.whisperoutgoing(data, this.user, targetnick, Date.now(), -1).into(this);
+            }
+            this.source.send('PRIVMSG', {nick: targetnick, data: data});
         }
     }
 
@@ -1259,6 +1264,8 @@ class Chat {
         MessageBuilder.info(`Tagged ${parts[0]} as ${color}`).into(this);
 
         this.settings.set('taggednicks', [...this.taggednicks]);
+        // TODO this reinitialized the whole user menu on a tag change. We could only modify the right entry here instead. Same in cmdUNTAG().
+        this.menus.get('users').addAll();
         this.applySettings();
     }
 
@@ -1282,6 +1289,7 @@ class Chat {
             .removeClass(Chat.removeClasses('msg-tagged'));
         MessageBuilder.info(`Un-tagged ${n}`).into(this);
         this.settings.set('taggednicks', [...this.taggednicks]);
+        this.menus.get('users').addAll();
         this.applySettings();
     }
 

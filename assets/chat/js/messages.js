@@ -141,6 +141,12 @@ class MessageBuilder {
         return m;
     }
 
+    static whisperoutgoing(message, user, targetoutgoing, timestamp = null){
+        const m = new ChatUserMessage(message, user, timestamp);
+        m.targetoutgoing = targetoutgoing;
+        return m;
+    }
+
     static historical(message, user, timestamp = null){
         const m = new ChatUserMessage(message, user, timestamp);
         m.historical = true;
@@ -211,6 +217,7 @@ class ChatUserMessage extends ChatMessage {
         this.highlighted = false;
         this.historical = false;
         this.target = null;
+        this.targetoutgoing = null;
         this.tag = null;
         this.slashme = false;
         this.mentioned = [];
@@ -228,27 +235,35 @@ class ChatUserMessage extends ChatMessage {
 
         if(this.isown)
             classes.push('msg-own');
-        if(this.slashme)
+        if(this.slashme && !this.target && !this.targetoutgoing)
             classes.push('msg-me');
         if(this.historical)
             classes.push('msg-historical');
         if(this.highlighted)
             classes.push('msg-highlight');
-        if(this.continued && !this.target)
+        if(this.continued && !this.target && !this.targetoutgoing)
             classes.push('msg-continue');
         if(this.tag)
             classes.push(`msg-tagged msg-tagged-${this.tag}`);
         if(this.target)
             classes.push(`msg-whisper`);
+        if(this.targetoutgoing)
+            classes.push(`msg-whisper`);
 
         let ctrl = ': ';
-        if(this.target)
+        if(this.targetoutgoing)
+            ctrl = ' To ';
+        else if(this.target)
             ctrl = ' whispered: ';
         else if(this.slashme || this.continued)
             ctrl = '';
 
         const user = buildFeatures(this.user) + ` <a class="user ${this.user.features.join(' ')}">${this.user.username}</a>`;
-        return this.wrap(buildTime(this) + ` ${user}<span class="ctrl">${ctrl}</span> ` + buildMessageTxt(chat, this), classes, attr);
+        let combined = ` ${user} <span class="ctrl">${ctrl}</span> `;
+        if (this.targetoutgoing){
+            combined = ` <span class="ctrl-leading">${ctrl}</span> <a class="user">${this.targetoutgoing}</a> <span class="ctrl">: </span>`;
+        }
+        return this.wrap(buildTime(this) + combined + buildMessageTxt(chat, this), classes, attr);
     }
 
 }
