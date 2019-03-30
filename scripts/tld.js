@@ -6,8 +6,8 @@ let TLD_MIN = 271; // Only update if at least this many found (original count)
 
 var targetFile = 'assets/tld.json';
 
-let cb = function(){
-  console.log('Done!');
+let cb = function() {
+    console.log('Done!');
 };
 
 // Asynchronously fetch TLDs, if valid then replace
@@ -31,7 +31,7 @@ http.get(TLD_FETCH_URL, function(res) {
         });
     });
 }).on('error', function(e) {
-    console.log("TLD fetch failed, using defaults: " + e.message);
+    console.log('TLD fetch failed, using defaults: ' + e.message);
     cb();
 });
 
@@ -40,14 +40,15 @@ function parseTLDs(data) {
     var list = ['bit', 'exit', 'gnu', 'i2p', 'local', 'onion', 'zkey'];
 
     // Make sure data is string
-    if (typeof data !== "string")
+    if (typeof data !== 'string') {
         return null;
+    }
 
     // Parse response data by line
-    var arr = data.split("\n");
+    var arr = data.split('\n');
     for (var idx in arr) {
         var tld = arr[idx];
-        if ((typeof tld !== "string") ||
+        if ((typeof tld !== 'string') ||
             (tld.length < 1) ||
             (tld[0] === '#') ||
             (tld.indexOf('XN--') >= 0)) {
@@ -58,13 +59,14 @@ function parseTLDs(data) {
     }
 
     // Only return fetched list if its larger than default
-    if (list.length <= TLD_MIN)
+    if (list.length <= TLD_MIN) {
         return null;
+    }
 
-    list.sort(function(x,y){
-        //Sort by size then alphabetically
-        if (x.length == y.length ){
-            return (x<y?-1:(x>y?1:0));
+    list.sort(function(x, y) {
+        // Sort by size then alphabetically
+        if (x.length === y.length) {
+            return (x < y ? -1 : (x > y ? 1 : 0));
         } else {
             return y.length - x.length;
         }
