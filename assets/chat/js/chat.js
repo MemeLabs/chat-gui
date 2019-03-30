@@ -468,6 +468,7 @@ class Chat {
     }
 
     withWhispers() {
+        /* TODO: restore this if/once we have a backend for it.
         if (this.authenticated) {
             $.ajax({url: `${API_URI}/api/messages/unread`})
                 .done(d => d.forEach(e => this.whispers.set(e['username'].toLowerCase(), {
@@ -477,7 +478,7 @@ class Chat {
                     open: false
                 })))
                 .always(() => this.menus.get('whisper-users').redraw());
-        }
+        } */
         return this;
     }
 
