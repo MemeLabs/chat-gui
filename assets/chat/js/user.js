@@ -1,28 +1,31 @@
 class ChatUser {
-
-    constructor(args={}){
-        if(typeof args === 'string') {
-            this.nick = args
-            this.username = args
-            this.features = []
+    constructor(args = {}) {
+        if (typeof args === 'string') {
+            this.nick = args;
+            this.username = args;
+            this.features = [];
         } else {
-            this.nick = args.nick || ''
-            this.username = args.nick || ''
-            this.features = args.features || []
+            this.nick = args.nick || '';
+            this.username = args.nick || '';
+            this.features = args.features || [];
         }
     }
 
-    hasAnyFeatures(...args){
+    hasAnyFeatures(...args) {
         for (const element of args) {
-            if(this.features.indexOf(typeof element !== 'string' ? element.toString() : element) !== -1)
-                return true
+            const stringElement = typeof element !== 'string'
+                ? element.toString()
+                : element;
+            if (this.features.indexOf(stringElement) !== -1) {
+                return true;
+            }
         }
-        return false
+        return false;
     }
 
-    hasFeature(feature){
-        return this.hasAnyFeatures(feature)
+    hasFeature(feature) {
+        return this.hasAnyFeatures(feature);
     }
 }
 
-export default ChatUser
+export default ChatUser;
