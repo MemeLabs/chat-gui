@@ -7,11 +7,7 @@
 .anim-fix {
     padding-top: 14px;
     margin-top: -10px;
-    margin-bottom: -12px;
-}
-
-.anim-fix > .chat-emote {
-    margin-bottom: 10px;
+    margin-bottom: -7px;
 }
 
 .generify-rustle > .chat-emote {
@@ -23,18 +19,11 @@
 }
 
 .mirror {
-    -moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
+}
 
-    //fix "blur" or mirrored emotes
-    image-rendering: optimizeSpeed;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -o-crisp-edges;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: optimize-contrast;
-    -ms-interpolation-mode: nearest-neighbor;
+.flip {
+    transform: scaleY(-1);
 }
 
 .generify-dank {
