@@ -380,6 +380,16 @@ label small {
     margin-bottom: 0.5em;
 }
 
+/* disable animations for emotes that have likely scrolled off-screen to save CPU-time. */
+.msg-chat:nth-last-child(n+50) {
+    /* container is added to all emotes */
+    .generify-container {
+        .chat-emote {
+            animation: none
+        }
+    }
+}
+
 /* Flairs */
 /* Default */
 a.user {
