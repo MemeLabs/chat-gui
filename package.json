@@ -61,7 +61,6 @@
     "postcss-loader": "~2.1.0",
     "sass-loader": "~6.0.6",
     "spritesmith": "~3.3.0",
-    "timestring": "^5.0.0",
     "ts-loader": "^5.3.3",
     "typescript": "^3.4.1",
     "webpack": "^4.29.6",

@@ -133,7 +133,7 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /(node_modules\/(?!(timestring)\/).*)/,
+                exclude: path.resolve(__dirname, 'node_modules'),
                 loader: 'babel-loader'
             },
             {

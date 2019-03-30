@@ -3,7 +3,6 @@
 import {KEYCODES, DATE_FORMATS, isKeyCode, GENERIFY_OPTIONS} from './const';
 import debounce from 'throttle-debounce/debounce';
 import moment from 'moment';
-import timestring from 'timestring';
 import EventEmitter from './emitter';
 import ChatSource from './source';
 import ChatUser from './user';
