@@ -9,7 +9,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const plugins = [
     new CopyWebpackPlugin([
-            { from: 'robots.txt' }
+        { from: 'robots.txt' }
     ]),
     new CleanWebpackPlugin(
         ['static'],
