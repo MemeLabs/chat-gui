@@ -51,7 +51,7 @@ function isKeyCode(e, code) {
 // emote:key; css class to apply
 const GENERIFY_OPTIONS = {
     'mirror': 'mirror',
-    'flip':'flip',
+    'flip': 'flip',
     'rain': 'weather rain anim-fix',
     'snow': 'weather snow anim-fix',
     'rustle': 'generify-rustle',
