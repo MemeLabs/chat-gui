@@ -1,29 +1,38 @@
 const fs = require('fs');
 const path = require('path');
 const Spritesmith = require('spritesmith');
-const NEWLINE = "\r\n";
+const NEWLINE = '\r\n';
 
 const glueImages = function (dir, name, cb) {
     let out = dir + name + '.png';
     fs.readdir(dir + name + '/', (err, files) => {
-        if(err) throw err;
-        const paths = files.map(a => dir + name + '/' +a);
+        if (err) {
+            throw err;
+        }
+
+        const paths = files.map(a => dir + name + '/' + a);
         Spritesmith.run({
             src: paths,
             algorithm: 'binary-tree',
             padding: 2
         }, (err, result) => {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
+
             fs.writeFileSync(out, result.image);
-            if (cb) cb(dir, name, result.coordinates);
+            if (cb) {
+                cb(dir, name, result.coordinates);
+            }
         });
     });
 };
 
-glueImages('./assets/emotes/', 'emoticons', function(dir, name, coordinates){
-    const names = Object.keys(coordinates).map(f => path.basename(f, path.extname(f)))
-                        .map(a => '.chat-emote.chat-emote-' + a)
-                        .join(',');
+glueImages('./assets/emotes/', 'emoticons', function(dir, name, coordinates) {
+    const names = Object.keys(coordinates)
+        .map(f => path.basename(f, path.extname(f)))
+        .map(a => '.chat-emote.chat-emote-' + a)
+        .join(',');
     let scss = '';
     scss += names + '{' + NEWLINE;
     scss += `    background-image:url('../../emotes/${name}.png');` + NEWLINE;
@@ -31,8 +40,9 @@ glueImages('./assets/emotes/', 'emoticons', function(dir, name, coordinates){
     scss += `}`;
     scss += NEWLINE;
     scss += Object.keys(coordinates).map(f => {
-        let name = path.basename(f, path.extname(f)), d = coordinates[f];
-        return ''+
+        let name = path.basename(f, path.extname(f));
+        let d = coordinates[f];
+        return '' +
         `.chat-emote.chat-emote-${name} {` + NEWLINE +
         `    background-position: -${d.x}px -${d.y}px;` + NEWLINE +
         `    width: ${d.width}px;` + NEWLINE +
@@ -44,10 +54,11 @@ glueImages('./assets/emotes/', 'emoticons', function(dir, name, coordinates){
     console.log(`Completed ${name} sprites`);
 });
 
-glueImages('./assets/icons/', 'icons', function(dir, name, coordinates){
-    const names = Object.keys(coordinates).map(f => path.basename(f, path.extname(f)))
-                        .map(a => '.icon-' + a)
-                        .join(',');
+glueImages('./assets/icons/', 'icons', function(dir, name, coordinates) {
+    const names = Object.keys(coordinates)
+        .map(f => path.basename(f, path.extname(f)))
+        .map(a => '.icon-' + a)
+        .join(',');
     let scss = '';
     scss += names + '{' + NEWLINE;
     scss += `    background-image:url('../../icons/${name}.png');` + NEWLINE;
@@ -56,8 +67,9 @@ glueImages('./assets/icons/', 'icons', function(dir, name, coordinates){
     scss += `}`;
     scss += NEWLINE;
     scss += Object.keys(coordinates).map(f => {
-        let name = path.basename(f, path.extname(f)), d = coordinates[f];
-        return ''+
+        let name = path.basename(f, path.extname(f));
+        let d = coordinates[f];
+        return '' +
         `.icon-${name} {` + NEWLINE +
         `    background-position: -${d.x}px -${d.y}px;` + NEWLINE +
         `    width: ${d.width}px;` + NEWLINE +
