@@ -1221,12 +1221,8 @@ class Chat {
             return;
         }
         const n = parts[0].toLowerCase();
-        if (n === this.user.username.toLowerCase()) {
-            MessageBuilder.error('Cannot tag yourself').into(this);
-            return;
-        }
         if (!this.users.has(n)) {
-            MessageBuilder.command('WARNING: The user you tagged is currently not in chat.').into(this);
+            MessageBuilder.command('The user you tagged is currently not in chat.').into(this);
         }
         const color = parts[1] && tagcolors.indexOf(parts[1]) !== -1 ? parts[1] : tagcolors[Math.floor(Math.random() * tagcolors.length)];
         this.mainwindow.getlines(`.msg-user[data-username="${n}"]`)
