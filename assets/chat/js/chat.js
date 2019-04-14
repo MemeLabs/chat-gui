@@ -1221,10 +1221,6 @@ class Chat {
             return;
         }
         const n = parts[0].toLowerCase();
-        if (n === this.user.username.toLowerCase()) {
-            MessageBuilder.error('Cannot tag yourself').into(this);
-            return;
-        }
         if (!this.users.has(n)) {
             MessageBuilder.command('WARNING: The user you tagged is currently not in chat.').into(this);
         }
