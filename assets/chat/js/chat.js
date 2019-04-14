@@ -1226,8 +1226,7 @@ class Chat {
             return;
         }
         if (!this.users.has(n)) {
-            MessageBuilder.error('User must be present in chat to tag.').into(this);
-            return;
+            MessageBuilder.command('WARNING: The user you tagged is currently not in chat.').into(this);
         }
         const color = parts[1] && tagcolors.indexOf(parts[1]) !== -1 ? parts[1] : tagcolors[Math.floor(Math.random() * tagcolors.length)];
         this.mainwindow.getlines(`.msg-user[data-username="${n}"]`)
