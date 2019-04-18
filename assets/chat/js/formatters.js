@@ -53,6 +53,7 @@ function getLastMsg(chat) {
     return chat["mainwindow"]["lastmessage"]["message"];
 }
 
+
 function genSeed(str, chat, i) {
     const lastMsg = getLastMsg(chat);
     if (lastMsg == "") {
@@ -100,6 +101,16 @@ function isHalloween() {
     return today.getUTCMonth() == 9 || (today.getUTCMonth() == 10 && today.getUTCDate() == 1);
 }
 
+function putHat(width, height) {
+    const today = new Date();
+    
+    if (true) {
+        return `<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAALCAYAAACksgdhAAABp0lEQVQoz4XNTUiTcQDH8e9//z3P nunc5itNfI0WRgwcBZZIlKkgvYgaeJU6RHiQAvUUz6WL1MGLh4JOpVCGRV0cMWtOKOhQIPgySDwM I821OZ0vW/t3zXD4vf0OH37wX2Wv5+NngiH1ZKr7MTmy/DuCoUsXaotjruXMcXZ1eev22ICXo7r4 8tVDR2BViUBS6eMLyj3y/pNpKkvOJ9NUlq+7dR0p5aBGj2LkGySlce5pUaA3J3rj/li1o9m9CEWT +wsex28MLU1cGQ+axsKFh6IfKtOm7E5cIk4odhbNKmipiZCSFs/C2t79Q1Hapl3L2jTai2fpr3rG 4k4tUarx58+xJa19Jx+9rTuAqs0Pxh+pt2aF5MX6VQa/DyLIcKPyM1fKwkixp988MTF6ADV4ps8P +cZtkn2yApxik3f1dxmJ9jC8PoBTJmksCjbPTvs6AARAxfPwpMij87Rng7X9EuZSp6gviPBty4va 3Eb9XKbVFabS+ms+EutskNap+LFh5+i9hL2gdNJ3h3a5ysyKn/LtPLqMKI6NNH63Rr93haXE5dKE XnL9L2cakAnYJDsWAAAAAElFTkSuQmCC" style="position: absolute;left: ${width/2 -2}px;z-index: 2;bottom: ${height -7}px;">`;
+    }
+
+    return "";
+}
+
 class IdentityFormatter {
 
     format(chat, str, message=null){
@@ -118,10 +129,33 @@ class EmoteFormatter {
             const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
             this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
         }
+
+        if (!this.emotewidths) {
+            this.emotewidths = {};
+            this.emoteheiths = {};
+            const emoteArray = [...chat.emoticons]
+
+            //create css classes for :dank
+            var style = document.createElement('style');
+            style.type = 'text/css';
+
+            for (var i = 0; i < emoteArray.length; i++) {
+                var width = document.getElementsByClassName("chat-emote-" + emoteArray[i])[0].clientWidth
+                var height = document.getElementsByClassName("chat-emote-" + emoteArray[i])[0].clientHeight
+                this.emotewidths[emoteArray[i]] = width;
+                this.emoteheiths[emoteArray[i]] = height;
+
+                style.innerHTML += `
+                    .generify-dank > .chat-emote.chat-emote-${emoteArray[i]} { margin-left: ${40 - width/2}px  }`;
+            }
+
+            document.getElementsByTagName('head')[0].appendChild(style);
+        }
+
         const emoteCount = ((str || '').match(this.regex) || []).length
         // re-seed the rng for halloween effects each emote
         var i = 0;
-        return str.replace(this.regex, function(m) {
+        return str.replace(this.regex, (m) => {
             // m is "emote:modifier"
             const input = m.split(':')
             const emote = input[0].replace(/\s/g, '');
@@ -142,10 +176,11 @@ class EmoteFormatter {
             if (chat.settings.get('animateforever')) {
                 innerClasses.push('chat-emote-'+emote+'-animate-forever')
             }
+            let hat = putHat(this.emotewidths[emote], this.emoteheiths[emote]);
 
             const innerEmote = ' <span title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             const modifierEffect = GENERIFY_OPTIONS[suffix] || "";
-            return ' <span class="generify-container ' + modifierEffect + '">' + innerEmote + '</span>';
+            return ' <span class="generify-container ' + modifierEffect + '">' + hat + innerEmote + '</span>';
         });
     }
 
