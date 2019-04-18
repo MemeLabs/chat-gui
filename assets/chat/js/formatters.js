@@ -1,5 +1,5 @@
 import UserFeatures from './features';
-import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST} from './const'
+import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST} from './const'
 
 
 /** @var Array tlds */
@@ -177,6 +177,9 @@ class EmoteFormatter {
                 innerClasses.push('chat-emote-'+emote+'-animate-forever')
             }
             let hat = putHat(this.emotewidths[emote], this.emoteheiths[emote]);
+            if (HAT_BLACKLIST.includes(emote)) {
+                hat = "";
+            }
 
             const innerEmote = ' <span title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             const modifierEffect = GENERIFY_OPTIONS[suffix] || "";
