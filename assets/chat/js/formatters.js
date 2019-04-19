@@ -1,5 +1,5 @@
 import UserFeatures from './features';
-import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST} from './const'
+import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST, HAT_SPECIAL_BLACKLIST} from './const'
 
 
 /** @var Array tlds */
@@ -101,13 +101,24 @@ function isHalloween() {
     return today.getUTCMonth() == 9 || (today.getUTCMonth() == 10 && today.getUTCDate() == 1);
 }
 
-function putHat(width, height) {
+function putHat(width, height, emote) {
     const today = new Date();
     
+    if (HAT_BLACKLIST.includes(emote)) {
+        return "";
+    }
+
+
     if (today.getUTCMonth() == 3 && (today.getUTCDate() == 20 || today.getUTCDate() == 21)) { //birthday hat
+        if (HAT_SPECIAL_BLACKLIST['bday'].includes(emote)) {
+            return "";
+        }
         return `<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAALCAYAAACksgdhAAABp0lEQVQoz4XNTUiTcQDH8e9//z3P nunc5itNfI0WRgwcBZZIlKkgvYgaeJU6RHiQAvUUz6WL1MGLh4JOpVCGRV0cMWtOKOhQIPgySDwM I821OZ0vW/t3zXD4vf0OH37wX2Wv5+NngiH1ZKr7MTmy/DuCoUsXaotjruXMcXZ1eev22ICXo7r4 8tVDR2BViUBS6eMLyj3y/pNpKkvOJ9NUlq+7dR0p5aBGj2LkGySlce5pUaA3J3rj/li1o9m9CEWT +wsex28MLU1cGQ+axsKFh6IfKtOm7E5cIk4odhbNKmipiZCSFs/C2t79Q1Hapl3L2jTai2fpr3rG 4k4tUarx58+xJa19Jx+9rTuAqs0Pxh+pt2aF5MX6VQa/DyLIcKPyM1fKwkixp988MTF6ADV4ps8P +cZtkn2yApxik3f1dxmJ9jC8PoBTJmksCjbPTvs6AARAxfPwpMij87Rng7X9EuZSp6gviPBty4va 3Eb9XKbVFabS+ms+EutskNap+LFh5+i9hL2gdNJ3h3a5ysyKn/LtPLqMKI6NNH63Rr93haXE5dKE XnL9L2cakAnYJDsWAAAAAElFTkSuQmCC" style="position: absolute;left: ${width/2 -2}px;z-index: 2;bottom: ${height -7}px;">`;
     }
     if (false) { // HONK hair
+        if (HAT_SPECIAL_BLACKLIST['honk'].includes(emote)) {
+            return "";
+        }
         return `<img src="data:image/png;base64,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" style="position: absolute;left: ${width/2 -16}px;z-index: 2;bottom: ${height -9}px;">`;
     }
     return "";
@@ -178,11 +189,8 @@ class EmoteFormatter {
             if (chat.settings.get('animateforever')) {
                 innerClasses.push('chat-emote-'+emote+'-animate-forever')
             }
-            let hat = putHat(this.emotewidths[emote], this.emoteheiths[emote]);
-            if (HAT_BLACKLIST.includes(emote)) {
-                hat = "";
-            }
-
+            let hat = putHat(this.emotewidths[emote], this.emoteheiths[emote], emote);
+            
             const innerEmote = ' <span title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             const modifierEffect = GENERIFY_OPTIONS[suffix] || "";
             return ' <span class="generify-container ' + modifierEffect + '">' + hat + innerEmote + '</span>';

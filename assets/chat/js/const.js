@@ -88,9 +88,28 @@ const HALLOWEEN_BLACKLIST = [
     'GameOfThrows'
 ];
 
+//blacklisted from receiving any of the hats
 const HAT_BLACKLIST = [
     'HEADSHOT',
-    'Klappa'
+    'Clap',
+    'CampFire',
+    'POKE',
+    'GameOfThrows',
+    'Sippy',
+    'ApeHands'
 ]
 
-export {KEYCODES, DATE_FORMATS, isKeyCode, getKeyCode, GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST};
+//blacklists for special hats
+const HAT_SPECIAL_BLACKLIST = {
+    'bday': [
+        'NoTears',
+        'Klappa',
+        'FeelsAmazingMan'
+    ],
+    'honk': [
+        'YEE'
+    ]
+
+}
+
+export {KEYCODES, DATE_FORMATS, isKeyCode, getKeyCode, GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST, HAT_SPECIAL_BLACKLIST};
