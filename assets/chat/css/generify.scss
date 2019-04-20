@@ -2,6 +2,7 @@
 
 .generify-container {
     display: inline-block;
+    position: relative;
 }
 
 .anim-fix {
@@ -45,37 +46,6 @@
 }
 .generify-dank:hover {
     animation: dankmemes-anim 1s infinite;
-}
-
-.generify-dank > .chat-emote.chat-emote-DANKMEMES {
-    margin-left: 0px
-}
-.generify-dank > .chat-emote.chat-emote-DuckerZ {
-    margin-left: 0px
-}
-.generify-dank > .chat-emote.chat-emote-CUX {
-    margin-left: 0px
-}
-.generify-dank > .chat-emote.chat-emote-GameOfThrows {
-    margin-left: 0px
-}
-.generify-dank > .chat-emote.chat-emote-AngelThump {
-    margin-left: 0px
-}
-.generify-dank > .chat-emote.chat-emote-RaveDoge {
-    margin-left: 15px
-}
-.generify-dank > .chat-emote.chat-emote-Abathur {
-    margin-left: 10px
-}
-.generify-dank > .chat-emote.chat-emote-TRUMPED {
-    margin-left: 11px
-}
-.generify-dank > .chat-emote.chat-emote-NOTMYTEMPO {
-    margin-left: 12px
-}
-.generify-dank > .chat-emote.chat-emote-AYYYLMAO {
-    margin-left: 0px
 }
 
 
