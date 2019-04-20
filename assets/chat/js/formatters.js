@@ -145,7 +145,7 @@ class EmoteFormatter {
 
         if (!this.emotewidths) {
             this.emotewidths = {};
-            this.emoteheiths = {};
+            this.emoteheights = {};
             const emoteArray = [...chat.emoticons]
 
             //create css classes for :dank
@@ -156,7 +156,7 @@ class EmoteFormatter {
                 var width = document.getElementsByClassName("chat-emote-" + emoteArray[i])[0].clientWidth
                 var height = document.getElementsByClassName("chat-emote-" + emoteArray[i])[0].clientHeight
                 this.emotewidths[emoteArray[i]] = width;
-                this.emoteheiths[emoteArray[i]] = height;
+                this.emoteheights[emoteArray[i]] = height;
 
                 style.innerHTML += `
                     .generify-dank > .chat-emote.chat-emote-${emoteArray[i]} { margin-left: ${40 - width/2}px  }`;
@@ -189,7 +189,7 @@ class EmoteFormatter {
             if (chat.settings.get('animateforever')) {
                 innerClasses.push('chat-emote-'+emote+'-animate-forever')
             }
-            let hat = putHat(this.emotewidths[emote], this.emoteheiths[emote], emote);
+            let hat = putHat(this.emotewidths[emote], this.emoteheights[emote], emote);
             
             const innerEmote = ' <span title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             const modifierEffect = GENERIFY_OPTIONS[suffix] || "";
