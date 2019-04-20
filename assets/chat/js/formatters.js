@@ -53,7 +53,6 @@ function getLastMsg(chat) {
     return chat["mainwindow"]["lastmessage"]["message"];
 }
 
-
 function genSeed(str, chat, i) {
     const lastMsg = getLastMsg(chat);
     if (lastMsg == "") {
@@ -153,8 +152,8 @@ class EmoteFormatter {
             style.type = 'text/css';
 
             for (var i = 0; i < emoteArray.length; i++) {
-                var width = document.getElementsByClassName("chat-emote-" + emoteArray[i])[0].clientWidth
-                var height = document.getElementsByClassName("chat-emote-" + emoteArray[i])[0].clientHeight
+                var width = document.getElementsByClassName("chat-emote-" + emoteArray[i])[0].clientWidth;
+                var height = document.getElementsByClassName("chat-emote-" + emoteArray[i])[0].clientHeight;
                 this.emotewidths[emoteArray[i]] = width;
                 this.emoteheights[emoteArray[i]] = height;
 
