@@ -58,7 +58,9 @@ const GENERIFY_OPTIONS = {
     'worth': 'generify-worth',
     // 'dank': 'generify-dank',
     // 'hyper': 'generify-hyper generify-rustle',
-    'love': 'generify-love'
+    'love': 'generify-love',
+    //hat generifys
+    'honk': ''
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
@@ -97,7 +99,7 @@ const HAT_BLACKLIST = [
     'GameOfThrows',
     'Sippy',
     'ApeHands'
-]
+];
 
 //blacklists for special hats
 const HAT_SPECIAL_BLACKLIST = {
@@ -109,7 +111,10 @@ const HAT_SPECIAL_BLACKLIST = {
     'honk': [
         'YEE'
     ]
+};
 
-}
+const GENERIFY_HAT = [
+    'honk'
+];
 
-export {KEYCODES, DATE_FORMATS, isKeyCode, getKeyCode, GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST, HAT_SPECIAL_BLACKLIST};
+export {KEYCODES, DATE_FORMATS, isKeyCode, getKeyCode, GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST, HAT_SPECIAL_BLACKLIST, GENERIFY_HAT};
