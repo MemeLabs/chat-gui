@@ -114,6 +114,8 @@ function putHat(width, height, emote) {
         }
         return `<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAALCAYAAACksgdhAAABp0lEQVQoz4XNTUiTcQDH8e9//z3P nunc5itNfI0WRgwcBZZIlKkgvYgaeJU6RHiQAvUUz6WL1MGLh4JOpVCGRV0cMWtOKOhQIPgySDwM I821OZ0vW/t3zXD4vf0OH37wX2Wv5+NngiH1ZKr7MTmy/DuCoUsXaotjruXMcXZ1eev22ICXo7r4 8tVDR2BViUBS6eMLyj3y/pNpKkvOJ9NUlq+7dR0p5aBGj2LkGySlce5pUaA3J3rj/li1o9m9CEWT +wsex28MLU1cGQ+axsKFh6IfKtOm7E5cIk4odhbNKmipiZCSFs/C2t79Q1Hapl3L2jTai2fpr3rG 4k4tUarx58+xJa19Jx+9rTuAqs0Pxh+pt2aF5MX6VQa/DyLIcKPyM1fKwkixp988MTF6ADV4ps8P +cZtkn2yApxik3f1dxmJ9jC8PoBTJmksCjbPTvs6AARAxfPwpMij87Rng7X9EuZSp6gviPBty4va 3Eb9XKbVFabS+ms+EutskNap+LFh5+i9hL2gdNJ3h3a5ysyKn/LtPLqMKI6NNH63Rr93haXE5dKE XnL9L2cakAnYJDsWAAAAAElFTkSuQmCC" style="position: absolute;left: ${width/2 -2}px;z-index: 2;bottom: ${height -7}px;">`;
     }
+
+    return "";
 }
 
 class IdentityFormatter {
