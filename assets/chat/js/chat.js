@@ -15,6 +15,7 @@ import ChatStore from './store';
 import UserFeatures from './features';
 import Settings from './settings';
 import ChatWindow from './window';
+import {EmoteFormatter, UrlFormatter} from './formatters';
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/ig;
 const regexsafe = /[\-\[\]\/{}()*+?.\\^$|]/g;
@@ -462,6 +463,53 @@ class Chat {
             MessageBuilder.element('<hr/>').into(this);
             this.backlogloading = false;
             this.mainwindow.updateAndPin();
+        }
+        return this;
+    }
+
+    withAnnounce(announce) {
+        if (announce && announce.length > 0) {
+            const formatters = [new EmoteFormatter(), new UrlFormatter()];
+            const chat = this;
+            let getAndUpdateReadIDs = function getAndUpdateReadIDs(num) {
+                let readAnnoucementIDs = localStorage.getItem("readAnnoucementIDs");
+                readAnnoucementIDs = readAnnoucementIDs ? JSON.parse(readAnnoucementIDs) : [];
+                if (num) {
+                    readAnnoucementIDs.push(num);
+                    localStorage.setItem('readAnnoucementIDs', JSON.stringify(readAnnoucementIDs));
+                }
+                return readAnnoucementIDs;
+            }
+            window.getAndUpdateReadIDs = getAndUpdateReadIDs;
+            let readAnnoucementIDs = getAndUpdateReadIDs();
+            // API returns [announcement1, announcement2, ..., announcementN]
+            // We want the announcementN to be added first (which is then at the very bottom, z-index wise)
+            for (let i = announce.length-1; i >= 0 ; i--) {
+                try {
+                    let data = announce[i];
+                    let ID = data.ID;
+                    if (readAnnoucementIDs.includes(ID)) {
+                        console.log(`skipping ${data} because ${ID} already marked as read.`);
+                        continue;
+                    }
+                    let today = new Date().getTime();
+                    let start = Date.parse(data.StartTime);
+                    let end = Date.parse(data.EndTime);
+                    if (start > today || end < today) {
+                        console.log(`skipping ${ID} because ${today} not in [${start}, ${end}].`);
+                        continue;
+                    }
+
+                    let msg = `ANNOUNCEMENT FROM ${new Date(data.StartTime).toLocaleString()}<hr>` + data.Message;
+                    formatters.forEach(f => msg = f.format(chat, msg, null))
+                    let category = data.Category ? data.Category : 'default';
+                    let elem = `<div class="alert ${category}">`;
+                    elem += `<span class='closebtn' onclick="this.parentElement.style.display='none'; getAndUpdateReadIDs(${ID});">&times;</span>${msg}</div>`;
+                    document.getElementById('chat').insertAdjacentHTML('beforeend', elem);
+                } catch (e) {
+                    console.log(e);
+                }
+            }
         }
         return this;
     }
