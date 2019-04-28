@@ -147,6 +147,7 @@ class EmoteFormatter {
             style.type = 'text/css';
 
             for (var i = 0; i < emoteArray.length; i++) {
+                if (document.getElementsByClassName("chat-emote-" + emoteArray[i]).length == 0) { break; }
                 var width = document.getElementsByClassName("chat-emote-" + emoteArray[i])[0].clientWidth;
                 var height = document.getElementsByClassName("chat-emote-" + emoteArray[i])[0].clientHeight;
                 this.emotewidths[emoteArray[i]] = width;
@@ -183,7 +184,11 @@ class EmoteFormatter {
             if (chat.settings.get('animateforever')) {
                 innerClasses.push('chat-emote-'+emote+'-animate-forever')
             }
-            let hat = putHat(this.emotewidths[emote], this.emoteheights[emote], emote);
+
+            let hat = "";
+            if (this.emotewidths[emote] !== undefined) {
+                hat = putHat(this.emotewidths[emote], this.emoteheights[emote], emote);
+            }
             
             const innerEmote = ' <span title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             const modifierEffect = GENERIFY_OPTIONS[suffix] || "";
