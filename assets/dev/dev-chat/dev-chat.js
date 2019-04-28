@@ -26,4 +26,5 @@ window.__chat__ = new Chat()
     .withEmotes(emotes)
     .withGui()
     .withWhispers()
+    .withAnnounce([{"ID":1,"Message":"PepoComfy","Category":"default","StartTime":"2019-04-26T23:59:28Z","EndTime":"2222-04-12T23:20:50Z"}])
     .connect(mockStream.url);

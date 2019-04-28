@@ -471,6 +471,7 @@ class Chat {
         if (announce && announce.length > 0) {
             const formatters = [new EmoteFormatter(), new UrlFormatter()];
             const chat = this;
+            // TODO find any other way to accomplish this...
             let getAndUpdateReadIDs = function getAndUpdateReadIDs(num) {
                 let readAnnoucementIDs = localStorage.getItem("readAnnoucementIDs");
                 readAnnoucementIDs = readAnnoucementIDs ? JSON.parse(readAnnoucementIDs) : [];
@@ -500,7 +501,7 @@ class Chat {
                         continue;
                     }
 
-                    let msg = `ANNOUNCEMENT FROM ${new Date(data.StartTime).toLocaleString()}<hr>` + data.Message;
+                    let msg = `ANNOUNCEMENT FROM ${new Date(data.StartTime).toLocaleString()}<hr> ` + data.Message;
                     formatters.forEach(f => msg = f.format(chat, msg, null))
                     let category = data.Category ? data.Category : 'default';
                     let elem = `<div class="alert ${category}">`;
