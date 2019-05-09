@@ -221,11 +221,11 @@ function stringCodeParser(str) {
         var afterTick = str.substring(indexOne+1,)
         var indexTwo = findNextTick(afterTick)
         if (indexTwo != -1){
-            var betweenTicks = afterTick.substring(0,indexTwo).replace(/\\`/g, '`').replace(/\r?\n|\r/g, '')
-            return str.substring(0,indexOne) + `<code> ${betweenTicks} </code>` + stringCodeParser(afterTick.substring(indexTwo+1,));
+            var betweenTicks = afterTick.substring(0,indexTwo).replace(/\r?\n|\r/g, '')
+            return (str.substring(0,indexOne) + `<code> ${betweenTicks} </code>` + stringCodeParser(afterTick.substring(indexTwo+1,))).replace(/\\`/g, '`');
         }
     }
-    return str
+    return str.replace(/\\`/g, '`')
 }
 
 class CodeFormatter {
