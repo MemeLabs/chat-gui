@@ -134,7 +134,7 @@ class EmoteFormatter {
                 ...chat.emoticons,
             ].join('|');
             const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
-            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
+            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)(?=(?:[^code]*code[^code]*code)*[^code]*$)`, 'gm');
         }
 
         if (!this.emotewidths) {
