@@ -222,18 +222,18 @@ function stringCodeParser(str) {
         var indexTwo = findNextTick(afterTick);
         if (indexTwo !== -1) {
             var betweenTicks = afterTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
-            return (str.substring(0, indexOne) + `<code>${betweenTicks}</code>` + stringCodeParser(afterTick.substring(indexTwo + 1))).replace(/\\`/g, '`');
+            str = (str.substring(0, indexOne) + `<code>${betweenTicks}</code>` + stringCodeParser(afterTick.substring(indexTwo + 1)));
         }
     }
-    return str.replace(/\\`/g, '`');
+    return str;
 }
 
 class CodeFormatter {
     format(chat, str, message = null) {
         if (str.indexOf('&gt;') !== 0) {
-            return stringCodeParser(str);
+            str = stringCodeParser(str);
         }
-        return str;
+        return str.replace(/\\`/g, '`');
     }
 }
 
