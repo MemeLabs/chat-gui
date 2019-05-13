@@ -274,6 +274,13 @@ label small {
     color: $color-chat-text2;
 }
 
+/* Code Tag */
+.msg-chat code {
+    background-color: rgb(51, 51, 51);
+    border-radius: 3px;
+    white-space: pre-wrap;
+}
+
 /* Base ChatMessage */
 .msg-chat {
     clear: both;

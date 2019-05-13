@@ -1,6 +1,6 @@
 /* global $ */
 
-import {EmoteFormatter, GreenTextFormatter, HtmlTextFormatter, MentionedUserFormatter, UrlFormatter, IdentityFormatter} from './formatters'
+import {EmoteFormatter, GreenTextFormatter, HtmlTextFormatter, MentionedUserFormatter, UrlFormatter, IdentityFormatter, CodeFormatter} from './formatters'
 import {DATE_FORMATS} from './const'
 import UserFeatures from './features'
 import throttle from 'throttle-debounce/throttle'
@@ -21,6 +21,7 @@ const formatters = new Map()
 formatters.set('html', new HtmlTextFormatter())
 formatters.set('url', new UrlFormatter())
 formatters.set('mentioned', new MentionedUserFormatter())
+formatters.set('code', new CodeFormatter())
 
 // init with formatters that do nothing, and fill with real ones depending on settings.
 // (other code depends on those formatters existsing...)

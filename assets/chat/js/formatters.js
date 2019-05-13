@@ -134,7 +134,7 @@ class EmoteFormatter {
                 ...chat.emoticons,
             ].join('|');
             const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
-            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
+            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)(?=(?:[^<code>]*<code>[^</code>]*</code>)*[^<code>]*$)`, 'gm');
         }
 
         if (!this.emotewidths) {
@@ -196,6 +196,45 @@ class EmoteFormatter {
         });
     }
 
+}
+
+// ignore escaped backticks
+function findNextTick(str) {
+    var base = 0;
+    while (str.length > 0) {
+        var index = str.indexOf('`');
+        if (index === -1) {
+            return -1;
+        } else if (str.charAt(index - 1) !== '\\') {
+            return index + base;
+        } else {
+            base += index + 1;
+            str = str.substring(index + 1);
+        }
+    }
+    return -1;
+}
+
+function stringCodeParser(str) {
+    var indexOne = findNextTick(str);
+    if (indexOne !== -1) {
+        var afterTick = str.substring(indexOne + 1);
+        var indexTwo = findNextTick(afterTick);
+        if (indexTwo !== -1) {
+            var betweenTicks = afterTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
+            str = (str.substring(0, indexOne) + `<code>${betweenTicks}</code>` + stringCodeParser(afterTick.substring(indexTwo + 1)));
+        }
+    }
+    return str;
+}
+
+class CodeFormatter {
+    format(chat, str, message = null) {
+        if (str.indexOf('&gt;') !== 0) {
+            str = stringCodeParser(str);
+        }
+        return str.replace(/\\`/g, '`');
+    }
 }
 
 class GreenTextFormatter {
@@ -303,5 +342,6 @@ export {
     HtmlTextFormatter,
     MentionedUserFormatter,
     UrlFormatter,
-    IdentityFormatter
+    IdentityFormatter,
+    CodeFormatter
 }
