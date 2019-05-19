@@ -134,7 +134,7 @@ class EmoteFormatter {
                 ...chat.emoticons,
             ].join('|');
             const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
-            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)(?=(?:[^<code>]*<code>[^</code>]*</code>)*[^<code>]*$)`, 'gm');
+            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)(?=(?:[^ ]* [^ ]* )*[^ ]*$)`, 'gm');
         }
 
         if (!this.emotewidths) {
@@ -222,7 +222,7 @@ function stringCodeParser(str) {
         var indexTwo = findNextTick(afterTick);
         if (indexTwo !== -1) {
             var betweenTicks = afterTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
-            str = (str.substring(0, indexOne) + `<code>${betweenTicks}</code>` + stringCodeParser(afterTick.substring(indexTwo + 1)));
+            str = (str.substring(0, indexOne) + `<code> ${betweenTicks} </code>` + stringCodeParser(afterTick.substring(indexTwo + 1)));
         }
     }
     return str;
@@ -230,10 +230,7 @@ function stringCodeParser(str) {
 
 class CodeFormatter {
     format(chat, str, message = null) {
-        if (str.indexOf('&gt;') !== 0) {
-            str = stringCodeParser(str);
-        }
-        return str.replace(/\\`/g, '`');
+        return stringCodeParser(str).replace(/\\`/g, '`');
     }
 }
 
