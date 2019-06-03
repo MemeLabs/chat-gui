@@ -29,6 +29,8 @@ $text-size-md       : 13px;
 $text-size-lg       : 16px;
 $chat-line-height   : 22px;
 $chat-gutter-sm     : 6px;
+$spoiler-hidden-bg  : rgb(34, 34, 34);
+$spoiler-visible-bg : rgb(59, 59, 59);
 
 body, textarea, input, button {
     font-family: $chat-chrome-font;
@@ -332,20 +334,26 @@ label small {
         cursor: pointer;
         .generify-container {
             .chat-emote {
-                visibility: hidden;
+                transition: all .2s;
+                transform: scale(0);
             }
         }
         padding-left: 3px;
         padding-right: 3px;
         border-radius: 3px;
-        background: rgb(51, 51, 51);
-        color: rgb(51, 51, 51);
+        border-width: 1px;
+        border-style: solid;
+        border-color: #000000;
+        background:  $spoiler-hidden-bg;
+        color:  $spoiler-hidden-bg;
+        transition: all .2s ease-in-out;
         &.visible {
             .generify-container {
                 .chat-emote {
-                    visibility: visible;
+                    transform: scale(1);
                 }
             }
+            background:  $spoiler-visible-bg;
             color: $color-chat-text2;
         }
     }
