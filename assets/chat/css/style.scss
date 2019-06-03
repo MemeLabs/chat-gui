@@ -329,6 +329,7 @@ label small {
         color: $color-green-text;
     }
     .spoiler {
+        cursor: pointer;
         .generify-container {
             .chat-emote {
                 visibility: hidden;
@@ -339,14 +340,14 @@ label small {
         border-radius: 3px;
         background: rgb(51, 51, 51);
         color: rgb(51, 51, 51);
-    }
-    .spoiler:hover {
-        .generify-container {
-            .chat-emote {
-                visibility: visible;
+        &.visible {
+            .generify-container {
+                .chat-emote {
+                    visibility: visible;
+                }
             }
+            color: $color-chat-text2;
         }
-        color: $color-chat-text2;
     }
     .externallink,
     .nsfw-link {

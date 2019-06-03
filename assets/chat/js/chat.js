@@ -11,6 +11,7 @@ import {ChatMenu, ChatUserMenu, ChatWhisperUsers, ChatEmoteMenu, ChatSettingsMen
 import ChatAutoComplete from './autocomplete';
 import ChatInputHistory from './history';
 import ChatUserFocus from './focus';
+import ChatSpoiler from './spoiler';
 import ChatStore from './store';
 import UserFeatures from './features';
 import Settings from './settings';
@@ -276,6 +277,7 @@ class Chat {
         this.windowselect = this.ui.find('#chat-windows-select');
         this.inputhistory = new ChatInputHistory(this);
         this.userfocus = new ChatUserFocus(this, this.css);
+        this.spoiler = new ChatSpoiler(this);
         this.mainwindow = new ChatWindow('main').into(this);
 
         this.windowToFront('main');
