@@ -361,6 +361,7 @@ label small {
 
         .msg-highlight + &,
         .msg-tagged + &.msg-tagged {
+            z-index: -1;
             margin-top: -4px;
             padding-top: 1px;
             border-top: none;
