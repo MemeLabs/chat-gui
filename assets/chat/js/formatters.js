@@ -205,11 +205,12 @@ function findNextTick(str) {
         var index = str.indexOf('`');
         if (index === -1) {
             return -1;
-        } else if (str.charAt(index - 1) !== '\\') {
-            return index + base;
+        } else if (str.charAt(index + 1) === '`' || str.charAt(index - 1) === '\\') {
+            var step = (str.charAt(index + 1) === '`') ? index + 2 : index + 1;
+            base += step;
+            str = str.substring(step);
         } else {
-            base += index + 1;
-            str = str.substring(index + 1);
+            return index + base;
         }
     }
     return -1;
@@ -233,15 +234,10 @@ function stringCodeSplitter(str) {
         var indexTwo = findNextTick(afterFirstTick);
         if (indexTwo !== -1) {
             var betweenTicks = afterFirstTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
-            var subArray;
-            if (indexTwo + indexOne === indexOne) {
-                subArray = [{ type: 'text', value: str.substring(0, indexOne + indexTwo + 2) }];
-            } else {
-                subArray = (beforeFirstTick.length > 0)
-                    ? subArray = [{ type: 'text', value: beforeFirstTick }, { type: 'code', value: betweenTicks }]
-                    : subArray = [{ type: 'code', value: betweenTicks }];
-            }
             var afterSecondTick = afterFirstTick.substring(indexTwo + 1);
+            var subArray = (beforeFirstTick.length > 0)
+                ? subArray = [{ type: 'text', value: beforeFirstTick }, { type: 'code', value: betweenTicks }]
+                : subArray = [{ type: 'code', value: betweenTicks }];
             if (afterSecondTick.length > 0) {
                 return subArray.concat(stringCodeSplitter(afterSecondTick));
             }
