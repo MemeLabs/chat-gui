@@ -134,7 +134,7 @@ class EmoteFormatter {
                 ...chat.emoticons,
             ].join('|');
             const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
-            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)(?=(?:[^ ]* [^ ]* )*[^ ]*$)`, 'gm');
+            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
         }
 
         if (!this.emotewidths) {
@@ -215,22 +215,48 @@ function findNextTick(str) {
     return -1;
 }
 
+// surrounds code with code tags,
+// replaces empty string and string only containing whitespace with single space
 function stringCodeParser(str) {
+    if (RegExp('^\\s*$').test(str)) {
+        str = ' ';
+    }
+    return `<code>${str}</code>`;
+}
+
+// splits input message into array of code and non code blocks
+function stringCodeSplitter(str) {
     var indexOne = findNextTick(str);
     if (indexOne !== -1) {
-        var afterTick = str.substring(indexOne + 1);
-        var indexTwo = findNextTick(afterTick);
+        var beforeFirstTick = str.substring(0, indexOne);
+        var afterFirstTick = str.substring(indexOne + 1);
+        var indexTwo = findNextTick(afterFirstTick);
         if (indexTwo !== -1) {
-            var betweenTicks = afterTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
-            str = (str.substring(0, indexOne) + `<code> ${betweenTicks} </code>` + stringCodeParser(afterTick.substring(indexTwo + 1)));
+            var betweenTicks = afterFirstTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
+            var afterSecondTick = afterFirstTick.substring(indexTwo + 1);
+            var subArray;
+            if (beforeFirstTick.length > 0) {
+                subArray = [[beforeFirstTick, '0'], [betweenTicks, '1']];
+            } else {
+                subArray = [[betweenTicks, '1']];
+            }
+            if (afterSecondTick.length > 0) {
+                return subArray.concat(stringCodeSplitter(afterSecondTick));
+            } else {
+                return subArray;
+            }
         }
     }
-    return str;
+    return [[str, '0']];
 }
 
 class CodeFormatter {
     format(chat, str, message = null) {
-        return stringCodeParser(str).replace(/\\`/g, '`');
+        return stringCodeParser(str);
+    }
+
+    split(str) {
+        return stringCodeSplitter(str);
     }
 }
 

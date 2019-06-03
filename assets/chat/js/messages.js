@@ -21,7 +21,6 @@ const formatters = new Map()
 formatters.set('html', new HtmlTextFormatter())
 formatters.set('url', new UrlFormatter())
 formatters.set('mentioned', new MentionedUserFormatter())
-formatters.set('code', new CodeFormatter())
 
 // init with formatters that do nothing, and fill with real ones depending on settings.
 // (other code depends on those formatters existsing...)
@@ -33,11 +32,24 @@ function setFormattersFromSettings(settings) {
     if (settings.get('formatter-green')) formatters.set('green', new GreenTextFormatter());
 }
 
-function buildMessageTxt(chat, message){
+function buildMessageTxt(chat, message) {
     // TODO we strip off the `/me ` of every message -- must be a better way to do this
-    let msg = message.message.substring(0, 4).toLowerCase() === '/me ' ? message.message.substring(4) : message.message
-    formatters.forEach(f => msg = f.format(chat, msg, message))
-    return `<span class="text">${msg}</span>`
+    let msg = message.message.substring(0, 4).toLowerCase() === '/me ' ? message.message.substring(4) : message.message;
+    var codeFmt = new CodeFormatter();
+    var msgArray = codeFmt.split(msg);
+    var fullMsg = '';
+    for (var i = 0; i < msgArray.length; i++) {
+        if (msgArray[i][1] === '0') {
+            // format non code segment
+            formatters.forEach(f => msgArray[i][0] = f.format(chat, msgArray[i][0], message));
+        } else {
+            // format code segment
+            msgArray[i][0] = codeFmt.format(chat, msgArray[i][0], message);
+        }
+        fullMsg += msgArray[i][0];
+    }
+    fullMsg = fullMsg.replace(/\\`/g, '`');
+    return `<span class="text">${fullMsg}</span>`;
 }
 function buildFeatures(user){
     const features = [...user.features || []]
