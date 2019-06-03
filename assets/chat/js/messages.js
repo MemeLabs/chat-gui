@@ -21,17 +21,13 @@ const formatters = new Map()
 formatters.set('html', new HtmlTextFormatter())
 formatters.set('url', new UrlFormatter())
 formatters.set('mentioned', new MentionedUserFormatter())
+formatters.set('emote', new EmoteFormatter());
 formatters.set('spoiler', new SpoilerFormatter())
-
-
-// init with formatters that do nothing, and fill with real ones depending on settings.
-// (other code depends on those formatters existsing...)
-formatters.set('emote', new IdentityFormatter())
-formatters.set('green', new IdentityFormatter())
+formatters.set('green', new GreenTextFormatter());
 
 function setFormattersFromSettings(settings) {
-    if (settings.get('formatter-emote')) formatters.set('emote', new EmoteFormatter());
-    if (settings.get('formatter-green')) formatters.set('green', new GreenTextFormatter());
+    if (!settings.get('formatter-emote')) formatters.set('emote', new IdentityFormatter());
+    if (!settings.get('formatter-green')) formatters.set('green', new IdentityFormatter());
 }
 
 function buildMessageTxt(chat, message) {
