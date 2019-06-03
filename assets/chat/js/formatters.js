@@ -256,6 +256,28 @@ class CodeFormatter {
     }
 }
 
+function stringSpoilerParser(str) {
+    var indexOne = str.indexOf('||');
+    if (indexOne !== -1) {
+        var afterTag = str.substring(indexOne + 2);
+        var indexTwo = afterTag.indexOf('||');
+        if (indexTwo !== -1) {
+            var betweenTags = afterTag.substring(0, indexTwo);
+            var subString = RegExp('^\\s*$').test(betweenTags)
+                ? str.substring(0, indexOne) + '||||'
+                : str.substring(0, indexOne) + `<span class="spoiler">${betweenTags.trim()}</span>`;
+            str = subString + stringSpoilerParser(afterTag.substring(indexTwo + 2));
+        }
+    }
+    return str;
+}
+
+class SpoilerFormatter {
+    format(chat, str, message = null) {
+        return stringSpoilerParser(str);
+    }
+}
+
 class GreenTextFormatter {
 
     format(chat, str, message=null){
@@ -364,5 +386,6 @@ export {
     MentionedUserFormatter,
     UrlFormatter,
     IdentityFormatter,
-    CodeFormatter
+    CodeFormatter,
+    SpoilerFormatter
 }

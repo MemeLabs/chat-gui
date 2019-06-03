@@ -328,6 +328,73 @@ label small {
     .greentext {
         color: $color-green-text;
     }
+    .spoiler {
+        padding-left: 3px;
+        padding-right: 3px;
+        border-radius: 3px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #000000;
+        background:  $color-spoiler-hidden;
+        color:  $color-spoiler-hidden;
+        transition: all .2s ease-in-out;
+        user-select: none;
+        cursor: pointer;
+        .chat-user {
+            pointer-events: none;
+        }
+        .generify-container {
+            .chat-emote {
+                transition: all .2s;
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+        .externallink,
+        .externallink:visited {
+            pointer-events: none;
+            color: $color-spoiler-hidden;
+        }
+        .nsfw-link,
+        .nsfl-link,
+        .loud-link {
+            border-bottom: 0px !important;
+        }
+        &.visible {
+            user-select: auto;
+            background: $color-spoiler-visible;
+            color: $color-chat-text2;
+            .chat-user {
+                pointer-events: auto;
+            }
+            .generify-container {
+                .chat-emote {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+            .externallink {
+                pointer-events: auto;
+                color: $color-link;
+            }
+            .externallink:visited {
+                color: $color-link-visited;
+            }
+            .externallink:hover,
+            .externallink:focus {
+                color: $color-link-hover;
+            }
+            .nsfw-link {
+                border-bottom: 1px dashed $color-underline-nsfw !important;
+            }
+            .nsfl-link {
+                border-bottom: 1px dashed $color-underline-nsfl !important;
+            }
+            .loud-link {
+                border-bottom: 1px dashed $color-underline-loud !important;
+            }
+        }
+    }
     .externallink,
     .nsfw-link {
         border-style: solid;
