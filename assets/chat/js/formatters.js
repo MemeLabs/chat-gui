@@ -231,12 +231,17 @@ function stringCodeSplitter(str) {
         var beforeFirstTick = str.substring(0, indexOne);
         var afterFirstTick = str.substring(indexOne + 1);
         var indexTwo = findNextTick(afterFirstTick);
-        if (indexTwo !== -1 && indexTwo + indexOne > indexOne) {
+        if (indexTwo !== -1) {
             var betweenTicks = afterFirstTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
+            var subArray;
+            if (indexTwo + indexOne === indexOne) {
+                subArray = [{ type: 'text', value: str.substring(0, indexOne + indexTwo + 2) }];
+            } else {
+                subArray = (beforeFirstTick.length > 0)
+                    ? subArray = [{ type: 'text', value: beforeFirstTick }, { type: 'code', value: betweenTicks }]
+                    : subArray = [{ type: 'code', value: betweenTicks }];
+            }
             var afterSecondTick = afterFirstTick.substring(indexTwo + 1);
-            var subArray = (beforeFirstTick.length > 0)
-                ? subArray = [{ type: 'text', value: beforeFirstTick }, { type: 'code', value: betweenTicks }]
-                : subArray = [{ type: 'code', value: betweenTicks }];
             if (afterSecondTick.length > 0) {
                 return subArray.concat(stringCodeSplitter(afterSecondTick));
             }
