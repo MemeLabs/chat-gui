@@ -39,14 +39,14 @@ function buildMessageTxt(chat, message) {
     var msgArray = codeFmt.split(msg);
     var fullMsg = '';
     for (var i = 0; i < msgArray.length; i++) {
-        if (msgArray[i][1] === '0') {
+        if (msgArray[i].type === 'text') {
             // format non code segment
-            formatters.forEach(f => msgArray[i][0] = f.format(chat, msgArray[i][0], message));
-        } else {
+            formatters.forEach(f => msgArray[i].value = f.format(chat, msgArray[i].value, message));
+        } else if (msgArray[i].type === 'code') {
             // format code segment
-            msgArray[i][0] = codeFmt.format(chat, msgArray[i][0], message);
+            msgArray[i].value = codeFmt.format(chat, msgArray[i].value, message);
         }
-        fullMsg += msgArray[i][0];
+        fullMsg += msgArray[i].value;
     }
     fullMsg = fullMsg.replace(/\\`/g, '`');
     return `<span class="text">${fullMsg}</span>`;

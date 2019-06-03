@@ -217,7 +217,7 @@ function findNextTick(str) {
 
 // surrounds code with code tags,
 // replaces empty string and string only containing whitespace with single space
-function stringCodeParser(str) {
+function stringCodeFormatter(str) {
     if (RegExp('^\\s*$').test(str)) {
         str = ' ';
     }
@@ -231,28 +231,24 @@ function stringCodeSplitter(str) {
         var beforeFirstTick = str.substring(0, indexOne);
         var afterFirstTick = str.substring(indexOne + 1);
         var indexTwo = findNextTick(afterFirstTick);
-        if (indexTwo !== -1) {
+        if (indexTwo !== -1 && indexTwo + indexOne > indexOne) {
             var betweenTicks = afterFirstTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
             var afterSecondTick = afterFirstTick.substring(indexTwo + 1);
-            var subArray;
-            if (beforeFirstTick.length > 0) {
-                subArray = [[beforeFirstTick, '0'], [betweenTicks, '1']];
-            } else {
-                subArray = [[betweenTicks, '1']];
-            }
+            var subArray = (beforeFirstTick.length > 0)
+                ? subArray = [{ type: 'text', value: beforeFirstTick }, { type: 'code', value: betweenTicks }]
+                : subArray = [{ type: 'code', value: betweenTicks }];
             if (afterSecondTick.length > 0) {
                 return subArray.concat(stringCodeSplitter(afterSecondTick));
-            } else {
-                return subArray;
             }
+            return subArray;
         }
     }
-    return [[str, '0']];
+    return [{ type: 'text', value: str }];
 }
 
 class CodeFormatter {
     format(chat, str, message = null) {
-        return stringCodeParser(str);
+        return stringCodeFormatter(str);
     }
 
     split(str) {
