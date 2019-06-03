@@ -8,7 +8,10 @@ let minWordLength = 1;
 let maxResults = 20;
 
 function getBucketId(id) {
-    return (id.match(/[\S]/)[0] || '_').toLowerCase();
+    var match = id.match(/[\S]/);
+    if (match != null) {
+        return (match[0] || '_').toLowerCase();
+    }
 }
 
 function promoteIfSelected(ac) {
