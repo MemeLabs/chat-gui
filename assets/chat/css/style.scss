@@ -328,6 +328,26 @@ label small {
     .greentext {
         color: $color-green-text;
     }
+    .spoiler {
+        .generify-container {
+            .chat-emote {
+                visibility: hidden;
+            }
+        }
+        padding-left: 3px;
+        padding-right: 3px;
+        border-radius: 3px;
+        background: rgb(51, 51, 51);
+        color: rgb(51, 51, 51);
+    }
+    .spoiler:hover {
+        .generify-container {
+            .chat-emote {
+                visibility: visible;
+            }
+        }
+        color: $color-chat-text2;
+    }
     .externallink,
     .nsfw-link {
         border-style: solid;

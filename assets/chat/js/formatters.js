@@ -257,6 +257,35 @@ class CodeFormatter {
     }
 }
 
+// ignore escaped backticks
+function findNextSpoilerTag(str) {
+    var index = str.indexOf('||');
+    if (index === -1) {
+        return -1;
+    } else {
+        return index;
+    }
+}
+
+function stringSpoilerParser(str) {
+    var indexOne = findNextSpoilerTag(str);
+    if (indexOne !== -1) {
+        var afterTick = str.substring(indexOne + 2);
+        var indexTwo = findNextSpoilerTag(afterTick);
+        if (indexTwo !== -1) {
+            var betweenTicks = afterTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
+            str = (str.substring(0, indexOne) + `<span class="spoiler">${betweenTicks}</span>` + stringSpoilerParser(afterTick.substring(indexTwo + 2)));
+        }
+    }
+    return str;
+}
+
+class SpoilerFormatter {
+    format(chat, str, message = null) {
+        return stringSpoilerParser(str);
+    }
+}
+
 class GreenTextFormatter {
 
     format(chat, str, message=null){
@@ -363,5 +392,6 @@ export {
     MentionedUserFormatter,
     UrlFormatter,
     IdentityFormatter,
-    CodeFormatter
+    CodeFormatter,
+    SpoilerFormatter
 }
