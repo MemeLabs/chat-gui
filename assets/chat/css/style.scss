@@ -331,7 +331,20 @@ label small {
         color: $color-green-text;
     }
     .spoiler {
+        padding-left: 3px;
+        padding-right: 3px;
+        border-radius: 3px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #000000;
+        background:  $spoiler-hidden-bg;
+        color:  $spoiler-hidden-bg;
+        transition: all .2s ease-in-out;
+        user-select: none;
         cursor: pointer;
+        .chat-user {
+            pointer-events: none;
+        }
         .generify-container {
             .chat-emote {
                 transition: all .2s;
@@ -347,16 +360,13 @@ label small {
         .nsfl-link {
             border-bottom: 0px !important;
         }
-        padding-left: 3px;
-        padding-right: 3px;
-        border-radius: 3px;
-        border-width: 1px;
-        border-style: solid;
-        border-color: #000000;
-        background:  $spoiler-hidden-bg;
-        color:  $spoiler-hidden-bg;
-        transition: all .2s ease-in-out;
         &.visible {
+            user-select: auto;
+            background: $spoiler-visible-bg;
+            color: $color-chat-text2;
+            .chat-user {
+                pointer-events: auto;
+            }
             .generify-container {
                 .chat-emote {
                     transform: scale(1);
@@ -379,8 +389,6 @@ label small {
             .nsfl-link {
                 border-bottom: 1px dashed $color-underline-nsfl !important;
             }
-            background:  $spoiler-visible-bg;
-            color: $color-chat-text2;
         }
     }
     .externallink,
