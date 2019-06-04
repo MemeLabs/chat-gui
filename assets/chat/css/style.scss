@@ -338,6 +338,15 @@ label small {
                 transform: scale(0);
             }
         }
+        .externallink,
+        .externallink:visited {
+            pointer-events: none;
+            color: $spoiler-hidden-bg;
+        }
+        .nsfw-link,
+        .nsfl-link {
+            border-bottom: 0px !important;
+        }
         padding-left: 3px;
         padding-right: 3px;
         border-radius: 3px;
@@ -352,6 +361,23 @@ label small {
                 .chat-emote {
                     transform: scale(1);
                 }
+            }
+            .externallink {
+                pointer-events: auto;
+                color: $color-link;
+            }
+            .externallink:visited {
+                color: $color-link-visited;
+            }
+            .externallink:hover,
+            .externallink:focus {
+                color: $color-link-hover;
+            }
+            .nsfw-link {
+                border-bottom: 1px dashed $color-underline-nsfw !important;
+            }
+            .nsfl-link {
+                border-bottom: 1px dashed $color-underline-nsfl !important;
             }
             background:  $spoiler-visible-bg;
             color: $color-chat-text2;
