@@ -29,8 +29,6 @@ $text-size-md       : 13px;
 $text-size-lg       : 16px;
 $chat-line-height   : 22px;
 $chat-gutter-sm     : 6px;
-$spoiler-hidden-bg  : rgb(34, 34, 34);
-$spoiler-visible-bg : rgb(59, 59, 59);
 
 body, textarea, input, button {
     font-family: $chat-chrome-font;
@@ -337,8 +335,8 @@ label small {
         border-width: 1px;
         border-style: solid;
         border-color: #000000;
-        background:  $spoiler-hidden-bg;
-        color:  $spoiler-hidden-bg;
+        background:  $color-spoiler-hidden;
+        color:  $color-spoiler-hidden;
         transition: all .2s ease-in-out;
         user-select: none;
         cursor: pointer;
@@ -354,7 +352,7 @@ label small {
         .externallink,
         .externallink:visited {
             pointer-events: none;
-            color: $spoiler-hidden-bg;
+            color: $color-spoiler-hidden;
         }
         .nsfw-link,
         .nsfl-link {
@@ -362,7 +360,7 @@ label small {
         }
         &.visible {
             user-select: auto;
-            background: $spoiler-visible-bg;
+            background: $color-spoiler-visible;
             color: $color-chat-text2;
             .chat-user {
                 pointer-events: auto;
