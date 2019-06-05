@@ -335,10 +335,13 @@ class UrlFormatter {
         const self = this;
         let extraclass = '';
 
-        if(/\b(?:NSFL)\b/i.test(str))
+        if (/\b(?:NSFL)\b/i.test(str)) {
             extraclass = 'nsfl-link';
-        else if(/\b(?:NSFW|SPOILER)\b/i.test(str))
+        } else if (/\b(?:NSFW)\b/i.test(str)) {
             extraclass = 'nsfw-link';
+        } else if (/\b(?:LOUD|SPOILER)\b/i.test(str)) {
+            extraclass = 'loud-link';
+        }
 
         return str.replace(self.linkregex, function(url, scheme) {
             scheme = scheme? '': 'http://';
@@ -353,7 +356,6 @@ class UrlFormatter {
             return url;
         });
     }
-
 }
 
 export {

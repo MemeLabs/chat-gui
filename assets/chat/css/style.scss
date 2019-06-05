@@ -352,6 +352,9 @@ label small {
     .nsfl-link {
         border-bottom: 1px dashed $color-underline-nsfl !important;
     }
+    .loud-link {
+        border-bottom: 1px dashed $color-underline-loud !important;
+    }
     &.msg-continue {
         margin-top: 1px;
         margin-bottom: 3px;
