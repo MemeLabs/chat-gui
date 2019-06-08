@@ -183,3 +183,10 @@
         }
     }
 }
+
+.generify-spin > .chat-emote{
+    animation: spin 1s 3;
+}
+.generify-spin > .chat-emote:hover {
+    animation: spin 1s infinite;
+}
