@@ -260,6 +260,16 @@ $context-css-animated-emote-mixin: false;
     to { left: 3px; }
 }
 
+@keyframes spin {
+  0% {
+            transform: rotate(0deg);
+  }
+  100% {
+            transform: rotate(360deg);
+  }
+
+}
+
 @keyframes dankmemes-anim {
     0%, 100% {
         filter: hue-rotate(0deg);
