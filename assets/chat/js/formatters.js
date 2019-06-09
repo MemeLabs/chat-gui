@@ -134,7 +134,7 @@ class EmoteFormatter {
                 ...chat.emoticons,
             ].join('|');
             const suffixes = Object.keys(GENERIFY_OPTIONS).join('|');
-            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)(?=(?:[^ ]* [^ ]* )*[^ ]*$)`, 'gm');
+            this.regex = new RegExp(`(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`, 'gm');
         }
 
         if (!this.emotewidths) {
@@ -205,32 +205,55 @@ function findNextTick(str) {
         var index = str.indexOf('`');
         if (index === -1) {
             return -1;
-        } else if (str.charAt(index - 1) !== '\\') {
-            return index + base;
+        } else if (str.charAt(index + 1) === '`' || str.charAt(index - 1) === '\\') {
+            var step = (str.charAt(index + 1) === '`') ? index + 2 : index + 1;
+            base += step;
+            str = str.substring(step);
         } else {
-            base += index + 1;
-            str = str.substring(index + 1);
+            return index + base;
         }
     }
     return -1;
 }
 
-function stringCodeParser(str) {
+// surrounds code with code tags,
+// replaces empty string and string only containing whitespace with single space
+function stringCodeFormatter(str) {
+    if (RegExp('^\\s*$').test(str)) {
+        str = ' ';
+    }
+    return `<code>${str}</code>`;
+}
+
+// splits input message into array of code and non code blocks
+function stringCodeSplitter(str) {
     var indexOne = findNextTick(str);
     if (indexOne !== -1) {
-        var afterTick = str.substring(indexOne + 1);
-        var indexTwo = findNextTick(afterTick);
+        var beforeFirstTick = str.substring(0, indexOne);
+        var afterFirstTick = str.substring(indexOne + 1);
+        var indexTwo = findNextTick(afterFirstTick);
         if (indexTwo !== -1) {
-            var betweenTicks = afterTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
-            str = (str.substring(0, indexOne) + `<code> ${betweenTicks} </code>` + stringCodeParser(afterTick.substring(indexTwo + 1)));
+            var betweenTicks = afterFirstTick.substring(0, indexTwo).replace(/\r?\n|\r/g, '');
+            var afterSecondTick = afterFirstTick.substring(indexTwo + 1);
+            var subArray = (beforeFirstTick.length > 0)
+                ? subArray = [{ type: 'text', value: beforeFirstTick }, { type: 'code', value: betweenTicks }]
+                : subArray = [{ type: 'code', value: betweenTicks }];
+            if (afterSecondTick.length > 0) {
+                return subArray.concat(stringCodeSplitter(afterSecondTick));
+            }
+            return subArray;
         }
     }
-    return str;
+    return [{ type: 'text', value: str }];
 }
 
 class CodeFormatter {
     format(chat, str, message = null) {
-        return stringCodeParser(str).replace(/\\`/g, '`');
+        return stringCodeFormatter(str);
+    }
+
+    split(str) {
+        return stringCodeSplitter(str);
     }
 }
 
