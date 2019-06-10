@@ -205,10 +205,9 @@ function findNextTick(str) {
         var index = str.indexOf('`');
         if (index === -1) {
             return -1;
-        } else if (str.charAt(index + 1) === '`' || str.charAt(index - 1) === '\\') {
-            var step = (str.charAt(index + 1) === '`') ? index + 2 : index + 1;
-            base += step;
-            str = str.substring(step);
+        } else if (str.charAt(index - 1) === '\\') {
+            base += index + 1;
+            str = str.substring(index + 1);
         } else {
             return index + base;
         }
