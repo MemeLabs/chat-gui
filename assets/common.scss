@@ -51,7 +51,7 @@ $color-link-visited:    #A66BE5;
 $color-text-broadcast:  #EDEA12;
 $color-underline-nsfl:  #FFF000;
 $color-underline-nsfw:  #FF0000;
-$color-underline-loud:  #0000FF;
+$color-underline-loud:  $color-link;
 
 $tag-color-map: (
     green:           #1ba400,
