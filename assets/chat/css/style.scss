@@ -355,7 +355,8 @@ label small {
             color: $color-spoiler-hidden;
         }
         .nsfw-link,
-        .nsfl-link {
+        .nsfl-link,
+        .loud-link {
             border-bottom: 0px !important;
         }
         &.visible {
@@ -386,6 +387,9 @@ label small {
             }
             .nsfl-link {
                 border-bottom: 1px dashed $color-underline-nsfl !important;
+            }
+            .loud-link {
+                border-bottom: 1px dashed $color-underline-loud !important;
             }
         }
     }
