@@ -336,7 +336,7 @@ label small {
         border-style: solid;
         border-color: #000000;
         background:  $color-spoiler-hidden;
-        color:  $color-spoiler-hidden;
+        color:  transparent;
         transition: all .2s ease-in-out;
         user-select: none;
         cursor: pointer;
