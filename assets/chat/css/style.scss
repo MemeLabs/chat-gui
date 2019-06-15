@@ -340,6 +340,9 @@ label small {
         transition: all .2s ease-in-out;
         user-select: none;
         cursor: pointer;
+        .weather {
+            opacity: 0;
+        }
         .chat-user {
             pointer-events: none;
         }
@@ -361,6 +364,9 @@ label small {
             border-bottom: 0px !important;
         }
         &.visible {
+            .weather {
+                opacity: inherit;
+            }
             user-select: auto;
             background: $color-spoiler-visible;
             color: $color-chat-text2;
@@ -369,7 +375,7 @@ label small {
             }
             .generify-container {
                 .chat-emote {
-                    opacity: 1 !important;
+                    opacity: inherit !important;
                     transform: scale(1);
                 }
             }
