@@ -455,6 +455,15 @@ $spritesDir : '../../emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
+    $file-name: ComfyWAG,
+    $frame-count: 2,
+    $sprite-width: 76px,
+    $sprite-height: 32px,
+    $animation-length: 500ms,
+    $repeat: 10
+);
+
+@include sprite-animation(
     $file-name: HONK,
     $frame-count: 5,
     $sprite-width: 175px,
@@ -473,4 +482,15 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $repeat: 4,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: OhISee,
+    $frame-count: 20,
+    $sprite-width: 640px,
+    $sprite-height: 32px,
+    $animation-length: 1200ms,
+    $repeat: 2,
+    $can-animate-forever: false
+);
+
 
