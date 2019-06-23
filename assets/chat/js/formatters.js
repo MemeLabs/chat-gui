@@ -362,6 +362,8 @@ class UrlFormatter {
             extraclass = 'nsfw-link';
         } else if (/\b(?:LOUD|SPOILER)\b/i.test(str)) {
             extraclass = 'loud-link';
+        } else if (/\b(?:WEEB)\b/i.test(str)) {
+            extraclass = 'weeb-link';
         }
 
         return str.replace(self.linkregex, function(url, scheme) {

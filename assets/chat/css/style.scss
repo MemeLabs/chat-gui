@@ -399,6 +399,9 @@ label small {
             .loud-link {
                 border-bottom: 1px dashed $color-underline-loud !important;
             }
+            .weeb-link {
+                border-bottom: 1px dashed $color-underline-weeb !important;
+            }
         }
     }
     .externallink,
@@ -427,6 +430,9 @@ label small {
     }
     .loud-link {
         border-bottom: 1px dashed $color-underline-loud !important;
+    }
+    .weeb-link {
+        border-bottom: 1px dashed $color-underline-weeb !important;
     }
     &.msg-continue {
         margin-top: 1px;

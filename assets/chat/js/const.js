@@ -63,9 +63,8 @@ const GENERIFY_OPTIONS = {
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
-    ['monkaS', 'monkaMEGA'],
-    ['monkaMEGA', 'monkaHmm'],
-    ['MiyanoHype', 'MiyanoBird']
+    ['MiyanoHype', 'MiyanoBird'],
+    ['REE', 'RedCard']
 ];
 
 const HALLOWEEN_RANDOM_EFFECTS = [
