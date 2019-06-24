@@ -34,6 +34,7 @@ function buildMessageTxt(chat, message) {
     // TODO we strip off the `/me ` of every message -- must be a better way to do this
     let msg = message.message.substring(0, 4).toLowerCase() === '/me ' ? message.message.substring(4) : message.message;
     var codeFmt = new CodeFormatter();
+    var htlmFmt = new HtmlTextFormatter();
     var msgArray = codeFmt.split(msg);
     var fullMsg = '';
     for (var i = 0; i < msgArray.length; i++) {
@@ -42,6 +43,7 @@ function buildMessageTxt(chat, message) {
             formatters.forEach(f => msgArray[i].value = f.format(chat, msgArray[i].value, message));
         } else if (msgArray[i].type === 'code') {
             // format code segment
+            msgArray[i].value = htlmFmt.format(chat, msgArray[i].value, message);
             msgArray[i].value = codeFmt.format(chat, msgArray[i].value, message);
         }
         fullMsg += msgArray[i].value;
