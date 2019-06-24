@@ -207,7 +207,7 @@ class EmoteFormatter {
                     const paddingValue = (targetWidth / 9) * baseScale;
                     const widePadding = "padding-left:" + paddingValue + "px;padding-right:" + paddingValue + "px";
 
-                        wideEffect = 'style="' + wideScale + widePadding + ';"'
+                    wideEffect = 'style="' + wideScale + widePadding + ';"'
                     }
                  }
 			
