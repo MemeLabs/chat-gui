@@ -195,21 +195,20 @@ class EmoteFormatter {
 			
             let wideEffect = "";
             if (suffix === "wide"){
-            //scale is relative to the width of the emote
-            const targetWidth = 128; //target width of emote in px
+                //scale is relative to the width of the emote
+                const targetWidth = 128; //target width of emote in px
                 if (this.emotewidths[emote] !== undefined) {
+                    const baseScale = Math.round( targetWidth / this.emotewidths[emote] * 10) / 10;
 
-                const baseScale = Math.round( targetWidth / this.emotewidths[emote] * 10) / 10;
+                    const wideScale = "transform:scale("+ baseScale +",1);";
 
-                const wideScale = "transform:scale("+ baseScale +",1);";
+                    //diving by a value of 9 seems to give the best amount of padding across all emotes
+                    const paddingValue = (targetWidth / 9) * baseScale;
+                    const widePadding = "padding-left:" + paddingValue + "px;padding-right:" + paddingValue + "px";
 
-                //diving by a value of 9 seems to give the best amount of padding across all emotes
-                const paddingValue = (targetWidth / 9) * baseScale;
-                const widePadding = "padding-left:" + paddingValue + "px;padding-right:" + paddingValue + "px";
-
-                wideEffect = 'style="' + wideScale + widePadding + ';"'
+                    wideEffect = 'style="' + wideScale + widePadding + ';"'
                 }
-             }
+            }
 			
             return ' <span class="generify-container '+ modifierEffect +'" '+ wideEffect +' >'+ hat + innerEmote + '</span>';
         });
