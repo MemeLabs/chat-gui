@@ -11,6 +11,22 @@
     margin-bottom: -7px;
 }
 
+// LAG any emote or move to anim and save space
+// by using it on one frame
+
+@keyframes lag-anim {
+    0% {-webkit-mask-image: linear-gradient(to top, transparent 100%, black 0%);}
+    20% {-webkit-mask-image: linear-gradient(to top, transparent 80%, black 0%);}
+    40% {-webkit-mask-image: linear-gradient(to top, transparent 60%, black 0%);}
+    60% {-webkit-mask-image: linear-gradient(to top, transparent 40%, black 0%);}
+    80% {-webkit-mask-image: linear-gradient(to top, transparent 20%, black 0%);}
+    100% {-webkit-mask-image: linear-gradient(to top, transparent 0%, black 0%);}
+}
+
+.lag > .chat-emote {
+    animation: lag-anim 2.5s 2;
+}
+
 .generify-rustle > .chat-emote {
     animation: rustle 100ms 7;
 }
