@@ -59,8 +59,7 @@ const GENERIFY_OPTIONS = {
     // 'dank': 'generify-dank',
     // 'hyper': 'generify-hyper generify-rustle',
     'love': 'generify-love',
-    'spin': 'generify-spin',
-    'wide' : 'wide'
+    'spin': 'generify-spin'
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
