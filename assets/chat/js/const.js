@@ -60,10 +60,7 @@ const GENERIFY_OPTIONS = {
     // 'hyper': 'generify-hyper generify-rustle',
     'love': 'generify-love',
     'spin': 'generify-spin',
-    'lag' : 'lag', // Lag any emote
-    'wide': 'wide', // Make any emote wide
-    'frozen' : 'frozen' // Encases an emote in ice 
-                        // https://user-images.githubusercontent.com/50147539/60741909-e32af280-9f30-11e9-91ed-e500151bfb84.jpg
+    'lag' : 'lag' // Lag any emote
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
