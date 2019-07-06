@@ -11,9 +11,6 @@
     margin-bottom: -7px;
 }
 
-// LAG any emote or move to anim and save space
-// by using it on one frame
-
 @keyframes lag-anim {
     0% {-webkit-mask-image: linear-gradient(to top, transparent 100%, black 0%);}
     20% {-webkit-mask-image: linear-gradient(to top, transparent 80%, black 0%);}
