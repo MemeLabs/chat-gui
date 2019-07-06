@@ -89,7 +89,8 @@ const settingsdefault = new Map([
     ['hidensfw', false],
     ['animateforever', true],
     ['formatter-green', true],
-    ['formatter-emote', true]
+    ['formatter-emote', true],
+    ['disablespoilers', false]
 ]);
 const commandsinfo = new Map([
     ['help', {desc: 'Helpful information.'}],

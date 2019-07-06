@@ -1,5 +1,6 @@
 import UserFeatures from './features';
 import {GENERIFY_OPTIONS, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST, HAT_SPECIAL_BLACKLIST} from './const'
+//import Chat from './chat';
 
 
 /** @var Array tlds */
@@ -256,7 +257,8 @@ class CodeFormatter {
     }
 }
 
-function stringSpoilerParser(str) {
+function stringSpoilerParser(str, isVisible) {
+    var classes = isVisible ? 'spoiler visible' : 'spoiler';
     var indexOne = str.indexOf('||');
     if (indexOne !== -1) {
         var afterTag = str.substring(indexOne + 2);
@@ -265,8 +267,8 @@ function stringSpoilerParser(str) {
             var betweenTags = afterTag.substring(0, indexTwo);
             var subString = RegExp('^\\s*$').test(betweenTags)
                 ? str.substring(0, indexOne) + '||||'
-                : str.substring(0, indexOne) + `<span class="spoiler">${betweenTags.trim()}</span>`;
-            str = subString + stringSpoilerParser(afterTag.substring(indexTwo + 2));
+                : str.substring(0, indexOne) + `<span class="${classes}">${betweenTags.trim()}</span>`;
+            str = subString + stringSpoilerParser(afterTag.substring(indexTwo + 2), isVisible);
         }
     }
     return str;
@@ -274,7 +276,7 @@ function stringSpoilerParser(str) {
 
 class SpoilerFormatter {
     format(chat, str, message = null) {
-        return stringSpoilerParser(str);
+        return stringSpoilerParser(str, chat.settings.get('disablespoilers'));
     }
 }
 
