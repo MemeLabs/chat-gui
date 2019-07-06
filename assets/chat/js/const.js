@@ -60,8 +60,7 @@ const GENERIFY_OPTIONS = {
     // 'hyper': 'generify-hyper generify-rustle',
     'love': 'generify-love',
     'spin': 'generify-spin',
-    'frozen' : 'frozen' // Encases an emote in ice 
-                        // https://user-images.githubusercontent.com/50147539/60741909-e32af280-9f30-11e9-91ed-e500151bfb84.jpg
+    'frozen': 'frozen'
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
