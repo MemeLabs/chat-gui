@@ -60,6 +60,7 @@ const GENERIFY_OPTIONS = {
     // 'hyper': 'generify-hyper generify-rustle',
     'love': 'generify-love',
     'spin': 'generify-spin',
+    'frozen': 'frozen'
     'lag' : 'lag'
 };
 
