@@ -61,6 +61,7 @@ const GENERIFY_OPTIONS = {
     'love': 'generify-love',
     'spin': 'generify-spin',
     'frozen': 'frozen'
+    'lag' : 'lag'
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
