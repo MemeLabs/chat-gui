@@ -60,9 +60,9 @@ const GENERIFY_OPTIONS = {
     // 'hyper': 'generify-hyper generify-rustle',
     'love': 'generify-love',
     'spin': 'generify-spin',
-    'wide' : 'wide'
-    'frozen': 'frozen'
-    'lag' : 'lag'
+    'wide' : 'wide',
+    'frozen': 'frozen',
+    'lag' : 'lag',
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
