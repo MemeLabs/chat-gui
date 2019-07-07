@@ -374,7 +374,7 @@ class UrlFormatter {
                 url = self.encodeUrl(m[0]);
                 const extra = self.encodeUrl(decodedUrl.substring(m[0].length));
                 const href = scheme + url;
-                url = href.replace(/(^\w+:|^|www.)|\/\//g, ''); // Removes https://www. from links in chat
+                url = href.replace(/^(https?:\/\/)?(www\.)?/g, '');
                 return `<a target="_blank" class="externallink ${extraclass}" href="${href}" rel="nofollow">${url}</a>${extra}`;
             }
             return url;
