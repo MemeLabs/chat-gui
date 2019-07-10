@@ -11,6 +11,12 @@
     margin-bottom: -7px;
 }
 
+.wide {
+    transform: scaleX(1.5) scaleY(0.8);
+    margin: -30px 15px 0px 15px;
+    transition: all 0.2s;
+}
+
 .frozen > .chat-emote {
     opacity: 0.7;
     transform: scale(0.8, 0.8);
