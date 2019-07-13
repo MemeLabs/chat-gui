@@ -61,8 +61,8 @@ const GENERIFY_OPTIONS = {
     'love': 'generify-love',
     'spin': 'generify-spin',
     'wide' : 'wide',
-    'frozen': 'frozen',
-    'lag' : 'lag',
+    // 'frozen': 'frozen',
+    // 'lag' : 'lag',
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
