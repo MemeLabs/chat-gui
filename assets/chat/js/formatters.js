@@ -53,7 +53,7 @@ function getLastMsg(chat) {
     return chat["mainwindow"]["lastmessage"]["message"];
 }
 
-function genSeed(str, chat, i) {
+function genSeed(str, chat, i, timestamp) {
     const lastMsg = getLastMsg(chat);
     if (lastMsg == "") {
         return false;
@@ -63,7 +63,7 @@ function genSeed(str, chat, i) {
     const day = new Date().getUTCDate();
     const hours = new Date().getUTCHours();
     const minutes = new Date().getUTCMinutes();
-    const seed = createHash(lastMsg) + createHash(str) + i + day + hours + Math.floor(minutes/5);
+    const seed = createHash(lastMsg) + createHash(str) + i + day + hours + Math.floor(minutes/5) + timestamp;
     return seed;
 }
 
@@ -174,7 +174,12 @@ class EmoteFormatter {
 
             const innerClasses = ['chat-emote', 'chat-emote-'+emote];
 
-            const seed = genSeed(str, chat, i++);
+            var timestamp = 0;
+            if (message != null) {
+                timestamp = message.timestamp._i;
+            }
+
+            const seed = genSeed(str, chat, i++, timestamp);
             // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
             const punish = str == getLastMsg(chat)
             if (isHalloween() && emoteCount <= 7 && proc(seed, punish)) {
