@@ -133,6 +133,39 @@
     mix-blend-mode: color-dodge;
 }
 
+.golden-modifier{
+    background: linear-gradient(45deg, hsl(44,82%,47%) 0%,hsl(49,82%,60%) 30%,hsl(58,91%,64%) 61%,hsl(58,91%,64%) 61%,hsl(57,90%,69%) 100%);
+     filter: blur(2px);
+     transform: scale(1.1);
+     position: absolute;
+     overflow: hidden;
+   }
+
+   .golden-glimmer{
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 1%,rgba(2,2,2,1) 33%);
+    mix-blend-mode: screen;
+    position: absolute;
+    animation: glimmer 5s linear 25;
+  }
+
+  @keyframes glimmer {
+    0% { 
+      transform: translate(-50px, 50px) scale(4);
+      opacity: 1;
+   }
+   20% { 
+     transform: translate(50px, -50px) scale(4);
+     opacity: 1;
+   }
+   21% {
+     opacity: 0;
+   }
+  100% { 
+     transform: translate(-50px, 50px) scale(4);
+     opacity: 0;
+   }
+ }
+
 .generify-love {
     $animation-duration: 0.8s;
 
