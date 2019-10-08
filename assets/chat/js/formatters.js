@@ -124,6 +124,7 @@ function putHat(width, height, emote) {
 function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
     const innerEmoteCompStyle = getComputedStyle(document.querySelector('.chat-emote-' + emoteName));
 
+    //  getting the source image for the emote as not all emotes use the same atlas
     const imgSrcRegex = /(img.*g)/gm;
     let imgSrc = innerEmoteCompStyle.backgroundImage;
     const maskUrl = imgSrc.match(imgSrcRegex)[0];
@@ -139,8 +140,7 @@ function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
 
     const goldenModifierInnerEmoteStyle = 'style="mix-blend-mode: color-burn; filter:contrast(125%) grayscale(100%) brightness(.75); animation: none;"';
 
-    return {goldenModifier: goldenModifier, 
-        goldenModifierInnerEmoteStyle: goldenModifierInnerEmoteStyle};   
+    return {goldenModifier: goldenModifier, goldenModifierInnerEmoteStyle: goldenModifierInnerEmoteStyle};   
 }
 
 class IdentityFormatter {
