@@ -1,0 +1,22 @@
+name: SSH-Deploy
+
+on: 
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: ssh-deploy for chat-gui
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          cd chat_front
+          git pull
+          npm ci
+          npm run build:production
