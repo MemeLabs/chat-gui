@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: ssh-deply for chat-gui
+    - name: ssh-deploy for chat-gui
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
