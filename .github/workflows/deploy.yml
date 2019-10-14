@@ -16,7 +16,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         script: |
-          cd chat_front
+          cd chat_frontend
           git pull
           npm ci
           npm run build:production
