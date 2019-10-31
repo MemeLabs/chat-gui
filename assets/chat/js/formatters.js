@@ -222,9 +222,13 @@ class EmoteFormatter {
             
             var goldenModifier = "";
             var goldenModifierInnerEmoteStyle= "";
-
-            //1.5% proc chance
-            if (!isHalloween() && proc(seed, punish, 0.015)) {
+            let goldenProcChance = 0.00000500;
+            if (emoteCount / 2 > 1) {
+                // more than 2 emotes will lower the chance of a rare
+                goldenProcChance = goldenProcChance / (emoteCount / 2);
+            }
+            // 1.5% proc chance
+            if (!isHalloween() && proc(seed, punish, goldenProcChance)) {
                 var goldenEmote = genGoldenEmote(emote,  this.emoteheights[emote],  this.emotewidths[emote]);
                 goldenModifier = goldenEmote.goldenModifier;
                 goldenModifierInnerEmoteStyle = goldenEmote.goldenModifierInnerEmoteStyle;
