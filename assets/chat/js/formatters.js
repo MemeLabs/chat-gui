@@ -227,7 +227,7 @@ class EmoteFormatter {
                 // more than 2 emotes will lower the chance of a rare
                 goldenProcChance = goldenProcChance / (emoteCount / 2);
             }
-            // 1.5% proc chance
+            // 0.0005% proc chance
             if (!isHalloween() && proc(seed, punish, goldenProcChance)) {
                 var goldenEmote = genGoldenEmote(emote,  this.emoteheights[emote],  this.emotewidths[emote]);
                 goldenModifier = goldenEmote.goldenModifier;
