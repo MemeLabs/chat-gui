@@ -69,13 +69,16 @@ function genSeed(str, chat, i, timestamp) {
 
 // proc depending on seed and procChance for the day.
 // in some cases we want the chance to be lower, determined by punish.
-function proc(seed, punish) {
-    var randomValue = rng(seed)
+function proc(seed, punish, chance) {
+    var randomValue = rng(seed);
     if (punish) {
         // higher value lowers occurrence
         randomValue = randomValue*2;
     }
-    return randomValue < procChance();
+    if (chance === 0){
+        return randomValue < procChance();
+    }
+    return randomValue < chance;
 }
 
 function getRandomInt(seed, max) {
@@ -116,6 +119,28 @@ function putHat(width, height, emote) {
     }
 
     return "";
+}
+
+function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
+    const innerEmoteCompStyle = getComputedStyle(document.querySelector('.chat-emote-' + emoteName));
+
+    //  getting the source image for the emote as not all emotes use the same atlas
+    const imgSrcRegex = /(img.*g)/gm;
+    let imgSrc = innerEmoteCompStyle.backgroundImage;
+    const maskUrl = imgSrc.match(imgSrcRegex)[0];
+
+    const goldenModifierMask = 'width: ' + emoteWidth + 'px; height: ' + emoteHeight + 'px; ' + 'mask-position: ' + innerEmoteCompStyle.backgroundPosition + ';';
+    const goldenModifierMarginTop = (30 - emoteHeight) - 8;
+    const goldenModifierStyle = 'style="margin:' + goldenModifierMarginTop + 'px 2px 0px 2px; mask: url(/'+ maskUrl + ');' + goldenModifierMask + '"';
+    
+    const goldenModifierGlimmerStyle = 'style="width: ' + emoteWidth + 'px; height: ' + emoteHeight + 'px;"';
+    const goldenModifierGlimmer = '<span ' + goldenModifierGlimmerStyle + ' class="golden-glimmer"></span>';
+    
+    const goldenModifier = '<span ' + goldenModifierStyle + 'class="golden-modifier">' + goldenModifierGlimmer + '</span>';
+
+    const goldenModifierInnerEmoteStyle = 'style="mix-blend-mode: color-burn; filter:contrast(125%) grayscale(100%) brightness(.75); animation: none;"';
+
+    return {goldenModifier: goldenModifier, goldenModifierInnerEmoteStyle: goldenModifierInnerEmoteStyle};   
 }
 
 class IdentityFormatter {
@@ -182,7 +207,7 @@ class EmoteFormatter {
             const seed = genSeed(str, chat, i++, timestamp);
             // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
             const punish = str == getLastMsg(chat)
-            if (isHalloween() && emoteCount <= 7 && proc(seed, punish)) {
+            if (isHalloween() && emoteCount <= 7 && proc(seed, punish, 0)) {
                 innerClasses.push(getRandomHalloweenEffect(emote, seed));
             }
 
@@ -195,9 +220,24 @@ class EmoteFormatter {
                 hat = putHat(this.emotewidths[emote], this.emoteheights[emote], emote);
             }
             
-            const innerEmote = ' <span title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
+            var goldenModifier = "";
+            var goldenModifierInnerEmoteStyle= "";
+            let goldenProcChance = 0.00001000;
+            if (emoteCount / 2 > 1) {
+                // more than 2 emotes will lower the chance of a rare
+                goldenProcChance = goldenProcChance / (emoteCount / 2);
+            }
+            // 0.001% proc chance
+            if (!isHalloween() && proc(seed, punish, goldenProcChance)) {
+                var goldenEmote = genGoldenEmote(emote,  this.emoteheights[emote],  this.emotewidths[emote]);
+                goldenModifier = goldenEmote.goldenModifier;
+                goldenModifierInnerEmoteStyle = goldenEmote.goldenModifierInnerEmoteStyle;
+            }
+            
+            const innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             const modifierEffect = GENERIFY_OPTIONS[suffix] || "";
-            return ' <span class="generify-container ' + modifierEffect + '">' + hat + innerEmote + '</span>';
+
+            return ' <span class="generify-container ' + modifierEffect + '">' + goldenModifier + hat + innerEmote + '</span>';
         });
     }
 
