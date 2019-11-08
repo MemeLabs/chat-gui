@@ -203,18 +203,18 @@ class EmoteFormatter {
             if (message != null) {
                 timestamp = message.timestamp._i;
             }
-            
+
             const seed = genSeed(str, chat, i++, timestamp);
             // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
             const punish = str == getLastMsg(chat)
-            if (isHalloween() && emoteCount <= 7 && proc(seed, punish,0)) {
+            if (isHalloween() && emoteCount <= 7 && proc(seed, punish, 0)) {
                 innerClasses.push(getRandomHalloweenEffect(emote, seed));
             }
 
             if (chat.settings.get('animateforever')) {
                 innerClasses.push('chat-emote-'+emote+'-animate-forever')
             }
-            
+
             let hat = "";
             if (this.emotewidths[emote] !== undefined) {
                 hat = putHat(this.emotewidths[emote], this.emoteheights[emote], emote);
