@@ -493,4 +493,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $can-animate-forever: false
 );
 
+@include sprite-animation(
+    $file-name: FeelsCountryMan,
+    $frame-count: 15,
+    $sprite-width: 480px,
+    $sprite-height: 32px,
+    $animation-length: 850ms,
+    $repeat: 4,
+    $can-animate-forever: true
+);
 
