@@ -419,15 +419,6 @@ $spritesDir : '../../emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
-    $file-name: SNAP,
-    $frame-count: 15,
-    $sprite-width: 750px,
-    $sprite-height: 32px,
-    $animation-length: 1000ms,
-    $repeat: 2
-);
-
-@include sprite-animation(
     $file-name: VroomVroom,
     $frame-count: 101,
     $sprite-width: 3232px,
@@ -503,3 +494,12 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $can-animate-forever: true
 );
 
+@include sprite-animation(
+    $file-name: SNAP,
+    $frame-count: 6,
+    $sprite-width: 180px,
+    $sprite-height: 30px,
+    $animation-length: 360ms,
+    $repeat: 2,
+    $can-animate-forever: false
+);
