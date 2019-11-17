@@ -503,3 +503,15 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $can-animate-forever: true
 );
 
+@include sprite-animation(
+    $file-name: SNAP,
+    $frame-count: 6,
+    $sprite-width: 180px,
+    $sprite-height: 30px,
+    $animation-length: 360ms,
+    $repeat: 2,
+    $can-animate-forever: false
+);
+
+
+
