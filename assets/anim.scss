@@ -513,5 +513,15 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $can-animate-forever: false
 );
 
+@include sprite-animation(
+    $file-name: HiHi,
+    $frame-count: 19,
+    $sprite-width: 570px,
+    $sprite-height: 30px,
+    $animation-length: 1900ms,
+    $repeat: 2,
+    $can-animate-forever: true
+);
+
 
 
