@@ -3,6 +3,10 @@
 Source code for the chat client at [strims.gg](https://chat.strims.gg/)
 This is a work in progress!
 
+### Install node.js
+Visit https://nodejs.org/ and install the package to
+be able to use npm
+
 #### Install the node dependencies
 
 ```bash
