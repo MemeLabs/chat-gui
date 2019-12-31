@@ -409,8 +409,8 @@ $spritesDir : '../../emotes/emoticons-animated/';
 
 @include sprite-animation(
     $file-name: LAG,
-    $frame-count: 10,
-    $sprite-width: 390px,
+    $frame-count: 9,
+    $sprite-width: 360px,
     $sprite-height: 32px,
     $animation-length: 4000ms,
     $repeat: 2,
@@ -448,7 +448,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: WAG,
     $frame-count: 2,
-    $sprite-width: 84px,
+    $sprite-width: 76px,
     $sprite-height: 32px,
     $animation-length: 500ms,
     $repeat: 10
