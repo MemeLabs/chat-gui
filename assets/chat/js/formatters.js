@@ -129,9 +129,9 @@ function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
     let imgSrc = innerEmoteCompStyle.backgroundImage;
     const maskUrl = imgSrc.match(imgSrcRegex)[0];
 
-    const goldenModifierMask = 'width: ' + emoteWidth + 'px; height: ' + emoteHeight + 'px; ' + 'mask-position: ' + innerEmoteCompStyle.backgroundPosition + ';';
+    const goldenModifierMask = 'width: ' + emoteWidth + 'px; height: ' + emoteHeight + 'px; ' + '-webkit-mask-position: ' + innerEmoteCompStyle.backgroundPosition + ';';
     const goldenModifierMarginTop = (30 - emoteHeight) - 8;
-    const goldenModifierStyle = 'style="margin:' + goldenModifierMarginTop + 'px 2px 0px 2px; mask: url(/'+ maskUrl + ');' + goldenModifierMask + '"';
+    const goldenModifierStyle = 'style="margin:' + goldenModifierMarginTop + 'px 2px 0px 2px; -webkit-mask-image: url(/'+ maskUrl + ');' + goldenModifierMask + '"';
     
     const goldenModifierGlimmerStyle = 'style="width: ' + emoteWidth + 'px; height: ' + emoteHeight + 'px;"';
     const goldenModifierGlimmer = '<span ' + goldenModifierGlimmerStyle + ' class="golden-glimmer"></span>';
