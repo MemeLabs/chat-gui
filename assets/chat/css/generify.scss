@@ -5,6 +5,11 @@
     position: relative;
 }
 
+.cloned-emote:hover {
+    -webkit-animation-iteration-count: 0  !important;
+    animation-iteration-count:  0 !important;
+}
+
 .anim-fix {
     padding-top: 14px;
     margin-top: -10px;

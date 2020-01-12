@@ -138,9 +138,31 @@ function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
     
     const goldenModifier = '<span ' + goldenModifierStyle + 'class="golden-modifier">' + goldenModifierGlimmer + '</span>';
 
-    const goldenModifierInnerEmoteStyle = 'style="mix-blend-mode: color-burn; filter:contrast(125%) grayscale(100%) brightness(.75); animation: none;"';
+    const goldenModifierInnerEmoteStyle = 'mix-blend-mode: color-burn; filter:contrast(125%) grayscale(100%) brightness(.75); animation: none; ';
 
     return {goldenModifier: goldenModifier, goldenModifierInnerEmoteStyle: goldenModifierInnerEmoteStyle};   
+}
+
+function getInnerEmote(innerClasses, emoteName, style){
+    return '<span style="' + style + '"title="' + emoteName + '" class="' + innerClasses.join(' ') + '">' + emoteName + ' </span>';
+}
+
+function cloneModifier(direction, emoteName, emoteHeight, innerClasses){
+    let emoteMask = ' -webkit-mask-image: -webkit-linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%);'
+    const clonedModifierMarginTop = (-(emoteHeight - 12));
+    const rightOffset = 0;
+
+    if (direction == "rightClone"){
+        emoteMask = ' -webkit-mask-image: -webkit-linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 100%);'
+    }
+
+    const leftEmoteStyle = '-webkit-transform: scale(1, 1) !important; ' + emoteMask;
+    const rightEmoteStyle = '-webkit-transform-origin: inherit; position: absolute; right:' + rightOffset + 'px; margin-top:' + clonedModifierMarginTop +  'px; -webkit-transform: scale(-1, 1) !important; ' + emoteMask + '" ';
+
+    const leftEmote = getInnerEmote(innerClasses, emoteName + ":" + direction, leftEmoteStyle);
+    const rightEmote = getInnerEmote(innerClasses, emoteName + ":" + direction, rightEmoteStyle);
+    
+    return leftEmote + rightEmote;
 }
 
 class IdentityFormatter {
@@ -207,8 +229,10 @@ class EmoteFormatter {
             const seed = genSeed(str, chat, i++, timestamp);
             // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
             const punish = str == getLastMsg(chat)
+            let specialEmoteEffect = false;
             if (isHalloween() && emoteCount <= 7 && proc(seed, punish, 0)) {
                 innerClasses.push(getRandomHalloweenEffect(emote, seed));
+                specialEmoteEffect = true;
             }
 
             if (chat.settings.get('animateforever')) {
@@ -232,9 +256,17 @@ class EmoteFormatter {
                 var goldenEmote = genGoldenEmote(emote,  this.emoteheights[emote],  this.emotewidths[emote]);
                 goldenModifier = goldenEmote.goldenModifier;
                 goldenModifierInnerEmoteStyle = goldenEmote.goldenModifierInnerEmoteStyle;
+                specialEmoteEffect = true;
+            }
+
+            let innerEmote = "";
+            if (suffix == "leftClone" || suffix == "rightClone" && specialEmoteEffect == false){
+                innerClasses.push('cloned-emote');
+                innerEmote = cloneModifier(suffix, emote, this.emoteheights[emote], innerClasses);
+            } else {
+                innerEmote = getInnerEmote(innerClasses, m, goldenModifierInnerEmoteStyle);
             }
             
-            const innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             const modifierEffect = GENERIFY_OPTIONS[suffix] || "";
 
             return ' <span class="generify-container ' + modifierEffect + '">' + goldenModifier + hat + innerEmote + '</span>';

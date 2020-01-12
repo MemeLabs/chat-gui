@@ -63,6 +63,8 @@ const GENERIFY_OPTIONS = {
     'wide' : 'wide',
     // 'frozen': 'frozen',
     // 'lag' : 'lag',
+    'leftClone': 'leftClone',
+    'rightClone': 'rightClone',
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
