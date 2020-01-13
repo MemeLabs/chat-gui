@@ -147,17 +147,18 @@ function getInnerEmote(innerClasses, emoteName, style){
     return '<span style="' + style + '"title="' + emoteName + '" class="' + innerClasses.join(' ') + '">' + emoteName + ' </span>';
 }
 
-function cloneModifier(direction, emoteName, emoteHeight, innerClasses){
+function cloneModifier(direction, emoteName, emoteHeight, emoteWidth, innerClasses){
     let emoteMask = ' -webkit-mask-image: -webkit-linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%);'
     const clonedModifierMarginTop = (-(emoteHeight - 12));
-    const rightOffset = 0;
+    let rightOffset = Math.max(1, 40 / emoteWidth);
 
     if (direction == "rightClone"){
+        rightOffset = Math.max(-5, Math.min(-1.5, 38 - emoteWidth));
         emoteMask = ' -webkit-mask-image: -webkit-linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 100%);'
     }
 
-    const leftEmoteStyle = '-webkit-transform: scale(1, 1) !important; ' + emoteMask;
-    const rightEmoteStyle = '-webkit-transform-origin: inherit; position: absolute; right:' + rightOffset + 'px; margin-top:' + clonedModifierMarginTop +  'px; -webkit-transform: scale(-1, 1) !important; ' + emoteMask + '" ';
+    const leftEmoteStyle = '-webkit-transform: scale(1, 1) translate(0px, 0px) !important; ' + emoteMask;
+    const rightEmoteStyle = '-webkit-transform-origin: inherit !important; position: absolute; right:' + rightOffset + 'px; margin-top:' + clonedModifierMarginTop +  'px; -webkit-transform: scale(-1, 1) translate(0px, 0px) !important;' + emoteMask + '" ';
 
     const leftEmote = getInnerEmote(innerClasses, emoteName + ":" + direction, leftEmoteStyle);
     const rightEmote = getInnerEmote(innerClasses, emoteName + ":" + direction, rightEmoteStyle);
@@ -262,7 +263,7 @@ class EmoteFormatter {
             let innerEmote = "";
             if (suffix == "leftClone" || suffix == "rightClone" && specialEmoteEffect == false){
                 innerClasses.push('cloned-emote');
-                innerEmote = cloneModifier(suffix, emote, this.emoteheights[emote], innerClasses);
+                innerEmote = cloneModifier(suffix, emote, this.emoteheights[emote], this.emotewidths[emote], innerClasses);
             } else {
                 innerEmote = getInnerEmote(innerClasses, m, goldenModifierInnerEmoteStyle);
             }
