@@ -63,7 +63,7 @@ function genSeed(str, chat, i, timestamp) {
     const day = new Date().getUTCDate();
     const hours = new Date().getUTCHours();
     const minutes = new Date().getUTCMinutes();
-    const seed = createHash(lastMsg) + createHash(str) + i + day + hours + Math.floor(minutes/5);//  + timestamp;
+    const seed = createHash(lastMsg) + createHash(str) + i + day + hours + Math.floor(minutes/5) + timestamp;
     return seed;
 }
 
@@ -247,7 +247,7 @@ class EmoteFormatter {
             
             var goldenModifier = "";
             var goldenModifierInnerEmoteStyle= "";
-            let goldenProcChance = 25.00001000;
+            let goldenProcChance = 0.00001000;
             if (emoteCount / 2 > 1) {
                 // more than 2 emotes will lower the chance of a rare
                 goldenProcChance = goldenProcChance / (emoteCount / 2);
