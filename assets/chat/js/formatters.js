@@ -149,7 +149,7 @@ function getInnerEmote(innerClasses, emoteName, style){
 
 function cloneModifier(direction, emoteName, emoteHeight, emoteWidth, innerClasses){
     let emoteMask = ' -webkit-mask-image: -webkit-linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%);'
-    const clonedModifierMarginTop = (-(emoteHeight - 12));
+    const clonedModifierMarginTop = -(emoteHeight - 12);
     let rightOffset = Math.max(1, 40 / emoteWidth);
 
     if (direction == "rightClone"){
@@ -261,7 +261,7 @@ class EmoteFormatter {
             }
 
             let innerEmote = "";
-            if ( !specialEmoteEffect && suffix == "leftClone" || !specialEmoteEffect && suffix == "rightClone"){
+            if (!specialEmoteEffect && suffix == "leftClone" || !specialEmoteEffect && suffix == "rightClone"){
                 innerClasses.push('cloned-emote');
                 innerEmote = cloneModifier(suffix, emote, this.emoteheights[emote], this.emotewidths[emote], innerClasses);
             } else {
