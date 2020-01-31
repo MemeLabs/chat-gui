@@ -1254,9 +1254,9 @@ class Chat {
     cmdTAG(parts) {
         if (parts.length === 0) {
             if (this.taggednicks.size > 0) {
-                MessageBuilder.info(`Tagged nicks: ${[...this.taggednicks.keys()].join(',')}. Available colors: ${tagcolors.join(',')}`).into(this);
+                MessageBuilder.info(`Tagged nicks: ${[...this.taggednicks.keys()].join(',')}. Available colors: ${tagcolors.join(',')}. You can also use hexidecimal codes for colors http://hexpicker.com/ .` ).into(this);
             } else {
-                MessageBuilder.info(`No tagged nicks. Available colors: ${tagcolors.join(',')}`).into(this);
+                MessageBuilder.info(`No tagged nicks. Available colors: ${tagcolors.join(',')}. You can also use hexidecimal codes for colors http://hexpicker.com/ .`).into(this);
             }
             return;
         }
