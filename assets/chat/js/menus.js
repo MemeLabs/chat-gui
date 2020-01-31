@@ -5,31 +5,31 @@ import ChatScrollPlugin from './scroll'
 import UserFeatures from './features'
 import EventEmitter from './emitter'
 import debounce from 'throttle-debounce/debounce'
-import {isKeyCode, KEYCODES} from "./const"
+import { isKeyCode, KEYCODES } from "./const"
 
-function buildEmote(emote){
+function buildEmote(emote) {
     return `<div class="emote"><span title="${emote}" class="chat-emote chat-emote-${emote}">${emote}</span></div>`
 }
-function getSettingValue(e){
-    if(e.getAttribute('type') === 'checkbox') {
+function getSettingValue(e) {
+    if (e.getAttribute('type') === 'checkbox') {
         const val = $(e).is(':checked');
         return Boolean(e.hasAttribute('data-opposite') ? !val : val);
-    } else if(e.getAttribute('type') === 'text' || e.nodeName.toLocaleLowerCase() === 'select') {
+    } else if (e.getAttribute('type') === 'text' || e.nodeName.toLocaleLowerCase() === 'select') {
         return $(e).val()
     }
     return undefined
 }
-function setSettingValue(e, val){
-    if(e.getAttribute('type') === 'checkbox') {
+function setSettingValue(e, val) {
+    if (e.getAttribute('type') === 'checkbox') {
         $(e).prop('checked', Boolean(e.hasAttribute('data-opposite') ? !val : val))
-    } else if(e.getAttribute('type') === 'text' || e.nodeName.toLocaleLowerCase() === 'select') {
+    } else if (e.getAttribute('type') === 'text' || e.nodeName.toLocaleLowerCase() === 'select') {
         $(e).val(val)
     }
 }
-function userComparator(a, b){
+function userComparator(a, b) {
     const u1 = this.chat.users.get(a.getAttribute('data-username').toLowerCase())
     const u2 = this.chat.users.get(b.getAttribute('data-username').toLowerCase())
-    if(!u1 || !u2) return 0
+    if (!u1 || !u2) return 0
     let v1, v2
 
     v1 = u1.hasFeature(UserFeatures.ADMIN) || u1.hasFeature(UserFeatures.VIP)
@@ -63,7 +63,7 @@ function userComparator(a, b){
 
 class ChatMenu extends EventEmitter {
 
-    constructor(ui, btn, chat){
+    constructor(ui, btn, chat) {
         super()
         this.ui = ui
         this.btn = btn
@@ -82,8 +82,8 @@ class ChatMenu extends EventEmitter {
         })
     }
 
-    show(){
-        if(!this.visible){
+    show() {
+        if (!this.visible) {
             this.visible = true
             this.shown = true
             this.btn.addClass('active')
@@ -93,8 +93,8 @@ class ChatMenu extends EventEmitter {
         }
     }
 
-    hide(){
-        if(this.visible){
+    hide() {
+        if (this.visible) {
             this.visible = false
             this.btn.removeClass('active')
             this.ui.removeClass('active')
@@ -102,17 +102,17 @@ class ChatMenu extends EventEmitter {
         }
     }
 
-    toggle(){
+    toggle() {
         const wasVisible = this.visible;
         ChatMenu.closeMenus(this.chat);
-        if(!wasVisible) this.show();
+        if (!wasVisible) this.show();
     }
 
-    redraw(){
-        if(this.visible && this.scrollplugin) this.scrollplugin.reset();
+    redraw() {
+        if (this.visible && this.scrollplugin) this.scrollplugin.reset();
     }
 
-    static closeMenus(chat){
+    static closeMenus(chat) {
         chat.menus.forEach(m => m.hide());
     }
 
@@ -126,14 +126,14 @@ class ChatSettingsMenu extends ChatMenu {
         this.enableNotificationsBtn = this.ui.find('.enable-notifications-btn');
         this.enableNotificationsBtn.on('click', () => {
             this.notificationPermission().then(() => this.updateNotification());
-        } );
+        });
         this.notificationsFieldset = this.ui.find('.notifications-settings-fieldset');
 
         this.ui.on('change', 'input[type="checkbox"],select', e => this.onSettingsChange(e))
         this.ui.on('keypress blur', 'textarea[name="customhighlight"]', e => this.onCustomHighlightChange(e))
     }
 
-    onCustomHighlightChange(e){
+    onCustomHighlightChange(e) {
         if (!isKeyCode(e, KEYCODES.ENTER)) return; // not Enter
         let data = $(e.target).val().toString().split(',').map(s => s.trim())
         this.chat.settings.set('customhighlight', [...new Set(data)])
@@ -141,14 +141,14 @@ class ChatSettingsMenu extends ChatMenu {
         this.chat.commitSettings()
     }
 
-    onSettingsChange(e){
+    onSettingsChange(e) {
         const val = getSettingValue(e.target)
         const name = e.target.getAttribute('name')
-        if(val !== undefined) {
-            switch(name){
+        if (val !== undefined) {
+            switch (name) {
                 case 'profilesettings':
-                    if(!val && this.chat.authenticated)
-                        $.ajax({url: `${API_URI}/api/chat/me/settings`, method:'delete'})
+                    if (!val && this.chat.authenticated)
+                        $.ajax({ url: `${API_URI}/api/chat/me/settings`, method: 'delete' })
                     break;
             }
             this.chat.settings.set(name, val)
@@ -157,8 +157,8 @@ class ChatSettingsMenu extends ChatMenu {
         }
     }
 
-    show(){
-        if(!this.visible){
+    show() {
+        if (!this.visible) {
             this.ui.find('input,select').get()
                 .filter(e => this.chat.settings.has(e.getAttribute('name')))
                 .forEach(e => setSettingValue(e, this.chat.settings.get(e.getAttribute('name'))))
@@ -168,8 +168,8 @@ class ChatSettingsMenu extends ChatMenu {
         super.show()
     }
 
-    updateNotification(){
-        if(Notification.permission === "granted") {
+    updateNotification() {
+        if (Notification.permission === "granted") {
             this.enableNotificationsBtn.text("Permission granted ✓");
             this.enableNotificationsBtn.attr('disabled', true);
             this.notificationsFieldset.attr('disabled', false);
@@ -180,7 +180,7 @@ class ChatSettingsMenu extends ChatMenu {
         }
     }
 
-    notificationPermission(){
+    notificationPermission() {
         return new Promise((resolve, reject) => {
             // Whitelist of browsers that allow iframes to make notification
             // permission requests.
@@ -189,7 +189,7 @@ class ChatSettingsMenu extends ChatMenu {
             const browser = require("detect-browser").detect();
             const isOnWhitelist = browser && browserWhitelist.has(browser.name);
 
-            if(!isOnWhitelist || Notification.permission === "denied"){
+            if (!isOnWhitelist || Notification.permission === "denied") {
                 window.open(
                     "notification-request.html",
                     "strimsgg_notification_request",
@@ -197,7 +197,7 @@ class ChatSettingsMenu extends ChatMenu {
                 );
 
                 const onMessage = event => {
-                    if(event.data.name === "notification-request-done"){
+                    if (event.data.name === "notification-request-done") {
                         window.removeEventListener('message', onMessage);
                         resolve(Notification.permission);
                     }
@@ -213,7 +213,7 @@ class ChatSettingsMenu extends ChatMenu {
 
 class ChatUserMenu extends ChatMenu {
 
-    constructor(ui, btn, chat){
+    constructor(ui, btn, chat) {
         super(ui, btn, chat);
         this.searchterm = '';
         this.searchcount = 0;
@@ -226,7 +226,7 @@ class ChatUserMenu extends ChatMenu {
             ChatMenu.closeMenus(this.chat);
             const value = this.chat.input.val().toString().trim();
             const username = $(e.target).parent().data('username');
-            this.chat.input.val(value + (value === '' ? '':' ') +  username + ' ').focus();
+            this.chat.input.val(value + (value === '' ? '' : ' ') + username + ' ').focus();
             return false;
         });
         this.chat.source.on('JOIN', data => this.addAndRedraw(data.nick));
@@ -239,15 +239,15 @@ class ChatUserMenu extends ChatMenu {
         }));
     }
 
-    show(){
+    show() {
         super.show();
         this.searchinput.focus();
     }
 
-    redraw(){
-        if(this.visible){
+    redraw() {
+        if (this.visible) {
             const searching = this.searchterm.length > 0;
-            if(searching && this.totalcount !== this.searchcount) {
+            if (searching && this.totalcount !== this.searchcount) {
                 this.header.text(`Users (${this.searchcount} out of ${this.totalcount})`);
             } else {
                 this.header.text(`Users (${this.totalcount})`);
@@ -257,7 +257,7 @@ class ChatUserMenu extends ChatMenu {
         super.redraw();
     }
 
-    addAll(){
+    addAll() {
         this.totalcount = 0;
         this.container.empty();
         [...this.chat.users.keys()].forEach(username => this.addElement(username));
@@ -266,35 +266,35 @@ class ChatUserMenu extends ChatMenu {
         this.redraw();
     }
 
-    addAndRedraw(username){
-        if(!this.hasElement(username)){
+    addAndRedraw(username) {
+        if (!this.hasElement(username)) {
             this.addElement(username, true);
             this.filter();
             this.redraw();
         }
     }
 
-    removeAndRedraw(username){
-        if(this.hasElement(username)){
+    removeAndRedraw(username) {
+        if (this.hasElement(username)) {
             this.removeElement(username);
             this.redraw();
         }
     }
 
-    removeElement(username){
+    removeElement(username) {
         this.container.find(`.user[data-username="${username}"]`).remove();
         this.totalcount--;
     }
 
-    addElement(username, sort=false){
+    addElement(username, sort = false) {
         let tag = this.chat.taggednicks.get(username.toLowerCase());
         tag = tag ? `msg-tagged msg-tagged-${tag}` : '';
 
         const user = this.chat.users.get(username.toLowerCase()),
-             label = !user.username || user.username === '' ? 'Anonymous' : user.username,
-          features = user.features.length === 0 ? 'nofeature' : user.features.join(' '),
-               usr = $(`<a data-username="${user.username}" class="user ${features} ${tag}">${label} <i class="fa fa-share-square whisper-nick"></i></a>`)
-        if(sort && this.totalcount > 0) {
+            label = !user.username || user.username === '' ? 'Anonymous' : user.username,
+            features = user.features.length === 0 ? 'nofeature' : user.features.join(' '),
+            usr = $(`<a data-username="${user.username}" class="user ${features} ${tag}">${label} <i class="fa fa-share-square whisper-nick"></i></a>`)
+        if (sort && this.totalcount > 0) {
             // Insert item in the correct order (instead of resorting the entire list)
             const items = this.container.children('.user').get()
             let min = 0, max = items.length, index = Math.floor((min + max) / 2)
@@ -312,24 +312,24 @@ class ChatUserMenu extends ChatMenu {
         this.totalcount++
     }
 
-    hasElement(username){
-        return this.container.find('.user[data-username="'+username+'"]').length > 0;
+    hasElement(username) {
+        return this.container.find('.user[data-username="' + username + '"]').length > 0;
     }
 
-    filter(){
+    filter() {
         this.searchcount = 0;
-        if(this.searchterm && this.searchterm.length > 0) {
+        if (this.searchterm && this.searchterm.length > 0) {
             this.container.children('.user').get().forEach(a => {
                 const f = a.getAttribute('data-username').toLowerCase().indexOf(this.searchterm.toLowerCase()) >= 0;
                 $(a).toggleClass('found', f);
-                if(f) this.searchcount++;
+                if (f) this.searchcount++;
             });
         } else {
             this.container.children('.user').removeClass('found');
         }
     }
 
-    sort(){
+    sort() {
         this.container.children('.user').get()
             .sort(userComparator.bind(this))
             .forEach(a => a.parentNode.appendChild(a));
@@ -357,10 +357,10 @@ class ChatEmoteMenu extends ChatMenu {
         super.show();
     }
 
-    selectEmote(emote){
+    selectEmote(emote) {
         let value = this.chat.input.val().toString().trim();
         this.chat.input
-            .val(value + (value === '' ? '':' ') + emote + ' ')
+            .val(value + (value === '' ? '' : ' ') + emote + ' ')
             .focus()
             .trigger('input');
     }
@@ -369,7 +369,7 @@ class ChatEmoteMenu extends ChatMenu {
 
 class ChatWhisperUsers extends ChatMenu {
 
-    constructor(ui, btn, chat){
+    constructor(ui, btn, chat) {
         super(ui, btn, chat);
         this.unread = 0;
         this.empty = $(`<span class="empty">No new whispers :(</span>`);
@@ -381,49 +381,49 @@ class ChatWhisperUsers extends ChatMenu {
         this.usersEl.on('click', '.remove', e => this.removeConversation(e.target.getAttribute('data-username')))
     }
 
-    removeConversation(nick){
+    removeConversation(nick) {
         const normalized = nick.toLowerCase();
         this.chat.whispers.delete(normalized);
         this.chat.removeWindow(normalized);
         this.redraw();
     }
 
-    updateNotification(){
+    updateNotification() {
         const wasunread = this.unread;
         this.unread = [...this.chat.whispers.entries()]
             .map(e => parseInt(e[1].unread))
-            .reduce((a,b) => a+b, 0);
-        if(wasunread < this.unread) {
+            .reduce((a, b) => a + b, 0);
+        if (wasunread < this.unread) {
             this.btn.addClass('ping');
             setTimeout(() => this.btn.removeClass('ping'), 2000);
         }
         this.notif.text(this.unread);
         this.notif.toggle(this.unread > 0);
-        try{ // Add the number of unread items to the window title.
+        try { // Add the number of unread items to the window title.
             const t = window.parent.document.title.replace(/^\([0-9]+\) /, '');
             window.parent.document.title = this.unread > 0 ? `(${this.unread}) ${t}` : `${t}`;
-        }catch(ignored){console.error(ignored)}
+        } catch (ignored) { console.error(ignored) }
     }
 
-    redraw(){
+    redraw() {
         this.updateNotification(); // its always visible
-        if(this.visible){
+        if (this.visible) {
             this.usersEl.empty();
-            if(this.chat.whispers.size === 0) {
+            if (this.chat.whispers.size === 0) {
                 this.usersEl.append(this.empty);
             } else {
-                [...this.chat.whispers.entries()].sort((a,b) => {
-                    if(a[1].unread === 0) return 1;
-                    else if(b[1].unread === 0) return -1;
-                    else if(a[1] === b[1]) return 0;
+                [...this.chat.whispers.entries()].sort((a, b) => {
+                    if (a[1].unread === 0) return 1;
+                    else if (b[1].unread === 0) return -1;
+                    else if (a[1] === b[1]) return 0;
                 })
-                .forEach(e => this.addConversation(e[0], e[1].unread));
+                    .forEach(e => this.addConversation(e[0], e[1].unread));
             }
         }
         super.redraw();
     }
 
-    addConversation(nick, unread){
+    addConversation(nick, unread) {
         const user = this.chat.users.get(nick.toLowerCase()) || new ChatUser(nick)
         this.usersEl.append(`
             <li class="conversation unread-${unread}">

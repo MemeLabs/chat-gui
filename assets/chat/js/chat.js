@@ -1,13 +1,13 @@
 /* global $, window, document */
 
-import {KEYCODES, DATE_FORMATS, isKeyCode, GENERIFY_OPTIONS} from './const';
+import { KEYCODES, DATE_FORMATS, isKeyCode, GENERIFY_OPTIONS } from './const';
 import debounce from 'throttle-debounce/debounce';
 import moment from 'moment';
 import EventEmitter from './emitter';
 import ChatSource from './source';
 import ChatUser from './user';
-import {MessageBuilder, MessageTypes} from './messages';
-import {ChatMenu, ChatUserMenu, ChatWhisperUsers, ChatEmoteMenu, ChatSettingsMenu} from './menus';
+import { MessageBuilder, MessageTypes } from './messages';
+import { ChatMenu, ChatUserMenu, ChatWhisperUsers, ChatEmoteMenu, ChatSettingsMenu } from './menus';
 import ChatAutoComplete from './autocomplete';
 import ChatInputHistory from './history';
 import ChatUserFocus from './focus';
@@ -18,6 +18,7 @@ import Settings from './settings';
 import ChatWindow from './window';
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/ig;
+const regexhex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 const regexsafe = /[\-\[\]\/{}()*+?.\\^$|]/g;
 const nickmessageregex = /(?:(?:^|\s)@?)([a-zA-Z0-9_]{3,20})(?=$|\s|[.?!,])/g;
 const nickregex = /^[a-zA-Z0-9_]{3,20}$/;
@@ -93,26 +94,26 @@ const settingsdefault = new Map([
     ['disablespoilers', false]
 ]);
 const commandsinfo = new Map([
-    ['help', {desc: 'Helpful information.'}],
-    ['emotes', {desc: 'A list of the chats emotes in text form.'}],
-    ['me', {desc: 'A normal message, but emotive.'}],
-    ['message', {desc: 'Whisper someone', alias: ['msg', 'whisper', 'w', 'tell', 't', 'notify']}],
-    ['ignore', {desc: 'No longer see user messages, without <nick> to list the nicks ignored'}],
-    ['unignore', {desc: 'Remove a user from your ignore list'}],
-    ['highlight', {desc: 'Highlights target nicks messages for easier visibility'}],
-    ['unhighlight', {desc: 'Unhighlight target nick'}],
-    ['maxlines', {desc: 'The maximum number of lines the chat will store'}],
-    ['mute', {desc: 'The users messages will be blocked from everyone.', admin: true}],
-    ['unmute', {desc: 'Unmute the user.', admin: true}],
-    ['subonly', {desc: 'Subscribers only', admin: true}],
-    ['ban', {desc: 'User will no longer be able to connect to the chat.', admin: true}],
-    ['unban', {desc: 'Unban a user', admin: true}],
-    ['timestampformat', {desc: 'Set the time format of the chat.'}],
-    ['stalk', {desc: 'Return a list of messages from <nick>', alias: ['s']}],
-    ['mentions', {desc: 'Return a list of messages where <nick> is mentioned', alias: ['m']}],
-    ['tag', {desc: 'Mark a users messages'}],
-    ['untag', {desc: 'No longer mark the users messages'}],
-    ['exit', {desc: 'Exit the conversation you are in.'}]
+    ['help', { desc: 'Helpful information.' }],
+    ['emotes', { desc: 'A list of the chats emotes in text form.' }],
+    ['me', { desc: 'A normal message, but emotive.' }],
+    ['message', { desc: 'Whisper someone', alias: ['msg', 'whisper', 'w', 'tell', 't', 'notify'] }],
+    ['ignore', { desc: 'No longer see user messages, without <nick> to list the nicks ignored' }],
+    ['unignore', { desc: 'Remove a user from your ignore list' }],
+    ['highlight', { desc: 'Highlights target nicks messages for easier visibility' }],
+    ['unhighlight', { desc: 'Unhighlight target nick' }],
+    ['maxlines', { desc: 'The maximum number of lines the chat will store' }],
+    ['mute', { desc: 'The users messages will be blocked from everyone.', admin: true }],
+    ['unmute', { desc: 'Unmute the user.', admin: true }],
+    ['subonly', { desc: 'Subscribers only', admin: true }],
+    ['ban', { desc: 'User will no longer be able to connect to the chat.', admin: true }],
+    ['unban', { desc: 'Unban a user', admin: true }],
+    ['timestampformat', { desc: 'Set the time format of the chat.' }],
+    ['stalk', { desc: 'Return a list of messages from <nick>', alias: ['s'] }],
+    ['mentions', { desc: 'Return a list of messages where <nick> is mentioned', alias: ['m'] }],
+    ['tag', { desc: 'Mark a users messages' }],
+    ['untag', { desc: 'No longer mark the users messages' }],
+    ['exit', { desc: 'Exit the conversation you are in.' }]
 ]);
 const banstruct = {
     id: 0,
@@ -237,7 +238,7 @@ class Chat {
     }
 
     withUser(user) {
-        this.user = this.addUser(user || {nick: 'Anonymous'});
+        this.user = this.addUser(user || { nick: 'Anonymous' });
         this.authenticated = this.user !== null && this.user.username !== '' && this.user.username !== 'Anonymous';
         return this;
     }
@@ -263,8 +264,28 @@ class Chat {
         }
 
         this.taggednicks = new Map(this.settings.get('taggednicks'));
+        this.rebuildHexColorStyles(this.taggednicks);
         this.ignoring = new Set(this.settings.get('ignorenicks'));
         return this;
+    }
+
+    rebuildHexColorStyles(map) {
+        map.forEach(function (color) {
+            if (color[0] === "#") {
+                color = color.substring(1);
+                var css = ".msg-tagged-" + color + ":before{ background-color: #" + color + "; }",
+                    head = document.head || document.getElementsByTagName('head')[0],
+                    style = document.getElementById("hexColors");
+
+                if (style === null) {
+                    style = document.createElement('style');
+                    style.id = "hexColors"
+                    style.type = 'text/css';
+                    head.appendChild(style);
+                }
+                style.appendChild(document.createTextNode(css));
+            }
+        })
     }
 
     withGui() {
@@ -417,12 +438,12 @@ class Chat {
             try {
                 window.top.showLoginModal();
             } catch (_) {
-                const {origin, pathname} = location;
+                const { origin, pathname } = location;
                 if (window.self === window.top) {
                     let follow = '';
                     try {
                         follow = encodeURIComponent(pathname);
-                    } catch (_) {}
+                    } catch (_) { }
                     location.href = `${origin}/login?follow=${follow}`;
                 } else {
                     location.href = `${origin}/login`;
@@ -439,7 +460,7 @@ class Chat {
         });
 
         // Keep the website session alive.
-        setInterval(() => $.ajax({url: '/ping'}), 10 * 60 * 1000);
+        setInterval(() => $.ajax({ url: '/ping' }), 10 * 60 * 1000);
 
         this.loadingscrn.fadeOut(250, () => this.loadingscrn.remove());
         this.mainwindow.updateAndPin();
@@ -461,7 +482,7 @@ class Chat {
     withHistory(history) {
         if (history && history.length > 0) {
             this.backlogloading = true;
-            history.forEach(line => this.source.parseAndDispatch({data: line}));
+            history.forEach(line => this.source.parseAndDispatch({ data: line }));
             MessageBuilder.element('<hr/>').into(this);
             this.backlogloading = false;
             this.mainwindow.updateAndPin();
@@ -492,7 +513,7 @@ class Chat {
     saveSettings() {
         if (this.authenticated) {
             if (this.settings.get('profilesettings')) {
-                $.ajax({url: `${API_URI}/api/chat/me/settings`, method: 'post', data: JSON.stringify([...this.settings])});
+                $.ajax({ url: `${API_URI}/api/chat/me/settings`, method: 'post', data: JSON.stringify([...this.settings]) });
             } else {
                 ChatStore.write('chat.settings', this.settings);
             }
@@ -697,14 +718,14 @@ class Chat {
         this.mainwindow.lock();
         const c = this.mainwindow.getlines(`.msg-chat[data-username="${nick.toLowerCase()}"]`);
         switch (parseInt(this.settings.get('showremoved') || 1)) {
-        case 0: // remove
-            c.remove();
-            break;
-        case 1: // censor
-            c.addClass('censored');
-            break;
-        case 2: // do nothing
-            break;
+            case 0: // remove
+                c.remove();
+                break;
+            case 1: // censor
+                c.addClass('censored');
+                break;
+            case 2: // do nothing
+                break;
         }
         this.mainwindow.unlock();
     }
@@ -731,7 +752,7 @@ class Chat {
      * EVENTS
      */
 
-    onDISPATCH({data}) {
+    onDISPATCH({ data }) {
         if (typeof data === 'object') {
             let users = [];
             if (data.hasOwnProperty('nick')) { users.push(this.addUser(data)); }
@@ -740,7 +761,7 @@ class Chat {
         }
     }
 
-    onCLOSE({retryMilli}) {
+    onCLOSE({ retryMilli }) {
         // https://www.iana.org/assignments/websocket/websocket.xml#close-code-number
         // const code = e.event.code || 1006
         if (retryMilli > 0) {
@@ -866,7 +887,7 @@ class Chat {
         const normalized = data.nick.toLowerCase();
         if (!this.ignored(normalized, data.data)) {
             if (!this.whispers.has(normalized)) {
-                this.whispers.set(normalized, {nick: data.nick, unread: 0, open: false});
+                this.whispers.set(normalized, { nick: data.nick, unread: 0, open: false });
             }
 
             const conv = this.whispers.get(normalized);
@@ -887,7 +908,7 @@ class Chat {
             }
 
             if (win === this.getActiveWindow()) {
-                $.ajax({url: `${API_URI}/api/messages/msg/${messageid}/open`, method: 'post'});
+                $.ajax({ url: `${API_URI}/api/messages/msg/${messageid}/open`, method: 'post' });
             } else {
                 conv.unread++;
             }
@@ -929,7 +950,7 @@ class Chat {
                 this.inputhistory.add(str);
             } else if (win !== this.mainwindow) { // WHISPER
                 MessageBuilder.message(str, this.user).into(this, win);
-                this.source.send('PRIVMSG', {nick: win.name, data: str});
+                this.source.send('PRIVMSG', { nick: win.name, data: str });
             } else { // MESSAGE
                 const textonly = (isme ? str.substring(4) : str).trim();
                 if (this.source.isConnected() && !this.emoticons.has(textonly) && !this.emoteswithsuffixes.has(textonly)) {
@@ -941,7 +962,7 @@ class Chat {
                     const message = MessageBuilder.message(str, this.user).into(this);
                     this.unresolved.unshift(message);
                 }
-                this.source.send('MSG', {data: str});
+                this.source.send('MSG', { data: str });
                 this.inputhistory.add(str);
             }
         }
@@ -1012,9 +1033,9 @@ class Chat {
         } else {
             const duration = (parts[1]) ? Chat.parseTimeInterval(parts[1]) : null;
             if (duration && duration > 0) {
-                this.source.send('MUTE', {data: parts[0], duration: duration});
+                this.source.send('MUTE', { data: parts[0], duration: duration });
             } else {
-                this.source.send('MUTE', {data: parts[0]});
+                this.source.send('MUTE', { data: parts[0] });
             }
         }
     }
@@ -1042,13 +1063,13 @@ class Chat {
         } else if (!nickregex.test(parts[0])) {
             MessageBuilder.info('Invalid nick').into(this);
         } else {
-            this.source.send(command, {data: parts[0]});
+            this.source.send(command, { data: parts[0] });
         }
     }
 
     cmdSUBONLY(parts, command) {
         if (/on|off/i.test(parts[0])) {
-            this.source.send(command.toUpperCase(), {data: parts[0].toLowerCase()});
+            this.source.send(command.toUpperCase(), { data: parts[0].toLowerCase() });
         } else {
             MessageBuilder.error(`Invalid argument - /${command.toLowerCase()} on | off`).into(this);
         }
@@ -1081,13 +1102,13 @@ class Chat {
         const nick = parts[0].toLowerCase();
         const i = highlights.indexOf(nick);
         switch (command) {
-        case 'UNHIGHLIGHT':
-            if (i !== -1) highlights.splice(i, 1);
-            break;
-        default:
-        case 'HIGHLIGHT':
-            if (i === -1) highlights.push(nick);
-            break;
+            case 'UNHIGHLIGHT':
+                if (i !== -1) highlights.splice(i, 1);
+                break;
+            default:
+            case 'HIGHLIGHT':
+                if (i === -1) highlights.push(nick);
+                break;
         }
         MessageBuilder.info(command.toUpperCase() === 'HIGHLIGHT' ? `Highlighting ${nick}` : `No longer highlighting ${nick}`).into(this);
         this.settings.set('highlightnicks', highlights);
@@ -1110,7 +1131,7 @@ class Chat {
     }
 
     cmdBROADCAST(parts) {
-        this.source.send('BROADCAST', {data: parts.join(' ')});
+        this.source.send('BROADCAST', { data: parts.join(' ') });
     }
 
     cmdWHISPER(parts) {
@@ -1125,7 +1146,7 @@ class Chat {
                 // show outgoing private messages in chat. Message id unused.
                 MessageBuilder.whisperoutgoing(data, this.user, targetnick, Date.now(), -1).into(this);
             }
-            this.source.send('PRIVMSG', {nick: targetnick, data: data});
+            this.source.send('PRIVMSG', { nick: targetnick, data: data });
         }
     }
 
@@ -1153,7 +1174,7 @@ class Chat {
         this.busystalk = true;
         const limit = parts[1] ? parseInt(parts[1]) : 3;
         MessageBuilder.info(`Getting messages for ${[parts[0]]} ...`).into(this);
-        $.ajax({timeout: 5000, url: `${API_URI}/api/chat/stalk?username=${encodeURIComponent(parts[0])}&limit=${limit}`})
+        $.ajax({ timeout: 5000, url: `${API_URI}/api/chat/stalk?username=${encodeURIComponent(parts[0])}&limit=${limit}` })
             .always(() => {
                 this.nextallowedstalk = moment().add(10, 'seconds');
                 this.busystalk = false;
@@ -1192,7 +1213,7 @@ class Chat {
         this.busymentions = true;
         const limit = parts[1] ? parseInt(parts[1]) : 3;
         MessageBuilder.info(`Getting mentions for ${[parts[0]]} ...`).into(this);
-        $.ajax({timeout: 5000, url: `${API_URI}/api/chat/mentions?username=${encodeURIComponent(parts[0])}&limit=${limit}`})
+        $.ajax({ timeout: 5000, url: `${API_URI}/api/chat/mentions?username=${encodeURIComponent(parts[0])}&limit=${limit}` })
             .always(() => {
                 this.nextallowedmentions = moment().add(10, 'seconds');
                 this.busymentions = false;
@@ -1208,6 +1229,26 @@ class Chat {
                 }
             })
             .fail(() => MessageBuilder.error(`No mentions for ${parts[0]} received. Try again later`).into(this));
+    }
+
+    createNewClass(color) {
+
+        if (color[0] === "#") {
+            color = color.substring(1);
+            var css = ".msg-tagged-" + color + ":before{ background-color: #" + color + "; }",
+                head = document.head || document.getElementsByTagName('head')[0],
+                style = document.getElementById("hexColors");
+
+            if (style === null) {
+                style = document.createElement('style');
+                style.id = "hexColors"
+                style.type = 'text/css';
+                head.appendChild(style);
+            }
+            if (style.innerHTML.indexOf(css) === -1) {
+                style.appendChild(document.createTextNode(css));
+            }
+        }
     }
 
     cmdTAG(parts) {
@@ -1227,11 +1268,23 @@ class Chat {
         if (!this.users.has(n)) {
             MessageBuilder.command('The user you tagged is currently not in chat.').into(this);
         }
-        const color = parts[1] && tagcolors.indexOf(parts[1]) !== -1 ? parts[1] : tagcolors[Math.floor(Math.random() * tagcolors.length)];
-        this.mainwindow.getlines(`.msg-user[data-username="${n}"]`)
-            .removeClass(Chat.removeClasses('msg-tagged'))
-            .addClass(`msg-tagged msg-tagged-${color}`);
+        var color = parts[1];
+
+        if (color[0] === "#") {
+            this.mainwindow.getlines(`.msg-user[data-username="${n}"]`)
+                .removeClass(Chat.removeClasses('msg-tagged'))
+                .addClass(`msg-tagged msg-tagged-${color.substring(1)}`);
+            this.createNewClass(color);
+        }
+        else {
+            color = parts[1] && tagcolors.indexOf(parts[1]) !== -1 ? parts[1] : tagcolors[Math.floor(Math.random() * tagcolors.length)];
+
+            this.mainwindow.getlines(`.msg-user[data-username="${n}"]`)
+                .removeClass(Chat.removeClasses('msg-tagged'))
+                .addClass(`msg-tagged msg-tagged-${color}`);
+        }
         this.taggednicks.set(n, color);
+
         MessageBuilder.info(`Tagged ${parts[0]} as ${color}`).into(this);
 
         this.settings.set('taggednicks', [...this.taggednicks]);
@@ -1266,7 +1319,7 @@ class Chat {
 
     cmdBANINFO() {
         MessageBuilder.info('Loading ban info ...').into(this);
-        $.ajax({url: `${API_URI}/api/chat/me/ban`})
+        $.ajax({ url: `${API_URI}/api/chat/me/ban` })
             .done(d => {
                 if (d === 'bannotfound') {
                     MessageBuilder.info(`You have no active bans. Thank you.`).into(this);
@@ -1326,7 +1379,7 @@ class Chat {
                     `or close them from the whispers menu.\r`+
                     `Loading messages ...` */
                 ).into(this, win);
-                $.ajax({url: `${API_URI}/api/messages/usr/${encodeURIComponent(user.nick)}/inbox`})
+                $.ajax({ url: `${API_URI}/api/messages/usr/${encodeURIComponent(user.nick)}/inbox` })
                     .fail(() => MessageBuilder.error(`Failed to load messages :(`).into(this, win))
                     .done(data => {
                         if (data.length > 0) {
@@ -1360,8 +1413,8 @@ class Chat {
     }
 
     static removeClasses(search) {
-        return function(i, c) {
-            return (c.match(new RegExp(`\\b${search}(?:[A-z-]+)?\\b`, 'g')) || []).join(' ');
+        return function (i, c) {
+            return (c.match(new RegExp(`\\b${search}(?:[A-z-0-9]+)?\\b`, 'g')) || []).join(' ');
         };
     }
 
@@ -1411,7 +1464,7 @@ class Chat {
             day: 86400000000000,
             days: 86400000000000
         };
-        str.replace(regextime, function($0, number, unit) {
+        str.replace(regextime, function ($0, number, unit) {
             number *= (unit) ? units[unit.toLowerCase()] || units.s : units.s;
             nanoseconds += +number;
         });
