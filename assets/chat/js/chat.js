@@ -263,6 +263,7 @@ class Chat {
         }
 
         this.taggednicks = new Map(this.settings.get('taggednicks'));
+        this.rebuildHexColorStyles(this.taggednicks);
         this.ignoring = new Set(this.settings.get('ignorenicks'));
         return this;
     }
@@ -1210,6 +1211,31 @@ class Chat {
             .fail(() => MessageBuilder.error(`No mentions for ${parts[0]} received. Try again later`).into(this));
     }
 
+    createNewClass(color) {
+        if (color[0] === "#") {
+            color = color.substring(1);
+            var css = ".msg-tagged-" + color + ":before{ background-color: #" + color + "; }",
+                head = document.head || document.getElementsByTagName('head')[0],
+                style = document.getElementById("hexColors");
+
+            if (style === null) {
+                style = document.createElement('style');
+                style.id = "hexColors"
+                style.type = 'text/css';
+                head.appendChild(style);
+            }
+            if (style.innerHTML.indexOf(css) === -1) {
+                style.appendChild(document.createTextNode(css));
+            }
+        }
+    }
+
+    rebuildHexColorStyles(map) {
+        map.forEach((color) => {
+            this.createNewClass(color);
+        })
+    }
+
     cmdTAG(parts) {
         if (parts.length === 0) {
             if (this.taggednicks.size > 0) {
@@ -1227,10 +1253,22 @@ class Chat {
         if (!this.users.has(n)) {
             MessageBuilder.command('The user you tagged is currently not in chat.').into(this);
         }
-        const color = parts[1] && tagcolors.indexOf(parts[1]) !== -1 ? parts[1] : tagcolors[Math.floor(Math.random() * tagcolors.length)];
-        this.mainwindow.getlines(`.msg-user[data-username="${n}"]`)
-            .removeClass(Chat.removeClasses('msg-tagged'))
-            .addClass(`msg-tagged msg-tagged-${color}`);
+
+        var color = parts[1];
+        if (color[0] === "#") {
+            this.mainwindow.getlines(`.msg-user[data-username="${n}"]`)
+                .removeClass(Chat.removeClasses('msg-tagged'))
+                .addClass(`msg-tagged msg-tagged-${color.substring(1)}`);
+            this.createNewClass(color);
+        }
+        else {
+            color = parts[1] && tagcolors.indexOf(parts[1]) !== -1 ? parts[1] : tagcolors[Math.floor(Math.random() * tagcolors.length)];
+
+            this.mainwindow.getlines(`.msg-user[data-username="${n}"]`)
+                .removeClass(Chat.removeClasses('msg-tagged'))
+                .addClass(`msg-tagged msg-tagged-${color}`);
+        }
+
         this.taggednicks.set(n, color);
         MessageBuilder.info(`Tagged ${parts[0]} as ${color}`).into(this);
 
@@ -1361,7 +1399,7 @@ class Chat {
 
     static removeClasses(search) {
         return function(i, c) {
-            return (c.match(new RegExp(`\\b${search}(?:[A-z-]+)?\\b`, 'g')) || []).join(' ');
+            return (c.match(new RegExp(`\\b${search}(?:[A-z-0-9]+)?\\b`, 'g')) || []).join(' ');
         };
     }
 

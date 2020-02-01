@@ -523,5 +523,12 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $can-animate-forever: true
 );
 
-
-
+@include sprite-animation(
+    $file-name: HACKER,
+    $frame-count: 16,
+    $sprite-width: 768px,
+    $sprite-height: 32px,
+    $animation-length: 1600ms,
+    $repeat: 2,
+    $can-animate-forever: true
+);
