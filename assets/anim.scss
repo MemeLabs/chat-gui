@@ -463,15 +463,6 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $repeat: 10
 );
 
-@include sprite-animation(
-    $file-name: HONK,
-    $frame-count: 5,
-    $sprite-width: 175px,
-    $sprite-height: 32px,
-    $animation-length: 500ms,
-    $repeat: 7,
-    $can-animate-forever: false
-);
 
 @include sprite-animation(
     $file-name: illyaTriggered,
