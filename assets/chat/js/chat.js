@@ -268,25 +268,6 @@ class Chat {
         return this;
     }
 
-    rebuildHexColorStyles(map) {
-        map.forEach(function (color) {
-            if (color[0] === "#") {
-                color = color.substring(1);
-                var css = ".msg-tagged-" + color + ":before{ background-color: #" + color + "; }",
-                    head = document.head || document.getElementsByTagName('head')[0],
-                    style = document.getElementById("hexColors");
-
-                if (style === null) {
-                    style = document.createElement('style');
-                    style.id = "hexColors"
-                    style.type = 'text/css';
-                    head.appendChild(style);
-                }
-                style.appendChild(document.createTextNode(css));
-            }
-        })
-    }
-
     withGui() {
         this.ui = $('#chat');
         this.css = $('#chat-styles')[0]['sheet'];
@@ -1231,7 +1212,6 @@ class Chat {
     }
 
     createNewClass(color) {
-
         if (color[0] === "#") {
             color = color.substring(1);
             var css = ".msg-tagged-" + color + ":before{ background-color: #" + color + "; }",
@@ -1248,6 +1228,12 @@ class Chat {
                 style.appendChild(document.createTextNode(css));
             }
         }
+    }
+
+    rebuildHexColorStyles(map) {
+        map.forEach((color) => {
+            this.createNewClass(color);
+        })
     }
 
     cmdTAG(parts) {
