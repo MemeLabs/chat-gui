@@ -18,7 +18,6 @@ import Settings from './settings';
 import ChatWindow from './window';
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/ig;
-const regexhex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 const regexsafe = /[\-\[\]\/{}()*+?.\\^$|]/g;
 const nickmessageregex = /(?:(?:^|\s)@?)([a-zA-Z0-9_]{3,20})(?=$|\s|[.?!,])/g;
 const nickregex = /^[a-zA-Z0-9_]{3,20}$/;
