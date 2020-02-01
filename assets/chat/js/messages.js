@@ -256,8 +256,8 @@ class ChatUserMessage extends ChatMessage {
             classes.push('msg-highlight');
         if(this.continued && !this.target && !this.targetoutgoing)
             classes.push('msg-continue');
-        if(this.tag)
-            classes.push(`msg-tagged msg-tagged-${this.tag}`);
+        if (this.tag)
+            cleanAndPushClass(classes, this.tag);
         if(this.target)
             classes.push(`msg-whisper`);
         if(this.targetoutgoing)
@@ -279,6 +279,13 @@ class ChatUserMessage extends ChatMessage {
         return this.wrap(buildTime(this) + combined + buildMessageTxt(chat, this), classes, attr);
     }
 
+}
+
+function cleanAndPushClass(classes, tag) {
+if (tag[0] === "#") {
+    tag = tag.substring(1)
+}
+classes.push(`msg-tagged msg-tagged-${tag}`);
 }
 
 function ChatEmoteMessageCount(message){
