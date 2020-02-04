@@ -61,6 +61,7 @@ const GENERIFY_OPTIONS = {
     'love': 'generify-love',
     'spin': 'generify-spin',
     'wide' : 'wide',
+    'virus' : 'virus',
     // 'frozen': 'frozen',
     // 'lag' : 'lag',
 };

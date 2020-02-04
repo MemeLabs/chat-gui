@@ -255,3 +255,123 @@
 .generify-spin > .chat-emote:hover {
     animation: spin linear 0.8s infinite;
 }
+
+.generify-container.virus {
+    margin-left: 5px;
+    position: relative;
+}
+  
+.generify-container.virus::after {
+    background-image: url(../../emotes/modifiers/virus.png);
+    content: "";
+    display: block;
+    height: 32px;
+    left: calc(50% - 21px);
+    pointer-events: none;
+    position: absolute;
+    top: -10px;
+    width: 32px;
+    z-index: 1;
+}
+
+.generify-container.virus .chat-emote {
+    mask-image: url(../../emotes/modifiers/virus_mask.png);
+    mask-position: calc(50% - 5px) 0px;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: url(../../emotes/modifiers/virus_mask.png);
+    -webkit-mask-position: calc(50% - 5px) 0px;
+    -webkit-mask-repeat: no-repeat;
+}
+
+// left facing
+.generify-emote-4Head.virus::after,
+.generify-emote-ASLAN.virus::after,
+.generify-emote-BabyRage.virus::after,
+.generify-emote-billyWeird.virus::after,
+.generify-emote-cmonBruh.virus::after,
+.generify-emote-COGGERS.virus::after,
+.generify-emote-DAFUK.virus::after,
+.generify-emote-DuckerZ.virus::after,
+.generify-emote-FerretLOL.virus::after,
+.generify-emote-GODMAN.virus::after,
+.generify-emote-haHAA.virus::after,
+.generify-emote-ITSRAWWW.virus::after,
+.generify-emote-LUL.virus::after,
+.generify-emote-MiyanoBird.virus::after,
+.generify-emote-MiyanoComfy.virus::after,
+.generify-emote-MiyanoSip.virus::after,
+.generify-emote-MLADY.virus::after,
+.generify-emote-NOM.virus::after,
+.generify-emote-PIKOHH.virus::after,
+.generify-emote-POGGERS.virus::after,
+.generify-emote-SLEEPY.virus::after,
+.generify-emote-SpookerZ.virus::after,
+.generify-emote-SPY.virus::after,
+.generify-emote-SUGOI.virus::after,
+.generify-emote-SUGOwO.virus::after,
+.generify-emote-TRUMPED.virus::after,
+.generify-emote-UWOTM8.virus::after,
+.generify-emote-WhoahDude.virus::after,
+.generify-emote-YEE.virus::after {
+    background-image: url(../../emotes/modifiers/virus_left.png);
+    left: calc(50% - 21px);
+}
+
+.generify-container.virus .chat-emote-4Head,
+.generify-container.virus .chat-emote-ASLAN,
+.generify-container.virus .chat-emote-BabyRage,
+.generify-container.virus .chat-emote-billyWeird,
+.generify-container.virus .chat-emote-COGGERS,
+.generify-container.virus .chat-emote-DAFUK,
+.generify-container.virus .chat-emote-DuckerZ,
+.generify-container.virus .chat-emote-FerretLOL,
+.generify-container.virus .chat-emote-GODMAN,
+.generify-container.virus .chat-emote-haHAA,
+.generify-container.virus .chat-emote-ITSRAWWW,
+.generify-container.virus .chat-emote-LUL,
+.generify-container.virus .chat-emote-MiyanoBird,
+.generify-container.virus .chat-emote-MiyanoComfy,
+.generify-container.virus .chat-emote-MiyanoSip,
+.generify-container.virus .chat-emote-MLADY,
+.generify-container.virus .chat-emote-NOM,
+.generify-container.virus .chat-emote-PIKOHH,
+.generify-container.virus .chat-emote-POGGERS,
+.generify-container.virus .chat-emote-SLEEPY,
+.generify-container.virus .chat-emote-SpookerZ,
+.generify-container.virus .chat-emote-SPY,
+.generify-container.virus .chat-emote-SUGOI,
+.generify-container.virus .chat-emote-SUGOwO,
+.generify-container.virus .chat-emote-TRUMPED,
+.generify-container.virus .chat-emote-UWOTM8,
+.generify-container.virus .chat-emote-WhoahDude,
+.generify-container.virus .chat-emote-YEE {
+    mask-image: url(../../emotes/modifiers/virus_mask_left.png);
+    mask-position: calc(50% - 4px) 0px;
+    -webkit-mask-image: url(../../emotes/modifiers/virus_mask_left.png);
+    -webkit-mask-position: calc(50% - 4px) 0px;
+}
+
+// left facing with off-center faces
+.generify-emote-BERN.virus::after,
+.generify-emote-BOGGED.virus::after,
+.generify-emote-NOBULLY.virus::after,
+.generify-emote-OhKrappa.virus::after,
+.generify-emote-OsKrappa.virus::after,
+.generify-emote-SadBenis.virus::after,
+.generify-emote-SWEATY.virus::after {
+    background-image: url(../../emotes/modifiers/virus_left.png);
+    left: calc(50% - 13px);
+}
+
+.generify-container.virus .chat-emote-BERN,
+.generify-container.virus .chat-emote-BOGGED,
+.generify-container.virus .chat-emote-NOBULLY,
+.generify-container.virus .chat-emote-OhKrappa,
+.generify-container.virus .chat-emote-OsKrappa,
+.generify-container.virus .chat-emote-SadBenis,
+.generify-container.virus .chat-emote-SWEATY {
+    mask-image: url(../../emotes/modifiers/virus_mask_left.png);
+    mask-position: calc(50% + 4px) 0px;
+    -webkit-mask-image: url(../../emotes/modifiers/virus_mask_left.png);
+    -webkit-mask-position: calc(50% + 4px) 0px;
+}
