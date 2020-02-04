@@ -255,3 +255,20 @@
 .generify-spin > .chat-emote:hover {
     animation: spin linear 0.8s infinite;
 }
+
+.generify-container.banned {
+    position: relative;
+}
+
+.generify-container.banned::after {
+    background-image: url(../../emotes/modifiers/banned.png);
+    content: "";
+    display: block;
+    height: 32px;
+    left: calc(50% - 16px);
+    pointer-events: none;
+    position: absolute;
+    top: -10px;
+    width: 32px;
+    z-index: 1;
+}
