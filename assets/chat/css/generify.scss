@@ -274,6 +274,23 @@
     z-index: 1;
 }
 
+.generify-container.banned {
+    position: relative;
+}
+
+.generify-container.banned::after {
+    background-image: url(../../emotes/modifiers/banned.png);
+    content: "";
+    display: block;
+    height: 32px;
+    left: calc(50% - 16px);
+    pointer-events: none;
+    position: absolute;
+    top: -10px;
+    width: 32px;
+    z-index: 1;
+}
+
 .generify-container.virus .chat-emote {
     mask-image: url(../../emotes/modifiers/virus_mask.png);
     mask-position: calc(50% - 5px) 0px;

@@ -62,6 +62,7 @@ const GENERIFY_OPTIONS = {
     'spin': 'generify-spin',
     'wide' : 'wide',
     'virus' : 'virus',
+    'banned' : 'banned'
     // 'frozen': 'frozen',
     // 'lag' : 'lag',
 };
