@@ -235,9 +235,13 @@ class EmoteFormatter {
             }
             
             const innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
-            const modifierEffect = GENERIFY_OPTIONS[suffix] || "";
 
-            return ' <span class="generify-container ' + modifierEffect + '">' + goldenModifier + hat + innerEmote + '</span>';
+            const generifyClasses = [
+                'generify-container',
+                'generify-emote-' + emote,
+                GENERIFY_OPTIONS[suffix] || "",
+            ];
+            return ' <span class="' + generifyClasses.join(' ') + '">' + goldenModifier + hat + innerEmote + '</span>';
         });
     }
 

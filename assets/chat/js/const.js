@@ -61,7 +61,8 @@ const GENERIFY_OPTIONS = {
     'love': 'generify-love',
     'spin': 'generify-spin',
     'wide' : 'wide',
-    'banned' : 'banned',
+    'virus' : 'virus',
+    'banned' : 'banned'
     // 'frozen': 'frozen',
     // 'lag' : 'lag',
 };
