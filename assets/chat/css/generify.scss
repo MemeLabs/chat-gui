@@ -256,6 +256,27 @@
     animation: spin linear 0.8s infinite;
 }
 
+.generify-container.banned {
+    position: relative;
+}
+
+.generify-container.banned::after {
+    background-image: url(../../emotes/modifiers/banned.png);
+    content: "";
+    display: block;
+    height: 32px;
+    left: calc(50% - 16px);
+    pointer-events: none;
+    position: absolute;
+    top: -10px;
+    width: 32px;
+    z-index: 1;
+}
+
+.spoiler .generify-container.banned::after {
+    display: none;
+}
+
 .generify-container.virus {
     margin-left: 5px;
     position: relative;
@@ -267,23 +288,6 @@
     display: block;
     height: 32px;
     left: calc(50% - 21px);
-    pointer-events: none;
-    position: absolute;
-    top: -10px;
-    width: 32px;
-    z-index: 1;
-}
-
-.generify-container.banned {
-    position: relative;
-}
-
-.generify-container.banned::after {
-    background-image: url(../../emotes/modifiers/banned.png);
-    content: "";
-    display: block;
-    height: 32px;
-    left: calc(50% - 16px);
     pointer-events: none;
     position: absolute;
     top: -10px;
@@ -303,6 +307,7 @@
 // left facing
 .generify-emote-4Head.virus::after,
 .generify-emote-ASLAN.virus::after,
+.generify-emote-AYAYA::after,
 .generify-emote-BabyRage.virus::after,
 .generify-emote-billyWeird.virus::after,
 .generify-emote-cmonBruh.virus::after,
@@ -316,9 +321,11 @@
 .generify-emote-LUL.virus::after,
 .generify-emote-MiyanoBird.virus::after,
 .generify-emote-MiyanoComfy.virus::after,
+.generify-emote-MiyanoHype::after,
 .generify-emote-MiyanoSip.virus::after,
 .generify-emote-MLADY.virus::after,
 .generify-emote-NOM.virus::after,
+.generify-emote-OMEGALUL.virus::after,
 .generify-emote-PIKOHH.virus::after,
 .generify-emote-POGGERS.virus::after,
 .generify-emote-SLEEPY.virus::after,
@@ -328,14 +335,15 @@
 .generify-emote-SUGOwO.virus::after,
 .generify-emote-TRUMPED.virus::after,
 .generify-emote-UWOTM8.virus::after,
-.generify-emote-WhoahDude.virus::after,
-.generify-emote-YEE.virus::after {
+.generify-emote-VroomVroom.virus::after,
+.generify-emote-WhoahDude.virus::after {
     background-image: url(../../emotes/modifiers/virus_left.png);
     left: calc(50% - 21px);
 }
 
 .generify-container.virus .chat-emote-4Head,
 .generify-container.virus .chat-emote-ASLAN,
+.generify-container.virus .chat-emote-AYAYA,
 .generify-container.virus .chat-emote-BabyRage,
 .generify-container.virus .chat-emote-billyWeird,
 .generify-container.virus .chat-emote-COGGERS,
@@ -348,9 +356,11 @@
 .generify-container.virus .chat-emote-LUL,
 .generify-container.virus .chat-emote-MiyanoBird,
 .generify-container.virus .chat-emote-MiyanoComfy,
+.generify-container.virus .chat-emote-MiyanoHype,
 .generify-container.virus .chat-emote-MiyanoSip,
 .generify-container.virus .chat-emote-MLADY,
 .generify-container.virus .chat-emote-NOM,
+.generify-container.virus .chat-emote-OMEGALUL,
 .generify-container.virus .chat-emote-PIKOHH,
 .generify-container.virus .chat-emote-POGGERS,
 .generify-container.virus .chat-emote-SLEEPY,
@@ -360,22 +370,24 @@
 .generify-container.virus .chat-emote-SUGOwO,
 .generify-container.virus .chat-emote-TRUMPED,
 .generify-container.virus .chat-emote-UWOTM8,
-.generify-container.virus .chat-emote-WhoahDude,
-.generify-container.virus .chat-emote-YEE {
+.generify-container.virus .chat-emote-VroomVroom,
+.generify-container.virus .chat-emote-WhoahDude {
     mask-image: url(../../emotes/modifiers/virus_mask_left.png);
     mask-position: calc(50% - 4px) 0px;
     -webkit-mask-image: url(../../emotes/modifiers/virus_mask_left.png);
     -webkit-mask-position: calc(50% - 4px) 0px;
 }
 
-// left facing with off-center faces
+// left facing with off-center faces,
 .generify-emote-BERN.virus::after,
 .generify-emote-BOGGED.virus::after,
 .generify-emote-NOBULLY.virus::after,
 .generify-emote-OhKrappa.virus::after,
 .generify-emote-OsKrappa.virus::after,
+.generify-emote-POTATO.virus::after
 .generify-emote-SadBenis.virus::after,
-.generify-emote-SWEATY.virus::after {
+.generify-emote-SWEATY.virus::after,
+.generify-emote-YEE.virus::after {
     background-image: url(../../emotes/modifiers/virus_left.png);
     left: calc(50% - 13px);
 }
@@ -385,10 +397,26 @@
 .generify-container.virus .chat-emote-NOBULLY,
 .generify-container.virus .chat-emote-OhKrappa,
 .generify-container.virus .chat-emote-OsKrappa,
+.generify-container.virus .chat-emote-POTATO,
 .generify-container.virus .chat-emote-SadBenis,
-.generify-container.virus .chat-emote-SWEATY {
+.generify-container.virus .chat-emote-SWEATY,
+.generify-container.virus .chat-emote-YEE {
     mask-image: url(../../emotes/modifiers/virus_mask_left.png);
     mask-position: calc(50% + 4px) 0px;
     -webkit-mask-image: url(../../emotes/modifiers/virus_mask_left.png);
     -webkit-mask-position: calc(50% + 4px) 0px;
+}
+
+// right facing with off-cener faces
+.generify-emote-WAG.virus::after {
+    left: calc(50% - 13px);
+}
+
+.generify-container.virus .chat-emote-WAG {
+    mask-position: calc(50% + 4px) 0px;
+    -webkit-mask-position: calc(50% + 4px) 0px;
+}
+
+.spoiler .generify-container.virus::after {
+    display: none;
 }
