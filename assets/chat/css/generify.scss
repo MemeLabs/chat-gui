@@ -273,7 +273,7 @@
     z-index: 1;
 }
 
-.spoiler .generify-container.banned::after {
+.spoiler:not(.visible) .generify-container.banned::after {
     display: none;
 }
 
@@ -307,7 +307,7 @@
 // left facing
 .generify-emote-4Head.virus::after,
 .generify-emote-ASLAN.virus::after,
-.generify-emote-AYAYA::after,
+.generify-emote-AYAYA.virus::after,
 .generify-emote-BabyRage.virus::after,
 .generify-emote-billyWeird.virus::after,
 .generify-emote-cmonBruh.virus::after,
@@ -384,7 +384,7 @@
 .generify-emote-NOBULLY.virus::after,
 .generify-emote-OhKrappa.virus::after,
 .generify-emote-OsKrappa.virus::after,
-.generify-emote-POTATO.virus::after
+.generify-emote-POTATO.virus::after,
 .generify-emote-SadBenis.virus::after,
 .generify-emote-SWEATY.virus::after,
 .generify-emote-YEE.virus::after {
@@ -417,6 +417,6 @@
     -webkit-mask-position: calc(50% + 4px) 0px;
 }
 
-.spoiler .generify-container.virus::after {
+.spoiler:not(.visible) .generify-container.virus::after {
     display: none;
 }
