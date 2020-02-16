@@ -62,9 +62,9 @@ const GENERIFY_OPTIONS = {
     'spin': 'generify-spin',
     'wide' : 'wide',
     'virus' : 'virus',
-    'banned' : 'banned'
+    'banned' : 'banned',
     // 'frozen': 'frozen',
-    // 'lag' : 'lag',
+    'lag' : 'lag',
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
