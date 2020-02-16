@@ -523,3 +523,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $repeat: 2,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: KEKW,
+    $frame-count: 16,
+    $sprite-width: 1024px,
+    $sprite-height: 32px,
+    $animation-length: 400ms,
+    $repeat: 7,
+    $can-animate-forever: true
+);
