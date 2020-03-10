@@ -6,6 +6,7 @@ import moment from 'moment';
 import EventEmitter from './emitter';
 import ChatSource from './source';
 import ChatUser from './user';
+import ViewerState from './viewerstate';
 import {MessageBuilder, MessageTypes} from './messages';
 import {ChatMenu, ChatUserMenu, ChatWhisperUsers, ChatEmoteMenu, ChatSettingsMenu} from './menus';
 import ChatAutoComplete from './autocomplete';
@@ -90,7 +91,8 @@ const settingsdefault = new Map([
     ['animateforever', true],
     ['formatter-green', true],
     ['formatter-emote', true],
-    ['disablespoilers', false]
+    ['disablespoilers', false],
+    ['disableviewerstate', false]
 ]);
 const commandsinfo = new Map([
     ['help', {desc: 'Helpful information.'}],
@@ -155,6 +157,7 @@ class Chat {
         this.emoteswithsuffixes = new Set();
         this.user = new ChatUser();
         this.users = new Map();
+        this.viewerStates = new Map();
         this.whispers = new Map();
         this.windows = new Map();
         this.settings = new Map([...settingsdefault]);
@@ -195,6 +198,7 @@ class Chat {
         this.source.on('BROADCAST', data => this.onBROADCAST(data));
         this.source.on('PRIVMSGSENT', data => this.onPRIVMSGSENT(data));
         this.source.on('PRIVMSG', data => this.onPRIVMSG(data));
+        this.source.on('VIEWERSTATE', data => this.onVIEWERSTATE(data));
 
         this.control.on('SEND', data => this.cmdSEND(data));
         this.control.on('HINT', data => this.cmdHINT(data));
@@ -470,6 +474,11 @@ class Chat {
         return this;
     }
 
+    withViewerStates(viewerStates) {
+        viewerStates.forEach((state) => this.onVIEWERSTATE(state));
+        return this;
+    }
+
     withWhispers() {
         /* TODO: restore this if/once we have a backend for it.
         if (this.authenticated) {
@@ -548,10 +557,31 @@ class Chat {
         if (!user) {
             user = new ChatUser(data);
             this.users.set(normalized, user);
+            this.updateUserViewerState(data.nick);
         } else if (data.hasOwnProperty('features') && !Chat.isArraysEqual(data.features, user.features)) {
             user.features = data.features;
         }
         return user;
+    }
+
+    addViewerState(nick) {
+        const normalized = nick.toLowerCase();
+        let viewerState = this.viewerStates.get(normalized);
+        if (!viewerState) {
+            viewerState = new ViewerState();
+            this.viewerStates.set(normalized, viewerState);
+            this.updateUserViewerState(nick);
+        }
+        return viewerState;
+    }
+
+    updateUserViewerState(nick) {
+        const normalized = nick.toLowerCase();
+        let viewerState = this.viewerStates.get(normalized);
+        let user = this.users.get(normalized);
+        if (user && viewerState) {
+            user.viewerState = viewerState;
+        }
     }
 
     addMessage(message, win = null) {
@@ -896,6 +926,23 @@ class Chat {
             this.menus.get('whisper-users').redraw();
             this.redrawWindowIndicators();
         }
+    }
+
+    onVIEWERSTATE({ nick, online, channel }) {
+        const normalized = nick.toLowerCase();
+        let viewerState = this.viewerStates.get(normalized);
+        if (!online) {
+            if (viewerState) {
+                viewerState.channel = null;
+                this.viewerStates.delete(normalized);
+            }
+            return;
+        }
+
+        if (!viewerState) {
+            viewerState = this.addViewerState(nick);
+        }
+        viewerState.channel = channel;
     }
 
     /**

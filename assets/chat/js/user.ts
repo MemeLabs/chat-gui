@@ -1,3 +1,5 @@
+import ViewerState from './viewerstate';
+
 interface ICharUserArgs {
     readonly features: readonly string[];
     readonly nick: string;
@@ -7,6 +9,7 @@ class ChatUser {
     public features: readonly string[] = [];
     public nick: string = '';
     public username: string = '';
+    public viewerState: ViewerState = new ViewerState();
 
     constructor(args?: ICharUserArgs) {
         if (args) {
