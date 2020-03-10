@@ -490,7 +490,7 @@ a.user {
     $border-color: lighten( $main-color, 2.5 );
 
     color: $color-label-user;
-    background: transparent;
+    background: $main-color;
     background-repeat: no-repeat;
     padding: 2px;
     padding-top: 3px;
@@ -723,7 +723,8 @@ a.flair12:hover {
     background-color: $color-chat-emphasize;
 }
 .msg-whisper a.user {
-    background: $color-accent;
+    background-color: $color-accent;
+    background-position-x: -1000px;
     padding: 2px 5px 2px 5px;
     border-radius: 2px;
     color: white;
