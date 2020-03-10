@@ -490,16 +490,21 @@ a.user {
     $border-color: lighten( $main-color, 2.5 );
 
     color: $color-label-user;
-    background: $main-color;
-    // background: red;
+    background: transparent;
+    background-repeat: no-repeat;
     padding: 2px;
     padding-top: 3px;
     padding-right: 7px;
+    padding-left: 5px;
     border-radius: 3px;
     border: 1px solid;
     text-shadow: 1px 1px 0px black;
     border-color: $border-color $border-color $main-color $main-color;
     box-shadow: -1px 1px 1px rgba( black, 0.6 );
+}
+.pref-disableviewerstate a.user {
+    background-position-x: -5px;
+    padding-left: 2px;
 }
 a.user:hover {
     color: lighten($color-label-user,20%);
@@ -691,7 +696,7 @@ a.flair12:hover {
     a.user {
         display: inline-block;
         position: relative;
-        background: none;
+        background-position-x: -1000px;
         border: none;
         padding: 0 2px;
         color: #eee;
@@ -729,7 +734,8 @@ a.flair12:hover {
 .msg-whisper a.user:hover {
     text-decoration: none;
     color: $color-accent;
-    background: white;
+    background-color: white;
+    background-position-x: -1000px;
 }
 
 /* Tagging */

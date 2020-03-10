@@ -271,7 +271,10 @@ class ChatUserMessage extends ChatMessage {
         else if(this.slashme || this.continued)
             ctrl = '';
 
-        const user = buildFeatures(this.user) + ` <a class="user ${this.user.features.join(' ')}">${this.user.username}</a>`;
+        const color = this.user.viewerState.getColor();
+        const viewerStateProps = `title="${this.user.viewerState.getTitle()}" style="background-image: linear-gradient(90deg, ${color}, ${color} 3px, #181818 3px, #181818 1000px);"`;
+
+        const user = buildFeatures(this.user) + ` <a class="user ${this.user.features.join(' ')}" ${viewerStateProps}>${this.user.username}</a>`;
         let combined = ` ${user}<span class="ctrl">${ctrl}</span> `;
         if (this.targetoutgoing){
             combined = ` <span class="ctrl-leading">${ctrl}</span> <a class="user">${this.targetoutgoing}</a> <span class="ctrl">: </span>`;
