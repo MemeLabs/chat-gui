@@ -697,7 +697,7 @@ a.flair12:hover {
         display: inline-block;
         position: relative;
         background-color: transparent;
-        background-position-x: -1000px;
+        background-position-x: -200px;
         border: none;
         padding: 0 2px;
         color: #eee;
@@ -725,7 +725,7 @@ a.flair12:hover {
 }
 .msg-whisper a.user {
     background-color: $color-accent;
-    background-position-x: -1000px;
+    background-position-x: -200px;
     padding: 2px 5px 2px 5px;
     border-radius: 2px;
     color: white;
@@ -737,7 +737,7 @@ a.flair12:hover {
     text-decoration: none;
     color: $color-accent;
     background-color: white;
-    background-position-x: -1000px;
+    background-position-x: -200px;
 }
 
 /* Tagging */
