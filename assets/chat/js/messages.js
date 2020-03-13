@@ -271,8 +271,8 @@ class ChatUserMessage extends ChatMessage {
         else if(this.slashme || this.continued)
             ctrl = '';
 
-        const color = this.user.viewerState.getColor();
-        const viewerStateProps = `title="${this.user.viewerState.getTitle()}" style="background-image: linear-gradient(90deg, ${color} 3px, #181818 3px, #181818 200px);"`;
+        const background = generateViewerStateBackground(this.user.viewerState);
+        const viewerStateProps = `title="${this.user.viewerState.getTitle()}" style="background-image: url(${background});"`;
 
         const user = buildFeatures(this.user) + ` <a class="user ${this.user.features.join(' ')}" ${viewerStateProps}>${this.user.username}</a>`;
         let combined = ` ${user}<span class="ctrl">${ctrl}</span> `;
@@ -282,6 +282,70 @@ class ChatUserMessage extends ChatMessage {
         return this.wrap(buildTime(this) + combined + buildMessageTxt(chat, this), classes, attr);
     }
 
+}
+
+const vsScratchCanvas = document.createElement('canvas');
+function generateViewerStateBackground(viewerState) {
+    vsScratchCanvas.height = 20;
+    vsScratchCanvas.width = 200 * 3;
+
+    const ctx = vsScratchCanvas.getContext('2d');
+    const color = viewerState.getColor();
+    const rand = viewerState.getRng();
+
+    const size = 20;
+    let offset = 0;
+
+    // default (border)
+    ctx.fillStyle = color;
+    ctx.fillRect(offset, 0, 3, size);
+
+    offset += 200;
+
+    // dot
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(
+        offset + size / 2,
+        size / 2,
+        size * 0.3,
+        0,
+        2 * Math.PI,
+    );
+    ctx.fill();
+
+    offset += 200;
+
+    // array
+    const arrayWidth = 3;
+    const arrayHeight = 3;
+    const arraySteps = Math.max(arrayWidth, arrayHeight);
+    const arrayStepSize = size / arraySteps;
+
+    for (let p = 0.5, done; !done; p *= 1.1) {
+        for (let x = 0; x < arrayWidth; x ++) {
+            for (let y = 0; y < arrayHeight; y ++) {
+            if (rand() < p) {
+                ctx.fillStyle = color;
+                done = true;
+            } else {
+                ctx.fillStyle = '#333';
+            }
+
+            ctx.beginPath();
+            ctx.arc(
+                offset + x * arrayStepSize + arrayStepSize / 2,
+                y * arrayStepSize + arrayStepSize / 2,
+                arrayStepSize * 0.35,
+                0,
+                2 * Math.PI,
+            );
+            ctx.fill();
+            }
+        }
+    }
+
+    return vsScratchCanvas.toDataURL();
 }
 
 function cleanAndPushClass(classes, tag) {

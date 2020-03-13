@@ -12,15 +12,14 @@ const createRng = (seed: string) => {
   return () => fnv1a(`${n ++}${seed}`) / 0xffffffff;
 };
 
-const generateColor = (seed: string) => {
-  const rng = createRng(seed);
+const generateColor = (rng: () => number) => {
   const h = Math.round(rng() * 360);
-  const s = Math.round((rng() * 40) + 20);
-  const l = Math.round((rng() * 40) + 20);
+  const s = Math.round(rng() * 80 + 20);
+  const l = Math.round(rng() * 50 + 20);
   return `hsl(${h}, ${s}%, ${l}%)`;
 };
 
-const UNSAFE_CHARS = /[^a-zA-Z _\-\/\(\)]/g;
+const UNSAFE_CHARS = /[^a-zA-Z0-9 _\-\/\(\)]/g;
 const sanitize = (str: string) => str.replace(UNSAFE_CHARS, '');
 
 interface IChannel {
@@ -40,7 +39,14 @@ class ViewerState {
     if (!this.channel) {
       return '#292929';
     }
-    return generateColor(this.channel.channel + this.channel.service);
+    return generateColor(this.getRng());
+  }
+
+  getRng() {
+    if (!this.channel) {
+      return createRng('default');
+    }
+    return createRng(this.channel.channel + this.channel.service);
   }
 
   getTitle() {

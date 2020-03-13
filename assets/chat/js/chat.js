@@ -92,7 +92,7 @@ const settingsdefault = new Map([
     ['formatter-green', true],
     ['formatter-emote', true],
     ['disablespoilers', false],
-    ['disableviewerstate', false]
+    ['viewerstateindicator', 1]
 ]);
 const commandsinfo = new Map([
     ['help', {desc: 'Helpful information.'}],
@@ -538,9 +538,17 @@ class Chat {
         this.regexhighlightnicks = nicks.length > 0 ? new RegExp(`\\b(?:${nicks.join('|')})\\b`, 'i') : null;
 
         // Settings Css
-        Array.from(this.settings.keys())
-            .filter(key => typeof this.settings.get(key) === 'boolean')
-            .forEach(key => this.ui.toggleClass(`pref-${key}`, this.settings.get(key)));
+        Array.from(this.settings.keys()).forEach(key => {
+            const value = this.settings.get(key);
+            if (typeof value === 'boolean') {
+                this.ui.toggleClass(`pref-${key}`, value);
+            } else if (!isNaN(parseInt(value))) {
+                this.ui.prop('className').split(/\s+/)
+                    .filter(c => c.startsWith(`pref-${key}`))
+                    .forEach(c => this.ui.removeClass(c));
+                this.ui.addClass(`pref-${key}-${value}`);
+            }
+        });
 
         // Update maxlines
         [...this.windows].forEach(w => { w.maxlines = this.settings.get('maxlines'); });
