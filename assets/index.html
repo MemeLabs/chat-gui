@@ -90,10 +90,14 @@
                                     <input name="disablespoilers" type="checkbox" /> Disable spoilers
                                 </label>
                             </div>
-                            <div class="form-group checkbox">
-                                <label title="Disable stream viewer indicators">
-                                    <input name="disableviewerstate" type="checkbox" /> Disable stream viewer indicators
-                                </label>
+                            <div class="form-group">
+                                <label for="viewerstateindicator">Stream viewer indicators</label>
+                                <select class="form-control" id="viewerstateindicator" name="viewerstateindicator">
+                                    <option value="0">disable</option>
+                                    <option value="1">bar</option>
+                                    <option value="2">dot</option>
+                                    <option value="3">array</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="showremoved">Banned messages</label>
