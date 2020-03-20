@@ -50,6 +50,9 @@ i[class^="icon-"],
             -1px 1px 0 rgba(black,0.75),
             1px 1px 1px rgba(black,0.75);
     letter-spacing: 0.03em;
+    .spoiler {
+        text-shadow: none;
+    }
 }
 .msg-chat .text:before {
     vertical-align: middle !important;
