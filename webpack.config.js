@@ -1,11 +1,36 @@
 require('dotenv').config();
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+
+class EmoteManifestPlugin {
+    constructor(options) {
+        this.options = options;
+    }
+
+    apply(compiler) {
+        compiler.hooks.emit.tapAsync('HtmlWebpackPlugin', (compilation, callback) => {
+            const cssChunkFile = compilation.entrypoints.get(this.options.cssChunk).getFiles().find(name => /\.css$/.test(name));
+            const index = fs.readFileSync(this.options.index);
+            const json = JSON.stringify({
+                emotes: JSON.parse(index),
+                css: cssChunkFile
+            });
+
+            compilation.assets[this.options.filename] = {
+                source: () => json,
+                size: () => json.length
+            };
+
+            return callback();
+        });
+    }
+}
 
 const plugins = [
     new CopyWebpackPlugin([
@@ -23,13 +48,13 @@ const plugins = [
         filename: 'index.html',
         template: 'assets/index.html',
         favicon: './assets/chat/img/favicon.ico',
-        chunks: ['chat']
+        chunks: ['chat', 'emotes']
     }),
     new HTMLWebpackPlugin({
         filename: 'chatstreamed.html',
         template: 'assets/chatstreamed.html',
         favicon: './assets/chat/img/favicon.ico',
-        chunks: ['chatstreamed']
+        chunks: ['chatstreamed', 'emotes']
     }),
     new HTMLWebpackPlugin({
         filename: 'notification-request.html',
@@ -42,6 +67,11 @@ const plugins = [
         WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://chat.strims.gg/ws"',
         API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '""',
         LOGIN_URI: process.env.LOGIN_URI ? `'${process.env.LOGIN_URI}'` : 'false'
+    }),
+    new EmoteManifestPlugin({
+        filename: 'emote-manifest.json',
+        index: './assets/emotes.json',
+        cssChunk: 'emotes'
     })
 ];
 
@@ -65,12 +95,15 @@ const entry = {
         './assets/chat/css/onstream.scss',
         './assets/streamchat.js'
     ],
+    'emotes': [
+        './assets/chat/css/emotes.scss'
+    ],
     'notification-request': [
         './assets/notification-request/style.scss',
         './assets/notification-request/persona.png',
         './assets/notification-request/settings-guide.png',
         './assets/notification-request/script.js'
-    ]
+    ],
 };
 
 if (process.env.NODE_ENV !== 'production') {
