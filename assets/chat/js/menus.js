@@ -6,6 +6,7 @@ import UserFeatures from './features'
 import EventEmitter from './emitter'
 import debounce from 'throttle-debounce/debounce'
 import {isKeyCode, KEYCODES} from "./const"
+import {setStorage} from './transfer'
 
 function buildEmote(emote){
     return `<div class="emote"><span title="${emote}" class="chat-emote chat-emote-${emote}">${emote}</span></div>`
@@ -128,6 +129,12 @@ class ChatSettingsMenu extends ChatMenu {
             this.notificationPermission().then(() => this.updateNotification());
         } );
         this.notificationsFieldset = this.ui.find('.notifications-settings-fieldset');
+
+        this.importSettingsInput = this.ui.find('.file-input-import')
+        this.importSettingsInput.on("change", e => {
+            var input = e.target
+            setStorage(input.files[0], chat)
+        })
 
         this.ui.on('change', 'input[type="checkbox"],select', e => this.onSettingsChange(e))
         this.ui.on('keypress blur', 'textarea[name="customhighlight"]', e => this.onCustomHighlightChange(e))
