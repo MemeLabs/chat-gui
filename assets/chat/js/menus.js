@@ -7,7 +7,6 @@ import EventEmitter from './emitter'
 import debounce from 'throttle-debounce/debounce'
 import {isKeyCode, KEYCODES} from "./const"
 import {setStorage, getStorage} from './transfer'
-import { LanguageVariant } from 'typescript'
 
 function buildEmote(emote){
     return `<div class="emote"><span title="${emote}" class="chat-emote chat-emote-${emote}">${emote}</span></div>`
