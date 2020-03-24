@@ -34,7 +34,7 @@ function setStorage(file, chat) {
 
 function getStorage() {
   var storage = ChatStore.readRAW('chat.settings')
-  download('settings.txt', storage)
+  download('settings.json', storage)
 }
 
 export {
