@@ -1566,11 +1566,11 @@ button.btn {
     border-color: $color-surface-light3;
 }
 
-#importsettingsBtn {
+#import-settings-Btn {
     display: none;
 }
 
-.importexport {
+.import-export {
     background: none;
     padding: 2px 8px 2px 8px;
     margin: 0px 5px 0px 0px;
@@ -1584,6 +1584,6 @@ button.btn {
     cursor: pointer;
 }
 
-.importexport:hover {
+.import-export:hover {
     color: rgba(255,255,255,0.75)
 }

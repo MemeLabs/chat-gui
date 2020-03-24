@@ -130,15 +130,15 @@ class ChatSettingsMenu extends ChatMenu {
         } );
         this.notificationsFieldset = this.ui.find('.notifications-settings-fieldset');
 
-        this.importSettingsInput = this.ui.find('.file-input-import')
+        this.importSettingsInput = this.ui.find('#import-settings-Label')
         this.importSettingsInput.on("change", e => {
             var input = e.target
             setStorage(input.files[0], chat)
-            var label = this.ui.find('#importsettingsLabel')
-            label.text("Imported!")
-            label.css("color", "green")
+
+            this.importSettingsInput.text("Imported!")
+            this.importSettingsInput.css("color", "green")
         })
-        this.exportSettingsInput = this.ui.find('#exportsettingsBtn')
+        this.exportSettingsInput = this.ui.find('#export-settings-Btn')
         this.exportSettingsInput.on("click", e => {
             getStorage()
         })
