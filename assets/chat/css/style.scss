@@ -1565,3 +1565,25 @@ button.btn {
     background-color: $color-surface-light1;
     border-color: $color-surface-light3;
 }
+
+#importsettingsBtn {
+    display: none;
+}
+
+.importexport {
+    background: none;
+    padding: 2px 8px 2px 8px;
+    margin: 0px 5px 0px 0px;
+    width: 130px;
+    border: 1px solid;
+    border-radius: 20px;
+
+    text-align: center;
+    color: #999999;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.importexport:hover {
+    color: rgba(255,255,255,0.75)
+}

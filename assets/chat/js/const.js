@@ -117,33 +117,5 @@ const HAT_SPECIAL_BLACKLIST = {
 
 }
 
-const SETTINGS_DEFAULT = new Map([
-    ['schemaversion', 2],
-    ['showtime', false],
-    ['hideflairicons', false],
-    ['profilesettings', false],
-    ['timestampformat', 'HH:mm'],
-    ['maxlines', 250],
-    ['notificationwhisper', true],
-    ['notificationhighlight', true],
-    ['highlight', true], // todo rename this to `highlightself` or something
-    ['customhighlight', []],
-    ['highlightnicks', []],
-    ['taggednicks', []],
-    ['showremoved', 0], // 0 = false (removes), 1 = true (censor), 2 = do nothing
-    ['showhispersinchat', true],
-    ['ignorenicks', []],
-    ['focusmentioned', false],
-    ['notificationtimeout', true],
-    ['ignorementions', false],
-    ['autocompletehelper', true],
-    ['taggedvisibility', false],
-    ['hidensfw', false],
-    ['animateforever', true],
-    ['formatter-green', true],
-    ['formatter-emote', true],
-    ['disablespoilers', false],
-    ['viewerstateindicator', 1]
-]);
 
-export {KEYCODES, DATE_FORMATS, isKeyCode, getKeyCode, GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST, HAT_SPECIAL_BLACKLIST, SETTINGS_DEFAULT};
+export {KEYCODES, DATE_FORMATS, isKeyCode, getKeyCode, GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST, HAT_SPECIAL_BLACKLIST};

@@ -1,5 +1,5 @@
 import ChatStore from './store'
-import {SETTINGS_DEFAULT} from './const'
+import {MessageBuilder} from './messages'
 
 function download(filename, text) {
   var element = document.createElement('a');
@@ -28,13 +28,16 @@ function setStorage(file, chat) {
 
     ChatStore.write('chat.settings', newSettings)
 
+    MessageBuilder.broadcast('Settings imported! Reload chat to take effect.').into(chat)
   }
 }
 
 function getStorage() {
-  
+  var storage = ChatStore.readRAW('chat.settings')
+  download('settings.txt', storage)
 }
 
 export {
-  setStorage
+  setStorage,
+  getStorage
 }

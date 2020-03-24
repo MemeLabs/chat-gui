@@ -21,6 +21,12 @@ class ChatStore {
         try{ localStorage.removeItem(name) } catch(e){ console.error(e) }
     }
 
+    static readRAW(name){
+        let data = null;
+        try{ data = localStorage.getItem(name) } catch(e){ console.error(e) }
+        return data;
+    }
+
 }
 
 export default ChatStore;

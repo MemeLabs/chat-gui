@@ -6,7 +6,8 @@ import UserFeatures from './features'
 import EventEmitter from './emitter'
 import debounce from 'throttle-debounce/debounce'
 import {isKeyCode, KEYCODES} from "./const"
-import {setStorage} from './transfer'
+import {setStorage, getStorage} from './transfer'
+import { LanguageVariant } from 'typescript'
 
 function buildEmote(emote){
     return `<div class="emote"><span title="${emote}" class="chat-emote chat-emote-${emote}">${emote}</span></div>`
@@ -134,6 +135,13 @@ class ChatSettingsMenu extends ChatMenu {
         this.importSettingsInput.on("change", e => {
             var input = e.target
             setStorage(input.files[0], chat)
+            var label = this.ui.find('#importsettingsLabel')
+            label.text("Imported!")
+            label.css("color", "green")
+        })
+        this.exportSettingsInput = this.ui.find('#exportsettingsBtn')
+        this.exportSettingsInput.on("click", e => {
+            getStorage()
         })
 
         this.ui.on('change', 'input[type="checkbox"],select', e => this.onSettingsChange(e))
