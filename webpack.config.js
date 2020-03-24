@@ -4,9 +4,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const util = require('util');
+const crypto = require('crypto');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+
+const fsReadDirAsync = util.promisify(fs.readdir);
+const fsReadFileAsync = util.promisify(fs.readFile);
 
 class EmoteManifestPlugin {
     constructor(options) {
@@ -14,11 +19,50 @@ class EmoteManifestPlugin {
     }
 
     apply(compiler) {
-        compiler.hooks.emit.tapAsync('HtmlWebpackPlugin', (compilation, callback) => {
+        compiler.hooks.emit.tapAsync('HtmlWebpackPlugin', async (compilation, callback) => {
             const cssChunkFile = compilation.entrypoints.get(this.options.cssChunk).getFiles().find(name => /\.css$/.test(name));
-            const index = fs.readFileSync(this.options.index);
+            const indexJSON = await fsReadFileAsync(this.options.index);
+            const { default: emoteNames } = JSON.parse(indexJSON);
+
+            const [emoteFileNames, animatedEmoteFileNames] = await Promise.all([
+                fsReadDirAsync(this.options.emoteRoot),
+                fsReadDirAsync(this.options.animatedEmoteRoot),
+            ]);
+
+            const emotes = await Promise.all(emoteNames.map(async (emoteName) => {
+                const emoteFileName = emoteFileNames.find((fileName) => fileName.indexOf(emoteName) !== -1);
+                const animatedEmoteFileName = animatedEmoteFileNames.find((fileName) => fileName.indexOf(emoteName) !== -1);
+                const fileName = emoteFileName || animatedEmoteFileName;
+                const animated = !!animatedEmoteFileName;
+
+                if (!fileName) {
+                    throw new Error(`missing file for emote ${emoteName}`);
+                }
+
+                const srcRoot = animated ? this.options.animatedEmoteRoot : this.options.emoteRoot;
+                const src = await fsReadFileAsync(path.join(srcRoot, fileName));
+
+                const hash = crypto.createHash('sha1');
+                hash.write(src);
+                const digest = hash.digest().toString('hex').substring(0, 6);
+
+                const ext = path.extname(fileName)
+                const dstPath = this.options.emotePath + '/' + fileName.replace(ext, '.' + digest + ext);
+
+                compilation.assets[dstPath] = {
+                    source: () => src,
+                    size: () => src.length
+                };
+
+                return {
+                    name: emoteName,
+                    path: '/' + dstPath,
+                    animated
+                };
+            }));
+
             const json = JSON.stringify({
-                emotes: JSON.parse(index),
+                emotes,
                 css: cssChunkFile
             });
 
@@ -70,7 +114,10 @@ const plugins = [
     }),
     new EmoteManifestPlugin({
         filename: 'emote-manifest.json',
+        emotePath: 'img/emotes',
         index: './assets/emotes.json',
+        emoteRoot: './assets/emotes/emoticons',
+        animatedEmoteRoot: './assets/emotes/emoticons-animated',
         cssChunk: 'emotes'
     })
 ];
@@ -116,7 +163,7 @@ if (process.env.NODE_ENV !== 'production') {
         new HTMLWebpackPlugin({
             filename: 'dev/dev-chat.html',
             template: 'assets/index.html',
-            chunks: ['dev-chat']
+            chunks: ['dev-chat', 'emotes']
         })
     );
 
