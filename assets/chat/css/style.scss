@@ -1,10 +1,6 @@
 @import "../../common";
-@import "../../emotes/emoticons";
 @import "../../icons/icons";
 @import "~roboto-fontface/css/roboto/roboto-fontface.css";
-@import "weather.scss";
-@import "generify.scss";
-@import "spooky.css";
 
 ::selection {
     color: white;
@@ -1569,7 +1565,3 @@ button.btn {
     background-color: $color-surface-light1;
     border-color: $color-surface-light3;
 }
-
-/* contains animations of specific emotes that partly override .chat-emote */
-@import "../../anim";
-
