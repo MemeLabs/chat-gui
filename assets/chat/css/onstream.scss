@@ -52,6 +52,17 @@ i[class^="icon-"],
     letter-spacing: 0.03em;
     .spoiler {
         text-shadow: none;
+        position: relative;
+    }
+    .spoiler:before {
+        content: "[SPOILER]";
+        z-index: 1;
+        font-size: small;
+        color: #828282;
+        font-weight: 500;
+        position: absolute;
+        margin-left: 50%;
+        transform: translate(-50%, 0);
     }
 }
 .msg-chat .text:before {
@@ -67,6 +78,7 @@ i[class^="icon-"],
 a.user {
     background-color: transparent;
     background-position-x: -200px;
+    background-image: none !important;
     border: none;
     color: $text-color;
     box-shadow: none;
