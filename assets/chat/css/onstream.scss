@@ -61,8 +61,7 @@ i[class^="icon-"],
         color: #828282;
         font-weight: 500;
         position: absolute;
-        margin-left: 50%;
-        transform: translate(-50%, 0);
+        padding-left: calc(50% - 32px)
     }
 }
 .msg-chat .text:before {
