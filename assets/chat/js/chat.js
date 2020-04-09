@@ -1373,20 +1373,20 @@ class Chat {
         }
         const emote = parts[0]
         const i = hiddenEmotes.indexOf(emote)
+        const emoteSpans = this.ui.find(`.chat-emote.chat-emote-${emote}`)
+        const emoteContainers = this.ui.find(`.generify-emote-${emote}`)
+        const modifiers = emoteContainers.attr('class').split(/\s+/).splice(2)
         switch (command) {
             case 'HIDEEMOTE':
             if (i === -1) hiddenEmotes.push(emote);
-            this.ui.find(`.generify-container.generify-emote-${emote}`)
-                .removeClass()
-                .addClass(`generify-container generify-emote-${emote}`)
-            this.ui.find(`.chat-emote.chat-emote-${emote}`)
-                .removeClass()
+            emoteContainers.removeClass().addClass(`generify-container generify-emote-${emote}`)
+            emoteSpans.addClass('hidden-emote')
             break;
         default:
         case 'UNHIDEEMOTE':
             if (i !== -1) hiddenEmotes.splice(i, 1);
-            this.ui.find(`.generify-container [title=${emote}]`)
-                .addClass(`chat-emote chat-emote-${emote}`)
+            emoteSpans.removeClass(`hidden-emote`)
+            emoteContainers.addClass(emoteContainers.attr('data-modifiers'))
             break;
         }
         MessageBuilder.info(command.toUpperCase() === 'HIDEEMOTE' ? `Now hiding ${emote}.` : `No longer hiding ${emote}.`).into(this);

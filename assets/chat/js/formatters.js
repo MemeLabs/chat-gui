@@ -245,7 +245,7 @@ class EmoteFormatter {
                 'generify-emote-' + emote,
                 GENERIFY_OPTIONS[suffix] || "",
             ];
-            return ' <span class="' + generifyClasses.join(' ') + '">' + goldenModifier + hat + innerEmote + '</span>';
+            return ' <span class="' + generifyClasses.join(' ') + '" data-modifiers="' + GENERIFY_OPTIONS[suffix] + '">' + goldenModifier + hat + innerEmote + '</span>';
         });
     }
 
