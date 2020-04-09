@@ -1376,8 +1376,11 @@ class Chat {
         switch (command) {
             case 'HIDEEMOTE':
             if (i === -1) hiddenEmotes.push(emote);
-            this.ui.find(`.generify-container .chat-emote-${emote}`)
-                .removeClass(`chat-emote chat-emote-${emote}`)
+            this.ui.find(`.generify-container.generify-emote-${emote}`)
+                .removeClass()
+                .addClass(`generify-container generify-emote-${emote}`)
+            this.ui.find(`.chat-emote.chat-emote-${emote}`)
+                .removeClass()
             break;
         default:
         case 'UNHIDEEMOTE':
