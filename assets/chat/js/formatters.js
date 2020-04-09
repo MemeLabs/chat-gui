@@ -234,7 +234,11 @@ class EmoteFormatter {
                 goldenModifierInnerEmoteStyle = goldenEmote.goldenModifierInnerEmoteStyle;
             }
             
-            const innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
+            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
+            
+            if (chat.settings.get('hiddenemotes').includes(emote)) {
+                innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="" >' + m + ' </span>';
+            }
 
             const generifyClasses = [
                 'generify-container',

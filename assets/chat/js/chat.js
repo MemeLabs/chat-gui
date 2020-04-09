@@ -92,7 +92,8 @@ const settingsdefault = new Map([
     ['formatter-green', true],
     ['formatter-emote', true],
     ['disablespoilers', false],
-    ['viewerstateindicator', 1]
+    ['viewerstateindicator', 1],
+    ['hiddenemotes', []]
 ]);
 const commandsinfo = new Map([
     ['help', {desc: 'Helpful information.'}],
@@ -114,7 +115,9 @@ const commandsinfo = new Map([
     ['mentions', {desc: 'Return a list of messages where <nick> is mentioned', alias: ['m']}],
     ['tag', {desc: 'Mark a users messages'}],
     ['untag', {desc: 'No longer mark the users messages'}],
-    ['exit', {desc: 'Exit the conversation you are in.'}]
+    ['exit', {desc: 'Exit the conversation you are in.'}],
+    ['hideemote', {desc: 'Hide emotes in chat by converting them to plain text.'}],
+    ['unhideemote', {desc: 'Unhide a hidden emote.'}]
 ]);
 const banstruct = {
     id: 0,
@@ -233,6 +236,8 @@ class Chat {
         this.control.on('M', data => this.cmdMENTIONS(data));
         this.control.on('STALK', data => this.cmdSTALK(data));
         this.control.on('S', data => this.cmdSTALK(data));
+        this.control.on('HIDEEMOTE', data => this.cmdHIDEEMOTE(data, 'HIDEEMOTE'));
+        this.control.on('UNHIDEEMOTE', data => this.cmdHIDEEMOTE(data, 'UNHIDEEMOTE'))
     }
 
     withUserAndSettings(data) {
@@ -1355,6 +1360,35 @@ class Chat {
         this.settings.set('taggednicks', [...this.taggednicks]);
         this.menus.get('users').addAll();
         this.applySettings();
+    }
+
+    cmdHIDEEMOTE(parts, command) {
+        const hiddenEmotes = this.settings.get('hiddenemotes')
+        if (parts.length === 0) {
+            if (hiddenEmotes.length > 0) { MessageBuilder.info('Currently hidden emotes: ' + hiddenEmotes.join(',')).into(this); } else { MessageBuilder.info(`No hidden emotes`).into(this); }
+            return;
+        } 
+        if (!this.emoticons.has(parts[0])) {
+            MessageBuilder.info('Invalid emote. - /hideemote <emote>').into(this);
+        }
+        const emote = parts[0]
+        const i = hiddenEmotes.indexOf(emote)
+        switch (command) {
+            case 'HIDEEMOTE':
+            if (i === -1) hiddenEmotes.push(emote);
+            this.ui.find(`.generify-container .chat-emote-${emote}`)
+                .removeClass(`chat-emote chat-emote-${emote}`)
+            break;
+        default:
+        case 'UNHIDEEMOTE':
+            if (i !== -1) hiddenEmotes.splice(i, 1);
+            this.ui.find(`.generify-container [title=${emote}]`)
+                .addClass(`chat-emote chat-emote-${emote}`)
+            break;
+        }
+        MessageBuilder.info(command.toUpperCase() === 'HIDEEMOTE' ? `Now hiding ${emote}.` : `No longer hiding ${emote}.`).into(this);
+        this.settings.set('hiddenemotes', hiddenEmotes)
+        this.applySettings()
     }
 
     cmdBANINFO() {
