@@ -1370,12 +1370,12 @@ class Chat {
         } 
         if (!this.emoticons.has(parts[0])) {
             MessageBuilder.info('Invalid emote. - /hideemote <emote>').into(this);
+            return;
         }
         const emote = parts[0]
         const i = hiddenEmotes.indexOf(emote)
         const emoteSpans = this.ui.find(`.chat-emote.chat-emote-${emote}`)
         const emoteContainers = this.ui.find(`.generify-emote-${emote}`)
-        const modifiers = emoteContainers.attr('class').split(/\s+/).splice(2)
         switch (command) {
             case 'HIDEEMOTE':
             if (i === -1) hiddenEmotes.push(emote);
