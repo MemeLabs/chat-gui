@@ -210,7 +210,7 @@ class ChatUIMessage {
 
 class ChatMessage extends ChatUIMessage {
 
-    constructor(message, timestamp=null, type=MessageTypes.CHAT, ignoreemotes=false){
+    constructor(message, timestamp=null, type=MessageTypes.CHAT, ignoreemotes){
         super(message);
         this.user = null;
         this.type = type;
