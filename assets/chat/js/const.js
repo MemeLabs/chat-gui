@@ -1,6 +1,6 @@
 const DATE_FORMATS = {
-    FULL: 'MMMM Do YYYY, h:mm:ss a',
-    TIME: 'HH:mm'
+    FULL: "MMMM Do YYYY, h:mm:ss a",
+    TIME: "HH:mm"
 };
 
 const KEYCODES = {
@@ -50,72 +50,74 @@ function isKeyCode(e, code) {
 
 // emote:key; css class to apply
 const GENERIFY_OPTIONS = {
-    'mirror': 'mirror',
-    'flip': 'flip',
-    'rain': 'weather rain anim-fix',
-    'snow': 'weather snow anim-fix',
-    'rustle': 'generify-rustle',
-    'worth': 'generify-worth',
+    mirror: "mirror",
+    flip: "flip",
+    rain: "weather rain anim-fix",
+    snow: "weather snow anim-fix",
+    rustle: "generify-rustle",
+    worth: "generify-worth",
     // 'dank': 'generify-dank',
-    'hyper': 'generify-hyper generify-rustle',
-    'love': 'generify-love',
-    'spin': 'generify-spin',
-    'wide' : 'wide',
-    'virus' : 'virus',
-    'banned' : 'banned',
+    hyper: "generify-hyper generify-rustle",
+    love: "generify-love",
+    spin: "generify-spin",
+    wide: "wide",
+    virus: "virus",
+    banned: "banned",
     // 'frozen': 'frozen',
-    'lag' : 'lag',
+    lag: "lag"
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
-    ['MiyanoHype', 'MiyanoBird'],
-    ['REE', 'RedCard']
+    ["MiyanoHype", "MiyanoBird"],
+    ["REE", "RedCard"]
 ];
 
 const HALLOWEEN_RANDOM_EFFECTS = [
-    'spooky-spooker',
-    'spooky-blink',
-    'spooky-spin',
-    'spooky-crawl',
-    'spooky-ghost',
-    'spooky-bat'
+    "spooky-spooker",
+    "spooky-blink",
+    "spooky-spin",
+    "spooky-crawl",
+    "spooky-ghost",
+    "spooky-bat"
 ];
 
 const HALLOWEEN_RANDOM_DELAYS = [
-    'spooky-anim-delay-1',
-    'spooky-anim-delay-2',
-    'spooky-anim-delay-3',
-    'spooky-anim-delay-4',
-    'spooky-anim-delay-5'
+    "spooky-anim-delay-1",
+    "spooky-anim-delay-2",
+    "spooky-anim-delay-3",
+    "spooky-anim-delay-4",
+    "spooky-anim-delay-5"
 ];
 
-const HALLOWEEN_BLACKLIST = [
-    'GameOfThrows'
-];
+const HALLOWEEN_BLACKLIST = ["GameOfThrows"];
 
 //blacklisted from receiving any of the hats
 const HAT_BLACKLIST = [
-    'HEADSHOT',
-    'Clap',
-    'CampFire',
-    'POKE',
-    'GameOfThrows',
-    'Sippy',
-    'ApeHands'
-]
+    "HEADSHOT",
+    "Clap",
+    "CampFire",
+    "POKE",
+    "GameOfThrows",
+    "Sippy",
+    "ApeHands"
+];
 
 //blacklists for special hats
 const HAT_SPECIAL_BLACKLIST = {
-    'bday': [
-        'NoTears',
-        'Klappa',
-        'FeelsAmazingMan'
-    ],
-    'honk': [
-        'YEE'
-    ]
+    bday: ["NoTears", "Klappa", "FeelsAmazingMan"],
+    honk: ["YEE"]
+};
 
-}
-
-
-export {KEYCODES, DATE_FORMATS, isKeyCode, getKeyCode, GENERIFY_OPTIONS, CUSTOM_AUTOCOMPLETE_ORDER, HALLOWEEN_RANDOM_EFFECTS, HALLOWEEN_RANDOM_DELAYS, HALLOWEEN_BLACKLIST, HAT_BLACKLIST, HAT_SPECIAL_BLACKLIST};
+export {
+    KEYCODES,
+    DATE_FORMATS,
+    isKeyCode,
+    getKeyCode,
+    GENERIFY_OPTIONS,
+    CUSTOM_AUTOCOMPLETE_ORDER,
+    HALLOWEEN_RANDOM_EFFECTS,
+    HALLOWEEN_RANDOM_DELAYS,
+    HALLOWEEN_BLACKLIST,
+    HAT_BLACKLIST,
+    HAT_SPECIAL_BLACKLIST
+};

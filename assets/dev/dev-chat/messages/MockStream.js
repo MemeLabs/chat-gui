@@ -1,24 +1,23 @@
-
-import highlightedMessages from './highlighted.json';
-import taggedMessages from './tagged.json';
-import { WebSocket, Server } from 'mock-socket';
-const { default: emotes } = require('../../../emotes.json');
+import highlightedMessages from "./highlighted.json";
+import taggedMessages from "./tagged.json";
+import { WebSocket, Server } from "mock-socket";
+const { default: emotes } = require("../../../emotes.json");
 const tagColors = [
-    'green',
-    'yellow',
-    'orange',
-    'red',
-    'purple',
-    'blue',
-    'sky',
-    'lime',
-    'pink',
-    'black'
+    "green",
+    "yellow",
+    "orange",
+    "red",
+    "purple",
+    "blue",
+    "sky",
+    "lime",
+    "pink",
+    "black"
 ];
 
 window.WebSocket = WebSocket;
 
-const url = 'ws://mockServer:8080';
+const url = "ws://mockServer:8080";
 
 export default class MockStream {
     constructor(config) {
@@ -27,7 +26,7 @@ export default class MockStream {
         this.url = url;
         this.server = new Server(url);
 
-        this.server.on('connection', socket => {
+        this.server.on("connection", socket => {
             const ownProperties = [
                 ...Object.getOwnPropertyNames(MockStream.prototype).slice(1),
                 ...Object.getOwnPropertyNames(this)
@@ -35,27 +34,27 @@ export default class MockStream {
 
             // Add some usernames for autocomplete testing
             const joinMessages = [
-                'PepoMan',
-                'PepoDuder',
-                'CozyPan',
-                'CoDirectionalFan',
-                'CoolKikker',
-                'CoolCool'
+                "PepoMan",
+                "PepoDuder",
+                "CozyPan",
+                "CoDirectionalFan",
+                "CoolKikker",
+                "CoolCool"
             ].map(username => ({ username, nick: username }));
 
-            this.sendMessages(joinMessages, null, 'JOIN');
+            this.sendMessages(joinMessages, null, "JOIN");
 
             const openingMessages = [
-                'Offline chat for development.',
-                'Use the mockStream object in console to playback messages.',
-                `mockStream: { ${ownProperties.join(', ')} }`,
-                'If there are cases not covered, add them yourself PEPE'
+                "Offline chat for development.",
+                "Use the mockStream object in console to playback messages.",
+                `mockStream: { ${ownProperties.join(", ")} }`,
+                "If there are cases not covered, add them yourself PEPE"
             ].map(data => ({ data }));
 
-            this.sendMessages(openingMessages, null, 'BROADCAST');
+            this.sendMessages(openingMessages, null, "BROADCAST");
 
-            socket.on('message', message => {
-                const eventname = message.split(' ', 1)[0].toUpperCase();
+            socket.on("message", message => {
+                const eventname = message.split(" ", 1)[0].toUpperCase();
                 const payload = message.substring(eventname.length + 1);
 
                 let data = null;
@@ -65,9 +64,9 @@ export default class MockStream {
                     data = payload;
                 }
 
-                if (eventname === 'MSG') {
+                if (eventname === "MSG") {
                     data.nick = username;
-                    this.server.emit('message', `MSG ${JSON.stringify(data)}`);
+                    this.server.emit("message", `MSG ${JSON.stringify(data)}`);
                 }
             });
         });
@@ -79,15 +78,18 @@ export default class MockStream {
      *                       stream message.
      * @param {String} type Type of server message.
      */
-    sendMessages(messages, name, type = 'MSG') {
-        return new Promise((resolve) => {
+    sendMessages(messages, name, type = "MSG") {
+        return new Promise(resolve => {
             let index = 0;
 
             const sendMessage = () => {
                 if (index < messages.length) {
                     const message = messages[index];
 
-                    this.server.emit('message', `${type} ${JSON.stringify(message)}`);
+                    this.server.emit(
+                        "message",
+                        `${type} ${JSON.stringify(message)}`
+                    );
                     setTimeout(sendMessage, 20);
                     index++;
                 } else {
@@ -95,7 +97,10 @@ export default class MockStream {
                         const message = {
                             data: `End of message stream: ${name}`
                         };
-                        this.server.emit('message', `BROADCAST ${JSON.stringify(message)}`);
+                        this.server.emit(
+                            "message",
+                            `BROADCAST ${JSON.stringify(message)}`
+                        );
                     }
                     resolve();
                 }
@@ -105,83 +110,82 @@ export default class MockStream {
         });
     }
 
-    sendMessage(nick, message, type = 'MSG') {
+    sendMessage(nick, message, type = "MSG") {
         const messageObject = {
             nick,
             data: message
         };
-        this.server.emit('message', `${type} ${JSON.stringify(messageObject)}`);
+        this.server.emit("message", `${type} ${JSON.stringify(messageObject)}`);
     }
 
     highlightedMessages() {
-        return this.sendMessages(highlightedMessages, 'highlightedMessages');
+        return this.sendMessages(highlightedMessages, "highlightedMessages");
     }
 
     taggedMessages() {
-        return this.sendMessages(taggedMessages, 'taggedMessages');
+        return this.sendMessages(taggedMessages, "taggedMessages");
     }
 
     allTagColors() {
-        const messages = tagColors
-            .map(color => {
-                return {
-                    nick: `TagColor-${color}`,
-                    data: `Message with the ${color} tag color.`
-                };
-            });
+        const messages = tagColors.map(color => {
+            return {
+                nick: `TagColor-${color}`,
+                data: `Message with the ${color} tag color.`
+            };
+        });
 
-        return this.sendMessages(messages, 'allTagColors');
+        return this.sendMessages(messages, "allTagColors");
     }
 
     allEmotes() {
         const chunkSize = 7;
         const chunkAmount = Math.floor(emotes.length / chunkSize);
 
-        const messages = new Array(chunkAmount)
-            .fill(null)
-            .map((_, index) => {
-                const offset = chunkSize * index;
-                const chunk = emotes.slice(offset, offset + chunkSize);
+        const messages = new Array(chunkAmount).fill(null).map((_, index) => {
+            const offset = chunkSize * index;
+            const chunk = emotes.slice(offset, offset + chunkSize);
 
-                return {
-                    nick: `AllEmotes${index.toString().padStart(2, 0)}`,
-                    data: chunk.join(' ')
-                };
-            });
+            return {
+                nick: `AllEmotes${index.toString().padStart(2, 0)}`,
+                data: chunk.join(" ")
+            };
+        });
 
-        return this.sendMessages(messages, 'allEmotes');
+        return this.sendMessages(messages, "allEmotes");
     }
 
     whispers() {
-        const messages = new Array(13)
-            .fill('')
-            .map((_, index) => {
-                return {
-                    nick: `whisperer${index.toString().padStart(2, 0)}`,
-                    data: 'we can seeeee youuuu :)'
-                };
-            });
+        const messages = new Array(13).fill("").map((_, index) => {
+            return {
+                nick: `whisperer${index.toString().padStart(2, 0)}`,
+                data: "we can seeeee youuuu :)"
+            };
+        });
 
-        this.sendMessages(messages, 'whispers', 'PRIVMSG');
+        this.sendMessages(messages, "whispers", "PRIVMSG");
     }
 
-    whisperSelf(message = 'I see you :)', username = 'whisperer') {
-        this.sendMessages([{
-            nick: username,
-            data: message
-        }], null, 'PRIVMSG');
+    whisperSelf(message = "I see you :)", username = "whisperer") {
+        this.sendMessages(
+            [
+                {
+                    nick: username,
+                    data: message
+                }
+            ],
+            null,
+            "PRIVMSG"
+        );
     }
 
-    combo(amount = 50, emote = 'OverRustle') {
-        const messages = new Array(amount)
-            .fill('')
-            .map((_, index) => {
-                return {
-                    nick: `Combo-${index}`,
-                    data: emote
-                };
-            });
+    combo(amount = 50, emote = "OverRustle") {
+        const messages = new Array(amount).fill("").map((_, index) => {
+            return {
+                nick: `Combo-${index}`,
+                data: emote
+            };
+        });
 
-        return this.sendMessages(messages, 'combo');
+        return this.sendMessages(messages, "combo");
     }
 }

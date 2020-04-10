@@ -3,13 +3,13 @@ const TEXT_CLEAR_TIME = 35;
 const CLOSE_BUFFER_TIME = 1700;
 
 const DIALOG = {
-    default: 'Requesting permission...',
-    confirm: 'Thank you!',
-    denied: 'Permission denied, FML'
+    default: "Requesting permission...",
+    confirm: "Thank you!",
+    denied: "Permission denied, FML"
 };
 
-window.addEventListener('load', () => {
-    if (Notification.permission === 'denied') {
+window.addEventListener("load", () => {
+    if (Notification.permission === "denied") {
         alreadySetScenario();
     } else {
         defaultScenario();
@@ -21,27 +21,27 @@ window.addEventListener('load', () => {
  * the notification permission is default/ask.
  */
 function defaultScenario() {
-    const guideEl = document.querySelector('.persona-guide');
-    guideEl.style = ''; // Overwrite `visibility: hidden`
+    const guideEl = document.querySelector(".persona-guide");
+    guideEl.style = ""; // Overwrite `visibility: hidden`
 
     typeText(DIALOG.default);
 
     Notification.requestPermission()
-        .catch(() => 'error')
+        .catch(() => "error")
         .then(result => {
-            let response = '';
+            let response = "";
 
             switch (result) {
-            case 'granted':
-                const personaEl = document.querySelector('.persona');
-                personaEl.style = 'animation-name: persona-excite';
-                response = DIALOG.confirm;
-                break;
-            case 'default':
-            case 'denied':
-            case 'error':
-                response = DIALOG.denied;
-                break;
+                case "granted":
+                    const personaEl = document.querySelector(".persona");
+                    personaEl.style = "animation-name: persona-excite";
+                    response = DIALOG.confirm;
+                    break;
+                case "default":
+                case "denied":
+                case "error":
+                    response = DIALOG.denied;
+                    break;
             }
 
             clearText()
@@ -56,17 +56,17 @@ function defaultScenario() {
  * the notification permission is already denied.
  */
 function alreadySetScenario() {
-    const guideEl = document.querySelector('.settings-guide');
-    guideEl.style = ''; // Overwrite `visibility: hidden`
+    const guideEl = document.querySelector(".settings-guide");
+    guideEl.style = ""; // Overwrite `visibility: hidden`
 
     if (window.navigator.permissions) {
         window.navigator.permissions
-            .query({ name: 'notifications' })
+            .query({ name: "notifications" })
             .then(permission => {
-                permission.addEventListener('change', () => {
-                    if (Notification.permission === 'granted') {
+                permission.addEventListener("change", () => {
+                    if (Notification.permission === "granted") {
                         closeWindow();
-                    } else if (Notification.permission === 'default') {
+                    } else if (Notification.permission === "default") {
                         Notification.requestPermission();
                     }
                 });
@@ -76,9 +76,12 @@ function alreadySetScenario() {
         let isPermissionRequested = false;
 
         const poll = () => {
-            if (Notification.permission === 'granted') {
+            if (Notification.permission === "granted") {
                 closeWindow();
-            } else if (Notification.permission === 'default' && !isPermissionRequested) {
+            } else if (
+                Notification.permission === "default" &&
+                !isPermissionRequested
+            ) {
                 Notification.requestPermission();
                 isPermissionRequested = true;
             } else {
@@ -95,10 +98,7 @@ function alreadySetScenario() {
  */
 function closeWindow() {
     setTimeout(() => {
-        window.opener.postMessage(
-            { name: 'notification-request-done' },
-            '*'
-        );
+        window.opener.postMessage({ name: "notification-request-done" }, "*");
         window.close();
     }, CLOSE_BUFFER_TIME);
 }
@@ -108,8 +108,8 @@ function closeWindow() {
  */
 function typeText(text) {
     return new Promise((resolve, reject) => {
-        const textEl = document.querySelector('.text-bubble-text');
-        const cursorEl = document.querySelector('.text-bubble-cursor');
+        const textEl = document.querySelector(".text-bubble-text");
+        const cursorEl = document.querySelector(".text-bubble-cursor");
 
         let count = 1;
         const update = () => {
@@ -130,19 +130,19 @@ function typeText(text) {
 }
 
 /*
-* Clear the persona text one letter at a time.
-*/
+ * Clear the persona text one letter at a time.
+ */
 function clearText() {
     return new Promise((resolve, reject) => {
-        const textEl = document.querySelector('.text-bubble-text');
-        const cursorEl = document.querySelector('.text-bubble-cursor');
+        const textEl = document.querySelector(".text-bubble-text");
+        const cursorEl = document.querySelector(".text-bubble-cursor");
 
         const update = () => {
             textEl.textContent = textEl.textContent.slice(0, -1);
             // Re-add to DOM to reset animation
             cursorEl.replaceWith(cursorEl);
 
-            if (textEl.textContent === '') {
+            if (textEl.textContent === "") {
                 resolve();
             } else {
                 setTimeout(update, TEXT_CLEAR_TIME);
