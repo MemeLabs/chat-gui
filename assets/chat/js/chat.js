@@ -1142,13 +1142,12 @@ class Chat {
         const nick = parts[0].toLowerCase();
         const i = highlights.indexOf(nick);
         switch (command) {
-        case 'UNHIGHLIGHT':
-            if (i !== -1) highlights.splice(i, 1);
-            break;
-        default:
-        case 'HIGHLIGHT':
-            if (i === -1) highlights.push(nick);
-            break;
+            case 'UNHIGHLIGHT':
+                if (i !== -1) highlights.splice(i, 1);
+                break;
+            case 'HIGHLIGHT':
+                if (i === -1) highlights.push(nick);
+                break;
         }
         MessageBuilder.info(command.toUpperCase() === 'HIGHLIGHT' ? `Highlighting ${nick}` : `No longer highlighting ${nick}`).into(this);
         this.settings.set('highlightnicks', highlights);
@@ -1378,15 +1377,14 @@ class Chat {
         const emoteContainers = this.ui.find(`.generify-emote-${emote}`)
         switch (command) {
             case 'HIDEEMOTE':
-            if (i === -1) hiddenEmotes.push(emote);
-            emoteContainers.removeClass().addClass(`generify-container generify-emote-${emote}`)
-            emoteSpans.addClass('hidden-emote')
+                if (i === -1) hiddenEmotes.push(emote);
+                emoteContainers.removeClass().addClass(`generify-container generify-emote-${emote}`)
+                emoteSpans.addClass('hidden-emote')
             break;
-        default:
-        case 'UNHIDEEMOTE':
-            if (i !== -1) hiddenEmotes.splice(i, 1);
-            emoteSpans.removeClass(`hidden-emote`)
-            emoteContainers.addClass(emoteContainers.attr('data-modifiers'))
+            case 'UNHIDEEMOTE':
+                if (i !== -1) hiddenEmotes.splice(i, 1);
+                emoteSpans.removeClass(`hidden-emote`)
+                emoteContainers.addClass(emoteContainers.attr('data-modifiers'))
             break;
         }
         MessageBuilder.info(command.toUpperCase() === 'HIDEEMOTE' ? `Now hiding ${emote}.` : `No longer hiding ${emote}.`).into(this);
