@@ -1587,3 +1587,12 @@ button.btn {
 .import-export:hover {
     color: rgba(255,255,255,0.75)
 }
+
+.hidden-emote {
+    background-image: none !important;
+    display: inline;
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    top: 0px;
+}

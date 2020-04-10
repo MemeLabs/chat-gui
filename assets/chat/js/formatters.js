@@ -234,14 +234,18 @@ class EmoteFormatter {
                 goldenModifierInnerEmoteStyle = goldenEmote.goldenModifierInnerEmoteStyle;
             }
             
-            const innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
+            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
+            
+            if (chat.settings.get('hiddenemotes').includes(emote)) {
+                innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="" >' + m + ' </span>';
+            }
 
             const generifyClasses = [
                 'generify-container',
                 'generify-emote-' + emote,
                 GENERIFY_OPTIONS[suffix] || "",
             ];
-            return ' <span class="' + generifyClasses.join(' ') + '">' + goldenModifier + hat + innerEmote + '</span>';
+            return ' <span class="' + generifyClasses.join(' ') + '" data-modifiers="' + GENERIFY_OPTIONS[suffix] + '">' + goldenModifier + hat + innerEmote + '</span>';
         });
     }
 

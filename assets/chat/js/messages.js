@@ -40,7 +40,13 @@ function buildMessageTxt(chat, message) {
     for (var i = 0; i < msgArray.length; i++) {
         if (msgArray[i].type === 'text') {
             // format non code segment
-            formatters.forEach(f => msgArray[i].value = f.format(chat, msgArray[i].value, message));
+            formatters.forEach(f => {
+                if (f === formatters.get('emote') && message.ignoreemotes === true) {
+                    return
+                }
+
+                msgArray[i].value = f.format(chat, msgArray[i].value, message)
+            });
         } else if (msgArray[i].type === 'code') {
             // format code segment
             msgArray[i].value = htlmFmt.format(chat, msgArray[i].value, message);
@@ -119,24 +125,24 @@ class MessageBuilder {
         return new ChatUIMessage(message, classes)
     }
 
-    static status(message, timestamp = null){
-        return new ChatMessage(message, timestamp, MessageTypes.STATUS)
+    static status(message, timestamp = null, ignoreemotes=false){
+        return new ChatMessage(message, timestamp, MessageTypes.STATUS, ignoreemotes)
     }
 
-    static error(message, timestamp = null){
-        return new ChatMessage(message, timestamp, MessageTypes.ERROR)
+    static error(message, timestamp = null, ignoreemotes=false){
+        return new ChatMessage(message, timestamp, MessageTypes.ERROR, ignoreemotes)
     }
 
-    static info(message, timestamp = null){
-        return new ChatMessage(message, timestamp, MessageTypes.INFO)
+    static info(message, timestamp = null, ignoreemotes=false){
+        return new ChatMessage(message, timestamp, MessageTypes.INFO, ignoreemotes)
     }
 
-    static broadcast(message, timestamp = null){
-        return new ChatMessage(message, timestamp, MessageTypes.BROADCAST)
+    static broadcast(message, timestamp = null, ignoreemotes=false){
+        return new ChatMessage(message, timestamp, MessageTypes.BROADCAST, ignoreemotes)
     }
 
-    static command(message, timestamp = null){
-        return new ChatMessage(message, timestamp, MessageTypes.COMMAND)
+    static command(message, timestamp = null, ignoreemotes=false){
+        return new ChatMessage(message, timestamp, MessageTypes.COMMAND, ignoreemotes)
     }
 
     static message(message, user, timestamp = null){
@@ -204,11 +210,12 @@ class ChatUIMessage {
 
 class ChatMessage extends ChatUIMessage {
 
-    constructor(message, timestamp=null, type=MessageTypes.CHAT){
+    constructor(message, timestamp=null, type=MessageTypes.CHAT, ignoreemotes=false){
         super(message);
         this.user = null;
         this.type = type;
         this.continued = false;
+        this.ignoreemotes = ignoreemotes;
         this.timestamp = timestamp ? moment.utc(timestamp).local() : moment();
     }
 
@@ -216,6 +223,7 @@ class ChatMessage extends ChatUIMessage {
         const classes = [], attr = {};
         if(this.continued)
             classes.push('msg-continue');
+        
         return this.wrap(`${buildTime(this)} ${buildMessageTxt(chat, this)}`, classes, attr);
     }
 }
