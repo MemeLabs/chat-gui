@@ -1144,9 +1144,13 @@ class Chat {
         switch (command) {
             case 'UNHIGHLIGHT':
                 if (i !== -1) highlights.splice(i, 1);
+                this.ui.find(`.msg-user[data-username="${nick}"]`)
+                    .removeClass('msg-highlight')
                 break;
             case 'HIGHLIGHT':
                 if (i === -1) highlights.push(nick);
+                this.ui.find(`.msg-user[data-username="${nick}"]`)
+                    .addClass('msg-highlight')
                 break;
         }
         MessageBuilder.info(command.toUpperCase() === 'HIGHLIGHT' ? `Highlighting ${nick}` : `No longer highlighting ${nick}`).into(this);
