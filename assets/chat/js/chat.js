@@ -1144,7 +1144,7 @@ class Chat {
         switch (command) {
             case 'UNHIGHLIGHT':
                 if (i !== -1) highlights.splice(i, 1);
-                this.ui.find(`.msg-user.msg-highlight[data-username="${nick}"]`)
+                this.ui.find(`.msg-user[data-username="${nick}"]`)
                     .removeClass('msg-highlight')
                 break;
             case 'HIGHLIGHT':
