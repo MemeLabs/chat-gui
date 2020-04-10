@@ -1380,12 +1380,12 @@ class Chat {
                 if (i === -1) hiddenEmotes.push(emote);
                 emoteContainers.removeClass().addClass(`generify-container generify-emote-${emote}`)
                 emoteSpans.addClass('hidden-emote')
-            break;
+                break;
             case 'UNHIDEEMOTE':
                 if (i !== -1) hiddenEmotes.splice(i, 1);
                 emoteSpans.removeClass(`hidden-emote`)
                 emoteContainers.addClass(emoteContainers.attr('data-modifiers'))
-            break;
+                break;
         }
         MessageBuilder.info(command.toUpperCase() === 'HIDEEMOTE' ? `Now hiding ${emote}.` : `No longer hiding ${emote}.`).into(this);
         this.settings.set('hiddenemotes', hiddenEmotes)
