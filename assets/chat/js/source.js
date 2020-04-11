@@ -1,7 +1,7 @@
 /* global window */
 
-import EventEmitter from './emitter';
-const WebSocket = window['WebSocket'] || window['MozWebSocket'];
+import EventEmitter from "./emitter";
+const WebSocket = window["WebSocket"] || window["MozWebSocket"];
 
 /**
  * Handles the websocket connection, opening, closing, retrying
@@ -53,23 +53,24 @@ class ChatSource extends EventEmitter {
                 // possible orphaned connections
                 this.socket = null;
             }
-            this.emit('CONNECTING', this.url);
+            this.emit("CONNECTING", this.url);
             this.socket = new WebSocket(this.url);
             this.socket.onopen = e => this.onOpen(e);
             this.socket.onclose = e => this.onClose(e);
             this.socket.onmessage = e => this.onMsg(e);
-            this.socket.onerror = e => this.emit('SOCKETERROR', e);
+            this.socket.onerror = e => this.emit("SOCKETERROR", e);
         } catch (e) {
-            this.emit('SOCKETERROR', e);
+            this.emit("SOCKETERROR", e);
         }
     }
 
     disconnect() {
-        if (this.socket && this.socket.readyState !== this.socket.CLOSED) this.socket.close();
+        if (this.socket && this.socket.readyState !== this.socket.CLOSED)
+            this.socket.close();
     }
 
     onOpen(e) {
-        this.emit('OPEN', e);
+        this.emit("OPEN", e);
         this.retryAttempts = 0;
         this.retryOnDisconnect = true;
     }
@@ -78,10 +79,16 @@ class ChatSource extends EventEmitter {
         let retryMilli = 0;
         if (this.retryOnDisconnect) {
             // If a disconnect is experienced after the last attempt was successful, the retry timeout is very short, else its longer
-            retryMilli = this.retryAttempts === 0 ? Math.floor(Math.random() * (3000 - 501 + 1)) + 501 : Math.floor(Math.random() * (30000 - 5000 + 1)) + 5000;
-            this.retryTimer = setTimeout(() => this.connect(this.url), retryMilli);
+            retryMilli =
+                this.retryAttempts === 0
+                    ? Math.floor(Math.random() * (3000 - 501 + 1)) + 501
+                    : Math.floor(Math.random() * (30000 - 5000 + 1)) + 5000;
+            this.retryTimer = setTimeout(
+                () => this.connect(this.url),
+                retryMilli
+            );
         }
-        this.emit('CLOSE', {code: e.code || 1006, retryMilli: retryMilli});
+        this.emit("CLOSE", { code: e.code || 1006, retryMilli: retryMilli });
     }
 
     onMsg(e) {
@@ -89,7 +96,7 @@ class ChatSource extends EventEmitter {
     }
 
     parseAndDispatch(event) {
-        let eventname = event.data.split(' ', 1)[0].toUpperCase();
+        let eventname = event.data.split(" ", 1)[0].toUpperCase();
 
         let payload = event.data.substring(eventname.length + 1);
 
@@ -99,16 +106,16 @@ class ChatSource extends EventEmitter {
         } catch (ignored) {
             data = payload;
         }
-        this.emit('DISPATCH', {data: data, event: eventname}); // Event is used to hook into all dispatched events
+        this.emit("DISPATCH", { data: data, event: eventname }); // Event is used to hook into all dispatched events
         this.emit(eventname, data);
     }
 
     send(eventname, data) {
-        const payload = (typeof data === 'string') ? data : JSON.stringify(data);
+        const payload = typeof data === "string" ? data : JSON.stringify(data);
         if (this.isConnected()) {
             this.socket.send(`${eventname} ${payload}`);
         } else {
-            this.emit('ERR', 'notconnected');
+            this.emit("ERR", "notconnected");
         }
     }
 }

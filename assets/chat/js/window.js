@@ -1,20 +1,20 @@
 /* global $ */
 
-import ChatScrollPlugin from './scroll';
-import EventEmitter from './emitter';
+import ChatScrollPlugin from "./scroll";
+import EventEmitter from "./emitter";
 const tagcolors = [
-    'green',
-    'yellow',
-    'orange',
-    'purple',
-    'blue',
-    'sky',
-    'lime',
-    'pink'
+    "green",
+    "yellow",
+    "orange",
+    "purple",
+    "blue",
+    "sky",
+    "lime",
+    "pink"
 ];
 
 class ChatWindow extends EventEmitter {
-    constructor(name, type = '', label = '') {
+    constructor(name, type = "", label = "") {
         super();
         this.name = name;
         this.label = label;
@@ -26,11 +26,13 @@ class ChatWindow extends EventEmitter {
         this.visible = false;
         this.tag = null;
         this.lastmessage = null;
-        this.ui = $(`<div id="chat-win-${name}" class="chat-output ${type} nano" style="display: none;">` +
-                        `<div class="chat-lines nano-content"></div>` +
-                        `<div class="chat-scroll-notify">More messages below</div>` +
-                     `</div>`);
-        this.lines = this.ui.find('.chat-lines');
+        this.ui = $(
+            `<div id="chat-win-${name}" class="chat-output ${type} nano" style="display: none;">` +
+                `<div class="chat-lines nano-content"></div>` +
+                `<div class="chat-scroll-notify">More messages below</div>` +
+                `</div>`
+        );
+        this.lines = this.ui.find(".chat-lines");
     }
 
     destroy() {
@@ -41,9 +43,11 @@ class ChatWindow extends EventEmitter {
 
     into(chat) {
         const normalized = this.name.toLowerCase();
-        this.maxlines = chat.settings.get('maxlines');
+        this.maxlines = chat.settings.get("maxlines");
         this.scrollplugin = new ChatScrollPlugin(chat, this.ui);
-        this.tag = chat.taggednicks.get(normalized) || tagcolors[Math.floor(Math.random() * tagcolors.length)];
+        this.tag =
+            chat.taggednicks.get(normalized) ||
+            tagcolors[Math.floor(Math.random() * tagcolors.length)];
         chat.output.append(this.ui);
         chat.addWindow(normalized, this);
         return this;
@@ -52,7 +56,7 @@ class ChatWindow extends EventEmitter {
     show() {
         if (!this.visible) {
             this.visible = true;
-            this.emit('show');
+            this.emit("show");
             this.ui.show();
         }
     }
@@ -60,7 +64,7 @@ class ChatWindow extends EventEmitter {
     hide() {
         if (this.visible) {
             this.visible = false;
-            this.emit('hide');
+            this.emit("hide");
             this.ui.hide();
         }
     }

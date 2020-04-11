@@ -1,22 +1,22 @@
 /* global $ */
 
-require('nanoscroller');
+require("nanoscroller");
 
-const is_touch_device =  'ontouchstart' in window        // works on most browsers
-                      || navigator['maxTouchPoints']     // works on IE10/11 and Surface
+const is_touch_device =
+    "ontouchstart" in window || navigator["maxTouchPoints"]; // works on most browsers // works on IE10/11 and Surface
 
 class ChatScrollPlugin {
-
-    constructor(chat, e){
-
+    constructor(chat, e) {
         const el = $(e).get(0);
-        if(!el) return;
+        if (!el) return;
 
         const $el = $(e);
-        if($el.find('.chat-scroll-notify').length > 0) {
-            $el.on('update', () => $el.toggleClass('chat-unpinned', !this.isPinned())); //debounce
-            $el.on('mousedown', '.chat-scroll-notify', () => false);
-            $el.on('mouseup', '.chat-scroll-notify', () => {
+        if ($el.find(".chat-scroll-notify").length > 0) {
+            $el.on("update", () =>
+                $el.toggleClass("chat-unpinned", !this.isPinned())
+            ); //debounce
+            $el.on("mousedown", ".chat-scroll-notify", () => false);
+            $el.on("mouseup", ".chat-scroll-notify", () => {
                 this.updateAndPin(true);
                 return false;
             });
@@ -28,24 +28,25 @@ class ChatScrollPlugin {
         })[0].nanoscroller;
     }
 
-    isPinned(){
+    isPinned() {
         // 30 is used to allow the scrollbar to be just offset, but still count as scrolled to bottom
-        return !this.scroller.isActive ? true : (this.scroller.contentScrollTop >= this.scroller.maxScrollTop - 30);
+        return !this.scroller.isActive
+            ? true
+            : this.scroller.contentScrollTop >= this.scroller.maxScrollTop - 30;
     }
 
-    updateAndPin(pin){
+    updateAndPin(pin) {
         this.reset();
-        if(pin) this.scroller.scrollBottom(0);
+        if (pin) this.scroller.scrollBottom(0);
     }
 
-    reset(){
+    reset() {
         this.scroller.reset();
     }
 
-    destroy(){
+    destroy() {
         this.scroller.destroy();
     }
-
 }
 
 export default ChatScrollPlugin;
