@@ -291,6 +291,10 @@ class EmoteFormatter {
                 innerClasses.push("chat-emote-" + emote + "-animate-forever");
             }
 
+            if (chat.settings.get('hiddenemotes').includes(emote)) {
+                innerClasses.push('hidden-emote')
+            }
+
             let hat = "";
             if (this.emotewidths[emote] !== undefined) {
                 hat = putHat(
@@ -318,29 +322,8 @@ class EmoteFormatter {
                 goldenModifierInnerEmoteStyle =
                     goldenEmote.goldenModifierInnerEmoteStyle;
             }
-
-            var innerEmote =
-                " <span " +
-                goldenModifierInnerEmoteStyle +
-                ' title="' +
-                m +
-                '" class="' +
-                innerClasses.join(" ") +
-                '">' +
-                m +
-                " </span>";
-
-            if (chat.settings.get("hiddenemotes").includes(emote)) {
-                innerEmote =
-                    " <span " +
-                    goldenModifierInnerEmoteStyle +
-                    ' title="' +
-                    m +
-                    '" class="" >' +
-                    m +
-                    " </span>";
-            }
-
+            
+            const innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             const generifyClasses = [
                 "generify-container",
                 "generify-emote-" + emote,
