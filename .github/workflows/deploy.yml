@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: ssh-deploy for chat-gui
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@122f35dca5c7a216463c504741deb0de5b301953
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
