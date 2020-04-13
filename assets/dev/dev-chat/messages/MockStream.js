@@ -1,5 +1,6 @@
 import highlightedMessages from "./highlighted.json";
 import taggedMessages from "./tagged.json";
+import viewerstates from "./viewerstates.json"
 import { WebSocket, Server } from "mock-socket";
 const { default: emotes } = require("../../../emotes.json");
 const tagColors = [
@@ -124,6 +125,10 @@ export default class MockStream {
 
     taggedMessages() {
         return this.sendMessages(taggedMessages, "taggedMessages");
+    }
+
+    viewerstateMessages() {
+        return this.sendMessages(viewerstates['messages'], "viewerstateMessages");
     }
 
     allTagColors() {
