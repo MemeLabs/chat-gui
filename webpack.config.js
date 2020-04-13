@@ -30,9 +30,10 @@ class EmoteManifestPlugin {
             ]);
 
             const emotes = await Promise.all(emoteNames.map(async (emoteName) => {
-                const emoteFileName = emoteFileNames.find((fileName) => fileName.indexOf(emoteName) !== -1);
-                const animatedEmoteFileName = animatedEmoteFileNames.find((fileName) => fileName.indexOf(emoteName) !== -1);
-                const fileName = emoteFileName || animatedEmoteFileName;
+                const emotePattern = new RegExp(`^${emoteName}\\.[a-z]+$`);
+                const emoteFileName = emoteFileNames.find((fileName) => emotePattern.test(fileName));
+                const animatedEmoteFileName = animatedEmoteFileNames.find((fileName) => emotePattern.test(fileName));
+                const fileName = animatedEmoteFileName || emoteFileName;
                 const animated = !!animatedEmoteFileName;
 
                 if (!fileName) {
