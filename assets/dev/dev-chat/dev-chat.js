@@ -3,6 +3,7 @@
 // mockStream needs to be imported before Chat to mock the global WebSocket.
 import MockStream from "./messages/MockStream";
 import tests from "./tests";
+import viewerstates from "./messages/viewerstates.json"
 
 import emotes from "../../emotes.json";
 import settings from "./settings.json";
@@ -25,5 +26,6 @@ window.__chat__ = new Chat()
     .withUser({ username, nick: username })
     .withEmotes(emotes)
     .withGui()
+    .withViewerStates(viewerstates['users'])
     .withWhispers()
     .connect(mockStream.url);
