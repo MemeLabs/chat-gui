@@ -118,7 +118,7 @@ const plugins = [
         emotePath: 'img/emotes',
         index: './assets/emotes.json',
         emoteRoot: './assets/emotes/emoticons',
-        animatedEmoteRoot: './assets/emotes/emoticons-animated',
+        animatedEmoteRoot: './assets/emotes/emoticons-animated/gif',
         cssChunk: 'emotes'
     })
 ];
