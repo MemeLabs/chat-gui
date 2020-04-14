@@ -1596,3 +1596,11 @@ button.btn {
     margin: 0px;
     top: 0px;
 }
+
+#chat-user-contextmenu {
+    display: none;
+    position: absolute;
+    z-index: 150;
+
+    background-color: red;
+}

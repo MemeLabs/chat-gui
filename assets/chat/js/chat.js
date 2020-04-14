@@ -381,6 +381,7 @@ class Chat {
         this.loginscrn = this.ui.find("#chat-login-screen");
         this.loadingscrn = this.ui.find("#chat-loading");
         this.windowselect = this.ui.find("#chat-windows-select");
+        this.contextMenu = this.ui.find("#chat-user-contextmenu")
         this.inputhistory = new ChatInputHistory(this);
         this.userfocus = new ChatUserFocus(this, this.css);
         this.spoiler = new ChatSpoiler(this);
@@ -657,6 +658,25 @@ class Chat {
     withViewerStates(viewerStates) {
         viewerStates.forEach(state => this.onVIEWERSTATE(state));
         return this;
+    }
+
+    withContextMenu() {
+        this.output.on("contextmenu", e => {
+            if ($(e.target).is("a.user")) {
+                e.preventDefault()
+
+                this.contextMenu.show()
+                this.contextMenu.css("left", event.pageX)
+                this.contextMenu.css("top", event.pageY)
+            }
+        })
+
+        this.ui.on("click", e => {
+            if (this.contextMenu.is(":visible") && !$(e.target).is(this.contextMenu)) {
+                this.contextMenu.hide()
+            }
+        })
+        return this
     }
 
     withWhispers() {
