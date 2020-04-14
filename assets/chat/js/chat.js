@@ -599,7 +599,7 @@ class Chat {
         });
 
         this.output.on("click", "a.user", e => {
-            if (e.ctrlKey.valueOf()){
+            if (e.ctrlKey || e.metaKey) {
                 const msg = $(e.target).closest(".msg-chat");
                 const userState = this.viewerStates.get(msg.data("username"))
                 const path = "https://strims.gg/"
@@ -610,8 +610,8 @@ class Chat {
                     } else {
                         window.open(path + userState.channel.service + '/' + userState.channel.channel)
                     }
-                }     
-            }       
+                }
+            }
         })
 
         // Keep the website session alive.
