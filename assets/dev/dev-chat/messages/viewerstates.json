@@ -1,4 +1,5 @@
-{ "users": [
+{
+  "users": [
     {
       "nick": "chatter1",
       "online": true,
@@ -40,16 +41,60 @@
       "online": true,
       "channel": {
         "channel": "cooldude",
-        "service": "twitch",
-        "path": "twitch/coolguy321"
+        "service": "angelthump",
+        "path": "angelthump/coolguy321"
       }
+    },
+    {
+      "nick": "chatter6",
+      "online": false,
+      "channel": {
+        "channel": "cooldude222",
+        "service": "mixer",
+        "path": "mixer/coolguy222"
+      }
+    },
+    {
+      "nick": "chatter7",
+      "online": false
+    },
+    {
+      "nick": "chatter8",
+      "online": true
     }
   ],
-  "messages":[
-    { "nick":"chatter1", "data":"I love typing messages in this chat while im watching something. Wowee" },
-    { "nick":"chatter2", "data":"I too love doing that chatter1." },
-    { "nick":"chatter3", "data":"I'm gonna have to agree with chatter2 here." },
-    { "nick":"chatter4", "data":"Insert funny comment here" },
-    { "nick":"chatter5", "data":"That's hilarious chatter4." }
+  "messages": [
+    {
+      "nick": "chatter1",
+      "data": "I love typing messages in this chat while im watching something. Wowee"
+    },
+    {
+      "nick": "chatter2",
+      "data": "I too love doing that chatter1."
+    },
+    {
+      "nick": "chatter3",
+      "data": "I'm gonna have to agree with chatter2 here."
+    },
+    {
+      "nick": "chatter4",
+      "data": "Insert funny comment here"
+    },
+    {
+      "nick": "chatter5",
+      "data": "That's hilarious chatter4."
+    },
+    {
+      "nick": "chatter6",
+      "data": "It sure is! LUL LUL"
+    },
+    {
+      "nick": "chatter7",
+      "data": "ComfyFeels"
+    },
+    {
+      "nick": "chatter8",
+      "data": "ComfyFeels same brother"
+    }
   ]
 }

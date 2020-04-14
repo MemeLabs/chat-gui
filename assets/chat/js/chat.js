@@ -598,6 +598,22 @@ class Chat {
             return false;
         });
 
+        this.output.on("click", "a.user", e => {
+            if (e.ctrlKey.valueOf()){
+                const msg = $(e.target).closest(".msg-chat");
+                const userState = this.viewerStates.get(msg.data("username"))
+                const path = "https://strims.gg/"
+
+                if (userState !== undefined && userState.channel !== undefined) {
+                    if (userState.channel.path !== "") {
+                        window.open(path + userState.channel.path)
+                    } else {
+                        window.open(path + userState.channel.service + '/' + userState.channel.channel)
+                    }
+                }     
+            }       
+        })
+
         // Keep the website session alive.
         setInterval(() => $.ajax({ url: "/ping" }), 10 * 60 * 1000);
 
