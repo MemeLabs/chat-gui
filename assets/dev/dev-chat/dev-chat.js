@@ -27,6 +27,5 @@ window.__chat__ = new Chat()
     .withEmotes(emotes)
     .withGui()
     .withViewerStates(viewerstates['users'])
-    .withContextMenu()
     .withWhispers()
     .connect(mockStream.url);

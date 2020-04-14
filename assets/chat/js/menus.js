@@ -536,10 +536,41 @@ class ChatWhisperUsers extends ChatMenu {
     }
 }
 
+class ChatContextMenu {
+    constructor(chat) {
+        this.chat = chat
+        this.ui = chat.output.find("#chat-user-contextmenu")
+        this.isShown = false
+
+        chat.output.on("contextmenu", e => {
+            this.show(e)
+        })
+
+        chat.ui.on("click", e => {
+            if (!$(e.target).is(this.ui) && this.isShown === true) {
+                this.ui.hide()
+                this.isShown = false
+            }
+        })
+    }
+
+    show(e) {
+        if ($(e.target).is("a.user")) {
+            e.preventDefault()
+            this.ui.show()
+            this.ui.css("left", event.pageX)
+            this.ui.css("top", event.pageY)
+            this.isShown = true
+        }
+    }
+
+}
+
 export {
     ChatMenu,
     ChatSettingsMenu,
     ChatUserMenu,
     ChatEmoteMenu,
-    ChatWhisperUsers
+    ChatWhisperUsers,
+    ChatContextMenu
 };
