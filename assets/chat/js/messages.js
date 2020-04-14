@@ -1,15 +1,6 @@
 /* global $ */
 
-import {
-    EmoteFormatter,
-    GreenTextFormatter,
-    HtmlTextFormatter,
-    MentionedUserFormatter,
-    UrlFormatter,
-    IdentityFormatter,
-    CodeFormatter,
-    SpoilerFormatter
-} from "./formatters";
+import { EmoteFormatter, GreenTextFormatter, HtmlTextFormatter, MentionedUserFormatter, UrlFormatter, IdentityFormatter, CodeFormatter, SpoilerFormatter } from "./formatters";
 import { DATE_FORMATS } from "./const";
 import UserFeatures from "./features";
 import throttle from "throttle-debounce/throttle";
@@ -35,18 +26,13 @@ formatters.set("spoiler", new SpoilerFormatter());
 formatters.set("green", new GreenTextFormatter());
 
 function setFormattersFromSettings(settings) {
-    if (!settings.get("formatter-emote"))
-        formatters.set("emote", new IdentityFormatter());
-    if (!settings.get("formatter-green"))
-        formatters.set("green", new IdentityFormatter());
+    if (!settings.get("formatter-emote")) formatters.set("emote", new IdentityFormatter());
+    if (!settings.get("formatter-green")) formatters.set("green", new IdentityFormatter());
 }
 
 function buildMessageTxt(chat, message) {
     // TODO we strip off the `/me ` of every message -- must be a better way to do this
-    let msg =
-        message.message.substring(0, 4).toLowerCase() === "/me "
-            ? message.message.substring(4)
-            : message.message;
+    let msg = message.message.substring(0, 4).toLowerCase() === "/me " ? message.message.substring(4) : message.message;
     var codeFmt = new CodeFormatter();
     var htlmFmt = new HtmlTextFormatter();
     var msgArray = codeFmt.split(msg);
@@ -55,10 +41,7 @@ function buildMessageTxt(chat, message) {
         if (msgArray[i].type === "text") {
             // format non code segment
             formatters.forEach(f => {
-                if (
-                    f === formatters.get("emote") &&
-                    message.ignoreemotes === true
-                ) {
+                if (f === formatters.get("emote") && message.ignoreemotes === true) {
                     return;
                 }
 
@@ -66,16 +49,8 @@ function buildMessageTxt(chat, message) {
             });
         } else if (msgArray[i].type === "code") {
             // format code segment
-            msgArray[i].value = htlmFmt.format(
-                chat,
-                msgArray[i].value,
-                message
-            );
-            msgArray[i].value = codeFmt.format(
-                chat,
-                msgArray[i].value,
-                message
-            );
+            msgArray[i].value = htlmFmt.format(chat, msgArray[i].value, message);
+            msgArray[i].value = codeFmt.format(chat, msgArray[i].value, message);
         }
         fullMsg += msgArray[i].value;
     }
@@ -128,12 +103,8 @@ function buildFeatures(user) {
             if (a1 > a2) return -1;
             if (a1 < a2) return 1;
 
-            a1 =
-                UserFeatures.CONTRIBUTOR.equals(a) ||
-                UserFeatures.TRUSTED.equals(a);
-            a2 =
-                UserFeatures.CONTRIBUTOR.equals(b) ||
-                UserFeatures.TRUSTED.equals(b);
+            a1 = UserFeatures.CONTRIBUTOR.equals(a) || UserFeatures.TRUSTED.equals(a);
+            a2 = UserFeatures.CONTRIBUTOR.equals(b) || UserFeatures.TRUSTED.equals(b);
             if (a1 > a2) return -1;
             if (a1 < a2) return 1;
 
@@ -148,14 +119,10 @@ function buildFeatures(user) {
         })
         .map(e => {
             const f = UserFeatures.valueOf(e);
-            return `<i class="flair icon-${e.toLowerCase()}" title="${
-                f !== null ? f.label : e
-            }"></i>`;
+            return `<i class="flair icon-${e.toLowerCase()}" title="${f !== null ? f.label : e}"></i>`;
         })
         .join("");
-    return features.length > 0
-        ? `<span class="features">${features}</span>`
-        : "";
+    return features.length > 0 ? `<span class="features">${features}</span>` : "";
 }
 function buildTime(message) {
     const datetime = message.timestamp.format(DATE_FORMATS.FULL);
@@ -169,48 +136,23 @@ class MessageBuilder {
     }
 
     static status(message, timestamp = null, ignoreemotes = false) {
-        return new ChatMessage(
-            message,
-            timestamp,
-            MessageTypes.STATUS,
-            ignoreemotes
-        );
+        return new ChatMessage(message, timestamp, MessageTypes.STATUS, ignoreemotes);
     }
 
     static error(message, timestamp = null, ignoreemotes = false) {
-        return new ChatMessage(
-            message,
-            timestamp,
-            MessageTypes.ERROR,
-            ignoreemotes
-        );
+        return new ChatMessage(message, timestamp, MessageTypes.ERROR, ignoreemotes);
     }
 
     static info(message, timestamp = null, ignoreemotes = false) {
-        return new ChatMessage(
-            message,
-            timestamp,
-            MessageTypes.INFO,
-            ignoreemotes
-        );
+        return new ChatMessage(message, timestamp, MessageTypes.INFO, ignoreemotes);
     }
 
     static broadcast(message, timestamp = null, ignoreemotes = false) {
-        return new ChatMessage(
-            message,
-            timestamp,
-            MessageTypes.BROADCAST,
-            ignoreemotes
-        );
+        return new ChatMessage(message, timestamp, MessageTypes.BROADCAST, ignoreemotes);
     }
 
     static command(message, timestamp = null, ignoreemotes = false) {
-        return new ChatMessage(
-            message,
-            timestamp,
-            MessageTypes.COMMAND,
-            ignoreemotes
-        );
+        return new ChatMessage(message, timestamp, MessageTypes.COMMAND, ignoreemotes);
     }
 
     static message(message, user, timestamp = null) {
@@ -274,12 +216,7 @@ class ChatUIMessage {
 }
 
 class ChatMessage extends ChatUIMessage {
-    constructor(
-        message,
-        timestamp = null,
-        type = MessageTypes.CHAT,
-        ignoreemotes = false
-    ) {
+    constructor(message, timestamp = null, type = MessageTypes.CHAT, ignoreemotes = false) {
         super(message);
         this.user = null;
         this.type = type;
@@ -289,15 +226,11 @@ class ChatMessage extends ChatUIMessage {
     }
 
     html(chat = null) {
-        const classes = [],
-            attr = {};
+        const classes = [];
+        const attr = {};
         if (this.continued) classes.push("msg-continue");
 
-        return this.wrap(
-            `${buildTime(this)} ${buildMessageTxt(chat, this)}`,
-            classes,
-            attr
-        );
+        return this.wrap(`${buildTime(this)} ${buildMessageTxt(chat, this)}`, classes, attr);
     }
 }
 
@@ -317,22 +250,18 @@ class ChatUserMessage extends ChatMessage {
     }
 
     html(chat = null) {
-        const classes = [],
-            attr = {};
+        const classes = [];
+        const attr = {};
 
         if (this.id) attr["data-id"] = this.id;
-        if (this.user && this.user.username)
-            attr["data-username"] = this.user.username.toLowerCase();
-        if (this.mentioned && this.mentioned.length > 0)
-            attr["data-mentioned"] = this.mentioned.join(" ").toLowerCase();
+        if (this.user && this.user.username) attr["data-username"] = this.user.username.toLowerCase();
+        if (this.mentioned && this.mentioned.length > 0) attr["data-mentioned"] = this.mentioned.join(" ").toLowerCase();
 
         if (this.isown) classes.push("msg-own");
-        if (this.slashme && !this.target && !this.targetoutgoing)
-            classes.push("msg-me");
+        if (this.slashme && !this.target && !this.targetoutgoing) classes.push("msg-me");
         if (this.historical) classes.push("msg-historical");
         if (this.highlighted) classes.push("msg-highlight");
-        if (this.continued && !this.target && !this.targetoutgoing)
-            classes.push("msg-continue");
+        if (this.continued && !this.target && !this.targetoutgoing) classes.push("msg-continue");
         if (this.tag) cleanAndPushClass(classes, this.tag);
         if (this.target) classes.push(`msg-whisper`);
         if (this.targetoutgoing) classes.push(`msg-whisper`);
@@ -345,20 +274,12 @@ class ChatUserMessage extends ChatMessage {
         const background = generateViewerStateBackground(this.user.viewerState);
         const viewerStateProps = `title="${this.user.viewerState.getTitle()}" style="background-image: url(${background});"`;
 
-        const user =
-            buildFeatures(this.user) +
-            ` <a class="user ${this.user.features.join(
-                " "
-            )}" ${viewerStateProps}>${this.user.username}</a>`;
+        const user = buildFeatures(this.user) + ` <a class="user ${this.user.features.join(" ")}" ${viewerStateProps}>${this.user.username}</a>`;
         let combined = ` ${user}<span class="ctrl">${ctrl}</span> `;
         if (this.targetoutgoing) {
             combined = ` <span class="ctrl-leading">${ctrl}</span> <a class="user">${this.targetoutgoing}</a> <span class="ctrl">: </span>`;
         }
-        return this.wrap(
-            buildTime(this) + combined + buildMessageTxt(chat, this),
-            classes,
-            attr
-        );
+        return this.wrap(buildTime(this) + combined + buildMessageTxt(chat, this), classes, attr);
     }
 }
 
@@ -405,13 +326,7 @@ function generateViewerStateBackground(viewerState) {
                 }
 
                 ctx.beginPath();
-                ctx.arc(
-                    offset + x * arrayStepSize + arrayStepSize / 2,
-                    y * arrayStepSize + arrayStepSize / 2,
-                    arrayStepSize * 0.35,
-                    0,
-                    2 * Math.PI
-                );
+                ctx.arc(offset + x * arrayStepSize + arrayStepSize / 2, y * arrayStepSize + arrayStepSize / 2, arrayStepSize * 0.35, 0, 2 * Math.PI);
                 ctx.fill();
             }
         }
@@ -449,11 +364,7 @@ class ChatEmoteMessage extends ChatMessage {
     }
 
     html(chat = null) {
-        this._text = $(
-            `<span class="text">${formatters
-                .get("emote")
-                .format(chat, this.message, this)}</span>`
-        );
+        this._text = $(`<span class="text">${formatters.get("emote").format(chat, this.message, this)}</span>`);
         this._combo = $(`<span class="chat-combo"></span>`);
         this._combo_count = $(`<i class="count">${this.emotecount}</i>`);
         this._combo_x = $(`<i class="x">X</i>`);
@@ -463,15 +374,7 @@ class ChatEmoteMessage extends ChatMessage {
     }
 
     afterRender(chat = null) {
-        this._combo.append(
-            this._combo_count,
-            " ",
-            this._combo_x,
-            " ",
-            this._combo_hits,
-            " ",
-            this._combo_txt
-        );
+        this._combo.append(this._combo_count, " ", this._combo_x, " ", this._combo_hits, " ", this._combo_txt);
         this.ui.append(this._text, this._combo);
     }
 
@@ -482,20 +385,9 @@ class ChatEmoteMessage extends ChatMessage {
 
     completeCombo() {
         ChatEmoteMessageCount(this);
-        this._combo.attr(
-            "class",
-            this._combo.attr("class") + " combo-complete"
-        );
+        this._combo.attr("class", this._combo.attr("class") + " combo-complete");
         this._combo = this._combo_count = this._combo_x = this._combo_hits = this._combo_txt = null;
     }
 }
 
-export {
-    setFormattersFromSettings,
-    MessageBuilder,
-    ChatUIMessage,
-    ChatMessage,
-    ChatUserMessage,
-    ChatEmoteMessage,
-    MessageTypes
-};
+export { setFormattersFromSettings, MessageBuilder, ChatUIMessage, ChatMessage, ChatUserMessage, ChatEmoteMessage, MessageTypes };

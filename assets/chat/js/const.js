@@ -72,37 +72,16 @@ const CUSTOM_AUTOCOMPLETE_ORDER = [
     ["REE", "RedCard"]
 ];
 
-const HALLOWEEN_RANDOM_EFFECTS = [
-    "spooky-spooker",
-    "spooky-blink",
-    "spooky-spin",
-    "spooky-crawl",
-    "spooky-ghost",
-    "spooky-bat"
-];
+const HALLOWEEN_RANDOM_EFFECTS = ["spooky-spooker", "spooky-blink", "spooky-spin", "spooky-crawl", "spooky-ghost", "spooky-bat"];
 
-const HALLOWEEN_RANDOM_DELAYS = [
-    "spooky-anim-delay-1",
-    "spooky-anim-delay-2",
-    "spooky-anim-delay-3",
-    "spooky-anim-delay-4",
-    "spooky-anim-delay-5"
-];
+const HALLOWEEN_RANDOM_DELAYS = ["spooky-anim-delay-1", "spooky-anim-delay-2", "spooky-anim-delay-3", "spooky-anim-delay-4", "spooky-anim-delay-5"];
 
 const HALLOWEEN_BLACKLIST = ["GameOfThrows"];
 
-//blacklisted from receiving any of the hats
-const HAT_BLACKLIST = [
-    "HEADSHOT",
-    "Clap",
-    "CampFire",
-    "POKE",
-    "GameOfThrows",
-    "Sippy",
-    "ApeHands"
-];
+// blacklisted from receiving any of the hats
+const HAT_BLACKLIST = ["HEADSHOT", "Clap", "CampFire", "POKE", "GameOfThrows", "Sippy", "ApeHands"];
 
-//blacklists for special hats
+// blacklists for special hats
 const HAT_SPECIAL_BLACKLIST = {
     bday: ["NoTears", "Klappa", "FeelsAmazingMan"],
     honk: ["YEE"]

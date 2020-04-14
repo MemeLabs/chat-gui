@@ -2,16 +2,7 @@
 
 import ChatScrollPlugin from "./scroll";
 import EventEmitter from "./emitter";
-const tagcolors = [
-    "green",
-    "yellow",
-    "orange",
-    "purple",
-    "blue",
-    "sky",
-    "lime",
-    "pink"
-];
+const tagcolors = ["green", "yellow", "orange", "purple", "blue", "sky", "lime", "pink"];
 
 class ChatWindow extends EventEmitter {
     constructor(name, type = "", label = "") {
@@ -45,9 +36,7 @@ class ChatWindow extends EventEmitter {
         const normalized = this.name.toLowerCase();
         this.maxlines = chat.settings.get("maxlines");
         this.scrollplugin = new ChatScrollPlugin(chat, this.ui);
-        this.tag =
-            chat.taggednicks.get(normalized) ||
-            tagcolors[Math.floor(Math.random() * tagcolors.length)];
+        this.tag = chat.taggednicks.get(normalized) || tagcolors[Math.floor(Math.random() * tagcolors.length)];
         chat.output.append(this.ui);
         chat.addWindow(normalized, this);
         return this;

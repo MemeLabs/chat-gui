@@ -1,4 +1,4 @@
-/* global $, destiny */
+/* global $ */
 
 import Chat from "./chat";
 import { KEYCODES, getKeyCode, CUSTOM_AUTOCOMPLETE_ORDER } from "./const";
@@ -42,14 +42,8 @@ function sortResults(a, b) {
 
     // order by custom autocomplete order - see const.js
     for (var i in CUSTOM_AUTOCOMPLETE_ORDER) {
-        if (
-            CUSTOM_AUTOCOMPLETE_ORDER[i].includes(a.data) &&
-            CUSTOM_AUTOCOMPLETE_ORDER[i].includes(b.data)
-        ) {
-            return CUSTOM_AUTOCOMPLETE_ORDER[i].indexOf(a.data) <
-                CUSTOM_AUTOCOMPLETE_ORDER[i].indexOf(b.data)
-                ? -1
-                : 1;
+        if (CUSTOM_AUTOCOMPLETE_ORDER[i].includes(a.data) && CUSTOM_AUTOCOMPLETE_ORDER[i].includes(b.data)) {
+            return CUSTOM_AUTOCOMPLETE_ORDER[i].indexOf(a.data) < CUSTOM_AUTOCOMPLETE_ORDER[i].indexOf(b.data) ? -1 : 1;
         }
     }
 
@@ -100,9 +94,7 @@ function buildSearchCriteria(str, offset) {
 }
 function buildHelpers(ac) {
     if (ac.results.length > 0) {
-        ac.container[0].innerHTML = ac.results
-            .map((res, k) => `<li data-index="${k}">${res.data}</li>`)
-            .join("");
+        ac.container[0].innerHTML = ac.results.map((res, k) => `<li data-index="${k}">${res.data}</li>`).join("");
     }
 }
 function timeoutHelpers(ac) {
@@ -142,9 +134,7 @@ class ChatAutoComplete {
     constructor() {
         /** @member jQuery */
         this.ui = $(`<div id="chat-auto-complete"><ul></ul></div>`);
-        this.ui.on("click", "li", e =>
-            this.select(parseInt(e.currentTarget.getAttribute("data-index")))
-        );
+        this.ui.on("click", "li", e => this.select(parseInt(e.currentTarget.getAttribute("data-index"))));
         this.container = $(this.ui[0].firstElementChild);
         this.buckets = new Map();
         this.results = [];
@@ -170,11 +160,7 @@ class ChatAutoComplete {
             const keycode = getKeyCode(e);
             if (keycode === KEYCODES.TAB) {
                 if (this.results.length > 0) {
-                    this.select(
-                        this.selected >= this.results.length - 1
-                            ? 0
-                            : this.selected + 1
-                    );
+                    this.select(this.selected >= this.results.length - 1 ? 0 : this.selected + 1);
                 }
                 e.preventDefault();
                 e.stopPropagation();
@@ -210,9 +196,7 @@ class ChatAutoComplete {
             const keycode = getKeyCode(e);
             if (keycode !== KEYCODES.TAB && keycode !== KEYCODES.ENTER) {
                 const needle = this.input.val().toString();
-                if (needle.trim().length === 0) {
-                    this.reset();
-                }
+                if (needle.trim().length === 0) this.reset();
                 // If a key WAS pressed, but keypress event did not fire
                 // Check if the value changed between the key down, and key up
                 // Keys like `backspace`
@@ -249,10 +233,7 @@ class ChatAutoComplete {
         if (criteria.orig.includes(" :") && criteria.word.startsWith(":")) {
             const lastColon = criteria.orig.lastIndexOf(" :");
             // assumption: the last occurrence of " :" is meant to be a emote suffix
-            criteria.orig =
-                criteria.orig.substring(0, lastColon) +
-                ":" +
-                criteria.orig.substring(lastColon + 2);
+            criteria.orig = criteria.orig.substring(0, lastColon) + ":" + criteria.orig.substring(lastColon + 2);
             criteria.startCaret--;
         }
         // for emote suffixes started from "YEE:"
@@ -264,21 +245,13 @@ class ChatAutoComplete {
             criteria.pre = `:${suffix}`;
         }
         if (criteria.word.length >= minWordLength) {
-            const bucket =
-                this.buckets.get(getBucketId(criteria.word)) || new Map();
-            const regex = new RegExp(
-                "^" + Chat.makeSafeForRegex(criteria.pre),
-                "i"
-            );
+            const bucket = this.buckets.get(getBucketId(criteria.word)) || new Map();
+            const regex = new RegExp("^" + Chat.makeSafeForRegex(criteria.pre), "i");
             this.results = [...bucket.values()]
                 // filter exact matches
                 .filter(a => a.data !== criteria.word)
                 // filter users if user search
-                .filter(
-                    a =>
-                        (!a.isemote || !(criteria.useronly || useronly)) &&
-                        regex.test(a.data)
-                )
+                .filter(a => (!a.isemote || !(criteria.useronly || useronly)) && regex.test(a.data))
                 .sort(sortResults)
                 .slice(0, maxResults);
         }
@@ -296,8 +269,7 @@ class ChatAutoComplete {
 
     add(str, isemote = false) {
         const id = getBucketId(str);
-        const bucket =
-            this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
+        const bucket = this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
         let candidate = bucket.get(str);
         if (!candidate) {
             candidate = {
@@ -314,8 +286,7 @@ class ChatAutoComplete {
     promoteOneLastSeen(str) {
         if (!str) return null;
         const id = getBucketId(str);
-        const bucket =
-            this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
+        const bucket = this.buckets.get(id) || this.buckets.set(id, new Map()).get(id);
         let candidate = bucket.get(str);
         if (!candidate) return null;
         candidate.lastSeen = Date.now();
@@ -351,9 +322,7 @@ class ChatAutoComplete {
 
         let pre = this.criteria.orig.substr(0, this.criteria.startCaret);
 
-        let post = this.criteria.orig.substr(
-            this.criteria.startCaret + this.criteria.word.length
-        );
+        let post = this.criteria.orig.substr(this.criteria.startCaret + this.criteria.word.length);
         // always add a space after our completion if there isn't one since people
         // would usually add one anyway
         if (post[0] !== " " || post.length === 0) {

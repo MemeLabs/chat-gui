@@ -6,33 +6,31 @@ let TLD_MIN = 271; // Only update if at least this many found (original count)
 
 var targetFile = "assets/tld.json";
 
-let cb = function() {
+let cb = () => {
     console.log("Done!");
 };
 
 // Asynchronously fetch TLDs, if valid then replace
-http.get(TLD_FETCH_URL, function(res) {
+http.get(TLD_FETCH_URL, res => {
     var data = "";
-    res.on("data", function(chunk) {
+    res.on("data", chunk => {
         // Join response till its complete
         data += chunk;
     });
-    res.on("end", function() {
+    res.on("end", () => {
         // When response completes parse and replace
         var list = parseTLDs(data);
         console.log(`Retrieved ${list.length} tlds!`);
-        fs.writeFile(targetFile, JSON.stringify(list), "utf8", function(err) {
+        fs.writeFile(targetFile, JSON.stringify(list), "utf8", err => {
             if (err) {
-                console.error(
-                    `IO error writing to ${targetFile} skipping write.`
-                );
+                console.error(`IO error writing to ${targetFile} skipping write.`);
             } else {
                 console.log(`Wrote new TLDs to file ${targetFile}!`);
             }
             cb();
         });
     });
-}).on("error", function(e) {
+}).on("error", e => {
     console.log("TLD fetch failed, using defaults: " + e.message);
     cb();
 });
@@ -50,12 +48,7 @@ function parseTLDs(data) {
     var arr = data.split("\n");
     for (var idx in arr) {
         var tld = arr[idx];
-        if (
-            typeof tld !== "string" ||
-            tld.length < 1 ||
-            tld[0] === "#" ||
-            tld.indexOf("XN--") >= 0
-        ) {
+        if (typeof tld !== "string" || tld.length < 1 || tld[0] === "#" || tld.indexOf("XN--") >= 0) {
             // Ignore invalid/weird TLDs or comment
             continue;
         }
@@ -67,7 +60,7 @@ function parseTLDs(data) {
         return null;
     }
 
-    list.sort(function(x, y) {
+    list.sort((x, y) => {
         // Sort by size then alphabetically
         if (x.length === y.length) {
             return x < y ? -1 : x > y ? 1 : 0;

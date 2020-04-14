@@ -60,17 +60,15 @@ function alreadySetScenario() {
     guideEl.style = ""; // Overwrite `visibility: hidden`
 
     if (window.navigator.permissions) {
-        window.navigator.permissions
-            .query({ name: "notifications" })
-            .then(permission => {
-                permission.addEventListener("change", () => {
-                    if (Notification.permission === "granted") {
-                        closeWindow();
-                    } else if (Notification.permission === "default") {
-                        Notification.requestPermission();
-                    }
-                });
+        window.navigator.permissions.query({ name: "notifications" }).then(permission => {
+            permission.addEventListener("change", () => {
+                if (Notification.permission === "granted") {
+                    closeWindow();
+                } else if (Notification.permission === "default") {
+                    Notification.requestPermission();
+                }
             });
+        });
     } else {
         // Edge doesn't support navigator.permissions so we poll
         let isPermissionRequested = false;
@@ -78,10 +76,7 @@ function alreadySetScenario() {
         const poll = () => {
             if (Notification.permission === "granted") {
                 closeWindow();
-            } else if (
-                Notification.permission === "default" &&
-                !isPermissionRequested
-            ) {
+            } else if (Notification.permission === "default" && !isPermissionRequested) {
                 Notification.requestPermission();
                 isPermissionRequested = true;
             } else {

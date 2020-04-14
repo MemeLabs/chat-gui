@@ -1,20 +1,9 @@
 import highlightedMessages from "./highlighted.json";
 import taggedMessages from "./tagged.json";
-import viewerstates from "./viewerstates.json"
+import viewerstates from "./viewerstates.json";
 import { WebSocket, Server } from "mock-socket";
 const { default: emotes } = require("../../../emotes.json");
-const tagColors = [
-    "green",
-    "yellow",
-    "orange",
-    "red",
-    "purple",
-    "blue",
-    "sky",
-    "lime",
-    "pink",
-    "black"
-];
+const tagColors = ["green", "yellow", "orange", "red", "purple", "blue", "sky", "lime", "pink", "black"];
 
 window.WebSocket = WebSocket;
 
@@ -28,20 +17,10 @@ export default class MockStream {
         this.server = new Server(url);
 
         this.server.on("connection", socket => {
-            const ownProperties = [
-                ...Object.getOwnPropertyNames(MockStream.prototype).slice(1),
-                ...Object.getOwnPropertyNames(this)
-            ];
+            const ownProperties = [...Object.getOwnPropertyNames(MockStream.prototype).slice(1), ...Object.getOwnPropertyNames(this)];
 
             // Add some usernames for autocomplete testing
-            const joinMessages = [
-                "PepoMan",
-                "PepoDuder",
-                "CozyPan",
-                "CoDirectionalFan",
-                "CoolKikker",
-                "CoolCool"
-            ].map(username => ({ username, nick: username }));
+            const joinMessages = ["PepoMan", "PepoDuder", "CozyPan", "CoDirectionalFan", "CoolKikker", "CoolCool"].map(username => ({ username, nick: username }));
 
             this.sendMessages(joinMessages, null, "JOIN");
 
@@ -87,10 +66,7 @@ export default class MockStream {
                 if (index < messages.length) {
                     const message = messages[index];
 
-                    this.server.emit(
-                        "message",
-                        `${type} ${JSON.stringify(message)}`
-                    );
+                    this.server.emit("message", `${type} ${JSON.stringify(message)}`);
                     setTimeout(sendMessage, 20);
                     index++;
                 } else {
@@ -98,10 +74,7 @@ export default class MockStream {
                         const message = {
                             data: `End of message stream: ${name}`
                         };
-                        this.server.emit(
-                            "message",
-                            `BROADCAST ${JSON.stringify(message)}`
-                        );
+                        this.server.emit("message", `BROADCAST ${JSON.stringify(message)}`);
                     }
                     resolve();
                 }
@@ -128,7 +101,7 @@ export default class MockStream {
     }
 
     viewerstateMessages() {
-        return this.sendMessages(viewerstates['messages'], "viewerstateMessages");
+        return this.sendMessages(viewerstates["messages"], "viewerstateMessages");
     }
 
     allTagColors() {

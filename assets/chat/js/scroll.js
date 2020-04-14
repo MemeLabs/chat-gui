@@ -2,8 +2,7 @@
 
 require("nanoscroller");
 
-const is_touch_device =
-    "ontouchstart" in window || navigator["maxTouchPoints"]; // works on most browsers // works on IE10/11 and Surface
+const isTouchDevice = "ontouchstart" in window || navigator["maxTouchPoints"]; // works on most browsers // works on IE10/11 and Surface
 
 class ChatScrollPlugin {
     constructor(chat, e) {
@@ -12,9 +11,7 @@ class ChatScrollPlugin {
 
         const $el = $(e);
         if ($el.find(".chat-scroll-notify").length > 0) {
-            $el.on("update", () =>
-                $el.toggleClass("chat-unpinned", !this.isPinned())
-            ); //debounce
+            $el.on("update", () => $el.toggleClass("chat-unpinned", !this.isPinned())); // debounce
             $el.on("mousedown", ".chat-scroll-notify", () => false);
             $el.on("mouseup", ".chat-scroll-notify", () => {
                 this.updateAndPin(true);
@@ -24,15 +21,13 @@ class ChatScrollPlugin {
         this.scroller = $el.nanoScroller({
             sliderMinHeight: 40,
             disableResize: true,
-            alwaysVisible: is_touch_device
+            alwaysVisible: isTouchDevice
         })[0].nanoscroller;
     }
 
     isPinned() {
         // 30 is used to allow the scrollbar to be just offset, but still count as scrolled to bottom
-        return !this.scroller.isActive
-            ? true
-            : this.scroller.contentScrollTop >= this.scroller.maxScrollTop - 30;
+        return !this.scroller.isActive ? true : this.scroller.contentScrollTop >= this.scroller.maxScrollTop - 30;
     }
 
     updateAndPin(pin) {

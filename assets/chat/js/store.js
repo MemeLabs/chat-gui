@@ -7,9 +7,7 @@ class ChatStore {
     static write(name, obj) {
         let str = "";
         try {
-            str = JSON.stringify(
-                obj instanceof Map || obj instanceof Set ? [...obj] : obj
-            );
+            str = JSON.stringify(obj instanceof Map || obj instanceof Set ? [...obj] : obj);
         } catch (e) {
             console.error(e);
         }

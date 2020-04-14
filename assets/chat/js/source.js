@@ -65,8 +65,7 @@ class ChatSource extends EventEmitter {
     }
 
     disconnect() {
-        if (this.socket && this.socket.readyState !== this.socket.CLOSED)
-            this.socket.close();
+        if (this.socket && this.socket.readyState !== this.socket.CLOSED) this.socket.close();
     }
 
     onOpen(e) {
@@ -79,14 +78,8 @@ class ChatSource extends EventEmitter {
         let retryMilli = 0;
         if (this.retryOnDisconnect) {
             // If a disconnect is experienced after the last attempt was successful, the retry timeout is very short, else its longer
-            retryMilli =
-                this.retryAttempts === 0
-                    ? Math.floor(Math.random() * (3000 - 501 + 1)) + 501
-                    : Math.floor(Math.random() * (30000 - 5000 + 1)) + 5000;
-            this.retryTimer = setTimeout(
-                () => this.connect(this.url),
-                retryMilli
-            );
+            retryMilli = this.retryAttempts === 0 ? Math.floor(Math.random() * (3000 - 501 + 1)) + 501 : Math.floor(Math.random() * (30000 - 5000 + 1)) + 5000;
+            this.retryTimer = setTimeout(() => this.connect(this.url), retryMilli);
         }
         this.emit("CLOSE", { code: e.code || 1006, retryMilli: retryMilli });
     }

@@ -3,7 +3,7 @@ const path = require("path");
 const Spritesmith = require("spritesmith");
 const NEWLINE = "\r\n";
 
-const glueImages = function(dir, name, cb) {
+const glueImages = (dir, name, cb) => {
     let out = dir + name + ".png";
     fs.readdir(dir + name + "/", (err, files) => {
         if (err) {
@@ -31,7 +31,7 @@ const glueImages = function(dir, name, cb) {
     });
 };
 
-glueImages("./assets/emotes/", "emoticons", function(dir, name, coordinates) {
+glueImages("./assets/emotes/", "emoticons", (dir, name, coordinates) => {
     const names = Object.keys(coordinates)
         .map(f => path.basename(f, path.extname(f)))
         .map(a => ".chat-emote.chat-emote-" + a)
@@ -66,7 +66,7 @@ glueImages("./assets/emotes/", "emoticons", function(dir, name, coordinates) {
     console.log(`Completed ${name} sprites`);
 });
 
-glueImages("./assets/icons/", "icons", function(dir, name, coordinates) {
+glueImages("./assets/icons/", "icons", (dir, name, coordinates) => {
     const names = Object.keys(coordinates)
         .map(f => path.basename(f, path.extname(f)))
         .map(a => ".icon-" + a)

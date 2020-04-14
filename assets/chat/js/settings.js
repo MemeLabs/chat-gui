@@ -8,10 +8,7 @@ function upgradeSettings(chat, oldversion, newversion) {
             Object.keys(arr).forEach(k => {
                 switch (k) {
                     case "highlightnicks":
-                        chat.settings.set(
-                            "highlightnicks",
-                            Object.keys(arr[k])
-                        );
+                        chat.settings.set("highlightnicks", Object.keys(arr[k]));
                         break;
                     default:
                         chat.settings.set(k, arr[k]);

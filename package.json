@@ -9,7 +9,8 @@
     "build": "npm run tld && npm run glue && webpack",
     "build:production": "npm run --prod build",
     "watch": "webpack -w",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "format": "prettier --write '*/**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -59,6 +60,7 @@
     "mock-socket": "^8.0.5",
     "node-sass": "^4.12.0",
     "postcss-loader": "~2.1.0",
+    "prettier": "^2.0.4",
     "sass-loader": "~6.0.6",
     "spritesmith": "~3.3.0",
     "ts-loader": "^5.3.3",

@@ -56,7 +56,7 @@ const mapping = new Map([
     ["flair15", features.SGGBDAY]
 ]);
 
-features.valueOf = function(str) {
+features.valueOf = str => {
     return mapping.get(str.toLowerCase()) || null;
 };
 

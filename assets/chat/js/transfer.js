@@ -3,10 +3,7 @@ import { MessageBuilder } from "./messages";
 
 function download(filename, text) {
     var element = document.createElement("a");
-    element.setAttribute(
-        "href",
-        "data:application/json;charset=utf-8," + encodeURIComponent(text)
-    );
+    element.setAttribute("href", "data:application/json;charset=utf-8," + encodeURIComponent(text));
     element.setAttribute("download", filename);
 
     element.style.display = "none";
@@ -30,9 +27,7 @@ function setStorage(file, chat) {
 
         ChatStore.write("chat.settings", newSettings);
 
-        MessageBuilder.broadcast(
-            "Settings imported! Reload chat to take effect."
-        ).into(chat);
+        MessageBuilder.broadcast("Settings imported! Reload chat to take effect.").into(chat);
     };
 }
 

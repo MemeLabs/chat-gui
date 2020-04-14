@@ -2,20 +2,20 @@ import Chat from "./chat/js/chat";
 import emotes from "./emotes.json";
 
 $.when(
-    new Promise(res =>
+    new Promise(resolve =>
         $.getJSON(`${API_URI}/api/chat/me`)
-            .done(res)
-            .fail(() => res(null))
+            .done(resolve)
+            .fail(() => resolve(null))
     ),
-    new Promise(res =>
+    new Promise(resolve =>
         $.getJSON(`${API_URI}/api/chat/history`)
-            .done(res)
-            .fail(() => res(null))
+            .done(resolve)
+            .fail(() => resolve(null))
     ),
-    new Promise(res =>
+    new Promise(resolve =>
         $.getJSON(`${API_URI}/api/chat/viewer-states`)
-            .done(res)
-            .fail(() => res([]))
+            .done(resolve)
+            .fail(() => resolve([]))
     )
 ).then(
     (userAndSettings, history, viewerStates) =>

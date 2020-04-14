@@ -1,5 +1,3 @@
-/* global Math */
-
 import { KEYCODES, isKeyCode } from "./const";
 import ChatStore from "./store";
 
@@ -13,10 +11,7 @@ class ChatInputHistory {
         this.input.on("keydown", e => {
             // if up arrow we subtract otherwise add
 
-            if (
-                !(e.shiftKey || e.metaKey || e.ctrlKey) &&
-                (isKeyCode(e, KEYCODES.UP) || isKeyCode(e, KEYCODES.DOWN))
-            ) {
+            if (!(e.shiftKey || e.metaKey || e.ctrlKey) && (isKeyCode(e, KEYCODES.UP) || isKeyCode(e, KEYCODES.DOWN))) {
                 this.show(isKeyCode(e, KEYCODES.UP) ? -1 : 1);
                 e.preventDefault();
                 e.stopPropagation();
@@ -39,9 +34,10 @@ class ChatInputHistory {
                 // store the typed in message so that we can go back to it
                 this.lastinput = this.input.val().toString();
 
-                if (this.index <= 0)
+                if (this.index <= 0) {
                     // nothing in the history, bail out
                     return;
+                }
                 // down arrow, but nothing to show
             } else return;
         }
@@ -65,15 +61,10 @@ class ChatInputHistory {
     add(message) {
         this.index = -1;
         // dont add entry if the last entry is the same
-        if (
-            this.history.length > 0 &&
-            this.history[this.history.length - 1] === message
-        )
-            return;
+        if (this.history.length > 0 && this.history[this.history.length - 1] === message) return;
         this.history.push(message);
         // limit entries
-        if (this.history.length > this.maxentries)
-            this.history.slice(-this.maxentries);
+        if (this.history.length > this.maxentries) this.history.slice(-this.maxentries);
         ChatStore.write("chat.history", this.history);
     }
 }
