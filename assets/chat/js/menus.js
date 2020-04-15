@@ -541,29 +541,91 @@ class ChatContextMenu {
         this.chat = chat
         this.ui = chat.output.find("#chat-user-contextmenu")
         this.isShown = false
+        this.userElement = null
+        this.permissionsLevels = ["anonymous","authenticated","moderator"]
+        this.userLevel = this.getPermissionLevel()
+        this.unownedPermissionLevels = this.getUnownedPermissions()
 
-        chat.output.on("contextmenu", e => {
-            this.show(e)
+        this.chat.output.on("contextmenu", e => {
+            if ($(e.target).is("a.user")) {
+                this.show(e)
+            }
+        })
+        this.chat.ui.on("click", e => {
+            const isParent = (Object.values($(e.target).parents()).includes(this.ui[0]))
+            if (!isParent && this.isShown === true) {
+                this.hide()
+            }
         })
 
-        chat.ui.on("click", e => {
-            if (!$(e.target).is(this.ui) && this.isShown === true) {
-                this.ui.hide()
-                this.isShown = false
+        this.unownedPermissionLevels.forEach(level => {
+            this.ui.find(`.contextmenu-level-${level}`).hide()
+        })
+
+        this.addConditionalButton("contextmenu-viewerstate-newtab", (id, e) => {
+            this.chat.openViewerStateStream(this.userElement.data("username"))
+        }, () => {
+            const USERNAME = $(this.userElement.data("username"))
+            const USER_VIEWERSTATE = this.chat.viewerState.get(USERNAME)
+
+            if (USER_VIEWERSTATE !== undefined && USER_VIEWERSTATE.channel !== undefined) {
+                return true
             }
+            return false
+        })
+
+        this.addButton("contextmenu-ignore", (id, e) => {
+            this.chat.cmdIGNORE([this.userElement.data("username")])
         })
     }
 
     show(e) {
-        if ($(e.target).is("a.user")) {
-            e.preventDefault()
-            this.ui.show()
-            this.ui.css("left", event.pageX)
-            this.ui.css("top", event.pageY)
-            this.isShown = true
-        }
+        e.preventDefault()
+        this.ui.show()
+        this.ui.css("left", event.pageX)
+        this.ui.css("top", event.pageY)
+        this.userElement = $(e.target).closest(".msg-chat")
+        this.isShown = true
     }
 
+    hide() {
+        this.ui.hide()
+        this.isShown = false
+        this.userElement = null
+    }
+
+    addButton(id, onclick) {
+        this.ui.find(`#${id}`).on("mouseup", e => {
+            onclick(id, e)
+            this.hide()
+        })
+    }
+
+    addConditionalButton(id, onclick, conditional) {
+        this.ui.show(e => {
+            if (!conditional()) {
+                this.ui.find(`#${id}`).hide()
+                return
+            }
+            this.addButton(id, onclick)
+        })
+    }
+
+    getPermissionLevel() {
+        if (this.chat.user.hasFeature("moderator")) {
+            return "moderator"
+        }
+        if (this.chat.authenticated) {
+            return "authenticated"
+        }
+        return "anonymous"
+    }
+
+    getUnownedPermissions() {
+        var levels = this.permissionsLevels
+        levels.splice(0, this.permissionsLevels.indexOf(this.userLevel) + 1)
+        return levels
+    }
 }
 
 export {

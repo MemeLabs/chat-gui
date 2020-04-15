@@ -601,19 +601,10 @@ class Chat {
         });
 
         this.output.on("click", "a.user", e => {
-            if (e.ctrlKey.valueOf()){
+            if (e.ctrlKey.valueOf()) {
                 const msg = $(e.target).closest(".msg-chat");
-                const userState = this.viewerStates.get(msg.data("username"))
-                const path = "https://strims.gg/"
-
-                if (userState !== undefined && userState.channel !== undefined) {
-                    if (userState.channel.path !== "") {
-                        window.open(path + userState.channel.path)
-                    } else {
-                        window.open(path + userState.channel.service + '/' + userState.channel.channel)
-                    }
-                }     
-            }       
+                this.openViewerStateStream(msg.data("username"))
+            }
         })
 
         // Keep the website session alive.
@@ -2060,6 +2051,19 @@ class Chat {
         win.on("hide", () => {
             conv.open = false;
         });
+    }
+
+    openViewerStateStream(username) {
+        const userState = this.viewerStates.get(username)
+        const path = "https://strims.gg/"
+
+        if (userState !== undefined && userState.channel !== undefined) {
+            if (userState.channel.path !== "") {
+                window.open(path + userState.channel.path)
+            } else {
+                window.open(path + userState.channel.service + '/' + userState.channel.channel)
+            }
+        }     
     }
 
     static extractTextOnly(msg) {

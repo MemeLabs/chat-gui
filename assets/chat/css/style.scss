@@ -1600,7 +1600,37 @@ button.btn {
 #chat-user-contextmenu {
     display: none;
     position: absolute;
-    z-index: 150;
+    z-index: 250;
 
-    background-color: red;
+    background-color: $color-surface-dark2;
+}
+
+#contextmenu-form {
+    width: 200px;
+
+
+    .form-group {
+        margin: 2px 0px 2px 0px;
+        display: block;
+        position: relative;
+
+        border: 2px solid $color-surface-dark4;
+
+        padding: 10px 10px 10px 10px;
+
+        cursor: pointer;
+
+        .contextmenu-label {
+            cursor: pointer;
+            .btn {
+                display: none;
+            }
+        }
+    }
+    .form-group:first-child {
+        margin-top: 0px;
+    }
+    .form-group:last-child {
+        margin-bottom: 0px;
+    }
 }
