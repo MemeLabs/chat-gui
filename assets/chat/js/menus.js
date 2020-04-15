@@ -562,17 +562,17 @@ class ChatContextMenu {
             this.ui.find(`.contextmenu-level-${level}`).hide()
         })
 
-        this.addConditionalButton("contextmenu-viewerstate-newtab", (id, e) => {
-            this.chat.openViewerStateStream(this.userElement.data("username"))
-        }, () => {
-            const USERNAME = $(this.userElement.data("username"))
-            const USER_VIEWERSTATE = this.chat.viewerState.get(USERNAME)
+        // this.addConditionalButton("contextmenu-viewerstate-newtab", (id, e) => {
+        //     this.chat.openViewerStateStream(this.userElement.data("username"))
+        // }, () => {
+        //     const USERNAME = $(this.userElement.data("username"))
+        //     const USER_VIEWERSTATE = this.chat.viewerState.get(USERNAME)
 
-            if (USER_VIEWERSTATE !== undefined && USER_VIEWERSTATE.channel !== undefined) {
-                return true
-            }
-            return false
-        })
+        //     if (USER_VIEWERSTATE !== undefined && USER_VIEWERSTATE.channel !== undefined) {
+        //         return true
+        //     }
+        //     return false
+        // })
 
         this.addButton("contextmenu-ignore", (id, e) => {
             this.chat.cmdIGNORE([this.userElement.data("username")])
@@ -601,15 +601,15 @@ class ChatContextMenu {
         })
     }
 
-    addConditionalButton(id, onclick, conditional) {
-        this.ui.show(e => {
-            if (!conditional()) {
-                this.ui.find(`#${id}`).hide()
-                return
-            }
-            this.addButton(id, onclick)
-        })
-    }
+    // addConditionalButton(id, onclick, conditional) {
+    //     this.ui.show(e => {
+    //         if (!conditional()) {
+    //             this.ui.find(`#${id}`).hide()
+    //             return
+    //         }
+    //         this.addButton(id, onclick)
+    //     })
+    // }
 
     getPermissionLevel() {
         if (this.chat.user.hasFeature("moderator")) {
