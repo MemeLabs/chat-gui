@@ -9,6 +9,8 @@ const crypto = require('crypto');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const imageSize = util.promisify(require('image-size'));
+const flatten = require('flatten');
 
 const fsReadDirAsync = util.promisify(fs.readdir);
 const fsReadFileAsync = util.promisify(fs.readFile);
@@ -24,41 +26,42 @@ class EmoteManifestPlugin {
             const indexJSON = await fsReadFileAsync(this.options.index);
             const { default: emoteNames } = JSON.parse(indexJSON);
 
-            const [emoteFileNames, animatedEmoteFileNames] = await Promise.all([
-                fsReadDirAsync(this.options.emoteRoot),
-                fsReadDirAsync(this.options.animatedEmoteRoot),
-            ]);
+            const images = flatten(await Promise.all([
+                this.processImages(this.options.emoteRoot, '1x', false),
+                this.processImages(this.options.animatedEmoteRoot, '1x', true),
+                this.processImages(path.join(this.options.emoteRoot, '2x'), '2x', false),
+                this.processImages(path.join(this.options.animatedEmoteRoot, '2x'), '2x', true),
+                this.processImages(path.join(this.options.emoteRoot, '4x'), '4x', false),
+                this.processImages(path.join(this.options.animatedEmoteRoot, '4x'), '4x', true)
+            ]));
+            console.log(images);
 
             const emotes = await Promise.all(emoteNames.map(async (emoteName) => {
-                const emotePattern = new RegExp(`^${emoteName}\\.[a-z]+$`);
-                const emoteFileName = emoteFileNames.find((fileName) => emotePattern.test(fileName));
-                const animatedEmoteFileName = animatedEmoteFileNames.find((fileName) => emotePattern.test(fileName));
-                const fileName = animatedEmoteFileName || emoteFileName;
-                const animated = !!animatedEmoteFileName;
+                const emoteImages = images.filter(({ name }) => name === emoteName);
+                console.log(emoteImages);
 
-                if (!fileName) {
+                if (emoteImages.length === 0) {
                     throw new Error(`missing file for emote ${emoteName}`);
                 }
 
-                const srcRoot = animated ? this.options.animatedEmoteRoot : this.options.emoteRoot;
-                const src = await fsReadFileAsync(path.join(srcRoot, fileName));
+                const versions = emoteImages.map(({ ext, hash, name, src, animated, dimensions, size }) => {
+                    const path = `${this.options.emotePath}/${name}.${hash}${ext}`;
+                    compilation.assets[path] = {
+                        source: () => src,
+                        size: () => src.length
+                    };
 
-                const hash = crypto.createHash('sha1');
-                hash.write(src);
-                const digest = hash.digest().toString('hex').substring(0, 6);
-
-                const ext = path.extname(fileName)
-                const dstPath = this.options.emotePath + '/' + fileName.replace(ext, '.' + digest + ext);
-
-                compilation.assets[dstPath] = {
-                    source: () => src,
-                    size: () => src.length
-                };
+                    return {
+                        path,
+                        animated,
+                        dimensions,
+                        size
+                    };
+                });
 
                 return {
                     name: emoteName,
-                    path: '/' + dstPath,
-                    animated
+                    versions
                 };
             }));
 
@@ -74,6 +77,31 @@ class EmoteManifestPlugin {
 
             return callback();
         });
+    }
+
+    async processImages(root, size, animated) {
+        const entries = await fsReadDirAsync(root, { withFileTypes: true });
+        return Promise.all(entries.filter(entry => entry.isFile()).map(async ({ name }) => {
+            const filePath = path.join(root, name);
+            const src = await fsReadFileAsync(filePath);
+
+            const hash = crypto.createHash('sha1');
+            hash.write(src);
+
+            const ext = path.extname(name);
+
+            const { height, width } = await await imageSize(filePath);
+
+            return {
+                name: path.basename(name, ext),
+                dimensions: { height, width },
+                hash: hash.digest().toString('hex').substring(0, 6),
+                ext,
+                src,
+                size,
+                animated
+            }
+        }));
     }
 }
 
@@ -186,7 +214,16 @@ module.exports = {
         compress: true,
         port: 8282,
         https: process.env.WEBPACK_DEVSERVER_HTTPS === 'true',
-        host: process.env.WEBPACK_DEVSERVER_HOST
+        host: process.env.WEBPACK_DEVSERVER_HOST,
+        proxy: {
+            '/ws': {
+                target: 'ws://localhost:9998',
+                ws: true
+            },
+            '/api': {
+                target: 'http://localhost:9998'
+            }
+        }
     },
     entry: entry,
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
