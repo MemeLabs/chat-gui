@@ -5,12 +5,12 @@ const NEWLINE = "\r\n";
 
 const glueImages = function(dir, name, cb) {
     let out = dir + name + ".png";
-    fs.readdir(dir + name + "/", (err, files) => {
+    fs.readdir(dir + name + "/", { withFileTypes: true }, (err, files) => {
         if (err) {
             throw err;
         }
 
-        const paths = files.map(a => dir + name + "/" + a);
+        const paths = files.filter(a => a.isFile()).map(a => dir + name + "/" + a.name);
         Spritesmith.run(
             {
                 src: paths,
