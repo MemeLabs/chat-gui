@@ -16,7 +16,7 @@ class ChatUserFocus {
         this.css = css;
         this.focused = [];
         this.chat.output.on('mousedown', e => {
-            if(e.button === 0 && !e.ctrlKey.valueOf()) {
+            if(e.button === 0 && !(e.ctrlKey || e.metaKey)) {
                 this.toggleElement(e.target);
             }
         });
