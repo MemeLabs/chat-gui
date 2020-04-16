@@ -18,5 +18,6 @@ jobs:
         script: |
           cd chat_frontend
           git pull
+          nvm use default
           npm ci
           npm run build:production
