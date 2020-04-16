@@ -382,7 +382,6 @@ class Chat {
         this.loginscrn = this.ui.find("#chat-login-screen");
         this.loadingscrn = this.ui.find("#chat-loading");
         this.windowselect = this.ui.find("#chat-windows-select");
-        this.contextMenu = new ChatContextMenu(this)
         this.inputhistory = new ChatInputHistory(this);
         this.userfocus = new ChatUserFocus(this, this.css);
         this.spoiler = new ChatSpoiler(this);
@@ -604,6 +603,21 @@ class Chat {
             if (e.ctrlKey.valueOf()) {
                 const msg = $(e.target).closest(".msg-chat");
                 this.openViewerStateStream(msg.data("username"))
+            }
+        })
+
+        // Context menu
+        this.output.on("contextmenu", "a.user", e => {
+            e.preventDefault();
+            this.contextMenu = new ChatContextMenu(this, e);
+            this.contextMenu.show(e)
+        })
+
+        this.ui.on("click", e => {
+            if (this.contextMenu) {
+                if (!$(e.target).is(this.contextMenu.ui)) {
+                    this.contextMenu.hide()
+                }
             }
         })
 

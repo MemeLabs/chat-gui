@@ -18,14 +18,33 @@
         <div id="chat-output-frame" data-scroll-notify>
             <div id="chat-user-contextmenu">
                 <div id="contextmenu-form">
+                    <div id="contextmenu-viewerstate-status-container">
+                        <div id="contextmenu-viewerstate-status-text"></div> 
+                        <div id="contextmenu-viewerstate-status-icon"></div>
+                    </div>
                     <div class="form-group" id="contextmenu-viewerstate-newtab">
                         <label title="Open user's currently watched stream in new tab." class="contextmenu-label">
-                            <input type="button" class="btn">open in new tab
+                            <input type="button" class="btn">Open Stream
+                        </label>
+                    </div>
+                    <div class="form-group contextmenu-level-authenticated" id="contextmenu-whisper">
+                        <label title="Whisper" class="contextmenu-label">
+                            <input type="button" class="btn">Whisper
+                        </label>
+                    </div>
+                    <div class="form-group contextmenu-level-authenticated" id="contextmenu-highlight">
+                        <label title="Highlight" class="contextmenu-label">
+                            <input type="button" class="btn">Highlight
                         </label>
                     </div>
                     <div class="form-group contextmenu-level-authenticated" id="contextmenu-ignore">
                         <label title="Ignore" class="contextmenu-label">
                             <input type="button" class="btn">Ignore
+                        </label>
+                    </div>
+                    <div class="form-group contextmenu-level-moderator" id="contextmenu-ban">
+                        <label title="Ban user" class="contextmenu-label">
+                            <input type="button" class="btn">Ban user
                         </label>
                     </div>
                 </div>

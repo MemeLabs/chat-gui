@@ -1602,24 +1602,26 @@ button.btn {
     position: absolute;
     z-index: 250;
 
+    width: -webkit-fit-content; 
+    width: -moz-fit-content; 
+    width: fit-content;
+
+    border: 2px solid $color-surface-dark4;
+    border-radius: 5px;
+
     background-color: $color-surface-dark2;
 }
 
 #contextmenu-form {
-    width: 200px;
-
-
     .form-group {
-        margin: 2px 0px 2px 0px;
-        display: block;
+        display: none;
         position: relative;
-
-        border: 2px solid $color-surface-dark4;
-
-        padding: 10px 10px 10px 10px;
-
+        padding: 9px 10px 9px 10px;
         cursor: pointer;
 
+        :hover {
+            background-color: $color-surface-dark1;
+        }
         .contextmenu-label {
             cursor: pointer;
             .btn {
@@ -1632,5 +1634,21 @@ button.btn {
     }
     .form-group:last-child {
         margin-bottom: 0px;
+    }
+}
+
+#contextmenu-viewerstate-status-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: 5px 5px 5px 5px;
+
+    #contextmenu-viewerstate-status-icon {
+        height: 20px;
+        margin: auto 3px auto 3px; 
+    }
+    
+    #contextmenu-viewerstate-status-text {
+        font-size: 12px;
+        margin: auto 3px auto 3px; 
     }
 }
