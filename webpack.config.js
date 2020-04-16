@@ -34,11 +34,9 @@ class EmoteManifestPlugin {
                 this.processImages(path.join(this.options.emoteRoot, '4x'), '4x', false),
                 this.processImages(path.join(this.options.animatedEmoteRoot, '4x'), '4x', true)
             ]));
-            console.log(images);
 
             const emotes = await Promise.all(emoteNames.map(async (emoteName) => {
                 const emoteImages = images.filter(({ name }) => name === emoteName);
-                console.log(emoteImages);
 
                 if (emoteImages.length === 0) {
                     throw new Error(`missing file for emote ${emoteName}`);
@@ -214,16 +212,7 @@ module.exports = {
         compress: true,
         port: 8282,
         https: process.env.WEBPACK_DEVSERVER_HTTPS === 'true',
-        host: process.env.WEBPACK_DEVSERVER_HOST,
-        proxy: {
-            '/ws': {
-                target: 'ws://localhost:9998',
-                ws: true
-            },
-            '/api': {
-                target: 'http://localhost:9998'
-            }
-        }
+        host: process.env.WEBPACK_DEVSERVER_HOST
     },
     entry: entry,
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
