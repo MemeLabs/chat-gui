@@ -558,12 +558,21 @@ class ChatContextMenu {
             const statusContainerIcon = statusContainer.find("#contextmenu-viewerstate-status-icon")
             const statusContainerText = statusContainer.find("#contextmenu-viewerstate-status-text")
             statusContainer.show()
+            statusContainerIcon.removeClass()
             switch (this.targetUserViewerstate.channel.service) {
                 case "twitch":
-                    statusContainerIcon.css("content",`url(https://i.imgur.com/v3a41QH.png)`)
-                    statusContainerText.text(`Watching ${this.targetUserViewerstate.channel.channel}`)
+                    statusContainerIcon.addClass("icon-twitch")
                     break;
-            }
+                case "angelthump":
+                    statusContainerIcon.addClass("icon-angelthump")
+                    break;
+                case "youtube":
+                    statusContainerIcon.addClass("icon-youtube")
+                    break;
+                }
+                
+            const communitystream = (!this.targetUserViewerstate.channel.path) ? `${this.targetUserViewerstate.channel.service}/` : "" 
+            statusContainerText.text(`Watching ${communitystream}${this.targetUserViewerstate.channel.channel}`)
 
             this.button.openstreamNewtab = this.addButton("contextmenu-viewerstate-newtab", (id, e) => {
                 if (!this.viewerstateConditional()) {

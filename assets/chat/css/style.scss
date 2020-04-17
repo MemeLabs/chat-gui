@@ -1600,7 +1600,7 @@ button.btn {
 #chat-user-contextmenu {
     display: none;
     position: absolute;
-    z-index: 250;
+    z-index: 210;
 
     width: -webkit-fit-content; 
     width: -moz-fit-content; 
@@ -1609,17 +1609,19 @@ button.btn {
     border: 2px solid $color-surface-dark4;
     border-radius: 5px;
 
-    background-color: $color-surface-dark2;
 }
 
 #contextmenu-form {
     .form-group {
         display: none;
         position: relative;
-        padding: 9px 10px 9px 10px;
         cursor: pointer;
+        padding: 6px 10px 6px 10px;
 
-        :hover {
+        font-size: 13px;
+        
+        background-color: $color-surface-dark2;
+        &:hover {
             background-color: $color-surface-dark1;
         }
         .contextmenu-label {
@@ -1629,26 +1631,17 @@ button.btn {
             }
         }
     }
-    .form-group:first-child {
-        margin-top: 0px;
-    }
-    .form-group:last-child {
-        margin-bottom: 0px;
-    }
 }
 
 #contextmenu-viewerstate-status-container {
     display: grid;
     grid-template-columns: auto auto;
-    margin: 5px 5px 5px 5px;
 
     #contextmenu-viewerstate-status-icon {
-        height: 20px;
-        margin: auto 3px auto 3px; 
+        margin: auto 5px auto 5px;
     }
-    
     #contextmenu-viewerstate-status-text {
-        font-size: 12px;
-        margin: auto 3px auto 3px; 
+        margin: auto 0px auto 0px;
+        line-height: 1;
     }
 }
