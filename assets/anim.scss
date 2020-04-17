@@ -448,7 +448,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: WAG,
     $frame-count: 2,
-    $sprite-width: 76px,
+    $sprite-width: 74px,
     $sprite-height: 32px,
     $animation-length: 500ms,
     $repeat: 10
