@@ -46,11 +46,11 @@
     animation: lag-anim 4s 2;
 }
 
-.generify-rustle > .chat-emote {
+.generify-rustle {
     animation: rustle 100ms 7;
 }
 
-.generify-rustle > .chat-emote:hover {
+.generify-rustle:hover {
     animation: rustle 100ms infinite;
 }
 
