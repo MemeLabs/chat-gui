@@ -600,7 +600,7 @@ class Chat {
         });
 
         this.output.on("click", "a.user", e => {
-            if (e.ctrlKey.valueOf()) {
+            if (e.ctrlKey || e.metaKey) {
                 const msg = $(e.target).closest(".msg-chat");
                 this.openViewerStateStream(msg.data("username"))
             }

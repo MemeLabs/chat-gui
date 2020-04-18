@@ -547,16 +547,16 @@ class ChatContextMenu {
         this.targetUserViewerstate = this.chat.viewerStates.get(this.targetUsername)
         this.button = {}
         this.permissionsLevels = ["anonymous","authenticated","moderator"]
-        this.userLevel = this.getPermissionLevel()
+        this.userLevel = this.getPermissionLevel(this.chat)
         this.unownedPermissionLevels = this.getUnownedPermissions(this.permissionsLevels, this.userLevel)
 
         // hide all buttons
         this.form.children().hide()
 
-        if (this.viewerstateConditional()) {
+        if (this.viewerstateConditional(this.targetUserViewerstate)) {
+            this.ui.find("#contextmenu-viewerstate").show()
             const statusContainer = this.form.find("#contextmenu-viewerstate-status-container")
             const statusContainerIcon = statusContainer.find("#contextmenu-viewerstate-status-icon")
-            const statusContainerText = statusContainer.find("#contextmenu-viewerstate-status-text")
             statusContainer.show()
             statusContainerIcon.removeClass()
             switch (this.targetUserViewerstate.channel.service) {
@@ -572,13 +572,15 @@ class ChatContextMenu {
                 }
                 
             const communitystream = (!this.targetUserViewerstate.channel.path) ? `${this.targetUserViewerstate.channel.service}/` : "" 
-            statusContainerText.text(`Watching ${communitystream}${this.targetUserViewerstate.channel.channel}`)
+            statusContainer.find("#contextmenu-viewerstate-status-text").text(`Open ${communitystream}${this.targetUserViewerstate.channel.channel}`)
 
-            this.button.openstreamNewtab = this.addButton("contextmenu-viewerstate-newtab", (id, e) => {
-                if (!this.viewerstateConditional()) {
-                    return
+            this.button.openstream = this.addButton("contextmenu-viewerstate-status-container", (id, e) => {
+                if (e.ctrlKey || e.metaKey) {
+                    this.chat.openViewerStateStream(this.targetUsername)
+                } else {
+                    window.parent.postMessage({action: 'STREAM_SET', payload: this.targetUserViewerstate.channel}, '*');
+                    console.error('sent payload')
                 }
-                this.chat.openViewerStateStream(this.targetUsername)
             })
         }
 
@@ -598,9 +600,15 @@ class ChatContextMenu {
                 .val(`/whisper ${this.targetUsername} `)
         })
 
-        this.button.highlight = this.addButton("contextmenu-highlight", (id, e) => {
-            this.chat.cmdHIGHLIGHT([this.targetUser.data("username")])
-        })
+        if (this.chat.settings.get("highlightnicks").includes(this.targetUsername)) {
+            this.button.highlight = this.addButton("contextmenu-unhighlight", (id, e) => {
+                this.chat.cmdHIGHLIGHT([this.targetUser.data("username")], "UNHIGHLIGHT")
+            })        
+        } else {
+            this.button.highlight = this.addButton("contextmenu-highlight", (id, e) => {
+                this.chat.cmdHIGHLIGHT([this.targetUser.data("username")], "HIGHLIGHT")
+            })
+        }
 
         // hide buttons that user doesnt have permission for
         this.unownedPermissionLevels.forEach(level => {
@@ -613,7 +621,6 @@ class ChatContextMenu {
         this.ui.show()
         this.ui.css("left", event.pageX)
         this.ui.css("top", event.pageY)
-        this.targetUsername = this.targetUser.data("username")
     }
 
     hide() {
@@ -631,11 +638,11 @@ class ChatContextMenu {
         return element
     }
 
-    getPermissionLevel() {
-        if (this.chat.user.hasFeature("moderator")) {
+    getPermissionLevel(chat) {
+        if (chat.user.hasFeature("moderator")) {
             return "moderator"
         }
-        if (this.chat.authenticated) {
+        if (chat.authenticated) {
             return "authenticated"
         }
         return "anonymous"
@@ -647,11 +654,9 @@ class ChatContextMenu {
         return levels
     }
 
-    viewerstateConditional() {
-        const USERNAME = this.targetUsername
-        const USER_VIEWERSTATE = this.chat.viewerStates.get(USERNAME)
+    viewerstateConditional(viewerstate) {
         
-        if (USER_VIEWERSTATE === undefined || USER_VIEWERSTATE.channel === undefined) {
+        if (viewerstate === undefined || viewerstate.channel === undefined) {
             return false
         }
         return true
