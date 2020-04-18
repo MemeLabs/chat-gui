@@ -1096,7 +1096,7 @@ a.flair12:hover {
 .chat-menu {
     grid-row: output;
     position: absolute;
-    z-index: 220;
+    z-index: 240;
     height: auto;
     width: 100%;
     bottom: 0;
@@ -1600,7 +1600,7 @@ button.btn {
 #chat-user-contextmenu {
     display: none;
     position: absolute;
-    z-index: 210;
+    z-index: 235;
 
     width: -webkit-fit-content; 
     width: -moz-fit-content; 
