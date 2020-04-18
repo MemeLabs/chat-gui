@@ -252,10 +252,11 @@
     }
 }
 
-.generify-spin > .chat-emote{
+.generify-spin {
     animation: spin linear 0.8s 3;
+    transform-origin: 50% 6px;
 }
-.generify-spin > .chat-emote:hover {
+.generify-spin:hover {
     animation: spin linear 0.8s infinite;
 }
 
