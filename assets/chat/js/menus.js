@@ -536,10 +536,138 @@ class ChatWhisperUsers extends ChatMenu {
     }
 }
 
+class ChatContextMenu {
+    constructor(chat, event) {
+        this.chat = chat
+        this.ui = chat.output.find("#chat-user-contextmenu")
+        this.form = this.ui.find("#contextmenu-form")
+        this.event = event
+        this.targetUser = $(event.target).parent()
+        this.targetUsername = this.targetUser.data("username")
+        this.targetUserViewerstate = this.chat.viewerStates.get(this.targetUsername)
+        this.button = {}
+        this.permissionsLevels = ["anonymous","authenticated","moderator"]
+        this.userLevel = this.getPermissionLevel(this.chat)
+        this.unownedPermissionLevels = this.getUnownedPermissions(this.permissionsLevels, this.userLevel)
+
+        // hide all buttons
+        this.form.children().hide()
+
+        if (this.viewerstateConditional(this.targetUserViewerstate)) {
+            this.ui.find("#contextmenu-viewerstate").show()
+            const statusContainer = this.form.find("#contextmenu-viewerstate-status-container")
+            const statusContainerIcon = statusContainer.find("#contextmenu-viewerstate-status-icon")
+            statusContainer.show()
+            statusContainerIcon.removeClass()
+            switch (this.targetUserViewerstate.channel.service) {
+                case "twitch":
+                    statusContainerIcon.addClass("icon-twitch")
+                    break;
+                case "angelthump":
+                    statusContainerIcon.addClass("icon-angelthump")
+                    break;
+                case "youtube":
+                    statusContainerIcon.addClass("icon-youtube")
+                    break;
+                }
+                
+            const communitystream = (!this.targetUserViewerstate.channel.path) ? `${this.targetUserViewerstate.channel.service}/` : "" 
+            statusContainer.find("#contextmenu-viewerstate-status-text").text(`Open ${communitystream}${this.targetUserViewerstate.channel.channel}`)
+
+            this.button.openstream = this.addButton("contextmenu-viewerstate-status-container", (id, e) => {
+                if (e.ctrlKey || e.metaKey) {
+                    this.chat.openViewerStateStream(this.targetUsername)
+                } else {
+                    window.parent.postMessage({action: 'STREAM_SET', payload: this.targetUserViewerstate.channel}, '*');
+                    console.error('sent payload')
+                }
+            })
+        }
+
+        this.button.ignore = this.addButton("contextmenu-ignore", (id, e) => {
+            this.chat.cmdIGNORE([this.targetUsername])
+        })
+
+        this.button.banuser = this.addButton("contextmenu-ban", (id, e) => {
+            this.chat.input
+                .focus()
+                .val(`/ban ${this.targetUsername} 1d `)
+        })
+
+        this.button.whisper = this.addButton("contextmenu-whisper", (id, e) => {
+            this.chat.input
+                .focus()
+                .val(`/whisper ${this.targetUsername} `)
+        })
+
+        if (this.chat.settings.get("highlightnicks").includes(this.targetUsername)) {
+            this.button.highlight = this.addButton("contextmenu-unhighlight", (id, e) => {
+                this.chat.cmdHIGHLIGHT([this.targetUser.data("username")], "UNHIGHLIGHT")
+            })        
+        } else {
+            this.button.highlight = this.addButton("contextmenu-highlight", (id, e) => {
+                this.chat.cmdHIGHLIGHT([this.targetUser.data("username")], "HIGHLIGHT")
+            })
+        }
+
+        // hide buttons that user doesnt have permission for
+        this.unownedPermissionLevels.forEach(level => {
+            this.ui.find(`.contextmenu-level-${level}`).hide()
+        })
+    }
+
+    show(e) {
+        e.preventDefault()
+        this.ui.show()
+        this.ui.css("left", event.pageX)
+        this.ui.css("top", event.pageY)
+    }
+
+    hide() {
+        this.ui.hide()
+    }
+
+    addButton(id, onclick) {
+        const element = this.ui.find(`#${id}`)
+        element.show()
+        element.unbind("mouseup")
+        element.on("mouseup", e => {
+            onclick(id, e)
+            this.hide()
+        })
+        return element
+    }
+
+    getPermissionLevel(chat) {
+        if (chat.user.hasFeature("moderator")) {
+            return "moderator"
+        }
+        if (chat.authenticated) {
+            return "authenticated"
+        }
+        return "anonymous"
+    }
+
+    getUnownedPermissions(permissionLevels, userLevel) {
+        var levels = permissionLevels
+        levels.splice(0, permissionLevels.indexOf(userLevel) + 1)
+        return levels
+    }
+
+    viewerstateConditional(viewerstate) {
+        
+        if (viewerstate === undefined || viewerstate.channel === undefined) {
+            return false
+        }
+        return true
+    }
+}
+
 export {
     ChatMenu,
     ChatSettingsMenu,
     ChatUserMenu,
     ChatEmoteMenu,
-    ChatWhisperUsers
+    ChatWhisperUsers,
+    ChatContextMenu
 };

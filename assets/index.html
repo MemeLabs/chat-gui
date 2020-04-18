@@ -15,7 +15,43 @@
 
         <div id="chat-windows-select"></div>
 
-        <div id="chat-output-frame" data-scroll-notify></div>
+        <div id="chat-output-frame" data-scroll-notify>
+            <div id="chat-user-contextmenu">
+                <div id="contextmenu-form">
+                    <div class="form-group" id="contextmenu-viewerstate">
+                        <div id="contextmenu-viewerstate-status-container">
+                            <div id="contextmenu-viewerstate-status-text"></div> 
+                            <span id="contextmenu-viewerstate-status-icon"></span>
+                        </div>
+                    </div>
+                    <div class="form-group contextmenu-level-authenticated" id="contextmenu-whisper">
+                        <label title="Whisper" class="contextmenu-label">
+                            <input type="button" class="btn">Whisper
+                        </label>
+                    </div>
+                    <div class="form-group contextmenu-level-authenticated" id="contextmenu-highlight">
+                        <label title="Highlight" class="contextmenu-label">
+                            <input type="button" class="btn">Highlight
+                        </label>
+                    </div>
+                    <div class="form-group contextmenu-level-authenticated" id="contextmenu-unhighlight">
+                        <label title="Unhighlight" class="contextmenu-label">
+                            <input type="button" class="btn">Unhighlight
+                        </label>
+                    </div>
+                    <div class="form-group contextmenu-level-authenticated" id="contextmenu-ignore">
+                        <label title="Ignore" class="contextmenu-label">
+                            <input type="button" class="btn">Ignore
+                        </label>
+                    </div>
+                    <div class="form-group contextmenu-level-moderator" id="contextmenu-ban">
+                        <label title="Ban user" class="contextmenu-label">
+                            <input type="button" class="btn">Ban user
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="chat-input-frame">
             <div id="chat-input-wrap">

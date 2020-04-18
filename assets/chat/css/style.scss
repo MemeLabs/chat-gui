@@ -1596,3 +1596,52 @@ button.btn {
     margin: 0px;
     top: 0px;
 }
+
+#chat-user-contextmenu {
+    display: none;
+    position: absolute;
+    z-index: 210;
+
+    width: -webkit-fit-content; 
+    width: -moz-fit-content; 
+    width: fit-content;
+
+    border: 2px solid $color-surface-dark4;
+    border-radius: 5px;
+
+}
+
+#contextmenu-form {
+    .form-group {
+        display: none;
+        position: relative;
+        cursor: pointer;
+        padding: 6px 10px 6px 10px;
+
+        font-size: 13px;
+        
+        background-color: $color-surface-dark2;
+        &:hover {
+            background-color: $color-surface-dark1;
+        }
+        .contextmenu-label {
+            cursor: pointer;
+            .btn {
+                display: none;
+            }
+        }
+    }
+}
+
+#contextmenu-viewerstate-status-container {
+    display: grid;
+    grid-template-columns: auto auto;
+
+    #contextmenu-viewerstate-status-icon {
+        margin: auto 5px auto 5px;
+    }
+    #contextmenu-viewerstate-status-text {
+        margin: auto 0px auto 0px;
+        line-height: 1;
+    }
+}

@@ -13,7 +13,8 @@ import {
     ChatUserMenu,
     ChatWhisperUsers,
     ChatEmoteMenu,
-    ChatSettingsMenu
+    ChatSettingsMenu,
+    ChatContextMenu
 } from "./menus";
 import ChatAutoComplete from "./autocomplete";
 import ChatInputHistory from "./history";
@@ -601,15 +602,21 @@ class Chat {
         this.output.on("click", "a.user", e => {
             if (e.ctrlKey || e.metaKey) {
                 const msg = $(e.target).closest(".msg-chat");
-                const userState = this.viewerStates.get(msg.data("username"))
-                const path = "https://strims.gg/"
+                this.openViewerStateStream(msg.data("username"))
+            }
+        })
 
-                if (userState !== undefined && userState.channel !== undefined) {
-                    if (userState.channel.path !== "") {
-                        window.open(path + userState.channel.path)
-                    } else {
-                        window.open(path + userState.channel.service + '/' + userState.channel.channel)
-                    }
+        // Context menu
+        this.output.on("contextmenu", "a.user", e => {
+            e.preventDefault();
+            this.contextMenu = new ChatContextMenu(this, e);
+            this.contextMenu.show(e)
+        })
+
+        this.ui.on("click", e => {
+            if (this.contextMenu) {
+                if (!$(e.target).is(this.contextMenu.ui)) {
+                    this.contextMenu.hide()
                 }
             }
         })
@@ -2058,6 +2065,19 @@ class Chat {
         win.on("hide", () => {
             conv.open = false;
         });
+    }
+
+    openViewerStateStream(username) {
+        const userState = this.viewerStates.get(username)
+        const path = "https://strims.gg/"
+
+        if (userState !== undefined && userState.channel !== undefined) {
+            if (userState.channel.path !== "") {
+                window.open(path + userState.channel.path)
+            } else {
+                window.open(path + userState.channel.service + '/' + userState.channel.channel)
+            }
+        }     
     }
 
     static extractTextOnly(msg) {
