@@ -608,17 +608,17 @@ class Chat {
 
         // Context menu
         this.output.on("contextmenu", "a.user", e => {
-            e.preventDefault();
-            this.contextMenu = new ChatContextMenu(this, e);
-            this.mainwindow.lock()
-            this.contextMenu.show(e)
+            if ($(e.target).parent().data("username").toLowerCase() !== this.user.username.toLowerCase()) {
+                e.preventDefault();
+                this.contextMenu = new ChatContextMenu(this, e);
+                this.contextMenu.show(e)
+            }
         })
 
         this.ui.on("click", e => {
             if (this.contextMenu) {
                 if (!$(e.target).is(this.contextMenu.ui)) {
                     this.contextMenu.hide()
-                    this.mainwindow.unlock()
                 }
             }
         })
