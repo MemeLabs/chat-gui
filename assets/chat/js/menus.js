@@ -579,7 +579,6 @@ class ChatContextMenu {
                     this.chat.openViewerStateStream(this.targetUsername)
                 } else {
                     window.parent.postMessage({action: 'STREAM_SET', payload: this.targetUserViewerstate.channel}, '*');
-                    console.error('sent payload')
                 }
             })
         }
