@@ -543,7 +543,7 @@ class ChatContextMenu {
         this.form = this.ui.find("#contextmenu-form")
         this.event = event
         this.targetUser = $(event.target).parent()
-        this.targetUsername = this.targetUser.data("username")
+        this.targetUsername = this.targetUser.find("a.user").text()
         this.targetUserViewerstate = this.chat.viewerStates.get(this.targetUsername)
         this.button = {}
         this.permissionsLevels = ["anonymous","authenticated","moderator"]
@@ -576,7 +576,7 @@ class ChatContextMenu {
 
             this.button.openstream = this.addButton("contextmenu-viewerstate-status-container", (id, e) => {
                 if ((e.ctrlKey || e.metaKey) || window.top === window.self) {
-                    this.chat.openViewerStateStream(this.targetUsername)
+                    this.chat.openViewerStateStream(this.targetUsername.toLowerCase())
                 } else {
                     window.parent.postMessage({action: 'STREAM_SET', payload: this.targetUserViewerstate.channel}, '*');
                 }
@@ -599,7 +599,7 @@ class ChatContextMenu {
                 .val(`/whisper ${this.targetUsername} `)
         })
 
-        if (this.chat.settings.get("highlightnicks").includes(this.targetUsername)) {
+        if (this.chat.settings.get("highlightnicks").includes(this.targetUsername.toLowerCase())) {
             this.button.highlight = this.addButton("contextmenu-unhighlight", (id, e) => {
                 this.chat.cmdHIGHLIGHT([this.targetUser.data("username")], "UNHIGHLIGHT")
             })        
