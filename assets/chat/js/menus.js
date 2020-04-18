@@ -575,11 +575,10 @@ class ChatContextMenu {
             statusContainer.find("#contextmenu-viewerstate-status-text").text(`Open ${communitystream}${this.targetUserViewerstate.channel.channel}`)
 
             this.button.openstream = this.addButton("contextmenu-viewerstate-status-container", (id, e) => {
-                if (e.ctrlKey || e.metaKey) {
+                if ((e.ctrlKey || e.metaKey) || window.top === window.self) {
                     this.chat.openViewerStateStream(this.targetUsername)
                 } else {
                     window.parent.postMessage({action: 'STREAM_SET', payload: this.targetUserViewerstate.channel}, '*');
-                    console.error('sent payload')
                 }
             })
         }

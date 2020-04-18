@@ -610,6 +610,7 @@ class Chat {
         this.output.on("contextmenu", "a.user", e => {
             e.preventDefault();
             this.contextMenu = new ChatContextMenu(this, e);
+            this.mainwindow.lock()
             this.contextMenu.show(e)
         })
 
@@ -617,6 +618,7 @@ class Chat {
             if (this.contextMenu) {
                 if (!$(e.target).is(this.contextMenu.ui)) {
                     this.contextMenu.hide()
+                    this.mainwindow.unlock()
                 }
             }
         })
