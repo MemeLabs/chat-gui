@@ -221,7 +221,7 @@ class EmoteFormatter {
             const emoticons = [...chat.emoticons].join("|");
             const suffixes = Object.keys(GENERIFY_OPTIONS).join("|");
             this.regex = new RegExp(
-                `(^|\\s)(${emoticons})(:(${suffixes}))*(?=$|\\s)`,
+                `(^|\\s)(${emoticons})(:(${suffixes}))?(?=$|\\s)`,
                 "gm"
             );
         }
@@ -268,10 +268,9 @@ class EmoteFormatter {
             // m is "emote:modifier"
             const input = m.split(":");
             const emote = input[0].replace(/\s/g, "");
-            var suffixes = [];
+            var suffix = "";
             if (input.length > 1) {
-                for(var j = 1; j < input.length; j++)
-                suffixes.push(input[j].replace(/\s/g, ""));
+                suffix = input[1].replace(/\s/g, "");
             }
 
             const innerClasses = ["chat-emote", "chat-emote-" + emote];
@@ -324,31 +323,18 @@ class EmoteFormatter {
                     goldenEmote.goldenModifierInnerEmoteStyle;
             }
             
-            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
-            const options = []
-            for(var suffix of suffixes){
-                options.push(GENERIFY_OPTIONS[suffix]);
-            }
-
-            var generifyClasses = [
+            const innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
+            const generifyClasses = [
                 "generify-container",
-                "generify-emote-" + emote
+                "generify-emote-" + emote,
+                GENERIFY_OPTIONS[suffix] || ""
             ];
-
-            for(var j = 0; j < options.length; j++){
-                innerEmote = ' <span class="' +
-                generifyClasses.join(" ") + " " +
-                options[j] +
-                '" data-modifiers="' +
-                options[j] +
-                '">' +
-                innerEmote +
-                "</span>"
-            }
-
             return (
                 ' <span class="' +
-                generifyClasses.join(" ") + '">' +
+                generifyClasses.join(" ") +
+                '" data-modifiers="' +
+                GENERIFY_OPTIONS[suffix] +
+                '">' +
                 goldenModifier +
                 hat +
                 innerEmote +
