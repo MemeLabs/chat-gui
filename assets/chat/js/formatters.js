@@ -324,13 +324,17 @@ class EmoteFormatter {
                     goldenEmote.goldenModifierInnerEmoteStyle;
             }
             
-            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             var options = [];
             for(var suffix of suffixes){
                 options.push(GENERIFY_OPTIONS[suffix]);
             }
+            options = [...new Set(options)];
+            var shekelSpan = "";
+            if(suffixes.includes('worth')){
+                shekelSpan = "<span class='worth'></span>";
+            }
 
-            options = [...new Set(options)]
+            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + shekelSpan + ' </span>';
 
             var generifyClasses = [
                 "generify-container",
