@@ -209,6 +209,14 @@ function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
     };
 }
 
+function moveModifierToFront(modifierList, modifierName){
+    if(modifierList.includes(modifierName)){
+        modifierList = modifierList.filter(item => item !== modifierName);
+        modifierList.unshift(modifierName);
+    }
+    return modifierList;
+}
+
 class IdentityFormatter {
     format(chat, str, message = null) {
         return str;
@@ -273,6 +281,12 @@ class EmoteFormatter {
                 for(var j = 1; j < input.length; j++)
                 suffixes.push(input[j].replace(/\s/g, ""));
             }
+
+            // the front modifier gets "executed" last
+            suffixes = moveModifierToFront(suffixes, "banned");
+            suffixes = moveModifierToFront(suffixes, "virus");
+            suffixes = moveModifierToFront(suffixes, "dank");
+            suffixes = moveModifierToFront(suffixes, "frozen");
 
             const innerClasses = ["chat-emote", "chat-emote-" + emote];
 
