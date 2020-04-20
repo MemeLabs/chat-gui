@@ -143,7 +143,7 @@ function putHat(width, height, emote) {
 
     if (
         today.getUTCMonth() == 3 &&
-        (today.getUTCDate() == 20 || today.getUTCDate() == 21)
+        (today.getUTCDate() == 13 || today.getUTCDate() == 14)
     ) {
         //birthday hat
         if (HAT_SPECIAL_BLACKLIST["bday"].includes(emote)) {
