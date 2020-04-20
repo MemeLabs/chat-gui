@@ -209,6 +209,14 @@ function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
     };
 }
 
+function moveModifierToFront(modifierList, modifierName){
+    if(modifierList.includes(modifierName)){
+        modifierList = modifierList.filter(item => item !== modifierName);
+        modifierList.unshift(modifierName);
+    }
+    return modifierList;
+}
+
 class IdentityFormatter {
     format(chat, str, message = null) {
         return str;
@@ -274,6 +282,12 @@ class EmoteFormatter {
                 suffixes.push(input[j].replace(/\s/g, ""));
             }
 
+            // the front modifier gets "executed" last
+            suffixes = moveModifierToFront(suffixes, "banned");
+            suffixes = moveModifierToFront(suffixes, "virus");
+            suffixes = moveModifierToFront(suffixes, "dank");
+            suffixes = moveModifierToFront(suffixes, "frozen");
+
             const innerClasses = ["chat-emote", "chat-emote-" + emote];
 
             var timestamp = 0;
@@ -324,13 +338,17 @@ class EmoteFormatter {
                     goldenEmote.goldenModifierInnerEmoteStyle;
             }
             
-            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + ' </span>';
             var options = [];
             for(var suffix of suffixes){
                 options.push(GENERIFY_OPTIONS[suffix]);
             }
+            options = [...new Set(options)];
+            var shekelSpan = "";
+            if(suffixes.includes('worth')){
+                shekelSpan = "<span class='worth'></span>";
+            }
 
-            options = [...new Set(options)]
+            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + shekelSpan + ' </span>';
 
             var generifyClasses = [
                 "generify-container",

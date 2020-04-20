@@ -23,7 +23,7 @@ class ChatSpoiler {
         if(t.hasClass('chat-emote')) {
             t = t.parent();
         }
-        if(t.hasClass('generify-container')) {
+        while(t.hasClass('generify-container')) {
             t = t.parent();
         }
         if(t.hasClass('spoiler visible')) {
