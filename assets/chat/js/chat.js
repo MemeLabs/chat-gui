@@ -1357,7 +1357,7 @@ class Chat {
             } else if (win !== this.mainwindow) {
                 // WHISPER
                 const msg = {
-                    str,
+                    data: str,
                     nick: this.user.nick,
                     timestamp: Date.now(),
                     messageid: -1,
@@ -2059,7 +2059,7 @@ class Chat {
                         this,
                         win
                     );
-                    data.reverse().forEach(e => {
+                    data.forEach(e => {
                         const user =
                             this.users.get(e["nick"].toLowerCase()) ||
                             new ChatUser(e["nick"]);
