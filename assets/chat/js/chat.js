@@ -1617,12 +1617,12 @@ class Chat {
     cmdWHISPER(parts) {
         if (!parts[0] || !nickregex.test(parts[0])) {
             MessageBuilder.error("Invalid nick - /msg nick message").into(this);
-        // } else if (
-        //     parts[0].toLowerCase() === this.user.username.toLowerCase()
-        // ) {
-        //     MessageBuilder.error("Cannot send a message to yourself").into(
-        //         this
-        //     );
+        } else if (
+            parts[0].toLowerCase() === this.user.username.toLowerCase()
+        ) {
+            MessageBuilder.error("Cannot send a message to yourself").into(
+                this
+            );
         } else {
             const data = parts.slice(1, parts.length).join(" ");
             const targetnick = parts[0];
