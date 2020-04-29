@@ -1356,6 +1356,14 @@ class Chat {
                 this.inputhistory.add(str);
             } else if (win !== this.mainwindow) {
                 // WHISPER
+                const msg = {
+                    str,
+                    nick: this.user.nick,
+                    timestamp: Date.now(),
+                    messageid: -1,
+                };
+                this.whisperStore.append(win.name.toLowerCase(), win.name, msg);
+
                 MessageBuilder.message(str, this.user).into(this, win);
                 this.source.send("PRIVMSG", { nick: win.name, data: str });
             } else {
