@@ -1617,12 +1617,12 @@ class Chat {
     cmdWHISPER(parts) {
         if (!parts[0] || !nickregex.test(parts[0])) {
             MessageBuilder.error("Invalid nick - /msg nick message").into(this);
-        } else if (
-            parts[0].toLowerCase() === this.user.username.toLowerCase()
-        ) {
-            MessageBuilder.error("Cannot send a message to yourself").into(
-                this
-            );
+        // } else if (
+        //     parts[0].toLowerCase() === this.user.username.toLowerCase()
+        // ) {
+        //     MessageBuilder.error("Cannot send a message to yourself").into(
+        //         this
+        //     );
         } else {
             const data = parts.slice(1, parts.length).join(" ");
             const targetnick = parts[0];
@@ -1708,7 +1708,7 @@ class Chat {
                     d.lines.forEach(a =>
                         MessageBuilder.historical(
                             a.text,
-                            new ChatUser(d.nick),
+                            new ChatUser({ nick: d.nick }),
                             a.timestamp * 1000
                         ).into(this)
                     );
@@ -1780,7 +1780,7 @@ class Chat {
                     d.forEach(a =>
                         MessageBuilder.historical(
                             a.text,
-                            new ChatUser(a.nick),
+                            new ChatUser({ nick: a.nick }),
                             a.date * 1000
                         ).into(this)
                     );
@@ -1990,7 +1990,7 @@ class Chat {
                 if (b.reason) {
                     const m = MessageBuilder.message(
                         b.reason,
-                        new ChatUser(by),
+                        new ChatUser({ nick: by }),
                         b.starttimestamp
                     );
                     m.historical = true;
@@ -2028,7 +2028,7 @@ class Chat {
     }
 
     createConversation(conv, nick, normalized) {
-        const user = this.users.get(normalized) || new ChatUser(nick);
+        const user = this.users.get(normalized) || new ChatUser({ nick });
 
         const win = new ChatWindow(
             normalized,
@@ -2046,12 +2046,7 @@ class Chat {
                     `Loading messages ...` */
                 ).into(this, win);
                 const data = this.whisperStore.loadThread(user.nick.toLowerCase());
-                if (data.length === 0) {
-                    MessageBuilder.error(`Failed to load messages :(`).into(
-                        this,
-                        win
-                    )
-                } else {
+                if (data.length > 0) {
                     const date = moment(data[0].timestamp).format(
                         DATE_FORMATS.FULL
                     );
@@ -2062,7 +2057,7 @@ class Chat {
                     data.forEach(e => {
                         const user =
                             this.users.get(e["nick"].toLowerCase()) ||
-                            new ChatUser(e["nick"]);
+                            new ChatUser({ nick: e["nick"] });
                         MessageBuilder.historical(
                             e.data,
                             user,

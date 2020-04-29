@@ -128,6 +128,7 @@ label small {
     background: $color-surface-dark3;
     white-space: nowrap;
     display: flex;
+    width: 100vw;
     z-index: 100;
     .tab {
         min-width: 16px;
@@ -1602,8 +1603,8 @@ button.btn {
     position: absolute;
     z-index: 235;
 
-    width: -webkit-fit-content; 
-    width: -moz-fit-content; 
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
 
     border: 2px solid $color-surface-dark4;
@@ -1619,7 +1620,7 @@ button.btn {
         padding: 6px 10px 6px 10px;
 
         font-size: 13px;
-        
+
         background-color: $color-surface-dark2;
         &:hover {
             background-color: $color-surface-dark1;

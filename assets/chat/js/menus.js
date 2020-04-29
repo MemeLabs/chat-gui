@@ -516,7 +516,7 @@ class ChatWhisperUsers extends ChatMenu {
                         else if (b[1].unread === 0) return -1;
                         else if (a[1] === b[1]) return 0;
                     })
-                    .forEach(e => this.addConversation(e[0], e[1].unread));
+                    .forEach(e => this.addConversation(e[1].nick, e[1].unread));
             }
         }
         super.redraw();
@@ -524,7 +524,7 @@ class ChatWhisperUsers extends ChatMenu {
 
     addConversation(nick, unread) {
         const user =
-            this.chat.users.get(nick.toLowerCase()) || new ChatUser(nick);
+            this.chat.users.get(nick.toLowerCase()) || new ChatUser({ nick });
         this.usersEl.append(`
             <li class="conversation unread-${unread}">
                 <a data-username="${user.nick}" title="Hide" class="fa fa-times remove"></a>
