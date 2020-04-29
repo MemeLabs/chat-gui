@@ -24,6 +24,7 @@ import ChatStore from "./store";
 import UserFeatures from "./features";
 import Settings from "./settings";
 import ChatWindow from "./window";
+import WhisperStore from "./whispers";
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/gi;
 const regexsafe = /[\-\[\]\/{}()*+?.\\^$|]/g;
@@ -232,6 +233,7 @@ class Chat {
         this.users = new Map();
         this.viewerStates = new Map();
         this.whispers = new Map();
+        this.whisperStore = new WhisperStore('Anonymous');
         this.windows = new Map();
         this.settings = new Map([...settingsdefault]);
         this.autocomplete = new ChatAutoComplete();
@@ -669,17 +671,16 @@ class Chat {
     }
 
     withWhispers() {
-        /* TODO: restore this if/once we have a backend for it.
         if (this.authenticated) {
-            $.ajax({url: `${API_URI}/api/messages/unread`})
-                .done(d => d.forEach(e => this.whispers.set(e['username'].toLowerCase(), {
-                    id: e['messageid'],
-                    nick: e['username'],
-                    unread: e['unread'],
-                    open: false
-                })))
-                .always(() => this.menus.get('whisper-users').redraw());
-        } */
+            this.whisperStore = new WhisperStore(this.user.nick.toLowerCase());
+            this.whisperStore.load().forEach(e => this.whispers.set(e['key'], {
+                id: -1,
+                nick: e['nick'],
+                unread: e['unread'],
+                open: false
+            }));
+            this.menus.get('whisper-users').redraw();
+        }
         return this;
     }
 
@@ -1250,6 +1251,8 @@ class Chat {
                 });
             }
 
+            this.whisperStore.append(normalized, data.nick, data);
+
             const conv = this.whispers.get(normalized);
             const user = this.users.get(normalized) || new ChatUser(data.nick);
             const messageid = data.hasOwnProperty("messageid")
@@ -1284,10 +1287,7 @@ class Chat {
             }
 
             if (win === this.getActiveWindow()) {
-                $.ajax({
-                    url: `${API_URI}/api/messages/msg/${messageid}/open`,
-                    method: "post"
-                });
+                this.whisperStore.markRead(normalized);
             } else {
                 conv.unread++;
             }
@@ -1618,6 +1618,15 @@ class Chat {
         } else {
             const data = parts.slice(1, parts.length).join(" ");
             const targetnick = parts[0];
+
+            const msg = {
+                data,
+                nick: this.user.nick,
+                timestamp: Date.now(),
+                messageid: -1,
+            };
+            this.whisperStore.append(targetnick.toLowerCase(), targetnick, msg);
+
             if (this.settings.get("showhispersinchat")) {
                 // show outgoing private messages in chat. Message id unused.
                 MessageBuilder.whisperoutgoing(
@@ -2028,38 +2037,31 @@ class Chat {
                     `or close them from the whispers menu.\r`+
                     `Loading messages ...` */
                 ).into(this, win);
-                $.ajax({
-                    url: `${API_URI}/api/messages/usr/${encodeURIComponent(
-                        user.nick
-                    )}/inbox`
-                })
-                    .fail(() =>
-                        MessageBuilder.error(`Failed to load messages :(`).into(
-                            this,
-                            win
-                        )
+                const data = this.whisperStore.loadThread(user.nick.toLowerCase());
+                if (data.length === 0) {
+                    MessageBuilder.error(`Failed to load messages :(`).into(
+                        this,
+                        win
                     )
-                    .done(data => {
-                        if (data.length > 0) {
-                            const date = moment(data[0].timestamp).format(
-                                DATE_FORMATS.FULL
-                            );
-                            MessageBuilder.info(`Last message ${date}`).into(
-                                this,
-                                win
-                            );
-                            data.reverse().forEach(e => {
-                                const user =
-                                    this.users.get(e["from"].toLowerCase()) ||
-                                    new ChatUser(e["from"]);
-                                MessageBuilder.historical(
-                                    e.message,
-                                    user,
-                                    e.timestamp
-                                ).into(this, win);
-                            });
-                        }
+                } else {
+                    const date = moment(data[0].timestamp).format(
+                        DATE_FORMATS.FULL
+                    );
+                    MessageBuilder.info(`Last message ${date}`).into(
+                        this,
+                        win
+                    );
+                    data.reverse().forEach(e => {
+                        const user =
+                            this.users.get(e["nick"].toLowerCase()) ||
+                            new ChatUser(e["nick"]);
+                        MessageBuilder.historical(
+                            e.data,
+                            user,
+                            e.timestamp
+                        ).into(this, win);
                     });
+                }
             }
             conv.unread = 0;
             conv.open = true;
@@ -2079,7 +2081,7 @@ class Chat {
             } else {
                 window.open(path + userState.channel.service + '/' + userState.channel.channel)
             }
-        }     
+        }
     }
 
     static extractTextOnly(msg) {

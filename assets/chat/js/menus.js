@@ -7,6 +7,7 @@ import EventEmitter from "./emitter";
 import debounce from "throttle-debounce/debounce";
 import { isKeyCode, KEYCODES } from "./const";
 import { setStorage, getStorage } from "./transfer";
+import WhisperStore from "./whispers";
 
 function buildEmote(emote) {
     return `<div class="emote"><span title="${emote}" class="chat-emote chat-emote-${emote}">${emote}</span></div>`;
@@ -468,8 +469,7 @@ class ChatWhisperUsers extends ChatMenu {
         this.notif = $(`<span id="chat-whisper-unread-indicator"></span>`);
         this.btn.append(this.notif);
         this.usersEl = ui.find("ul:first");
-        // TODO removed until this functionality is restored on the backend
-        //this.usersEl.on('click', '.user', e => chat.openConversation(e.target.getAttribute('data-username')));
+        this.usersEl.on('click', '.user', e => chat.openConversation(e.target.getAttribute('data-username')));
         this.usersEl.on("click", ".remove", e =>
             this.removeConversation(e.target.getAttribute("data-username"))
         );
@@ -478,6 +478,7 @@ class ChatWhisperUsers extends ChatMenu {
     removeConversation(nick) {
         const normalized = nick.toLowerCase();
         this.chat.whispers.delete(normalized);
+        this.chat.whisperStore.delete(normalized);
         this.chat.removeWindow(normalized);
         this.redraw();
     }
@@ -570,8 +571,8 @@ class ChatContextMenu {
                     statusContainerIcon.addClass("icon-youtube")
                     break;
                 }
-                
-            const communitystream = (!this.targetUserViewerstate.channel.path) ? `${this.targetUserViewerstate.channel.service}/` : "" 
+
+            const communitystream = (!this.targetUserViewerstate.channel.path) ? `${this.targetUserViewerstate.channel.service}/` : ""
             statusContainer.find("#contextmenu-viewerstate-status-text").text(`Open ${communitystream}${this.targetUserViewerstate.channel.channel}`)
 
             this.button.openstream = this.addButton("contextmenu-viewerstate-status-container", (id, e) => {
@@ -602,7 +603,7 @@ class ChatContextMenu {
         if (this.chat.settings.get("highlightnicks").includes(this.targetUsername.toLowerCase())) {
             this.button.highlight = this.addButton("contextmenu-unhighlight", (id, e) => {
                 this.chat.cmdHIGHLIGHT([this.targetUser.data("username")], "UNHIGHLIGHT")
-            })        
+            })
         } else {
             this.button.highlight = this.addButton("contextmenu-highlight", (id, e) => {
                 this.chat.cmdHIGHLIGHT([this.targetUser.data("username")], "HIGHLIGHT")
@@ -654,7 +655,7 @@ class ChatContextMenu {
     }
 
     viewerstateConditional(viewerstate) {
-        
+
         if (viewerstate === undefined || viewerstate.channel === undefined) {
             return false
         }
