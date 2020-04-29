@@ -7,7 +7,6 @@ import EventEmitter from "./emitter";
 import debounce from "throttle-debounce/debounce";
 import { isKeyCode, KEYCODES } from "./const";
 import { setStorage, getStorage } from "./transfer";
-import WhisperStore from "./whispers";
 
 function buildEmote(emote) {
     return `<div class="emote"><span title="${emote}" class="chat-emote chat-emote-${emote}">${emote}</span></div>`;
@@ -528,8 +527,8 @@ class ChatWhisperUsers extends ChatMenu {
             this.chat.users.get(nick.toLowerCase()) || new ChatUser(nick);
         this.usersEl.append(`
             <li class="conversation unread-${unread}">
-                <a data-username="${user.nick.toLowerCase()}" title="Hide" class="fa fa-times remove"></a>
-                <a data-username="${user.nick.toLowerCase()}" class="user">${
+                <a data-username="${user.nick}" title="Hide" class="fa fa-times remove"></a>
+                <a data-username="${user.nick}" class="user">${
             user.nick
         } <span class="badge">${unread}</span></a>
             </li>

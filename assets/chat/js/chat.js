@@ -1362,10 +1362,10 @@ class Chat {
                     timestamp: Date.now(),
                     messageid: -1,
                 };
-                this.whisperStore.append(win.name.toLowerCase(), win.name, msg);
+                this.whisperStore.append(win.name, win.label, msg);
 
                 MessageBuilder.message(str, this.user).into(this, win);
-                this.source.send("PRIVMSG", { nick: win.name, data: str });
+                this.source.send("PRIVMSG", { nick: win.label, data: str });
             } else {
                 // MESSAGE
                 const textonly = (isme ? str.substring(4) : str).trim();
