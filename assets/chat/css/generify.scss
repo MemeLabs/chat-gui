@@ -211,28 +211,28 @@
         animation: generify-love__heart--animation $animation-duration 6;
     }
 
-    &::before {
+    .love::before {
         /* left-outer heart */
         @include heart;
         left: -8px;
         animation-delay: -($animation-duration - $animation-duration*0.25);
     }
 
-    &::after {
+    .love::after {
         /* right-inner heart */
         @include heart;
         right: -2px;
     }
 
     & .chat-emote {
-        &::before {
+        .love::before {
             /* left-inner heart */
             @include heart;
             left: -3px;
             animation-delay: -($animation-duration - ($animation-duration*0.75));
         }
 
-        &::after {
+        .love::after {
             /* right-outer heart */
             @include heart;
             right: -7px;
@@ -241,12 +241,12 @@
     }
 
     &:hover {
-        &::before, &::after {
+        .love::before, .love::after {
             animation-iteration-count: infinite;
         }
 
         & .chat-emote {
-            &::before, &::after {
+            .love::before, .love::after {
                 animation-iteration-count: infinite;
             }
         }
