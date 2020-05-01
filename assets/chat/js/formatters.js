@@ -347,8 +347,12 @@ class EmoteFormatter {
             if(suffixes.includes('worth')){
                 shekelSpan = "<span class='worth'></span>";
             }
+            var loveSpan = "";
+            if(suffixes.includes('love')){
+                loveSpan = "<span class='love'></span>";
+            }
 
-            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + shekelSpan + ' </span>';
+            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + shekelSpan + loveSpan + ' </span>';
 
             var generifyClasses = [
                 "generify-container",
