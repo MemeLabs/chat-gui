@@ -57,6 +57,10 @@ class ViewerState {
     const title = `${service}/${channel}`;
     return sanitize(path ? `${path} (${title})` : title);
   }
+
+  toJSON() {
+    return this.channel;
+  }
 }
 
 export default ViewerState;

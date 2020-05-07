@@ -343,7 +343,7 @@ class ChatUserMessage extends ChatMessage {
         else if (this.slashme || this.continued) ctrl = "";
 
         const background = generateViewerStateBackground(this.user.viewerState);
-        const viewerStateProps = `title="${this.user.viewerState.getTitle()}" style="background-image: url(${background});"`;
+        const viewerStateProps = `title="${this.user.viewerState.getTitle()}" style="background-image: url(${background});" data-viewer-state="${JSON.stringify(this.user.viewerState).replace(/"/g, '&quot;')}")}"`;
 
         const user =
             buildFeatures(this.user) +

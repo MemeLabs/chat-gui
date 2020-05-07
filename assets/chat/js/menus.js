@@ -544,7 +544,7 @@ class ChatContextMenu {
         this.event = event
         this.targetUser = $(event.target).parent()
         this.targetUsername = this.targetUser.find("a.user").text()
-        this.targetUserViewerstate = this.chat.viewerStates.get(this.targetUsername)
+        this.targetUserViewerstate = this.targetUser.find("a.user").data("viewer-state");
         this.button = {}
         this.permissionsLevels = ["anonymous","authenticated","moderator"]
         this.userLevel = this.getPermissionLevel(this.chat)
@@ -559,7 +559,7 @@ class ChatContextMenu {
             const statusContainerIcon = statusContainer.find("#contextmenu-viewerstate-status-icon")
             statusContainer.show()
             statusContainerIcon.removeClass()
-            switch (this.targetUserViewerstate.channel.service) {
+            switch (this.targetUserViewerstate.service) {
                 case "twitch":
                     statusContainerIcon.addClass("icon-twitch")
                     break;
@@ -569,16 +569,16 @@ class ChatContextMenu {
                 case "youtube":
                     statusContainerIcon.addClass("icon-youtube")
                     break;
-                }
+            }
 
-            const communitystream = (!this.targetUserViewerstate.channel.path) ? `${this.targetUserViewerstate.channel.service}/` : ""
-            statusContainer.find("#contextmenu-viewerstate-status-text").text(`Open ${communitystream}${this.targetUserViewerstate.channel.channel}`)
+            const communitystream = (!this.targetUserViewerstate.path) ? `${this.targetUserViewerstate.service}/` : ""
+            statusContainer.find("#contextmenu-viewerstate-status-text").text(`Open ${communitystream}${this.targetUserViewerstate.channel}`)
 
             this.button.openstream = this.addButton("contextmenu-viewerstate-status-container", (id, e) => {
                 if ((e.ctrlKey || e.metaKey) || window.top === window.self) {
                     this.chat.openViewerStateStream(this.targetUsername.toLowerCase())
                 } else {
-                    window.parent.postMessage({action: 'STREAM_SET', payload: this.targetUserViewerstate.channel}, '*');
+                    window.parent.postMessage({ action: 'STREAM_SET', payload: this.targetUserViewerstate }, '*');
                 }
             })
         }
