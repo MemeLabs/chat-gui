@@ -59,7 +59,7 @@ class ViewerState {
   }
 
   toJSON() {
-    return this.channel;
+    return this.channel || {};
   }
 }
 
