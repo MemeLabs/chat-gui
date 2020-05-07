@@ -477,7 +477,7 @@ class SpoilerFormatter {
 
 class GreenTextFormatter {
     format(chat, str, message = null) {
-        if (message.user && str.indexOf("&gt;") === 0) {
+        if (message.user && message.message.indexOf(">") === 0) {
             str = `<span class="greentext">${str}</span>`;
         }
         return str;
