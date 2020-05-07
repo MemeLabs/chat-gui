@@ -653,12 +653,8 @@ class ChatContextMenu {
         return levels
     }
 
-    viewerstateConditional(viewerstate) {
-
-        if (viewerstate === undefined || viewerstate.channel === undefined) {
-            return false
-        }
-        return true
+    viewerstateConditional(state) {
+        return state && state.service && state.channel;
     }
 }
 
