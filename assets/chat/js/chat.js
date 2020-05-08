@@ -1239,7 +1239,7 @@ class Chat {
             MessageBuilder.info("Your message has been sent.").into(this);
         }
 
-        const normalized = data.nick.toLowerCase();
+        const normalized = data.targetNick.toLowerCase();
 
         const msg = {
             data: data.data,
@@ -1247,7 +1247,7 @@ class Chat {
             timestamp: Date.now(),
             messageid: -1,
         };
-        this.whisperStore.append(normalized, data.nick, msg);
+        this.whisperStore.append(normalized, data.targetNick, msg);
 
         if (this.mainwindow.visible &&
             this.settings.get("showhispersinchat")) {
@@ -1255,7 +1255,7 @@ class Chat {
             MessageBuilder.whisperoutgoing(
                 data.data,
                 this.user,
-                data.nick,
+                data.targetNick,
                 Date.now(),
                 data.messageid
             ).into(this);
@@ -1265,6 +1265,16 @@ class Chat {
         if (win) {
             MessageBuilder.message(msg.data, this.user).into(this, win);
         }
+
+        const conv = this.whispers.get(normalized);
+        if (win === this.getActiveWindow()) {
+            this.whisperStore.markRead(normalized);
+        } else {
+            conv.unread++;
+        }
+
+        this.menus.get("whisper-users").redraw();
+        this.redrawWindowIndicators();
     }
 
     onPRIVMSG(data) {
