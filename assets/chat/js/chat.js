@@ -1356,34 +1356,34 @@ class Chat {
                 this.inputhistory.add(str);
             } else if (win !== this.mainwindow) {
                 // WHISPER
-                const msg = {
-                    data: str,
-                    nick: this.user.nick,
-                    timestamp: Date.now(),
-                    messageid: -1,
-                };
-                this.whisperStore.append(win.name, win.label, msg);
+                // const msg = {
+                //     data: str,
+                //     nick: this.user.nick,
+                //     timestamp: Date.now(),
+                //     messageid: -1,
+                // };
+                // this.whisperStore.append(win.name, win.label, msg);
 
-                MessageBuilder.message(str, this.user).into(this, win);
+                // MessageBuilder.message(str, this.user).into(this, win);
                 this.source.send("PRIVMSG", { nick: win.label, data: str });
             } else {
                 // MESSAGE
-                const textonly = (isme ? str.substring(4) : str).trim();
-                if (
-                    this.source.isConnected() &&
-                    !this.emoticons.has(textonly) &&
-                    !this.emoteswithsuffixes.has(textonly)
-                ) {
-                    // We add the message to the gui immediately
-                    // But we will also get the MSG event, so we need to make sure we dont add the message to the gui again.
-                    // We do this by storing the message in the unresolved array
-                    // The onMSG then looks in the unresolved array for the message using the nick + message
-                    // If found, the message is not added to the gui, its removed from the unresolved array and the message.resolve method is run on the message
-                    const message = MessageBuilder.message(str, this.user).into(
-                        this
-                    );
-                    this.unresolved.unshift(message);
-                }
+                // const textonly = (isme ? str.substring(4) : str).trim();
+                // if (
+                //     this.source.isConnected() &&
+                //     !this.emoticons.has(textonly) &&
+                //     !this.emoteswithsuffixes.has(textonly)
+                // ) {
+                //     // We add the message to the gui immediately
+                //     // But we will also get the MSG event, so we need to make sure we dont add the message to the gui again.
+                //     // We do this by storing the message in the unresolved array
+                //     // The onMSG then looks in the unresolved array for the message using the nick + message
+                //     // If found, the message is not added to the gui, its removed from the unresolved array and the message.resolve method is run on the message
+                //     const message = MessageBuilder.message(str, this.user).into(
+                //         this
+                //     );
+                //     this.unresolved.unshift(message);
+                // }
                 this.source.send("MSG", { data: str });
                 this.inputhistory.add(str);
             }
