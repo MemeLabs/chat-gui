@@ -1231,12 +1231,39 @@ class Chat {
         MessageBuilder.broadcast(data.data, data.timestamp).into(this);
     }
 
-    onPRIVMSGSENT() {
+    onPRIVMSGSENT(data) {
         if (
             this.mainwindow.visible &&
             !this.settings.get("showhispersinchat")
         ) {
             MessageBuilder.info("Your message has been sent.").into(this);
+        }
+
+        const normalized = data.nick.toLowerCase();
+
+        const msg = {
+            data: data.data,
+            nick: this.user.nick,
+            timestamp: Date.now(),
+            messageid: -1,
+        };
+        this.whisperStore.append(normalized, data.nick, msg);
+
+        if (this.mainwindow.visible &&
+            this.settings.get("showhispersinchat")) {
+            // show outgoing private messages in chat. Message id unused.
+            MessageBuilder.whisperoutgoing(
+                data.data,
+                this.user,
+                data.nick,
+                Date.now(),
+                data.messageid
+            ).into(this);
+        }
+
+        const win = this.getWindow(normalized);
+        if (win) {
+            MessageBuilder.message(msg.data, this.user).into(this, win);
         }
     }
 
@@ -1356,34 +1383,9 @@ class Chat {
                 this.inputhistory.add(str);
             } else if (win !== this.mainwindow) {
                 // WHISPER
-                const msg = {
-                    data: str,
-                    nick: this.user.nick,
-                    timestamp: Date.now(),
-                    messageid: -1,
-                };
-                this.whisperStore.append(win.name, win.label, msg);
-
-                MessageBuilder.message(str, this.user).into(this, win);
                 this.source.send("PRIVMSG", { nick: win.label, data: str });
             } else {
                 // MESSAGE
-                const textonly = (isme ? str.substring(4) : str).trim();
-                if (
-                    this.source.isConnected() &&
-                    !this.emoticons.has(textonly) &&
-                    !this.emoteswithsuffixes.has(textonly)
-                ) {
-                    // We add the message to the gui immediately
-                    // But we will also get the MSG event, so we need to make sure we dont add the message to the gui again.
-                    // We do this by storing the message in the unresolved array
-                    // The onMSG then looks in the unresolved array for the message using the nick + message
-                    // If found, the message is not added to the gui, its removed from the unresolved array and the message.resolve method is run on the message
-                    const message = MessageBuilder.message(str, this.user).into(
-                        this
-                    );
-                    this.unresolved.unshift(message);
-                }
                 this.source.send("MSG", { data: str });
                 this.inputhistory.add(str);
             }
@@ -1626,25 +1628,6 @@ class Chat {
         } else {
             const data = parts.slice(1, parts.length).join(" ");
             const targetnick = parts[0];
-
-            const msg = {
-                data,
-                nick: this.user.nick,
-                timestamp: Date.now(),
-                messageid: -1,
-            };
-            this.whisperStore.append(targetnick.toLowerCase(), targetnick, msg);
-
-            if (this.settings.get("showhispersinchat")) {
-                // show outgoing private messages in chat. Message id unused.
-                MessageBuilder.whisperoutgoing(
-                    data,
-                    this.user,
-                    targetnick,
-                    Date.now(),
-                    -1
-                ).into(this);
-            }
             this.source.send("PRIVMSG", { nick: targetnick, data: data });
         }
     }
