@@ -1,6 +1,6 @@
 name: SSH-Deploy
 
-on: 
+on:
   push:
     branches:
       - 'master'
@@ -9,6 +9,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Docker login
+      env:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      run: docker login https://docker.pkg.github.com -u ${username} -p ${password}
+    - name: Build image
+      run: docker build . -t docker.pkg.github.com/memelabs/chat-gui/chat-gui:latest
+    - name: Publish image
+      run: docker push docker.pkg.github.com/memelabs/chat-gui/chat-gui:latest
     - name: ssh-deploy for chat-gui
       uses: appleboy/ssh-action@122f35dca5c7a216463c504741deb0de5b301953
       with:
@@ -16,7 +28,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         script: |
-          cd chat_frontend
-          git pull
-          npm ci
-          npm run build:production
+          ./hooks/chat-gui.sh
