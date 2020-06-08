@@ -1826,11 +1826,11 @@ class Chat {
                 MessageBuilder.info(
                     `Tagged nicks: ${[...this.taggednicks.keys()].join(
                         ","
-                    )}. Available colors: ${tagcolors.join(",")}`
+                    )}. Preset colors: ${tagcolors.join(",")}, or /tag user #HEXCODE`
                 ).into(this);
             } else {
                 MessageBuilder.info(
-                    `No tagged nicks. Available colors: ${tagcolors.join(",")}`
+                    `No tagged nicks. Preset colors: ${tagcolors.join(",")}, or /tag user #HEXCODE`
                 ).into(this);
             }
             return;
@@ -1882,11 +1882,11 @@ class Chat {
                 MessageBuilder.info(
                     `Tagged nicks: ${[...this.taggednicks.keys()].join(
                         ","
-                    )}. Available colors: ${tagcolors.join(",")}`
+                    )}. Preset colors: ${tagcolors.join(",")}, or \`/tag user #HEXCODE\``
                 ).into(this);
             } else {
                 MessageBuilder.info(
-                    `No tagged nicks. Available colors: ${tagcolors.join(",")}`
+                    `No tagged nicks. Preset colors: ${tagcolors.join(",")}, or \`/tag user #HEXCODE\``
                 ).into(this);
             }
             return;
