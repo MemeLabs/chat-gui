@@ -90,14 +90,10 @@ const hintstrings = new Map([
     ],
     ["mutespermanent", "Mutes are never persistent, don't worry it will pass!"],
     [
-        "stalkmentionshint",
-        "Use the /stalk <nick> or /mentions <nick> to keep up to date"
-    ],
-    [
         "tagshint",
         `Use the /tag <nick> <color> to highlight users you like. There are preset colors to choose from ${tagcolors.join(
             ", "
-        )}`
+        )}, or \`/tag <nick> #HEXCODE\``
     ]
 ]);
 const settingsdefault = new Map([
@@ -172,14 +168,15 @@ const commandsinfo = new Map([
     ],
     ["unban", { desc: "Unban a user", admin: true }],
     ["timestampformat", { desc: "Set the time format of the chat." }],
-    ["stalk", { desc: "Return a list of messages from <nick>", alias: ["s"] }],
-    [
-        "mentions",
-        {
-            desc: "Return a list of messages where <nick> is mentioned",
-            alias: ["m"]
-        }
-    ],
+    // Disabling /stalk and /mentions until functionality is added.
+    // ["stalk", { desc: "Return a list of messages from <nick>", alias: ["s"] }],
+    // [
+    //     "mentions",
+    //     {
+    //         desc: "Return a list of messages where <nick> is mentioned",
+    //         alias: ["m"]
+    //     }
+    // ],
     ["tag", { desc: "Mark a users messages" }],
     ["untag", { desc: "No longer mark the users messages" }],
     ["exit", { desc: "Exit the conversation you are in." }],
