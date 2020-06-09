@@ -94,7 +94,8 @@ const hintstrings = new Map([
         `Use the /tag <nick> <color> to highlight users you like. There are preset colors to choose from ${tagcolors.join(
             ", "
         )}, or \`/tag <nick> #HEXCODE\``
-    ]
+    ],
+    ["contextmenu", "Right click a user to access quick options!"]
 ]);
 const settingsdefault = new Map([
     ["schemaversion", 2],
