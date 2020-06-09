@@ -618,8 +618,12 @@ class ChatContextMenu {
     show(e) {
         e.preventDefault()
         this.ui.show()
-        this.ui.css("left", event.pageX)
-        this.ui.css("top", event.pageY)
+        this.ui.css("left", this.event.pageX)
+        if (this.event.pageY > (this.chat.ui.height() * 0.66)) {
+            this.ui.css("top", (this.event.pageY - this.ui.height()))
+        } else {
+            this.ui.css("top", this.event.pageY)
+        }
     }
 
     hide() {

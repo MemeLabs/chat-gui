@@ -90,15 +90,12 @@ const hintstrings = new Map([
     ],
     ["mutespermanent", "Mutes are never persistent, don't worry it will pass!"],
     [
-        "stalkmentionshint",
-        "Use the /stalk <nick> or /mentions <nick> to keep up to date"
-    ],
-    [
         "tagshint",
         `Use the /tag <nick> <color> to highlight users you like. There are preset colors to choose from ${tagcolors.join(
             ", "
-        )}`
-    ]
+        )}, or \`/tag <nick> #HEXCODE\``
+    ],
+    ["contextmenu", "Right click a user to access quick options!"]
 ]);
 const settingsdefault = new Map([
     ["schemaversion", 2],
@@ -172,14 +169,6 @@ const commandsinfo = new Map([
     ],
     ["unban", { desc: "Unban a user", admin: true }],
     ["timestampformat", { desc: "Set the time format of the chat." }],
-    ["stalk", { desc: "Return a list of messages from <nick>", alias: ["s"] }],
-    [
-        "mentions",
-        {
-            desc: "Return a list of messages where <nick> is mentioned",
-            alias: ["m"]
-        }
-    ],
     ["tag", { desc: "Mark a users messages" }],
     ["untag", { desc: "No longer mark the users messages" }],
     ["exit", { desc: "Exit the conversation you are in." }],
@@ -310,10 +299,6 @@ class Chat {
         this.control.on("TELL", data => this.cmdWHISPER(data));
         this.control.on("T", data => this.cmdWHISPER(data));
         this.control.on("NOTIFY", data => this.cmdWHISPER(data));
-        this.control.on("MENTIONS", data => this.cmdMENTIONS(data));
-        this.control.on("M", data => this.cmdMENTIONS(data));
-        this.control.on("STALK", data => this.cmdSTALK(data));
-        this.control.on("S", data => this.cmdSTALK(data));
         this.control.on("HIDEEMOTE", data =>
             this.cmdHIDEEMOTE(data, "HIDEEMOTE")
         );
@@ -1646,149 +1631,6 @@ class Chat {
         this.source.connect(parts[0]);
     }
 
-    cmdSTALK(parts) {
-        if (parts[0] && /^\d+$/.test(parts[0])) {
-            parts[1] = parts[0];
-            parts[0] = this.user.username;
-        }
-        if (!parts[0] || !nickregex.test(parts[0].toLowerCase())) {
-            MessageBuilder.error("Invalid nick - /stalk <nick> <limit>").into(
-                this
-            );
-            return;
-        }
-        if (this.busystalk) {
-            MessageBuilder.error("Still busy stalking").into(this);
-            return;
-        }
-        if (
-            this.nextallowedstalk &&
-            this.nextallowedstalk.isAfter(new Date())
-        ) {
-            MessageBuilder.error(
-                `Next allowed stalk ${this.nextallowedstalk.fromNow()}`
-            ).into(this);
-            return;
-        }
-        this.busystalk = true;
-        const limit = parts[1] ? parseInt(parts[1]) : 3;
-        MessageBuilder.info(`Getting messages for ${[parts[0]]} ...`).into(
-            this
-        );
-        $.ajax({
-            timeout: 5000,
-            url: `${API_URI}/api/chat/stalk?username=${encodeURIComponent(
-                parts[0]
-            )}&limit=${limit}`
-        })
-            .always(() => {
-                this.nextallowedstalk = moment().add(10, "seconds");
-                this.busystalk = false;
-            })
-            .done(d => {
-                if (!d || !d.lines || d.lines.length === 0) {
-                    MessageBuilder.info(`No messages for ${parts[0]}`).into(
-                        this
-                    );
-                } else {
-                    const date = moment
-                        .utc(d.lines[d.lines.length - 1]["timestamp"] * 1000)
-                        .local()
-                        .format(DATE_FORMATS.FULL);
-                    MessageBuilder.info(
-                        `Stalked ${parts[0]} last seen ${date}`
-                    ).into(this);
-                    d.lines.forEach(a =>
-                        MessageBuilder.historical(
-                            a.text,
-                            new ChatUser({ nick: d.nick }),
-                            a.timestamp * 1000
-                        ).into(this)
-                    );
-                    MessageBuilder.info(
-                        `End of stalk (https://dgg.overrustlelogs.net/${parts[0]})`
-                    ).into(this);
-                }
-            })
-            .fail(() =>
-                MessageBuilder.error(
-                    `No messages for ${parts[0]} received. Try again later`
-                ).into(this)
-            );
-    }
-
-    cmdMENTIONS(parts) {
-        if (parts[0] && /^\d+$/.test(parts[0])) {
-            parts[1] = parts[0];
-            parts[0] = this.user.username;
-        }
-        if (!parts[0]) parts[0] = this.user.username;
-        if (!parts[0] || !nickregex.test(parts[0].toLowerCase())) {
-            MessageBuilder.error(
-                "Invalid nick - /mentions <nick> <limit>"
-            ).into(this);
-            return;
-        }
-        if (this.busymentions) {
-            MessageBuilder.error("Still busy getting mentions").into(this);
-            return;
-        }
-        if (
-            this.nextallowedmentions &&
-            this.nextallowedmentions.isAfter(new Date())
-        ) {
-            MessageBuilder.error(
-                `Next allowed mentions ${this.nextallowedmentions.fromNow()}`
-            ).into(this);
-            return;
-        }
-        this.busymentions = true;
-        const limit = parts[1] ? parseInt(parts[1]) : 3;
-        MessageBuilder.info(`Getting mentions for ${[parts[0]]} ...`).into(
-            this
-        );
-        $.ajax({
-            timeout: 5000,
-            url: `${API_URI}/api/chat/mentions?username=${encodeURIComponent(
-                parts[0]
-            )}&limit=${limit}`
-        })
-            .always(() => {
-                this.nextallowedmentions = moment().add(10, "seconds");
-                this.busymentions = false;
-            })
-            .done(d => {
-                if (!d || d.length === 0) {
-                    MessageBuilder.info(`No mentions for ${parts[0]}`).into(
-                        this
-                    );
-                } else {
-                    const date = moment
-                        .utc(d[d.length - 1].date * 1000)
-                        .local()
-                        .format(DATE_FORMATS.FULL);
-                    MessageBuilder.info(
-                        `Mentions for ${parts[0]} last seen ${date}`
-                    ).into(this);
-                    d.forEach(a =>
-                        MessageBuilder.historical(
-                            a.text,
-                            new ChatUser({ nick: a.nick }),
-                            a.date * 1000
-                        ).into(this)
-                    );
-                    MessageBuilder.info(
-                        `End of stalk (https://dgg.overrustlelogs.net/mentions/${parts[0]})`
-                    ).into(this);
-                }
-            })
-            .fail(() =>
-                MessageBuilder.error(
-                    `No mentions for ${parts[0]} received. Try again later`
-                ).into(this)
-            );
-    }
-
     createNewClass(color) {
         if (color[0] === "#") {
             color = color.substring(1);
@@ -1821,16 +1663,17 @@ class Chat {
     }
 
     cmdTAG(parts) {
+        const colorinfo = `Preset colors: ${tagcolors.join(", ")}, or \`/tag user #HEXCODE\``
         if (parts.length === 0) {
             if (this.taggednicks.size > 0) {
                 MessageBuilder.info(
                     `Tagged nicks: ${[...this.taggednicks.keys()].join(
                         ","
-                    )}. Available colors: ${tagcolors.join(",")}`
+                    )}. ${colorinfo}`
                 ).into(this);
             } else {
                 MessageBuilder.info(
-                    `No tagged nicks. Available colors: ${tagcolors.join(",")}`
+                    `No tagged nicks. ${colorinfo}`
                 ).into(this);
             }
             return;
@@ -1877,16 +1720,17 @@ class Chat {
     }
 
     cmdUNTAG(parts) {
+        const colorinfo = `Preset colors: ${tagcolors.join(", ")}, or \`/tag user #HEXCODE\``
         if (parts.length === 0) {
             if (this.taggednicks.size > 0) {
                 MessageBuilder.info(
                     `Tagged nicks: ${[...this.taggednicks.keys()].join(
                         ","
-                    )}. Available colors: ${tagcolors.join(",")}`
+                    )}. ${colorinfo}`
                 ).into(this);
             } else {
                 MessageBuilder.info(
-                    `No tagged nicks. Available colors: ${tagcolors.join(",")}`
+                    `No tagged nicks. ${colorinfo}`
                 ).into(this);
             }
             return;
