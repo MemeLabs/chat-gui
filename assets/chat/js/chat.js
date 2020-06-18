@@ -613,6 +613,8 @@ class Chat {
         // Keep the website session alive.
         setInterval(() => $.ajax({ url: "/ping" }), 10 * 60 * 1000);
 
+        window.addEventListener('beforeunload', (event) => ChatStore.write('chat.unsentMessage', this.input.val()));
+
         this.loadingscrn.fadeOut(250, () => this.loadingscrn.remove());
         this.mainwindow.updateAndPin();
         this.input.focus();
@@ -624,6 +626,7 @@ class Chat {
                     ? `Write something ${this.user.username} ...`
                     : "You need to be signed in to chat."
             );
+        this.input.val(ChatStore.read('chat.unsentMessage') ? ChatStore.read('chat.unsentMessage') : null);
         return this;
     }
 
@@ -1383,6 +1386,7 @@ class Chat {
                 // MESSAGE
                 this.source.send("MSG", { data: str });
                 this.inputhistory.add(str);
+                if(ChatStore.read('chat.unsentMessage') !== null) ChatStore.write('chat.unsentMessage', null);
             }
         }
     }
