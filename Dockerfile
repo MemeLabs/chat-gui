@@ -17,7 +17,7 @@ COPY \
   webpack.config.js \
   ./
 
-ENV ENV_SRC=".env.prod"
+ARG ENV_SRC=".env.prod"
 COPY ${ENV_SRC} .env
 
 RUN npm install
