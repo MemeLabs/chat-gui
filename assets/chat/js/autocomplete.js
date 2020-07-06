@@ -195,7 +195,7 @@ class ChatAutoComplete {
                 promoteIfSelected(this);
                 const str = this.input.val().toString();
 
-                const offset = this.input[0].selectionStart;
+                const offset = this.input[0].selectionStart + 1;
 
                 const pre = str.substring(0, offset);
 
