@@ -195,11 +195,16 @@ class ChatAutoComplete {
                 promoteIfSelected(this);
                 const str = this.input.val().toString();
 
-                const offset = this.input[0].selectionStart + 1;
+                let offset = this.input[0].selectionStart;
 
                 const pre = str.substring(0, offset);
 
                 const post = str.substring(offset);
+
+                if (keycode !== KEYCODES.SPACE) {
+                    offset++;
+                }
+
                 const criteria = buildSearchCriteria(pre + char + post, offset);
                 this.search(criteria);
                 keypressed = true;
