@@ -598,7 +598,8 @@ class Chat {
             if ($(e.target).parent().data("username").toLowerCase() !== this.user.username.toLowerCase()) {
                 e.preventDefault();
                 this.contextMenu = new ChatContextMenu(this, e);
-                this.contextMenu.show(e)
+                this.contextMenu.show(e);
+                this.mainwindow.lock();
             }
         })
 
@@ -606,6 +607,9 @@ class Chat {
             if (this.contextMenu) {
                 if (!$(e.target).is(this.contextMenu.ui)) {
                     this.contextMenu.hide()
+                    if (this.mainwindow.locked()) {
+                        this.mainwindow.unlock();
+                    }
                 }
             }
         })
