@@ -593,6 +593,7 @@ class Chat {
             }
         })
 
+        // Context menu
         this.output.on("contextmenu", "a.user", e => {
             if ($(e.target).parent().data("username").toLowerCase() !== this.user.username.toLowerCase()) {
                 e.preventDefault();
