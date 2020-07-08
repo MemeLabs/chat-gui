@@ -20,8 +20,7 @@ class ChatScrollPlugin {
                     }
                 }
                 $el.toggleClass("chat-unpinned", !this.isPinned())
-            }); 
-            //debounce
+            }); //debounce
             $el.on("mousedown", ".chat-scroll-notify", () => false);
             $el.on("mouseup", ".chat-scroll-notify", () => {
                 this.updateAndPin(true);
