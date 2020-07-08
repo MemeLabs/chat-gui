@@ -593,10 +593,10 @@ class Chat {
             }
         })
 
-        // Context menu
         this.output.on("contextmenu", "a.user", e => {
             if ($(e.target).parent().data("username").toLowerCase() !== this.user.username.toLowerCase()) {
                 e.preventDefault();
+                window.getSelection().removeAllRanges();
                 this.contextMenu = new ChatContextMenu(this, e);
                 this.contextMenu.show(e);
                 this.mainwindow.lock();
