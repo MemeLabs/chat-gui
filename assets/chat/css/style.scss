@@ -1609,7 +1609,6 @@ button.btn {
 
     border: 2px solid $color-surface-dark4;
     border-radius: 5px;
-
 }
 
 #contextmenu-form {
@@ -1644,5 +1643,9 @@ button.btn {
     #contextmenu-viewerstate-status-text {
         margin: auto 0px auto 0px;
         line-height: 1;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 40vw;
     }
 }
