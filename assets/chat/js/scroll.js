@@ -12,9 +12,15 @@ class ChatScrollPlugin {
 
         const $el = $(e);
         if ($el.find(".chat-scroll-notify").length > 0) {
-            $el.on("update", () =>
+            $el.on("update", () => {
+                if (chat.contextMenu) {
+                    chat.contextMenu.hide();
+                    if (chat.mainwindow.locked()) {
+                        chat.mainwindow.unlock();
+                    }
+                }
                 $el.toggleClass("chat-unpinned", !this.isPinned())
-            ); //debounce
+            }); //debounce
             $el.on("mousedown", ".chat-scroll-notify", () => false);
             $el.on("mouseup", ".chat-scroll-notify", () => {
                 this.updateAndPin(true);
