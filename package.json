@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
+    "@babel/polyfill": "^7.10.4",
     "@babel/preset-env": "^7.4.2",
     "@types/jquery": "^3.3.29",
     "autoprefixer": "^9.5.0",

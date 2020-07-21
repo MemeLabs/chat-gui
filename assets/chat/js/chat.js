@@ -307,7 +307,7 @@ class Chat {
         );
     }
 
-    withUserAndSettings(data) {
+    async withUserAndSettings(data) {
         return this.withUser(data).withSettings(
             data && data.hasOwnProperty("settings")
                 ? new Map(data.settings)
@@ -359,7 +359,7 @@ class Chat {
         return this;
     }
 
-    withGui() {
+    async withGui() {
         this.ui = $("#chat");
         this.css = $("#chat-styles")[0]["sheet"];
         this.ishidden =
@@ -635,7 +635,7 @@ class Chat {
         return this;
     }
 
-    withEmotes(emotes) {
+    async withEmotes(emotes) {
         this.emoticons = new Set(emotes["default"]);
         for (var s in GENERIFY_OPTIONS) {
             for (var e of this.emoticons) {
@@ -645,7 +645,7 @@ class Chat {
         return this;
     }
 
-    withHistory(history) {
+    async withHistory(history) {
         if (history && history.length > 0) {
             this.backlogloading = true;
             history.forEach(line =>
@@ -658,13 +658,13 @@ class Chat {
         return this;
     }
 
-    withViewerStates(viewerStates) {
-        viewerStates.forEach(state => this.onVIEWERSTATE(state));
+    async withViewerStates(viewerStates) {
+        if(viewerStates) viewerStates.forEach(state => this.onVIEWERSTATE(state));
         return this;
     }
 
-    withWhispers() {
-        if (this.authenticated) {
+    async withWhispers() {
+        // if (this.authenticated) { - This has to be ran because chat loads user info at the same time
             this.whisperStore = new WhisperStore(this.user.nick.toLowerCase());
             this.whisperStore.load().forEach(e => this.whispers.set(e['key'], {
                 id: -1,
@@ -673,11 +673,11 @@ class Chat {
                 open: false
             }));
             this.menus.get('whisper-users').redraw();
-        }
+        // }
         return this;
     }
 
-    connect(uri) {
+    async connect(uri) {
         this.source.connect(uri);
         return this;
     }

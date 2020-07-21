@@ -151,6 +151,7 @@ const plugins = [
 
 const entry = {
     'chat': [
+        '@babel/polyfill',
         'core-js/es6',
         'jquery',
         'normalize.css',
@@ -160,6 +161,7 @@ const entry = {
         './assets/chat.js'
     ],
     'chatstreamed': [
+        '@babel/polyfill',
         'core-js/es6',
         'jquery',
         'normalize.css',
@@ -195,6 +197,7 @@ if (process.env.NODE_ENV !== 'production') {
     );
 
     entry['dev-chat'] = [
+        '@babel/polyfill',
         'core-js/es6',
         'jquery',
         'normalize.css',
