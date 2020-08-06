@@ -543,3 +543,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $repeat: 7,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: catJAM,
+    $frame-count: 158,
+    $sprite-width: 4424px,
+    $sprite-height: 28px,
+    $animation-length: 6500ms,
+    $repeat: 2,
+    $can-animate-forever: true
+);
