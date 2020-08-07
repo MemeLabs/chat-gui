@@ -72,6 +72,26 @@
     background-repeat: no-repeat;
 }
 
+.generify-emote-RaveDoge.generify-dank {
+    background-size: cover;
+    padding-right: 16px;
+}
+
+.generify-emote-AngelThump.generify-dank{
+    background-size: cover;
+    padding-left: 10px;
+}
+
+.generify-emote-HEADSHOT.generify-dank {
+    background-size: cover;
+    padding-left: 15px;
+}
+
+.generify-emote-Abathur.generify-dank {
+    background-size: cover;
+    padding-left: 25px;
+}
+
 .generify-dank > .chat-emote {
     margin-left: 20px;
 }
@@ -426,6 +446,11 @@
     -webkit-mask-position: calc(50% + 4px) 0px;
 }
 
-.spoiler:not(.visible) .generify-container.virus::after {
+.spoiler:not(.visible) .generify-container.virus::after{
     display: none;
+}
+
+// hide the dank effect when under an unactivated spoiler tag
+.spoiler:not(.visible) .generify-dank {
+    background-image: none;
 }

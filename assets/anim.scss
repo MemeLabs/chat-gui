@@ -317,11 +317,16 @@ $spritesDir : '../../emotes/emoticons-animated/';
     }
 
     @keyframes #{$file-name}-anim {
-        0% { background-position: 0; }
-        100% { background-position: -#{$sprite-width}; }
+        0% {
+            background-position: 0;
+        }
+
+        100% {
+            background-position: -#{$sprite-width};
+        }
     }
 
-    .chat-emote-#{$file-name}{
+    .chat-emote-#{$file-name} {
         width: $frame-width;
         height: $sprite-height;
         margin-top: -$sprite-height;
@@ -330,7 +335,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
 
         @if $end-on-last-frame {
             background-position: #{$sprite-width / $frame-count};
-        };
+        }
 
         &:hover {
             animation: #{$file-name}-anim $animation-length steps($frame-count) infinite;
@@ -341,6 +346,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
                 animation: #{$file-name}-anim $animation-length steps($frame-count) infinite;
             }
         }
+    }
+
+    .generify-emote-#{$file-name} .generify-dank {
+        $lengthUntilMs: str-index(#{$animation-length}, "m");
+        $miliseconds: str-slice(#{$animation-length}, 1, $lengthUntilMs - 1);
+        $seconds: calc(#{$miliseconds}/1000 * #{$repeat});
+        animation: dankmemes-anim 1s $seconds;
     }
 }
 
