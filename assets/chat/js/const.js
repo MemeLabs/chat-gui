@@ -57,7 +57,6 @@ const GENERIFY_OPTIONS = {
     rustle: "generify-rustle",
     worth: "generify-worth",
     dank: 'generify-dank',
-    //jam: 'generify-jam',
     hyper: "generify-hyper generify-rustle",
     love: "generify-love",
     spin: "generify-spin",
