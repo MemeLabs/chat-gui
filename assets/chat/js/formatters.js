@@ -116,11 +116,11 @@ function getRandomHalloweenEffect(emote, seed) {
 
     const delay =
         HALLOWEEN_RANDOM_DELAYS[
-        getRandomInt(seed, HALLOWEEN_RANDOM_DELAYS.length)
+            getRandomInt(seed, HALLOWEEN_RANDOM_DELAYS.length)
         ];
     const effect =
         HALLOWEEN_RANDOM_EFFECTS[
-        getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)
+            getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)
         ];
 
     return `${delay} ${effect}`;
