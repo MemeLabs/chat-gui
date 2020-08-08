@@ -5,7 +5,8 @@ import {
     HALLOWEEN_RANDOM_DELAYS,
     HALLOWEEN_BLACKLIST,
     HAT_BLACKLIST,
-    HAT_SPECIAL_BLACKLIST
+    HAT_SPECIAL_BLACKLIST,
+    DANK_WHITELIST
 } from "./const";
 
 /** @var Array tlds */
@@ -115,11 +116,11 @@ function getRandomHalloweenEffect(emote, seed) {
 
     const delay =
         HALLOWEEN_RANDOM_DELAYS[
-            getRandomInt(seed, HALLOWEEN_RANDOM_DELAYS.length)
+        getRandomInt(seed, HALLOWEEN_RANDOM_DELAYS.length)
         ];
     const effect =
         HALLOWEEN_RANDOM_EFFECTS[
-            getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)
+        getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)
         ];
 
     return `${delay} ${effect}`;
@@ -209,8 +210,8 @@ function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
     };
 }
 
-function moveModifierToFront(modifierList, modifierName){
-    if(modifierList.includes(modifierName)){
+function moveModifierToFront(modifierList, modifierName) {
+    if (modifierList.includes(modifierName)) {
         modifierList = modifierList.filter(item => item !== modifierName);
         modifierList.unshift(modifierName);
     }
@@ -260,10 +261,12 @@ class EmoteFormatter {
                 this.emotewidths[emoteArray[i]] = width;
                 this.emoteheights[emoteArray[i]] = height;
 
-                style.innerHTML += `
+                if (DANK_WHITELIST.includes(emoteArray[i])) {
+                    style.innerHTML += `
                     .generify-dank > .chat-emote.chat-emote-${
                         emoteArray[i]
-                    } { margin-left: ${40 - width / 2}px  }`;
+                        } { margin-left: ${36 - width / 2}px  }`;
+                }
             }
 
             document.getElementsByTagName("head")[0].appendChild(style);
@@ -278,8 +281,8 @@ class EmoteFormatter {
             const emote = input[0].replace(/\s/g, "");
             var suffixes = [];
             if (input.length > 1) {
-                for(var j = 1; j < input.length; j++)
-                suffixes.push(input[j].replace(/\s/g, ""));
+                for (var j = 1; j < input.length; j++)
+                    suffixes.push(input[j].replace(/\s/g, ""));
             }
 
             // the front modifier gets "executed" last
@@ -337,18 +340,18 @@ class EmoteFormatter {
                 goldenModifierInnerEmoteStyle =
                     goldenEmote.goldenModifierInnerEmoteStyle;
             }
-            
+
             var options = [];
-            for(var suffix of suffixes){
+            for (var suffix of suffixes) {
                 options.push(GENERIFY_OPTIONS[suffix]);
             }
             options = [...new Set(options)];
             var shekelSpan = "";
-            if(suffixes.includes('worth')){
+            if (suffixes.includes('worth')) {
                 shekelSpan = "<span class='worth'></span>";
             }
             var loveSpan = "";
-            if(suffixes.includes('love')){
+            if (suffixes.includes('love')) {
                 loveSpan = "<span class='love'></span>";
             }
 
@@ -359,15 +362,15 @@ class EmoteFormatter {
                 "generify-emote-" + emote
             ];
 
-            for(var j = 0; j < options.length; j++){
+            for (var j = 0; j < options.length; j++) {
                 innerEmote = ' <span class="' +
-                generifyClasses.join(" ") + " " +
-                options[j] +
-                '" data-modifiers="' +
-                options[j] +
-                '">' +
-                innerEmote +
-                "</span>"
+                    generifyClasses.join(" ") + " " +
+                    options[j] +
+                    '" data-modifiers="' +
+                    options[j] +
+                    '">' +
+                    innerEmote +
+                    "</span>"
             }
 
             return (
@@ -423,9 +426,9 @@ function stringCodeSplitter(str) {
             var subArray =
                 beforeFirstTick.length > 0
                     ? (subArray = [
-                          { type: "text", value: beforeFirstTick },
-                          { type: "code", value: betweenTicks }
-                      ])
+                        { type: "text", value: beforeFirstTick },
+                        { type: "code", value: betweenTicks }
+                    ])
                     : (subArray = [{ type: "code", value: betweenTicks }]);
             if (afterSecondTick.length > 0) {
                 return subArray.concat(stringCodeSplitter(afterSecondTick));
@@ -457,7 +460,7 @@ function stringSpoilerParser(str, isVisible) {
             var subString = RegExp("^\\s*$").test(betweenTags)
                 ? str.substring(0, indexOne) + "||||"
                 : str.substring(0, indexOne) +
-                  `<span class="${classes}">${betweenTags.trim()}</span>`;
+                `<span class="${classes}">${betweenTags.trim()}</span>`;
             str =
                 subString +
                 stringSpoilerParser(
@@ -589,7 +592,7 @@ class UrlFormatter {
     encodeUrl(value) {
         return value
             .replace(/&/g, "&amp;")
-            .replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(value) {
+            .replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function (value) {
                 const hi = value.charCodeAt(0);
                 const low = value.charCodeAt(1);
                 return (
@@ -598,7 +601,7 @@ class UrlFormatter {
                     ";"
                 );
             })
-            .replace(/([^\#-~| |!])/g, function(value) {
+            .replace(/([^\#-~| |!])/g, function (value) {
                 return "&#" + value.charCodeAt(0) + ";";
             })
             .replace(/</g, "&lt;")
@@ -620,7 +623,7 @@ class UrlFormatter {
             extraclass = "weeb-link";
         }
 
-        return str.replace(self.linkregex, function(url, scheme) {
+        return str.replace(self.linkregex, function (url, scheme) {
             scheme = scheme ? "" : "http://";
             const decodedUrl = self._elem.html(url).text();
             const m = decodedUrl.match(self.linkregex);

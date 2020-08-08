@@ -354,6 +354,10 @@ $spritesDir : '../../emotes/emoticons-animated/';
         $seconds: calc(#{$miliseconds}/1000 * #{$repeat});
         animation: dankmemes-anim 1s $seconds;
     }
+
+    .generify-emote-#{$file-name} .generify-dank:hover {
+        animation: dankmemes-anim 1s infinite;
+    }
 }
 
 @include sprite-animation(
