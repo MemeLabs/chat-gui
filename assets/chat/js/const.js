@@ -56,7 +56,7 @@ const GENERIFY_OPTIONS = {
     snow: "weather snow anim-fix",
     rustle: "generify-rustle",
     worth: "generify-worth",
-    // 'dank': 'generify-dank',
+    dank: 'generify-dank',
     hyper: "generify-hyper generify-rustle",
     love: "generify-love",
     spin: "generify-spin",
@@ -102,6 +102,27 @@ const HAT_BLACKLIST = [
     "ApeHands"
 ];
 
+//whitelisted to recieve :dank css generated in formatters.js regarding spacing
+const DANK_WHITELIST = [
+    "AngelThump",
+    "Abathur",
+    "HEADSHOT",
+    "DuckerZ",
+    "YEE",
+    "MASTERB8",
+    "GODWOMAN",
+    "GODMAN",
+    "KEKW",
+    "HACKER",
+    "RaveDoge",
+    "TRUMPED",
+    "PepoSleep",
+    "NOTMYTEMPO",
+    "OhKrappa",
+    "Kreygasm",
+    "4Head"
+];
+
 //blacklists for special hats
 const HAT_SPECIAL_BLACKLIST = {
     bday: ["NoTears", "Klappa", "FeelsAmazingMan"],
@@ -119,5 +140,6 @@ export {
     HALLOWEEN_RANDOM_DELAYS,
     HALLOWEEN_BLACKLIST,
     HAT_BLACKLIST,
-    HAT_SPECIAL_BLACKLIST
+    HAT_SPECIAL_BLACKLIST,
+    DANK_WHITELIST
 };
