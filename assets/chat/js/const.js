@@ -120,7 +120,9 @@ const DANK_WHITELIST = [
     "NOTMYTEMPO",
     "OhKrappa",
     "Kreygasm",
-    "4Head"
+    "4Head",
+    "PepoDance",
+    "PeepoHappy"
 ];
 
 //blacklists for special hats
