@@ -76,4 +76,4 @@ function loadSoundFile(url) {
     xhr.send();
 }
 
-export { setSound, resetSound, playSound, initSound, loadSoundFile };
+export { setSound, resetSound, playSound, initSound };
