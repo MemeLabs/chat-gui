@@ -8,6 +8,7 @@ import debounce from "throttle-debounce/debounce";
 import { isKeyCode, KEYCODES } from "./const";
 import { setStorage, getStorage } from "./transfer";
 import { setSound, resetSound } from "./notificationSound";
+import { MessageBuilder } from "./messages";
 
 function buildEmote(emote) {
     return `<div class="emote"><span title="${emote}" class="chat-emote chat-emote-${emote}">${emote}</span></div>`;
@@ -163,21 +164,42 @@ class ChatSettingsMenu extends ChatMenu {
             getStorage();
         });
 
-        this.importCustomSoundLabel = document.querySelector('#import-custom-sound');
-        this.importCustomSoundLabel.addEventListener('change', function (e) {
+        this.importCustomSoundInput = document.querySelector('#import-custom-sound');
+        var importCustomSoundLabel = $('#import-custom-sound-label');
+        this.importCustomSoundInput.addEventListener('change', function (e) {
             var reader = new FileReader();
-            reader.onload = function (e) {
-                setSound(this.result);
-            };
-            reader.readAsArrayBuffer(this.files[0]);
+            var file = this.files[0]
+            var uploadCriteria = $("#upload-criteria");
+
+            //reset colors
+            importCustomSoundLabel.css("color", "#999999");
+            uploadCriteria.css("color", "#999999");
+
+            if (file.size < 1500000 && file.type == "audio/wav" || file.type == "audio/mp3") {
+
+                reader.onload = function (e) {
+                    setSound(this.result, importCustomSoundLabel);
+                };
+
+                importCustomSoundLabel.css("color", "green");
+
+                reader.readAsArrayBuffer(file);
+            } else {
+                importCustomSoundLabel.css("color","red")
+                uploadCriteria.css("color", "red");
+            }
         }, false);
 
         this.resetCustomSoundLabel = this.ui.find("#reset-custom-sound-label");
         this.resetCustomSoundLabel.on("click", e => {
             resetSound();
 
-            this.resetCustomSoundLabel.text("Reset!");
-            this.resetCustomSoundLabel.css("color", "red");
+            this.resetCustomSoundLabel.css("color", "green");
+
+            //reset color after 2.5 sec
+            setTimeout(function () {
+                $("#reset-custom-sound-label").css("color", "#999999");
+            },2500)
         });
 
         this.ui.on("change", 'input[type="checkbox"],select', e =>

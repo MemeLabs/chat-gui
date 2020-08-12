@@ -45,13 +45,10 @@ function playSound() {
 function setSound(arrayBuffer) {
     var base64String = bufferToBase64(arrayBuffer);
     var audioFromString = base64ToBuffer(base64String);
-    debugger;
     context.decodeAudioData(audioFromString, function (buffer) {
         // audioBuffer is global to reuse the decoded audio later.
         audioBuffer = buffer;
         localStorage.setItem("notificationsoundfile", base64String)
-    }, function (e) {
-        console.log('Error decoding file', e);
     });
 }
 
