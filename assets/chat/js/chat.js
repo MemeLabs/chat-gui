@@ -25,7 +25,7 @@ import UserFeatures from "./features";
 import Settings from "./settings";
 import ChatWindow from "./window";
 import WhisperStore from "./whispers";
-import playSound from "./notificationSound";
+import { playSound, initSound } from "./notificationSound";
 
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/gi;
@@ -110,7 +110,7 @@ const settingsdefault = new Map([
     ["soundnotificationwhisper", true],
     ["notificationhighlight", true],
     ["soundnotificationhighlight", true],
-    ["notificationsoundfile", "notificationsoundfile.wav"],
+    ["notificationsoundfile", "notification.wav"],
     ["highlight", true], // todo rename this to `highlightself` or something
     ["customhighlight", []],
     ["highlightnicks", []],
@@ -236,7 +236,6 @@ class Chat {
         this.ignoring = new Set();
         this.mainwindow = null;
         this.nukes = [];
-
         this.regexhighlightcustom = null;
         this.regexhighlightnicks = null;
         this.regexhighlightself = null;
@@ -310,6 +309,8 @@ class Chat {
         this.control.on("UNHIDEEMOTE", data =>
             this.cmdHIDEEMOTE(data, "UNHIDEEMOTE")
         );
+
+        initSound(this.settings.get("notificationsoundfile"))
     }
 
     withUserAndSettings(data) {

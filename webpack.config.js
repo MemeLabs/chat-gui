@@ -265,7 +265,7 @@ module.exports = {
                 options: { name: 'img/[name].[md5:hash:base64:6].[ext]' }
             },
             {
-                test: /\.(ogg|mp3|wav|mpe?g)$/i,
+                test: /\.(mp3|wav)$/i,
                 loader: 'file-loader',
                 options: {
                     name: '[path][name].[ext]'

@@ -1,11 +1,23 @@
-import { MessageBuilder } from "./messages";
-
 //https://codepen.io/xewl/pen/NjyRJx
-
 
 var context = new AudioContext();
 var source = null;
 var audioBuffer = null;
+
+function initSound(arrayBuffer) {
+    // it is only notification.wav if it's running for the first time and the file is not made into an array buffer and put into the local storage
+    if (arrayBuffer == null || arrayBuffer == "notification.wav") {
+        loadSoundFile("/assets/sounds/notification.wav")
+    }
+    else {
+        var base64String = bufferToBase64(arrayBuffer);
+        var audioFromString = base64ToBuffer(base64String);
+        context.decodeAudioData(audioFromString, function (buffer) {
+            // audioBuffer is global to reuse the decoded audio later.
+            audioBuffer = buffer;
+        });
+    }
+}
 
 // Converts an ArrayBuffer to base64, by converting to string
 // and then using window.btoa' to base64. 
@@ -64,4 +76,4 @@ function loadSoundFile(url) {
     xhr.send();
 }
 
-export { setSound, resetSound, playSound };
+export { setSound, resetSound, playSound, initSound, loadSoundFile };
