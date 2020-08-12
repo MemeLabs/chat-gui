@@ -20,7 +20,7 @@
                 <div id="contextmenu-form">
                     <div class="form-group" id="contextmenu-viewerstate">
                         <div id="contextmenu-viewerstate-status-container">
-                            <div id="contextmenu-viewerstate-status-text"></div> 
+                            <div id="contextmenu-viewerstate-status-text"></div>
                             <span id="contextmenu-viewerstate-status-icon"></span>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                             <h4>Messages</h4>
                             <div class="form-group checkbox">
                                 <label title="Show all user flair icons">
-                                    <input name="hideflairicons" type="checkbox" data-opposite/> Show flairs
+                                    <input name="hideflairicons" type="checkbox" data-opposite /> Show flairs
                                 </label>
                             </div>
                             <div class="form-group checkbox">
@@ -167,6 +167,29 @@
                                 </div>
 
                             </fieldset>
+
+                            <h4>Sound notifications</h4>
+
+                            <div class="form-group checkbox">
+                                <label title="Sound notification on highlight">
+                                    <input name="soundnotificationhighlight" type="checkbox" /> Sound on mention
+                                </label>
+                            </div>
+
+                            <div class="form-group checkbox">
+                                <label title="Sound notification on whisper">
+                                    <input name="soundnotificationwhisper" type="checkbox" /> Sound on whisper
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label title="Upload custom sound" for="import-custom-sound" id="import-custom-sound-label" class="import-export">
+                                    <input type="file" accept="audio/*" name="notificationsoundfile" id="import-custom-sound" style="display:none">Custom sound
+                                </label>
+                                <label title="Reset te default">
+                                    <input type="button" name="reset-sound" class="btn import-export" value="Reset sound" id="reset-custom-sound-label">
+                                </label>
+                            </div>
 
                             <h4>Whispers</h4>
 
@@ -283,8 +306,10 @@
 
         <div id="chat-login-screen" style="display: none">
             <h2>Want to chat?</h2>
-            <p>You need to be signed in.
-                <br />Become part of the community and have your say!</p>
+            <p>
+                You need to be signed in.
+                <br />Become part of the community and have your say!
+            </p>
             <div>
                 <button id="chat-btn-login" class="btn btn-primary">Login</button>
                 <button id="chat-btn-cancel" class="btn btn-default">No thanks</button>

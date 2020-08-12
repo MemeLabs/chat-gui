@@ -157,7 +157,8 @@ const entry = {
         'font-awesome/scss/font-awesome.scss',
         './assets/chat/js/notification',
         './assets/chat/css/style.scss',
-        './assets/chat.js'
+        './assets/chat.js',
+        './assets/sounds/notification.wav'
     ],
     'chatstreamed': [
         'core-js/es6',
@@ -262,6 +263,13 @@ module.exports = {
                 exclude: path.resolve(__dirname, 'node_modules/font-awesome/'),
                 loader: 'file-loader',
                 options: { name: 'img/[name].[md5:hash:base64:6].[ext]' }
+            },
+            {
+                test: /\.(ogg|mp3|wav|mpe?g)$/i,
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]'
+                }
             }
         ]
     },

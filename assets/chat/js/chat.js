@@ -25,6 +25,8 @@ import UserFeatures from "./features";
 import Settings from "./settings";
 import ChatWindow from "./window";
 import WhisperStore from "./whispers";
+import soundPlayer, { playSound } from "./notificationSound";
+
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/gi;
 const regexsafe = /[\-\[\]\/{}()*+?.\\^$|]/g;
@@ -105,7 +107,10 @@ const settingsdefault = new Map([
     ["timestampformat", "HH:mm"],
     ["maxlines", 250],
     ["notificationwhisper", true],
+    ["soundnotificationwhisper", true],
     ["notificationhighlight", true],
+    ["soundnotificationhighlight", true],
+    ["notificationsoundfile", "notificationsoundfile.wav"],
     ["highlight", true], // todo rename this to `highlightself` or something
     ["customhighlight", []],
     ["highlightnicks", []],
@@ -894,6 +899,11 @@ class Chat {
             );
         }
 
+        if (message.highlighted && this.settings.get("soundnotificationhighlight") && this.ishidden) {
+            // play sound
+            playSound();
+        }
+
         if (!this.backlogloading) win.unlock();
         return message;
     }
@@ -1306,6 +1316,11 @@ class Chat {
                     data.timestamp,
                     this.settings.get("notificationtimeout")
                 );
+            }
+
+            if (this.settings.get("soundnotificationwhisper") || this.settings.get("soundnotificationhighlight") && this.ishidden) {
+                // play sound
+                playSound();
             }
 
             const win = this.getWindow(normalized);

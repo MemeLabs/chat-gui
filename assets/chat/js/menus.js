@@ -7,6 +7,7 @@ import EventEmitter from "./emitter";
 import debounce from "throttle-debounce/debounce";
 import { isKeyCode, KEYCODES } from "./const";
 import { setStorage, getStorage } from "./transfer";
+import { setSound, resetSound } from "./notificationSound";
 
 function buildEmote(emote) {
     return `<div class="emote"><span title="${emote}" class="chat-emote chat-emote-${emote}">${emote}</span></div>`;
@@ -160,6 +161,23 @@ class ChatSettingsMenu extends ChatMenu {
         this.exportSettingsInput = this.ui.find("#export-settings-Btn");
         this.exportSettingsInput.on("click", e => {
             getStorage();
+        });
+
+        this.importCustomSoundLabel = document.querySelector('#import-custom-sound');
+        this.importCustomSoundLabel.addEventListener('change', function (e) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                setSound(this.result);
+            };
+            reader.readAsArrayBuffer(this.files[0]);
+        }, false);
+
+        this.resetCustomSoundLabel = this.ui.find("#reset-custom-sound-label");
+        this.resetCustomSoundLabel.on("click", e => {
+            resetSound();
+
+            this.resetCustomSoundLabel.text("Reset!");
+            this.resetCustomSoundLabel.css("color", "red");
         });
 
         this.ui.on("change", 'input[type="checkbox"],select', e =>
