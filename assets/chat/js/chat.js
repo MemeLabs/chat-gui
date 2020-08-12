@@ -25,7 +25,7 @@ import UserFeatures from "./features";
 import Settings from "./settings";
 import ChatWindow from "./window";
 import WhisperStore from "./whispers";
-import soundPlayer, { playSound } from "./notificationSound";
+import playSound from "./notificationSound";
 
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/gi;
