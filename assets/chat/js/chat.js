@@ -1319,7 +1319,7 @@ class Chat {
                 );
             }
 
-            if (this.settings.get("soundnotificationwhisper") || this.settings.get("soundnotificationhighlight") && this.ishidden) {
+            if ((this.settings.get("soundnotificationwhisper") || this.settings.get("soundnotificationhighlight")) && this.ishidden) {
                 // play sound
                 playSound();
             }
