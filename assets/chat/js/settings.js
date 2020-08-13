@@ -35,6 +35,10 @@ function upgradeSettings(chat, oldversion, newversion) {
             chat.settings.delete("allowNotifications");
         }
 
+        chat.settings.set("soundnotificationhighlight", arr);
+        chat.settings.set("soundnotificationwhisper", arr);
+        chat.settings.set("notificationsoundfile", arr);
+
         arr = chat.settings.get("notificationtimeout");
         chat.settings.set("notificationtimeout", arr !== -1);
 
