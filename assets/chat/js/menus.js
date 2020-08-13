@@ -174,11 +174,11 @@ class ChatSettingsMenu extends ChatMenu {
             importCustomSoundLabel.css("color", "#999999");
             uploadCriteria.css("color", "#999999");
 
-            if (file.size < 1500000 && (file.type == "audio/wav" || file.type == "audio/mp3")) {
-                importCustomSoundLabel.css("color", "green");
-
+            if (file.size < 1500000) {
                 const reader = new FileReader();
-                reader.onload = () => setSound(reader.result);
+                reader.onload = () => setSound(reader.result)
+                    .then(() => importCustomSoundLabel.css("color", "green"))
+                    .catch(() => importCustomSoundLabel.css("color", "red"));
                 reader.readAsDataURL(file);
             } else {
                 importCustomSoundLabel.css("color","red")
