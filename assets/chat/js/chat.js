@@ -110,7 +110,7 @@ const settingsdefault = new Map([
     ["soundnotificationwhisper", true],
     ["notificationhighlight", true],
     ["soundnotificationhighlight", true],
-    ["notificationsoundfile", "notification.wav"],
+    ["notificationsoundfile", ""],
     ["highlight", true], // todo rename this to `highlightself` or something
     ["customhighlight", []],
     ["highlightnicks", []],

@@ -164,26 +164,22 @@ class ChatSettingsMenu extends ChatMenu {
             getStorage();
         });
 
-        this.importCustomSoundInput = document.querySelector('#import-custom-sound');
-        var importCustomSoundLabel = $('#import-custom-sound-label');
-        this.importCustomSoundInput.addEventListener('change', function (e) {
-            var reader = new FileReader();
-            var file = this.files[0]
-            var uploadCriteria = $("#upload-criteria");
+        this.importCustomSoundInput = document.querySelector("#import-custom-sound");
+        var importCustomSoundLabel = $("#import-custom-sound-label");
+        this.importCustomSoundInput.addEventListener("change", function (e) {
+            const file = this.files[0]
+            const uploadCriteria = $("#upload-criteria");
 
             //reset colors
             importCustomSoundLabel.css("color", "#999999");
             uploadCriteria.css("color", "#999999");
 
-            if (file.size < 1500000 && file.type == "audio/wav" || file.type == "audio/mp3") {
-
-                reader.onload = function (e) {
-                    setSound(this.result, importCustomSoundLabel);
-                };
-
+            if (file.size < 1500000 && (file.type == "audio/wav" || file.type == "audio/mp3")) {
                 importCustomSoundLabel.css("color", "green");
 
-                reader.readAsArrayBuffer(file);
+                const reader = new FileReader();
+                reader.onload = () => setSound(reader.result);
+                reader.readAsDataURL(file);
             } else {
                 importCustomSoundLabel.css("color","red")
                 uploadCriteria.css("color", "red");
@@ -197,15 +193,13 @@ class ChatSettingsMenu extends ChatMenu {
             this.resetCustomSoundLabel.css("color", "green");
 
             //reset color after 2.5 sec
-            setTimeout(function () {
-                $("#reset-custom-sound-label").css("color", "#999999");
-            },2500)
+            setTimeout(() => $("#reset-custom-sound-label").css("color", "#999999"), 2500);
         });
 
-        this.ui.on("change", 'input[type="checkbox"],select', e =>
+        this.ui.on("change", `input[type="checkbox"],select`, e =>
             this.onSettingsChange(e)
         );
-        this.ui.on("keypress blur", 'textarea[name="customhighlight"]', e =>
+        this.ui.on("keypress blur", `textarea[name="customhighlight"]`, e =>
             this.onCustomHighlightChange(e)
         );
     }
