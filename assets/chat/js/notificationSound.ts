@@ -20,7 +20,6 @@ export function playSound() {
 export async function setSound(dataUrl: string) {
     await initSound(dataUrl);
     localStorage.setItem("notificationsoundfile", dataUrl);
-    //
 }
 
 export const resetSound = () => setSound("");
