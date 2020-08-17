@@ -3,7 +3,9 @@ const defaultNotificationSound = "/assets/sounds/notification.wav";
 const context = new AudioContext();
 let audioBuffer: AudioBuffer;
 
-export async function initSound(url: string) {
+export const loadConfigSound = () => initSound(localStorage.getItem("notificationsoundfile"));
+
+export async function initSound(url: string | null) {
     const res = await fetch(url || defaultNotificationSound);
     const data = await res.arrayBuffer();
     audioBuffer = await context.decodeAudioData(data);

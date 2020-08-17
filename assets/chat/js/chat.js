@@ -25,7 +25,7 @@ import UserFeatures from "./features";
 import Settings from "./settings";
 import ChatWindow from "./window";
 import WhisperStore from "./whispers";
-import { playSound, initSound } from "./notificationSound";
+import { playSound, loadConfigSound } from "./notificationSound";
 
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/gi;
@@ -310,7 +310,7 @@ class Chat {
             this.cmdHIDEEMOTE(data, "UNHIDEEMOTE")
         );
 
-        initSound(this.settings.get("notificationsoundfile"))
+        loadConfigSound();
     }
 
     withUserAndSettings(data) {
