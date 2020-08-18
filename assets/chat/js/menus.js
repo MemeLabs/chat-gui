@@ -143,6 +143,19 @@ class ChatSettingsMenu extends ChatMenu {
     constructor(ui, btn, chat) {
         super(ui, btn, chat);
 
+        this.initNotificationsInput();
+        this.initImportExportInput();
+        this.initCustomSoundInput();
+
+        this.ui.on("change", `input[type="checkbox"],select`, e =>
+            this.onSettingsChange(e)
+        );
+        this.ui.on("keypress blur", `textarea[name="customhighlight"]`, e =>
+            this.onCustomHighlightChange(e)
+        );
+    }
+
+    initNotificationsInput() {
         this.enableNotificationsBtn = this.ui.find(".enable-notifications-btn");
         this.enableNotificationsBtn.on("click", () => {
             this.notificationPermission().then(() => this.updateNotification());
@@ -150,7 +163,9 @@ class ChatSettingsMenu extends ChatMenu {
         this.notificationsFieldset = this.ui.find(
             ".notifications-settings-fieldset"
         );
+    }
 
+    initImportExportInput() {
         this.importSettingsInput = this.ui.find("#import-settings-Label");
         this.importSettingsInput.on("change", e => {
             var input = e.target;
@@ -163,8 +178,14 @@ class ChatSettingsMenu extends ChatMenu {
         this.exportSettingsInput.on("click", e => {
             getStorage();
         });
+    }
 
+    initCustomSoundInput() {
         this.importCustomSoundInput = document.querySelector("#import-custom-sound");
+        if (!this.importCustomSoundInput) {
+            return;
+        }
+
         var importCustomSoundLabel = $("#import-custom-sound-label");
         this.importCustomSoundInput.addEventListener("change", function (e) {
             const file = this.files[0]
@@ -195,13 +216,6 @@ class ChatSettingsMenu extends ChatMenu {
             //reset color after 2.5 sec
             setTimeout(() => $("#reset-custom-sound-label").css("color", "#999999"), 2500);
         });
-
-        this.ui.on("change", `input[type="checkbox"],select`, e =>
-            this.onSettingsChange(e)
-        );
-        this.ui.on("keypress blur", `textarea[name="customhighlight"]`, e =>
-            this.onCustomHighlightChange(e)
-        );
     }
 
     onCustomHighlightChange(e) {
