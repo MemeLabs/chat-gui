@@ -156,6 +156,7 @@ const entry = {
         'normalize.css',
         'font-awesome/scss/font-awesome.scss',
         './assets/chat/js/notification',
+        './assets/chat/js/notificationSound',
         './assets/chat/css/style.scss',
         './assets/chat.js',
         './assets/sounds/notification.wav'
@@ -166,6 +167,7 @@ const entry = {
         'normalize.css',
         'font-awesome/scss/font-awesome.scss',
         './assets/chat/js/notification',
+        './assets/chat/js/notificationSound',
         './assets/chat/css/style.scss',
         './assets/chat/css/onstream.scss',
         './assets/streamchat.js'
