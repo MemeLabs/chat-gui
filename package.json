@@ -24,7 +24,7 @@
     "static": "./static"
   },
   "dependencies": {
-    "core-js": "~2.5.3",
+    "core-js": "~3.6.5",
     "detect-browser": "^5.1.1",
     "font-awesome": "~4.7.0",
     "jquery": "~3.5.0",
