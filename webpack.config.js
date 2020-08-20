@@ -151,7 +151,7 @@ const plugins = [
 
 const entry = {
     'chat': [
-        'core-js/es',
+        'core-js/es6',
         'jquery',
         'normalize.css',
         'font-awesome/scss/font-awesome.scss',
@@ -161,7 +161,7 @@ const entry = {
         './assets/sounds/notification.wav'
     ],
     'chatstreamed': [
-        'core-js/es',
+        'core-js/es6',
         'jquery',
         'normalize.css',
         'font-awesome/scss/font-awesome.scss',
@@ -196,7 +196,7 @@ if (process.env.NODE_ENV !== 'production') {
     );
 
     entry['dev-chat'] = [
-        'core-js/es',
+        'core-js/es6',
         'jquery',
         'normalize.css',
         'font-awesome/scss/font-awesome.scss',
