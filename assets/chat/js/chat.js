@@ -1,7 +1,7 @@
 /* global $, window, document */
 
 import { KEYCODES, DATE_FORMATS, isKeyCode, GENERIFY_OPTIONS } from "./const";
-import debounce from "throttle-debounce/debounce";
+import debounce from "throttle-debounce";
 import moment from "moment";
 import EventEmitter from "./emitter";
 import ChatSource from "./source";

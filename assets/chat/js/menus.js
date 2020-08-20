@@ -4,7 +4,7 @@ import ChatUser from "./user";
 import ChatScrollPlugin from "./scroll";
 import UserFeatures from "./features";
 import EventEmitter from "./emitter";
-import debounce from "throttle-debounce/debounce";
+import debounce from "throttle-debounce";
 import { isKeyCode, KEYCODES } from "./const";
 import { setStorage, getStorage } from "./transfer";
 import { setSound, resetSound } from "./notificationSound";
