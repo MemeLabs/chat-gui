@@ -64,7 +64,9 @@ const GENERIFY_OPTIONS = {
     virus: "virus",
     banned: "banned",
     // 'frozen': 'frozen',
-    lag: "lag"
+    lag: "lag",
+    slow: "slow",
+    fast: "fast"
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [

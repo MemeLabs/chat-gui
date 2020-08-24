@@ -348,15 +348,46 @@ $spritesDir : '../../emotes/emoticons-animated/';
         }
     }
 
-    .generify-emote-#{$file-name} .generify-dank {
-        $lengthUntilMs: str-index(#{$animation-length}, "m");
-        $miliseconds: str-slice(#{$animation-length}, 1, $lengthUntilMs - 1);
-        $seconds: calc(#{$miliseconds}/1000 * #{$repeat});
-        animation: dankmemes-anim 1s $seconds;
+    .generify-emote-#{$file-name} {
+        @include dank-animation(
+            $file-name: $file-name,
+            $animation-length: $animation-length,
+            $repeat: $repeat,
+        )
     }
 
-    .generify-emote-#{$file-name} .generify-dank:hover {
-        animation: dankmemes-anim 1s infinite;
+    .generify-emote-#{$file-name} .fast {
+        .chat-emote-#{$file-name} {
+            animation-duration: $animation-length * 0.5;
+            animation-iteration-count: $repeat * 2;
+        }
+    }
+
+    .generify-emote-#{$file-name} .slow {
+        .chat-emote-#{$file-name} {
+            animation-duration: $animation-length * 2;
+        }
+
+        @include dank-animation(
+            $file-name: $file-name,
+            $animation-length: $animation-length * 2,
+            $repeat: $repeat,
+            $dank-animation-duration: 2s
+        )
+    }
+}
+
+@mixin dank-animation(
+        $file-name,
+        $animation-length,
+        $repeat,
+        $dank-animation-duration: 1s) {
+    .generify-dank {
+        animation: dankmemes-anim $dank-animation-duration #{$animation-length / $dank-animation-duration * $repeat};
+    }
+
+    .generify-dank:hover {
+        animation: dankmemes-anim $dank-animation-duration infinite;
     }
 }
 
