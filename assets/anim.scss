@@ -2,12 +2,14 @@
 
 $emote-prefix: '.chat-emote-';
 $css-animated-emote-animations: ();
+$css-animated-emote-can-animate-forever: false;
 $context-css-animated-emote-mixin: false;
 
 // Mixin for defining an emote with a css animation.
 // Should be used in combination with emote-animation mixin.
 @mixin css-animated-emote($name, $can-animate-forever: false) {
     $context-css-animated-emote-mixin: true !global;
+    $css-animated-emote-can-animate-forever: $can-animate-forever !global;
     #{$emote-prefix + $name} {
         @content;
         animation: $css-animated-emote-animations;
@@ -30,7 +32,7 @@ $context-css-animated-emote-mixin: false;
 // Mixin for defining an animation within a css-animated-emote mixin.
 // $animation-properties takes the same properties as the `animation` property.
 // The mixin body takes the `@keyframes` definition.
-@mixin emote-animation($animation-properties: null){
+@mixin emote-animation($animation-duration, $animation-iteration-count){
     @if not $context-css-animated-emote-mixin {
         @error '`emote-animation` should be used inside `css-animated-emote` mixin!';
     }
@@ -49,13 +51,32 @@ $context-css-animated-emote-mixin: false;
     $css-animated-emote-animations:
         append(
             $css-animated-emote-animations,
-            $animation-properties $animation-name,
+            $animation-duration $animation-iteration-count $animation-name,
             comma
         ) !global;
+
+    .generify-container.fast & {
+        animation-duration: $animation-duration * 0.5;
+        animation-iteration-count: $animation-iteration-count * 2;
+
+        &:hover {
+            animation-iteration-count: infinite;
+        }
+
+        @if $css-animated-emote-can-animate-forever {
+            &-animate-forever {
+                animation-iteration-count: infinite;
+            }
+        }
+    }
+
+    .generify-container.slow & {
+        animation-duration: $animation-duration * 2;
+    }
 }
 
 @include css-animated-emote(OverRustle) {
-    @include emote-animation(100ms 7) {
+    @include emote-animation(100ms, 7) {
         0% { left: 0; }
         100% { left: 3px; }
     }
@@ -64,7 +85,7 @@ $context-css-animated-emote-mixin: false;
 @include css-animated-emote(MLADY) {
     transform-origin: 4px bottom;
 
-    @include emote-animation(250ms 3) {
+    @include emote-animation(250ms, 3) {
         0% {
             transform: rotate(0deg);
         }
@@ -81,7 +102,7 @@ $context-css-animated-emote-mixin: false;
 }
 
 @include css-animated-emote(SpookerZ) {
-    @include emote-animation(250ms 3) {
+    @include emote-animation(250ms, 3) {
         0% {
             transform: translate(0px 0px);
         }
@@ -99,7 +120,7 @@ $context-css-animated-emote-mixin: false;
 }
 
 @include css-animated-emote(DANKMEMES) {
-    @include emote-animation(1s 2) {
+    @include emote-animation(1s, 2) {
         0%, 100% {
             filter: hue-rotate(0deg);
         }
@@ -110,7 +131,7 @@ $context-css-animated-emote-mixin: false;
 }
 
 @include css-animated-emote(WEEWOO) {
-    @include emote-animation(1.5s 1) {
+    @include emote-animation(1.5s, 1) {
         0%, 100% {
             opacity: 1;
         }
@@ -145,7 +166,7 @@ $context-css-animated-emote-mixin: false;
 }
 
 @include css-animated-emote(Nappa) {
-    @include emote-animation(750ms 1) {
+    @include emote-animation(750ms, 1) {
         0% {
             transform: translate(0px 0px) scale(0.5);
         }
@@ -187,7 +208,7 @@ $context-css-animated-emote-mixin: false;
 }
 
 @include css-animated-emote(Hhhehhehe) {
-    @include emote-animation(500ms 1) {
+    @include emote-animation(500ms, 1) {
         0% {
             transform: translate(0px, 0px) rotate(-0deg);
         }
@@ -210,28 +231,28 @@ $context-css-animated-emote-mixin: false;
 }
 
 @include css-animated-emote(REE) {
-    @include emote-animation(100ms 7) {
+    @include emote-animation(100ms, 7) {
         from { left: 0; }
         to { left: 3px; }
     }
 }
 
 @include css-animated-emote(ITSRAWWW) {
-    @include emote-animation(100ms 7) {
+    @include emote-animation(100ms, 7) {
         0% { left: 0; }
         100% { left: 2px; }
     }
 }
 
 @include css-animated-emote(DJPepo, true) {
-    @include emote-animation(500ms 7) {
+    @include emote-animation(500ms, 7) {
         0% { top: 10; }
         100% { top: 12px; }
     }
 }
 
 @include css-animated-emote(KEKE, true) {
-    @include emote-animation(200ms 5) {
+    @include emote-animation(200ms, 5) {
         0% { transform: translate(0px, 0px); }
         50% { transform: translate(0px, 3px); }
         100% { transform: translate(0px, 0px); }
@@ -239,7 +260,7 @@ $context-css-animated-emote-mixin: false;
 }
 
 @include css-animated-emote(PepeLaugh, true) {
-    @include emote-animation(200ms 5) {
+    @include emote-animation(200ms, 5) {
         0% { transform: translate(0px, 0px); }
         50% { transform: translate(0px, 3px); }
         100% { transform: translate(0px, 0px); }
@@ -363,6 +384,12 @@ $spritesDir : '../../emotes/emoticons-animated/';
 
             &:hover {
                 animation-iteration-count: infinite;
+            }
+
+            @if $can-animate-forever {
+                &-animate-forever {
+                    animation-iteration-count: infinite;
+                }
             }
         }
     }
