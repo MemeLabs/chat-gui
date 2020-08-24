@@ -360,6 +360,10 @@ $spritesDir : '../../emotes/emoticons-animated/';
         .chat-emote-#{$file-name} {
             animation-duration: $animation-length * 0.5;
             animation-iteration-count: $repeat * 2;
+
+            &:hover {
+                animation-iteration-count: infinite;
+            }
         }
     }
 
