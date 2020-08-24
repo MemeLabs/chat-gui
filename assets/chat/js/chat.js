@@ -107,9 +107,9 @@ const settingsdefault = new Map([
     ["timestampformat", "HH:mm"],
     ["maxlines", 250],
     ["notificationwhisper", true],
-    ["soundnotificationwhisper", true],
+    ["soundnotificationwhisper", false],
     ["notificationhighlight", true],
-    ["soundnotificationhighlight", true],
+    ["soundnotificationhighlight", false],
     ["notificationsoundfile", ""],
     ["highlight", true], // todo rename this to `highlightself` or something
     ["customhighlight", []],
