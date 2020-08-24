@@ -359,14 +359,8 @@ $spritesDir : '../../emotes/emoticons-animated/';
     .generify-emote-#{$file-name} .fast {
         .chat-emote-#{$file-name} {
             animation-duration: $animation-length * 0.5;
+            animation-iteration-count: $repeat * 2;
         }
-
-        @include dank-animation(
-            $file-name: $file-name,
-            $animation-length: $animation-length * 0.5,
-            $repeat: $repeat,
-            $dank-animation-duration: 0.5s
-        )
     }
 
     .generify-emote-#{$file-name} .slow {
