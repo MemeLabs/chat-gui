@@ -7,8 +7,10 @@ import EventEmitter from "./emitter";
 import debounce from "throttle-debounce/debounce";
 import { isKeyCode, KEYCODES } from "./const";
 import { setStorage, getStorage } from "./transfer";
-import { setSound, resetSound } from "./notificationSound";
+import notificationSound from "./notificationSound";
 import { MessageBuilder } from "./messages";
+
+const Notification = window.Notification || {};
 
 function buildEmote(emote) {
     return `<div class="emote"><span title="${emote}" class="chat-emote chat-emote-${emote}">${emote}</span></div>`;
@@ -181,6 +183,11 @@ class ChatSettingsMenu extends ChatMenu {
     }
 
     initCustomSoundInput() {
+        if (!notificationSound.supported()) {
+            document.querySelector("#notification-sound-config").remove();
+            return;
+        }
+
         this.importCustomSoundInput = document.querySelector("#import-custom-sound");
         if (!this.importCustomSoundInput) {
             return;
@@ -197,7 +204,7 @@ class ChatSettingsMenu extends ChatMenu {
 
             if (file.size < 1500000) {
                 const reader = new FileReader();
-                reader.onload = () => setSound(reader.result)
+                reader.onload = () => notificationSound.set(reader.result)
                     .then(() => importCustomSoundLabel.css("color", "green"))
                     .catch(() => importCustomSoundLabel.css("color", "red"));
                 reader.readAsDataURL(file);
@@ -209,7 +216,7 @@ class ChatSettingsMenu extends ChatMenu {
 
         this.resetCustomSoundLabel = this.ui.find("#reset-custom-sound-label");
         this.resetCustomSoundLabel.on("click", e => {
-            resetSound();
+            notificationSound.reset();
 
             this.resetCustomSoundLabel.css("color", "green");
 

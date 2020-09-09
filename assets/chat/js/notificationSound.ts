@@ -1,27 +1,56 @@
 const defaultNotificationSound = "/assets/sounds/notification.wav";
 
-const context = new AudioContext();
-let audioBuffer: AudioBuffer;
+export class AudioContextNotificatinPlayer {
+    context: AudioContext;
+    audioBuffer?: AudioBuffer;
 
-export const loadConfigSound = () => initSound(localStorage.getItem("notificationsoundfile"));
+    constructor() {
+        this.context = new AudioContext();
+    }
 
-export async function initSound(url: string | null) {
-    const res = await fetch(url || defaultNotificationSound);
-    const data = await res.arrayBuffer();
-    audioBuffer = await context.decodeAudioData(data);
+    supported() { return false; }
+
+    loadConfig() {
+        this.init(localStorage.getItem("notificationsoundfile"));
+    }
+
+    async init(url: string | null) {
+        const res = await fetch(url || defaultNotificationSound);
+        const data = await res.arrayBuffer();
+        this.audioBuffer = await this.context.decodeAudioData(data);
+    }
+
+    play() {
+        if (this.audioBuffer) {
+            const source = this.context.createBufferSource();
+            source.buffer = this.audioBuffer;
+            source.loop = false;
+            source.connect(this.context.destination);
+            source.start(0);
+        }
+    }
+
+    async set(dataUrl: string) {
+        await this.init(dataUrl);
+        localStorage.setItem("notificationsoundfile", dataUrl);
+    }
+
+    reset() {
+        this.set("");
+    }
 }
 
-export function playSound() {
-    const source = context.createBufferSource();
-    source.buffer = audioBuffer;
-    source.loop = false;
-    source.connect(context.destination);
-    source.start(0);
+export class NoopNotificatinPlayer {
+    supported() { return false; }
+    loadConfig() {}
+    async init(url: string | null) {}
+    play() {}
+    async set(dataUrl: string) {}
+    reset() {}
 }
 
-export async function setSound(dataUrl: string) {
-    await initSound(dataUrl);
-    localStorage.setItem("notificationsoundfile", dataUrl);
-}
+const Player = window.AudioContext
+? AudioContextNotificatinPlayer
+: NoopNotificatinPlayer;
 
-export const resetSound = () => setSound("");
+export default new Player();
