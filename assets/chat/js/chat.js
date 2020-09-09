@@ -25,7 +25,7 @@ import UserFeatures from "./features";
 import Settings from "./settings";
 import ChatWindow from "./window";
 import WhisperStore from "./whispers";
-import { playSound, loadConfigSound } from "./notificationSound";
+import notificationSound from "./notificationSound";
 
 
 const regextime = /(\d+(?:\.\d*)?)([a-z]+)?/gi;
@@ -207,6 +207,7 @@ const extractHostname = url => {
     hostname = hostname.split("?")[0];
     return hostname;
 };
+const Notification = window.Notification || {};
 
 class Chat {
     constructor() {
@@ -310,7 +311,7 @@ class Chat {
             this.cmdHIDEEMOTE(data, "UNHIDEEMOTE")
         );
 
-        loadConfigSound();
+        notificationSound.loadConfig();
     }
 
     withUserAndSettings(data) {
@@ -902,7 +903,7 @@ class Chat {
 
         if (message.highlighted && this.settings.get("soundnotificationhighlight") && this.ishidden) {
             // play sound
-            playSound();
+            notificationSound.play();
         }
 
         if (!this.backlogloading) win.unlock();

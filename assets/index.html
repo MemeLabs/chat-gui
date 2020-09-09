@@ -168,36 +168,38 @@
 
                             </fieldset>
 
-                            <h4>
-                                Sound notifications
-                                <br />
-                                <small id="upload-criteria" style="color: #999999">
-                                    Max file size: 1.5MB <br />
-                                    File types accepted: .wav, .mp3
-                                </small>
-                            </h4>
+                            <div id="notification-sound-config">
+                                <h4>
+                                    Sound notifications
+                                    <br />
+                                    <small id="upload-criteria" style="color: #999999">
+                                        Max file size: 1.5MB <br />
+                                        File types accepted: .wav, .mp3
+                                    </small>
+                                </h4>
 
-                            <div class="form-group checkbox">
-                                <label title="Sound notification on highlight">
-                                    <input name="soundnotificationhighlight" type="checkbox" /> Sound on mention
-                                </label>
-                            </div>
+                                <div class="form-group checkbox">
+                                    <label title="Sound notification on highlight">
+                                        <input name="soundnotificationhighlight" type="checkbox" /> Sound on mention
+                                    </label>
+                                </div>
 
-                            <div class="form-group checkbox">
-                                <label title="Sound notification on whisper">
-                                    <input name="soundnotificationwhisper" type="checkbox" /> Sound on whisper
-                                </label>
-                            </div>
+                                <div class="form-group checkbox">
+                                    <label title="Sound notification on whisper">
+                                        <input name="soundnotificationwhisper" type="checkbox" /> Sound on whisper
+                                    </label>
+                                </div>
 
-                            <div class="form-group">
-                                <label title="Upload custom sound" for="import-custom-sound" id="import-custom-sound-label" class="import-export">
-                                    <input type="file" accept="audio/*" name="notificationsoundfile" id="import-custom-sound" style="display:none">
-                                    <span id="customSoundUploadLabel">Upload sound</span>
-                                </label>
-                                <label title="Reset to default" id="reset-custom-sound-label" class="import-export">
-                                    <input type="button" name="reset-sound" id="reset-custom-sound" style="display:none">
-                                    <span id="soundResetLabel">Reset sound</span>
-                                </label>
+                                <div class="form-group">
+                                    <label title="Upload custom sound" for="import-custom-sound" id="import-custom-sound-label" class="import-export">
+                                        <input type="file" accept="audio/*" name="notificationsoundfile" id="import-custom-sound" style="display:none">
+                                        <span id="customSoundUploadLabel">Upload sound</span>
+                                    </label>
+                                    <label title="Reset to default" id="reset-custom-sound-label" class="import-export">
+                                        <input type="button" name="reset-sound" id="reset-custom-sound" style="display:none">
+                                        <span id="soundResetLabel">Reset sound</span>
+                                    </label>
+                                </div>
                             </div>
 
                             <h4>Whispers</h4>
