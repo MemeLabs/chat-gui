@@ -8,7 +8,7 @@ export class AudioContextNotificatinPlayer {
         this.context = new AudioContext();
     }
 
-    supported() { return false; }
+    supported() { return true; }
 
     loadConfig() {
         this.init(localStorage.getItem("notificationsoundfile"));
