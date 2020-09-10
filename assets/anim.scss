@@ -282,7 +282,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
         $sprite-height,
         $animation-length,
         $repeat,
-        $end-on-frame: 1,
+        $end-on-frame: 0,
         $end-on-last-frame: false,
         $can-animate-forever: true,
         $file-ext: '.png') {
@@ -316,8 +316,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
         @if $end-on-last-frame {
             background-position: #{$sprite-width / $frame-count};
         }
-
-        @if variable-exists($name: end-on-frame) {
+        @else if $end-on-frame != 0 {
             background-position: #{$sprite-width / $frame-count * $end-on-frame};
         }
 
