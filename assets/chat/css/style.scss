@@ -1038,15 +1038,8 @@ a.flair12:hover {
     line-height: 150%;
 }
 
-/* Auto complete */
-@keyframes autocompletein {
-    0% { opacity: 0; }
-    90% { opacity: 0; }
-    100% { opacity: 1; }
-}
 #chat-auto-complete {
     pointer-events: none;
-    transition: opacity 250ms ease-out;
     opacity: 0;
     z-index: 131;
     border-radius: 3px 3px 0 0;
@@ -1060,7 +1053,6 @@ a.flair12:hover {
     white-space: nowrap;
 
     &.active {
-        animation: autocompletein 600ms 1;
         pointer-events: auto;
     }
 
