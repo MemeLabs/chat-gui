@@ -109,6 +109,7 @@ const HAT_BLACKLIST = [
 const DANK_WHITELIST = [
     "AngelThump",
     "Abathur",
+    "BONK",
     "HEADSHOT",
     "DuckerZ",
     "YEE",
