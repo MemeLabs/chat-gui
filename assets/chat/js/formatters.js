@@ -1,4 +1,3 @@
-import UserFeatures from "./features";
 import {
     GENERIFY_OPTIONS,
     HALLOWEEN_RANDOM_EFFECTS,
@@ -8,6 +7,7 @@ import {
     HAT_SPECIAL_BLACKLIST,
     DANK_WHITELIST
 } from "./const";
+import HtmlElement from "./htmlElement";
 
 /** @var Array tlds */
 const tlds = require("../../tld.json");
@@ -224,10 +224,11 @@ class IdentityFormatter {
     }
 }
 
+// Formats all of the emotes in a chat message.
 class EmoteFormatter {
     format(chat, str, message = null) {
-        if (!this.singleEmoteFormatter) {
-            this.singleEmoteFormatter = new SingleEmoteFormatter();
+        if (!this.chatEmoteFormatter) {
+            this.chatEmoteFormatter = new ChatEmoteFormatter();
         }
 
         if (!this.regex) {
@@ -244,11 +245,37 @@ class EmoteFormatter {
         var seedRoot = 0;
         return str.replace(
             this.regex,
-            m => this.singleEmoteFormatter.format(chat, str, m, emoteCount, message, seedRoot++));
+            m => this.chatEmoteFormatter.format(chat, str, m, emoteCount, message, seedRoot++));
     }
 }
 
-class SingleEmoteFormatter {
+// Formats a single emote without any effects.
+class RawEmoteFormatter {
+    buildElement(chat, emoteName) {
+        var emoteLower = emoteName.toLowerCase();
+        var element = new HtmlElement('span');
+
+        element.addClass('chat-emote');
+        element.addClass(`chat-emote-${emoteLower}`);
+
+        if (chat.settings.get("animateforever")) {
+            element.addClass(`chat-emote-${emoteLower}-animate-forever`);
+        }
+
+        element.setAttribute('title', emoteName);
+        element.setContent(emoteName);
+
+        return element;
+    }
+
+    format(chat, emoteName) {
+        var element = this.buildElement(chat, emoteName);
+        return element.toString();
+    }
+}
+
+// Formats an emote for display in the chat.
+class ChatEmoteFormatter {
     format(chat, fullMessage, rawEmote, emoteCount, message = null, seedRoot = 0) {
         if (!this.emotewidths) {
             this.emotewidths = {};
@@ -656,6 +683,7 @@ class UrlFormatter {
 
 export {
     EmoteFormatter,
+    RawEmoteFormatter,
     GreenTextFormatter,
     HtmlTextFormatter,
     MentionedUserFormatter,

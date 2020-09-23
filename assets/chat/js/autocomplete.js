@@ -2,6 +2,7 @@
 
 import Chat from "./chat";
 import { KEYCODES, getKeyCode, CUSTOM_AUTOCOMPLETE_ORDER } from "./const";
+import { RawEmoteFormatter } from "./formatters";
 
 let suggestTimeoutId;
 let minWordLength = 1;
@@ -101,7 +102,16 @@ function buildSearchCriteria(str, offset) {
 function buildHelpers(ac) {
     if (ac.results.length > 0) {
         ac.container[0].innerHTML = ac.results
-            .map((res, k) => `<li data-index="${k}">${res.data}</li>`)
+            .map((res, k) => {
+                var suggestion = res.data;
+                var emote = '';
+                if (ac.chat.emoticons.has(suggestion)) {
+                    var formatter = new RawEmoteFormatter();
+                    emote = formatter.format(ac.chat, suggestion);
+                }
+
+                return `<li data-index="${k}">${suggestion}${emote}</li>`
+            })
             .join("");
     }
 }
@@ -109,7 +119,7 @@ function timeoutHelpers(ac) {
     if (suggestTimeoutId) {
         clearTimeout(suggestTimeoutId);
     }
-    suggestTimeoutId = setTimeout(() => ac.reset(), 15000, ac);
+    suggestTimeoutId = setTimeout(() => ac.reset(), 150000000, ac);
 }
 function updateHelpers(ac) {
     ac.chat.ui.toggleClass("chat-autocomplete-in", ac.results.length > 0);
