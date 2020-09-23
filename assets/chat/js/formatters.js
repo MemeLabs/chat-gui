@@ -116,11 +116,11 @@ function getRandomHalloweenEffect(emote, seed) {
 
     const delay =
         HALLOWEEN_RANDOM_DELAYS[
-            getRandomInt(seed, HALLOWEEN_RANDOM_DELAYS.length)
+        getRandomInt(seed, HALLOWEEN_RANDOM_DELAYS.length)
         ];
     const effect =
         HALLOWEEN_RANDOM_EFFECTS[
-            getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)
+        getRandomInt(seed, HALLOWEEN_RANDOM_EFFECTS.length)
         ];
 
     return `${delay} ${effect}`;
@@ -594,6 +594,7 @@ class UrlFormatter {
             strict = "\\b" + scheme + pathCont,
             relaxed = strict + "|" + webURL;
         this.linkregex = new RegExp(relaxed, "gi");
+        this.discordmp4Regex = new RegExp("(https?:\/\/)?(www\.)?(cdn.discordapp\.com)?\.mp4")
         this._elem = $("<div></div>");
     }
 
@@ -634,8 +635,13 @@ class UrlFormatter {
         }
 
         return str.replace(self.linkregex, function (url, scheme) {
+            debugger;
             scheme = scheme ? "" : "http://";
-            const decodedUrl = self._elem.html(url).text();
+            var decodedUrl = self._elem.html(url).text();
+            // replaces the discord links that automatically download a file when clicked
+            if (self.discordmp4Regex.test(decodedUrl)) {
+                decodedUrl = decodedUrl.replace("cdn.discordapp.com", "media.discordapp.net");
+            }
             const m = decodedUrl.match(self.linkregex);
             if (m) {
                 url = self.encodeUrl(m[0]);
