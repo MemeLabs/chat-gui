@@ -252,14 +252,13 @@ class EmoteFormatter {
 // Formats a single emote without any effects.
 class RawEmoteFormatter {
     buildElement(chat, emoteName) {
-        var emoteLower = emoteName.toLowerCase();
         var element = new HtmlElement('span');
 
         element.addClass('chat-emote');
-        element.addClass(`chat-emote-${emoteLower}`);
+        element.addClass(`chat-emote-${emoteName}`);
 
         if (chat.settings.get("animateforever")) {
-            element.addClass(`chat-emote-${emoteLower}-animate-forever`);
+            element.addClass(`chat-emote-${emoteName}-animate-forever`);
         }
 
         element.setAttribute('title', emoteName);

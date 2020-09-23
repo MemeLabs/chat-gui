@@ -24,7 +24,6 @@ class HtmlElement {
             return;
         }
 
-        toAdd = HtmlElement.normalize(toAdd);
         this.classes.add(toAdd);
     }
 
