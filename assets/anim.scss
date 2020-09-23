@@ -495,6 +495,15 @@ $spritesDir : '../../emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
+    $file-name: BONK,
+    $frame-count: 2,
+    $sprite-width: 110px,
+    $sprite-height: 32px,
+    $animation-length: 500ms,
+    $repeat: 10
+);
+
+@include sprite-animation(
     $file-name: ComfyWAG,
     $frame-count: 2,
     $sprite-width: 76px,
