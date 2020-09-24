@@ -3,6 +3,7 @@
 import Chat from "./chat";
 import { KEYCODES, getKeyCode, CUSTOM_AUTOCOMPLETE_ORDER } from "./const";
 import { RawEmoteFormatter } from "./formatters";
+import HtmlElement from "./htmlElement";
 
 let suggestTimeoutId;
 let minWordLength = 1;
@@ -103,14 +104,19 @@ function buildHelpers(ac) {
     if (ac.results.length > 0) {
         ac.container[0].innerHTML = ac.results
             .map((res, k) => {
-                var suggestion = res.data;
-                var emote = '';
-                if (ac.chat.settings.get('autocompleteemotepreview') && ac.chat.emoticons.has(suggestion)) {
-                    var formatter = new RawEmoteFormatter();
-                    emote = formatter.format(ac.chat, suggestion);
+                const text = res.data;
+                let emote = "";
+
+                if (ac.chat.emoticons.has(text) && ac.chat.settings.get("autocompleteemotepreview")) {
+                    const emoteFormatter = new RawEmoteFormatter();
+                    emote = emoteFormatter.format(ac.chat, text);
                 }
 
-                return `<li data-index="${k}">${suggestion}${emote}</li>`
+                const element = new HtmlElement("li");
+                element.setAttribute("data-index", k);
+                element.setContent(`${text}${emote}`);
+
+                return element.toString();
             })
             .join("");
     }

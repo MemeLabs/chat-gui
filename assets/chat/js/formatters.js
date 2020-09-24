@@ -388,23 +388,23 @@ class EmoteFormatter {
 // Formats a single emote without any effects or modifiers.
 class RawEmoteFormatter {
     buildElement(chat, emoteName) {
-        var element = new HtmlElement('span');
+        const element = new HtmlElement("span");
 
-        element.addClass('chat-emote');
+        element.addClass("chat-emote");
         element.addClass(`chat-emote-${emoteName}`);
 
-        if (chat.settings.get('animateforever')) {
+        if (chat.settings.get("animateforever")) {
             element.addClass(`chat-emote-${emoteName}-animate-forever`);
         }
 
-        element.setAttribute('title', emoteName);
+        element.setAttribute("title", emoteName);
         element.setContent(emoteName);
 
         return element;
     }
 
     format(chat, emoteName) {
-        var element = this.buildElement(chat, emoteName);
+        const element = this.buildElement(chat, emoteName);
         return element.toString();
     }
 }
