@@ -113,7 +113,7 @@ function buildHelpers(ac) {
                 }
 
                 const element = new HtmlElement("li");
-                element.setAttribute("data-index", k);
+                element.setAttribute("data-index", `${k}`);
                 element.setContent(`${text}${emote}`);
 
                 return element.toString();
