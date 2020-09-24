@@ -389,7 +389,6 @@ class EmoteFormatter {
 class RawEmoteFormatter {
     buildElement(chat, emoteName) {
         const element = new HtmlElement("span");
-
         element.addClass("chat-emote");
         element.addClass(`chat-emote-${emoteName}`);
 
