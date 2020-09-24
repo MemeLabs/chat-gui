@@ -14,7 +14,7 @@ class HtmlElement {
     }
 
     static normalize(value: string): string {
-        return value ? value.trim().toLowerCase() : '';
+        return value.trim().toLowerCase();
     }
 
     addClass(toAdd: string): void {

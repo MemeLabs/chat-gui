@@ -669,13 +669,13 @@ class UrlFormatter {
 }
 
 export {
+    CodeFormatter,
     EmoteFormatter,
-    RawEmoteFormatter,
     GreenTextFormatter,
     HtmlTextFormatter,
-    MentionedUserFormatter,
-    UrlFormatter,
     IdentityFormatter,
-    CodeFormatter,
-    SpoilerFormatter
+    MentionedUserFormatter,
+    RawEmoteFormatter,
+    SpoilerFormatter,
+    UrlFormatter
 };
