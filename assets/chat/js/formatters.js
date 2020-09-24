@@ -224,13 +224,8 @@ class IdentityFormatter {
     }
 }
 
-// Formats all of the emotes in a chat message.
 class EmoteFormatter {
     format(chat, str, message = null) {
-        if (!this.chatEmoteFormatter) {
-            this.chatEmoteFormatter = new ChatEmoteFormatter();
-        }
-
         if (!this.regex) {
             const emoticons = [...chat.emoticons].join("|");
             const suffixes = Object.keys(GENERIFY_OPTIONS).join("|");
@@ -240,42 +235,6 @@ class EmoteFormatter {
             );
         }
 
-        const emoteCount = ((str || "").match(this.regex) || []).length;
-        // re-seed the rng for halloween effects each emote
-        var seedRoot = 0;
-        return str.replace(
-            this.regex,
-            m => this.chatEmoteFormatter.format(chat, str, m, emoteCount, message, seedRoot++));
-    }
-}
-
-// Formats a single emote without any effects.
-class RawEmoteFormatter {
-    buildElement(chat, emoteName) {
-        var element = new HtmlElement('span');
-
-        element.addClass('chat-emote');
-        element.addClass(`chat-emote-${emoteName}`);
-
-        if (chat.settings.get("animateforever")) {
-            element.addClass(`chat-emote-${emoteName}-animate-forever`);
-        }
-
-        element.setAttribute('title', emoteName);
-        element.setContent(emoteName);
-
-        return element;
-    }
-
-    format(chat, emoteName) {
-        var element = this.buildElement(chat, emoteName);
-        return element.toString();
-    }
-}
-
-// Formats an emote for display in the chat.
-class ChatEmoteFormatter {
-    format(chat, fullMessage, rawEmote, emoteCount, message = null, seedRoot = 0) {
         if (!this.emotewidths) {
             this.emotewidths = {};
             this.emoteheights = {};
@@ -313,111 +272,140 @@ class ChatEmoteFormatter {
             document.getElementsByTagName("head")[0].appendChild(style);
         }
 
-        // rawEmote is "emote:modifier"
-        const input = rawEmote.split(":");
-        const emote = input[0].replace(/\s/g, "");
-        var suffixes = [];
-        if (input.length > 1) {
-            for (var j = 1; j < input.length; j++)
-                suffixes.push(input[j].replace(/\s/g, ""));
-        }
+        const emoteCount = ((str || "").match(this.regex) || []).length;
+        // re-seed the rng for halloween effects each emote
+        var i = 0;
+        return str.replace(this.regex, m => {
+            // m is "emote:modifier"
+            const input = m.split(":");
+            const emote = input[0].replace(/\s/g, "");
+            var suffixes = [];
+            if (input.length > 1) {
+                for (var j = 1; j < input.length; j++)
+                    suffixes.push(input[j].replace(/\s/g, ""));
+            }
 
-        // the front modifier gets "executed" last
-        suffixes = moveModifierToFront(suffixes, "banned");
-        suffixes = moveModifierToFront(suffixes, "virus");
-        suffixes = moveModifierToFront(suffixes, "dank");
-        suffixes = moveModifierToFront(suffixes, "frozen");
+            // the front modifier gets "executed" last
+            suffixes = moveModifierToFront(suffixes, "banned");
+            suffixes = moveModifierToFront(suffixes, "virus");
+            suffixes = moveModifierToFront(suffixes, "dank");
+            suffixes = moveModifierToFront(suffixes, "frozen");
 
-        const innerClasses = ["chat-emote", "chat-emote-" + emote];
+            const innerClasses = ["chat-emote", "chat-emote-" + emote];
 
-        var timestamp = 0;
-        if (message != null) {
-            timestamp = message.timestamp._i;
-        }
+            var timestamp = 0;
+            if (message != null) {
+                timestamp = message.timestamp._i;
+            }
 
-        const seed = genSeed(fullMessage, chat, seedRoot, timestamp);
-        // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
-        const punish = fullMessage == getLastMsg(chat);
-        if (isHalloween() && emoteCount <= 7 && proc(seed, punish, 0)) {
-            innerClasses.push(getRandomHalloweenEffect(emote, seed));
-        }
+            const seed = genSeed(str, chat, i++, timestamp);
+            // since the rng mostly depends on the two last messages, combos after stuck proc-ing a lot. Lower chance of this happening.
+            const punish = str == getLastMsg(chat);
+            if (isHalloween() && emoteCount <= 7 && proc(seed, punish, 0)) {
+                innerClasses.push(getRandomHalloweenEffect(emote, seed));
+            }
 
-        if (chat.settings.get("animateforever")) {
-            innerClasses.push("chat-emote-" + emote + "-animate-forever");
-        }
+            if (chat.settings.get("animateforever")) {
+                innerClasses.push("chat-emote-" + emote + "-animate-forever");
+            }
 
-        if (chat.settings.get('hiddenemotes').includes(emote)) {
-            innerClasses.push('hidden-emote')
-        }
+            if (chat.settings.get('hiddenemotes').includes(emote)) {
+                innerClasses.push('hidden-emote')
+            }
 
-        let hat = "";
-        if (this.emotewidths[emote] !== undefined) {
-            hat = putHat(
-                this.emotewidths[emote],
-                this.emoteheights[emote],
-                emote
-            );
-        }
+            let hat = "";
+            if (this.emotewidths[emote] !== undefined) {
+                hat = putHat(
+                    this.emotewidths[emote],
+                    this.emoteheights[emote],
+                    emote
+                );
+            }
 
-        var goldenModifier = "";
-        var goldenModifierInnerEmoteStyle = "";
-        let goldenProcChance = 0.00001;
-        if (emoteCount / 2 > 1) {
-            // more than 2 emotes will lower the chance of a rare
-            goldenProcChance = goldenProcChance / (emoteCount / 2);
-        }
-        // 0.001% proc chance
-        if (!isHalloween() && proc(seed, punish, goldenProcChance)) {
-            var goldenEmote = genGoldenEmote(
-                emote,
-                this.emoteheights[emote],
-                this.emotewidths[emote]
-            );
-            goldenModifier = goldenEmote.goldenModifier;
-            goldenModifierInnerEmoteStyle =
-                goldenEmote.goldenModifierInnerEmoteStyle;
-        }
+            var goldenModifier = "";
+            var goldenModifierInnerEmoteStyle = "";
+            let goldenProcChance = 0.00001;
+            if (emoteCount / 2 > 1) {
+                // more than 2 emotes will lower the chance of a rare
+                goldenProcChance = goldenProcChance / (emoteCount / 2);
+            }
+            // 0.001% proc chance
+            if (!isHalloween() && proc(seed, punish, goldenProcChance)) {
+                var goldenEmote = genGoldenEmote(
+                    emote,
+                    this.emoteheights[emote],
+                    this.emotewidths[emote]
+                );
+                goldenModifier = goldenEmote.goldenModifier;
+                goldenModifierInnerEmoteStyle =
+                    goldenEmote.goldenModifierInnerEmoteStyle;
+            }
 
-        var options = [];
-        for (var suffix of suffixes) {
-            options.push(GENERIFY_OPTIONS[suffix]);
-        }
-        options = [...new Set(options)];
-        var shekelSpan = "";
-        if (suffixes.includes('worth')) {
-            shekelSpan = "<span class='worth'></span>";
-        }
-        var loveSpan = "";
-        if (suffixes.includes('love')) {
-            loveSpan = "<span class='love'></span>";
-        }
+            var options = [];
+            for (var suffix of suffixes) {
+                options.push(GENERIFY_OPTIONS[suffix]);
+            }
+            options = [...new Set(options)];
+            var shekelSpan = "";
+            if (suffixes.includes('worth')) {
+                shekelSpan = "<span class='worth'></span>";
+            }
+            var loveSpan = "";
+            if (suffixes.includes('love')) {
+                loveSpan = "<span class='love'></span>";
+            }
 
-        var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + rawEmote + '" class="' + innerClasses.join(' ') + '">' + rawEmote + shekelSpan + loveSpan + ' </span>';
+            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + shekelSpan + loveSpan + ' </span>';
 
-        var generifyClasses = [
-            "generify-container",
-            "generify-emote-" + emote
-        ];
+            var generifyClasses = [
+                "generify-container",
+                "generify-emote-" + emote
+            ];
 
-        for (var j = 0; j < options.length; j++) {
-            innerEmote = ' <span class="' +
-                generifyClasses.join(" ") + " " +
-                options[j] +
-                '" data-modifiers="' +
-                options[j] +
-                '">' +
+            for (var j = 0; j < options.length; j++) {
+                innerEmote = ' <span class="' +
+                    generifyClasses.join(" ") + " " +
+                    options[j] +
+                    '" data-modifiers="' +
+                    options[j] +
+                    '">' +
+                    innerEmote +
+                    "</span>"
+            }
+
+            return (
+                ' <span class="' +
+                generifyClasses.join(" ") + '">' +
+                goldenModifier +
+                hat +
                 innerEmote +
                 "</span>"
+            );
+        });
+    }
+}
+
+// Formats a single emote without any effects or modifiers.
+class RawEmoteFormatter {
+    buildElement(chat, emoteName) {
+        var element = new HtmlElement('span');
+
+        element.addClass('chat-emote');
+        element.addClass(`chat-emote-${emoteName}`);
+
+        if (chat.settings.get('animateforever')) {
+            element.addClass(`chat-emote-${emoteName}-animate-forever`);
         }
 
-        return (
-            ' <span class="' +
-            generifyClasses.join(" ") + '">' +
-            goldenModifier +
-            hat +
-            innerEmote +
-            "</span>"
-        );
+        element.setAttribute('title', emoteName);
+        element.setContent(emoteName);
+
+        return element;
+    }
+
+    format(chat, emoteName) {
+        var element = this.buildElement(chat, emoteName);
+        return element.toString();
     }
 }
 

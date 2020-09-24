@@ -1,8 +1,6 @@
 
 class HtmlElement {
-    private static readonly classAttributeName = 'class';
-
-    private readonly attributes = new Map<string, string>();
+    private readonly attributes = new Map<string, string>(); // Note that the 'class' attribute is managed separately.
     private readonly classes = new Set<string>();
     private content: string = '';
     private readonly elementType: string;
@@ -35,12 +33,14 @@ class HtmlElement {
         name = HtmlElement.normalize(name);
         value = value ? value : '';
 
-        if (name === HtmlElement.classAttributeName) {
+        // 'class' is a special case because addClass() exists.
+        if (name === 'class') {
+            this.classes.clear();
+
             if (!value) {
                 return;
             }
 
-            this.classes.clear();
             const newClasses: string[] = value.split(' ');
             for (const newclass of newClasses) {
                 this.addClass(newclass);
@@ -58,8 +58,9 @@ class HtmlElement {
     }
 
     toString(): string {
-        // First, build the class attribute.
         const attributes: string[] = [];
+
+        // First, build the class attribute.
         if (this.classes.size > 0) {
             const classAttribute: string = `class="${Array.from(this.classes).join(' ')}"`;
             attributes.push(classAttribute);
