@@ -62,7 +62,7 @@ class HtmlElement {
 
         // First, build the class attribute.
         if (this.classes.size > 0) {
-            const classAttribute: string = `class="${Array.from(this.classes).join(' ')}"`;
+            const classAttribute = `class="${Array.from(this.classes).join(' ')}"`;
             attributes.push(classAttribute);
         }
 
