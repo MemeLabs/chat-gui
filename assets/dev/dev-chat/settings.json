@@ -36,6 +36,7 @@
     ["notificationtimeout", true],
     ["ignorementions", true],
     ["autocompletehelper", true],
+    ["autocompleteemotepreview", true],
     ["taggedvisibility", true],
     ["hidensfw", false],
     ["animateforever", false],

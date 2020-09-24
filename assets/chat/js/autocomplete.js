@@ -105,7 +105,7 @@ function buildHelpers(ac) {
             .map((res, k) => {
                 var suggestion = res.data;
                 var emote = '';
-                if (ac.chat.emoticons.has(suggestion)) {
+                if (ac.chat.settings.get('autocompleteemotepreview') && ac.chat.emoticons.has(suggestion)) {
                     var formatter = new RawEmoteFormatter();
                     emote = formatter.format(ac.chat, suggestion);
                 }
