@@ -408,6 +408,19 @@ class RawEmoteFormatter {
     }
 }
 
+// Formats a single emote for display within the autocomplete menu.
+class AutocompleteEmoteFormatter extends RawEmoteFormatter {
+    buildElement(chat, emoteName) {
+        const element = super.buildElement(chat, emoteName);
+        element.addClass("autocomplete-emote");
+        
+        // Some emotes require custom styling. This class does not exist for all emotes.
+        element.addClass(`autocomplete-emote-${emoteName}`);
+
+        return element;
+    }
+}
+
 // ignore escaped backticks
 function findNextTick(str) {
     var base = 0;
@@ -668,6 +681,7 @@ class UrlFormatter {
 }
 
 export {
+    AutocompleteEmoteFormatter,
     CodeFormatter,
     EmoteFormatter,
     GreenTextFormatter,

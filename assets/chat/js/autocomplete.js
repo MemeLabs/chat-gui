@@ -2,7 +2,7 @@
 
 import Chat from "./chat";
 import { KEYCODES, getKeyCode, CUSTOM_AUTOCOMPLETE_ORDER } from "./const";
-import { RawEmoteFormatter } from "./formatters";
+import { AutocompleteEmoteFormatter } from "./formatters";
 import HtmlElement from "./htmlElement";
 
 let suggestTimeoutId;
@@ -108,7 +108,7 @@ function buildHelpers(ac) {
                 let emote = "";
 
                 if (ac.chat.emoticons.has(text) && ac.chat.settings.get("autocompleteemotepreview")) {
-                    const emoteFormatter = new RawEmoteFormatter();
+                    const emoteFormatter = new AutocompleteEmoteFormatter();
                     emote = emoteFormatter.format(ac.chat, text);
                 }
 
