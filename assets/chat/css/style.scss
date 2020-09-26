@@ -1045,9 +1045,9 @@ a.flair12:hover {
     100% { opacity: 1; }
 }
 #chat-auto-complete {
+    display: none;
     pointer-events: none;
     transition: opacity 250ms ease-out;
-    opacity: 0;
     z-index: 131;
     border-radius: 3px 3px 0 0;
     position: absolute;
@@ -1496,7 +1496,7 @@ a.flair12:hover {
 }
 
 .pref-autocompletehelper #chat-auto-complete.active {
-    opacity: 1;
+    display: initial;
 }
 
 /* Nano */
