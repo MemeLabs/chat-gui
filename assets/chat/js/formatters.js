@@ -1,4 +1,3 @@
-import UserFeatures from "./features";
 import {
     GENERIFY_OPTIONS,
     HALLOWEEN_RANDOM_EFFECTS,
@@ -8,6 +7,7 @@ import {
     HAT_SPECIAL_BLACKLIST,
     DANK_WHITELIST
 } from "./const";
+import HtmlElement from "./htmlElement";
 
 /** @var Array tlds */
 const tlds = require("../../tld.json");
@@ -385,6 +385,42 @@ class EmoteFormatter {
     }
 }
 
+// Formats a single emote without any effects or modifiers.
+class RawEmoteFormatter {
+    buildElement(chat, emoteName) {
+        const element = new HtmlElement("span");
+        element.addClass("chat-emote");
+        element.addClass(`chat-emote-${emoteName}`);
+
+        if (chat.settings.get("animateforever")) {
+            element.addClass(`chat-emote-${emoteName}-animate-forever`);
+        }
+
+        element.setAttribute("title", emoteName);
+        element.setContent(emoteName);
+
+        return element;
+    }
+
+    format(chat, emoteName) {
+        const element = this.buildElement(chat, emoteName);
+        return element.toString();
+    }
+}
+
+// Formats a single emote for display within the autocomplete menu.
+class AutocompleteEmoteFormatter extends RawEmoteFormatter {
+    buildElement(chat, emoteName) {
+        const element = super.buildElement(chat, emoteName);
+        element.addClass("autocomplete-emote");
+        
+        // Some emotes require custom styling. This class does not exist for all emotes.
+        element.addClass(`autocomplete-emote-${emoteName}`);
+
+        return element;
+    }
+}
+
 // ignore escaped backticks
 function findNextTick(str) {
     var base = 0;
@@ -645,12 +681,14 @@ class UrlFormatter {
 }
 
 export {
+    AutocompleteEmoteFormatter,
+    CodeFormatter,
     EmoteFormatter,
     GreenTextFormatter,
     HtmlTextFormatter,
-    MentionedUserFormatter,
-    UrlFormatter,
     IdentityFormatter,
-    CodeFormatter,
-    SpoilerFormatter
+    MentionedUserFormatter,
+    RawEmoteFormatter,
+    SpoilerFormatter,
+    UrlFormatter
 };

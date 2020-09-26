@@ -2,6 +2,8 @@
 
 import Chat from "./chat";
 import { KEYCODES, getKeyCode, CUSTOM_AUTOCOMPLETE_ORDER } from "./const";
+import { AutocompleteEmoteFormatter } from "./formatters";
+import HtmlElement from "./htmlElement";
 
 let suggestTimeoutId;
 let minWordLength = 1;
@@ -101,7 +103,21 @@ function buildSearchCriteria(str, offset) {
 function buildHelpers(ac) {
     if (ac.results.length > 0) {
         ac.container[0].innerHTML = ac.results
-            .map((res, k) => `<li data-index="${k}">${res.data}</li>`)
+            .map((res, k) => {
+                const text = res.data;
+                let emote = "";
+
+                if (ac.chat.emoticons.has(text) && ac.chat.settings.get("autocompleteemotepreview")) {
+                    const emoteFormatter = new AutocompleteEmoteFormatter();
+                    emote = emoteFormatter.format(ac.chat, text);
+                }
+
+                const element = new HtmlElement("li");
+                element.setAttribute("data-index", `${k}`);
+                element.setContent(`${text}${emote}`);
+
+                return element.toString();
+            })
             .join("");
     }
 }

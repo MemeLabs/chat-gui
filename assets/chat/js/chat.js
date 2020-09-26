@@ -122,6 +122,7 @@ const settingsdefault = new Map([
     ["notificationtimeout", true],
     ["ignorementions", false],
     ["autocompletehelper", true],
+    ["autocompleteemotepreview", true],
     ["taggedvisibility", false],
     ["hidensfw", false],
     ["animateforever", true],
