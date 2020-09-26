@@ -1047,6 +1047,7 @@ a.flair12:hover {
 #chat-auto-complete {
     pointer-events: none;
     transition: opacity 250ms ease-out;
+    opacity: 0;
     z-index: 131;
     border-radius: 3px 3px 0 0;
     position: absolute;
@@ -1055,7 +1056,6 @@ a.flair12:hover {
     top: -25px;
     left: 0;
     right: 0;
-    opacity: 0;
     overflow: hidden;
     white-space: nowrap;
 
