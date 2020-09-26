@@ -262,15 +262,16 @@ class ChatAutoComplete {
     }
 
     search(criteria, useronly = false) {
-        this.selected = -1;
-        this.results = [];
-        this.criteria = criteria;
-
         if (!this.chat.settings.get("autocompletehelper")) {
             // Short-circuit because the user has disabled autocomplete.
             // (Without this, the user can tab through the autocomplete results even though the results are hidden.)
+            this.reset();
             return;
         }
+
+        this.selected = -1;
+        this.results = [];
+        this.criteria = criteria;
 
         // for emote suffixes started from "YEE :"
         if (criteria.orig.includes(" :") && criteria.word.startsWith(":")) {
