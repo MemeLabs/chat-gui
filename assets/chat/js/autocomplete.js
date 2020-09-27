@@ -128,8 +128,11 @@ function timeoutHelpers(ac) {
     suggestTimeoutId = setTimeout(() => ac.reset(), 15000, ac);
 }
 function updateHelpers(ac) {
-    ac.chat.ui.toggleClass("chat-autocomplete-in", ac.results.length > 0);
-    ac.ui.toggleClass("active", ac.results.length > 0);
+    const hasResults = ac.results.length > 0;
+    const helperEnabled = ac.chat.settings.get("autocompletehelper");
+
+    ac.chat.ui.toggleClass("chat-autocomplete-in", hasResults && helperEnabled);
+    ac.ui.toggleClass("active", hasResults && helperEnabled);
 }
 function selectHelper(ac) {
     // Positioning
