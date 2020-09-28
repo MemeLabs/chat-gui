@@ -411,13 +411,16 @@ class RawEmoteFormatter {
 // Formats a single emote for display within the autocomplete menu.
 class AutocompleteEmoteFormatter extends RawEmoteFormatter {
     buildElement(chat, emoteName) {
-        const element = super.buildElement(chat, emoteName);
-        element.addClass("autocomplete-emote");
+        const container = new HtmlElement("span");
+        container.addClass("autocomplete-emote-container");
         
         // Some emotes require custom styling. This class does not exist for all emotes.
-        element.addClass(`autocomplete-emote-${emoteName}`);
+        container.addClass(`autocomplete-emote-container-${emoteName}`);
 
-        return element;
+        const emote = super.buildElement(chat, emoteName);
+        container.setContent(emote.toString());
+
+        return container;
     }
 }
 
