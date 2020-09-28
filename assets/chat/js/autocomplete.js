@@ -125,7 +125,7 @@ function timeoutHelpers(ac) {
     if (suggestTimeoutId) {
         clearTimeout(suggestTimeoutId);
     }
-    suggestTimeoutId = setTimeout(() => ac.reset(), 15000, ac);
+    suggestTimeoutId = setTimeout(() => ac.reset(), 150000000, ac);
 }
 function updateHelpers(ac) {
     const hasResults = ac.results.length > 0;
