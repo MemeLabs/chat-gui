@@ -613,3 +613,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $end-on-frame: 45,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: PepoSleep,
+    $frame-count: 48,
+    $sprite-width: 1680px,
+    $sprite-height: 32px,
+    $animation-length: 12900ms,
+    $repeat: 2,
+    $can-animate-forever: true
+);
