@@ -204,8 +204,8 @@ $context-css-animated-emote-mixin: false;
 
 @include css-animated-emote(DJPepo, true) {
     @include emote-animation(500ms, 7) {
-        0% { translate: transformY(0); }
-        100% { translate: transformY(12px); }
+        0% { transform: translateY(0); }
+        100% { transform: translateY(12px); }
     }
 }
 
