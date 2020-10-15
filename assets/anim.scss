@@ -428,8 +428,8 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: COGGERS,
     $frame-count: 60,
-    $sprite-width: 1920px,
-    $sprite-height: 32px,
+    $sprite-width: 3120px,
+    $sprite-height: 31px,
     $animation-duration: 800ms,
     $iteration-count: 2
 );
