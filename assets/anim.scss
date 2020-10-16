@@ -685,3 +685,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $iteration-count: 5,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: SURPRISE,
+    $frame-count: 9,
+    $sprite-width: 261px,
+    $sprite-height: 31px,
+    $animation-duration: 900ms,
+    $iteration-count: 7,
+    $can-animate-forever: true
+);
