@@ -695,3 +695,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $iteration-count: 7,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: RIDIN,
+    $frame-count: 8,
+    $sprite-width: 640px,
+    $sprite-height: 32px,
+    $animation-duration: 2000ms,
+    $iteration-count: 7,
+    $can-animate-forever: true
+);
