@@ -188,13 +188,6 @@ $context-css-animated-emote-mixin: false;
     }
 }
 
-@include css-animated-emote(REE) {
-    @include emote-animation(100ms, 7) {
-        from { transform: translateX(0); }
-        to { transform: translateX(3px); }
-    }
-}
-
 @include css-animated-emote(ITSRAWWW) {
     @include emote-animation(100ms, 7) {
         0% { transform: translateX(0); }
@@ -428,8 +421,8 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: COGGERS,
     $frame-count: 60,
-    $sprite-width: 3120px,
-    $sprite-height: 31px,
+    $sprite-width: 1920px,
+    $sprite-height: 32px,
     $animation-duration: 800ms,
     $iteration-count: 2
 );
@@ -454,10 +447,10 @@ $spritesDir : '../../emotes/emoticons-animated/';
 
 @include sprite-animation(
     $file-name: PepoDance,
-    $frame-count: 12,
-    $sprite-width: 1032px,
+    $frame-count: 10,
+    $sprite-width: 460px,
     $sprite-height: 32px,
-    $animation-duration: 600ms,
+    $animation-duration: 500ms,
     $iteration-count: 5
 );
 
@@ -492,11 +485,11 @@ $spritesDir : '../../emotes/emoticons-animated/';
 
 @include sprite-animation(
     $file-name: VroomVroom,
-    $frame-count: 117,
-    $sprite-width: 11700px,
+    $frame-count: 101,
+    $sprite-width: 3232px,
     $sprite-height: 32px,
-    $animation-duration: 5000ms,
-    $iteration-count: 1
+    $animation-duration: 4000ms,
+    $iteration-count: 2
 );
 
 @include sprite-animation(
@@ -511,7 +504,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: WAG,
     $frame-count: 2,
-    $sprite-width: 96px,
+    $sprite-width: 74px,
     $sprite-height: 32px,
     $animation-duration: 500ms,
     $iteration-count: 10
@@ -608,10 +601,10 @@ $spritesDir : '../../emotes/emoticons-animated/';
 
 @include sprite-animation(
     $file-name: FeelsPepoMan,
-    $frame-count: 5,
-    $sprite-width: 150px,
+    $frame-count: 4,
+    $sprite-width: 128px,
     $sprite-height: 32px,
-    $animation-duration: 500ms,
+    $animation-duration: 400ms,
     $iteration-count: 7,
     $can-animate-forever: true
 );
@@ -638,28 +631,6 @@ $spritesDir : '../../emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
-    $file-name: PepoSleep,
-    $frame-count: 48,
-    $sprite-width: 1680px,
-    $sprite-height: 32px,
-    $animation-duration: 12900ms,
-    $iteration-count: 2,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
-    $file-name: NOM,
-    $frame-count: 38,
-    $sprite-width: 1786px,
-    $sprite-height: 32px,
-    $animation-duration: 2000ms,
-    $animation-direction: alternate,
-    $iteration-count: 1,
-    $end-on-frame: 1,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
     $file-name: REE,
     $frame-count: 39,
     $sprite-width: 1248px,
@@ -675,26 +646,6 @@ $spritesDir : '../../emotes/emoticons-animated/';
     0% { transform: translateX(0); }
     100% { transform: translateX(3px); }
 }
-
-@include sprite-animation(
-    $file-name: monkaMEGA,
-    $frame-count: 17,
-    $sprite-width: 544px,
-    $sprite-height: 32px,
-    $animation-duration: 850ms,
-    $iteration-count: 5,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
-    $file-name: SURPRISE,
-    $frame-count: 9,
-    $sprite-width: 261px,
-    $sprite-height: 31px,
-    $animation-duration: 900ms,
-    $iteration-count: 7,
-    $can-animate-forever: true
-);
 
 @include sprite-animation(
     $file-name: RIDIN,
