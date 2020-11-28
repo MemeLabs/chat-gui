@@ -50,10 +50,10 @@ $context-css-animated-emote-mixin: false;
 
     $css-animated-emote-animations:
         append(
-            $css-animated-emote-animations,
-            $animation-duration $iteration-count $animation-name,
-            comma
-        ) !global;
+        $css-animated-emote-animations,
+        $animation-duration $iteration-count $animation-name,
+        comma
+    ) !global;
 
     .generify-container.fast & {
         animation-duration: $animation-duration * 0.5;
@@ -269,32 +269,32 @@ $context-css-animated-emote-mixin: false;
 $spritesDir : '../../emotes/emoticons-animated/';
 
 @mixin sprite-animation(
-        $file-name,
-        $frame-count,
-        $sprite-width,
-        $sprite-height,
-        $animation-duration,
-        $animation-direction: normal,
-        $iteration-count: 1,
-        $end-on-frame: 0,
-        $end-on-last-frame: false,
-        $can-animate-forever: true,
-        $extra-animation: false,
-        $extra-animation-duration: 0s,
-        $extra-animation-timing-function: ease,
-        $extra-animation-delay: 0s,
-        $extra-animation-iteration-count: 1,
-        $extra-animation-direction: normal,
-        $extra-animation-fill-mode: none,
-        $extra-animation-play-state: running,
-        $file-ext: '.png') {
+$file-name,
+$frame-count,
+$sprite-width,
+$sprite-height,
+$animation-duration,
+$animation-direction: normal,
+$iteration-count: 1,
+$end-on-frame: 0,
+$end-on-last-frame: false,
+$can-animate-forever: true,
+$extra-animation: false,
+$extra-animation-duration: 0s,
+$extra-animation-timing-function: ease,
+$extra-animation-delay: 0s,
+$extra-animation-iteration-count: 1,
+$extra-animation-direction: normal,
+$extra-animation-fill-mode: none,
+$extra-animation-play-state: running,
+$file-ext: '.png') {
 
     $path: $spritesDir + $file-name + $file-ext;
     $frame-width: $sprite-width / $frame-count;
 
     @if $frame-width != round($frame-width) {
         @error
-            "$sprite-width should be divisible by $frame-count to prevent blurry rendering
+        "$sprite-width should be divisible by $frame-count to prevent blurry rendering
             Error on sprite-animation \"#{$file-name}\"";
     }
 
@@ -321,13 +321,15 @@ $spritesDir : '../../emotes/emoticons-animated/';
         background: url($path) left center;
 
         @if $extra-animation {
-            animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction , #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
+            animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
+
             &:hover {
                 animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay infinite $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
             }
         }
         @else {
             animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction;
+
             &:hover {
                 animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction;
             }
@@ -349,9 +351,9 @@ $spritesDir : '../../emotes/emoticons-animated/';
 
     .generify-emote-#{$file-name} {
         @include dank-animation(
-            $file-name: $file-name,
-            $animation-duration: $animation-duration,
-            $iteration-count: $iteration-count,
+        $file-name: $file-name,
+        $animation-duration: $animation-duration,
+        $iteration-count: $iteration-count,
         )
     }
 
@@ -372,16 +374,32 @@ $spritesDir : '../../emotes/emoticons-animated/';
         }
     }
 
+    .generify-emote-#{$file-name} .reverse {
+        .chat-emote-#{$file-name} {
+          animation-direction:reverse;
+
+            &:hover {
+                animation-iteration-count: infinite;
+            }
+
+            @if $can-animate-forever {
+                &-animate-forever {
+                    animation-iteration-count: infinite;
+                }
+            }
+        }
+    }
+
     .generify-emote-#{$file-name} .slow {
         .chat-emote-#{$file-name} {
             animation-duration: $animation-duration * 2;
         }
 
         @include dank-animation(
-            $file-name: $file-name,
-            $animation-duration: $animation-duration * 2,
-            $iteration-count: $iteration-count,
-            $dank-animation-duration: 2s
+        $file-name: $file-name,
+        $animation-duration: $animation-duration * 2,
+        $iteration-count: $iteration-count,
+        $dank-animation-duration: 2s
         )
     }
 }

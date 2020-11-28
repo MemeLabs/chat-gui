@@ -67,7 +67,9 @@ const GENERIFY_OPTIONS = {
     // 'frozen': 'frozen',
     lag: "lag",
     slow: "slow",
-    fast: "fast"
+    fast: "fast",
+    reverse: "reverse"
+
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
