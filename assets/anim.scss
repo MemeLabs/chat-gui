@@ -50,9 +50,9 @@ $context-css-animated-emote-mixin: false;
 
     $css-animated-emote-animations:
         append(
-        $css-animated-emote-animations,
-        $animation-duration $iteration-count $animation-name,
-        comma
+            $css-animated-emote-animations,
+            $animation-duration $iteration-count $animation-name,
+            comma
     ) !global;
 
     .generify-container.fast & {
