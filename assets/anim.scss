@@ -371,6 +371,21 @@ $spritesDir : '../../emotes/emoticons-animated/';
             }
         }
     }
+    .generify-emote-#{$file-name} .reverse {
+        .chat-emote-#{$file-name} {
+          animation-direction:reverse;
+
+            &:hover {
+                animation-iteration-count: infinite;
+            }
+
+            @if $can-animate-forever {
+                &-animate-forever {
+                    animation-iteration-count: infinite;
+                }
+            }
+        }
+    }
 
     .generify-emote-#{$file-name} .slow {
         .chat-emote-#{$file-name} {
