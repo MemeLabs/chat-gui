@@ -69,7 +69,6 @@ const GENERIFY_OPTIONS = {
     slow: "slow",
     fast: "fast",
     reverse: "reverse"
-
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
