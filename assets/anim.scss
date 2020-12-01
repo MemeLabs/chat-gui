@@ -614,6 +614,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $can-animate-forever: true
 );
 
+/*
 @include sprite-animation(
     $file-name: FeelsPepoMan,
     $frame-count: 4,
@@ -623,6 +624,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $iteration-count: 7,
     $can-animate-forever: true
 );
+*/
 
 @include sprite-animation(
     $file-name: catJAM,
