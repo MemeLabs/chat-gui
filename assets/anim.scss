@@ -436,9 +436,9 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: COGGERS,
     $frame-count: 60,
-    $sprite-width: 1920px,
-    $sprite-height: 32px,
-    $animation-duration: 800ms,
+    $sprite-width: 1680px,
+    $sprite-height: 28px,
+    $animation-duration: 1800ms,
     $iteration-count: 2
 );
 
@@ -680,4 +680,45 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $animation-duration: 2550ms,
     $iteration-count: 2,
     $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: SNOWBALL,
+    $frame-count: 35,
+    $sprite-width: 1750px,
+    $sprite-height: 32px,
+    $animation-duration: 2450ms,
+    $iteration-count: 2,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: PeepoS,
+    $frame-count: 35,
+    $sprite-width: 1750px,
+    $sprite-height: 32px,
+    $animation-duration: 2450ms,
+    $iteration-count: 2,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: PepoFight,
+    $frame-count: 35,
+    $sprite-width: 1855px,
+    $sprite-height: 32px,
+    $animation-duration: 2450ms,
+    $iteration-count: 2,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: PeepoWeird,
+    $frame-count: 35,
+    $sprite-width: 1750px,
+    $sprite-height: 32px,
+    $animation-duration: 2450ms,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
 );
