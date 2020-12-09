@@ -724,3 +724,14 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
+
+@include sprite-animation(
+    $file-name: SNOWBALLFIGHT,
+    $frame-count: 70,
+    $sprite-width: 3500px,
+    $sprite-height: 32px,
+    $animation-duration: 4900ms,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
