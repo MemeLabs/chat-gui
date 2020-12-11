@@ -481,7 +481,7 @@ class Chat {
                 downinoutput = false;
                 ChatMenu.closeMenus(this);
 
-                // If on mobile will do a workaround that hides the keyboard because it refocuses the text area if you click on a user name
+                // If on mobile will hide the keyboard if you click outside the text area
                 if (navigator.userAgent.indexOf("Mobi") > -1) {
                     this.input.attr('readonly', 'readonly'); // Force keyboard to hide on input field.
                     this.input.attr('disabled', 'true'); // Force keyboard to hide on textarea field.
