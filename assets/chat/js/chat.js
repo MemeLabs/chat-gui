@@ -480,7 +480,21 @@ class Chat {
             if (downinoutput) {
                 downinoutput = false;
                 ChatMenu.closeMenus(this);
-                focusIfNothingSelected(this);
+
+                // If on mobile will do a workaround that hides the keyboard because it refocuses the text area if you click on a user name
+                if (navigator.userAgent.indexOf("Mobi") > -1) {
+                    this.input.attr('readonly', 'readonly'); // Force keyboard to hide on input field.
+                    this.input.attr('disabled', 'true'); // Force keyboard to hide on textarea field.
+                    setTimeout(function () {
+                        var input = $("#chat").find("#chat-input-control")
+                        input.blur(); //actually close the keyboard
+                        // Remove readonly attribute after keyboard is hidden.
+                        input.removeAttr('readonly');
+                        input.removeAttr('disabled');
+                    }, 500);
+                } else {
+                    focusIfNothingSelected(this);
+                }
             }
         });
         this.ui.on("click", "#chat-tools-wrap", () => {
