@@ -1323,7 +1323,7 @@ class Chat {
 
             if ((this.settings.get("soundnotificationwhisper") || this.settings.get("soundnotificationhighlight")) && this.ishidden) {
                 // play sound
-                playSound();
+                notificationSound.play();
             }
 
             const win = this.getWindow(normalized);
