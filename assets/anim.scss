@@ -746,3 +746,14 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
+
+@include sprite-animation(
+    $file-name: OMEGALUL,
+    $frame-count: 11,
+    $sprite-width: 330px,
+    $sprite-height: 32px,
+    $animation-duration: 3080ms,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
