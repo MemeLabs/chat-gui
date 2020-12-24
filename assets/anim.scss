@@ -463,8 +463,8 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: PepoDance,
     $frame-count: 10,
-    $sprite-width: 460px,
-    $sprite-height: 32px,
+    $sprite-width: 280px,
+    $sprite-height: 28px,
     $animation-duration: 500ms,
     $iteration-count: 5
 );
