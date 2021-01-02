@@ -436,9 +436,9 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: COGGERS,
     $frame-count: 60,
-    $sprite-width: 1680px,
-    $sprite-height: 28px,
-    $animation-duration: 1800ms,
+    $sprite-width: 1920px,
+    $sprite-height: 32px,
+    $animation-duration: 800ms,
     $iteration-count: 2
 );
 
@@ -463,8 +463,8 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: PepoDance,
     $frame-count: 10,
-    $sprite-width: 280px,
-    $sprite-height: 28px,
+    $sprite-width: 460px,
+    $sprite-height: 32px,
     $animation-duration: 500ms,
     $iteration-count: 5
 );
@@ -500,11 +500,11 @@ $spritesDir : '../../emotes/emoticons-animated/';
 
 @include sprite-animation(
     $file-name: VroomVroom,
-    $frame-count: 76,
-    $sprite-width: 7296px,
+    $frame-count: 101,
+    $sprite-width: 3232px,
     $sprite-height: 32px,
-    $animation-duration: 5320ms,
-    $iteration-count: 1
+    $animation-duration: 4000ms,
+    $iteration-count: 2
 );
 
 @include sprite-animation(
@@ -519,7 +519,7 @@ $spritesDir : '../../emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: WAG,
     $frame-count: 2,
-    $sprite-width: 84px,
+    $sprite-width: 74px,
     $sprite-height: 32px,
     $animation-duration: 500ms,
     $iteration-count: 10
@@ -614,7 +614,6 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $can-animate-forever: true
 );
 
-/*
 @include sprite-animation(
     $file-name: FeelsPepoMan,
     $frame-count: 4,
@@ -624,7 +623,6 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $iteration-count: 7,
     $can-animate-forever: true
 );
-*/
 
 @include sprite-animation(
     $file-name: catJAM,
@@ -682,78 +680,4 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $animation-duration: 2550ms,
     $iteration-count: 2,
     $can-animate-forever: true
-);
-
-@include sprite-animation(
-    $file-name: SNOWBALL,
-    $frame-count: 35,
-    $sprite-width: 1750px,
-    $sprite-height: 32px,
-    $animation-duration: 2450ms,
-    $iteration-count: 2,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
-    $file-name: PeepoS,
-    $frame-count: 35,
-    $sprite-width: 1750px,
-    $sprite-height: 32px,
-    $animation-duration: 2450ms,
-    $iteration-count: 2,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
-    $file-name: PepoFight,
-    $frame-count: 35,
-    $sprite-width: 1855px,
-    $sprite-height: 32px,
-    $animation-duration: 2450ms,
-    $iteration-count: 2,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
-    $file-name: PeepoWeird,
-    $frame-count: 35,
-    $sprite-width: 1750px,
-    $sprite-height: 32px,
-    $animation-duration: 2450ms,
-    $iteration-count: 2,
-    $can-animate-forever: true,
-    $end-on-last-frame: true
-);
-
-@include sprite-animation(
-    $file-name: SNOWBALLFIGHT,
-    $frame-count: 70,
-    $sprite-width: 3500px,
-    $sprite-height: 32px,
-    $animation-duration: 4900ms,
-    $iteration-count: 1,
-    $can-animate-forever: true,
-    $end-on-last-frame: true
-);
-
-@include sprite-animation(
-    $file-name: PepoSleep,
-    $frame-count: 91,
-    $sprite-width: 5642px,
-    $sprite-height: 32px,
-    $animation-duration: 6370ms,
-    $iteration-count: 1,
-    $can-animate-forever: true,
-    $end-on-last-frame: true
-);
-
-@include sprite-animation(
-    $file-name: OMEGALUL,
-    $frame-count: 11,
-    $sprite-width: 330px,
-    $sprite-height: 32px,
-    $animation-duration: 3080ms,
-    $iteration-count: 2,
-    $can-animate-forever: true,
-    $end-on-last-frame: true
 );
