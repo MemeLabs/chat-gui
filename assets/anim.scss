@@ -480,8 +480,8 @@ $spritesDir : '../../emotes/emoticons-animated/';
 
 @include sprite-animation(
     $file-name: LAG,
-    $frame-count: 10,
-    $sprite-width: 390px,
+    $frame-count: 9,
+    $sprite-width: 360px,
     $sprite-height: 32px,
     $animation-duration: 4000ms,
     $iteration-count: 2,
