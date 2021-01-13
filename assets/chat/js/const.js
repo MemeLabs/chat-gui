@@ -137,6 +137,14 @@ const HAT_SPECIAL_BLACKLIST = {
     honk: ["YEE"]
 };
 
+const TAGS = [
+    "nsfl",
+    "nsfw",
+    "loud",
+    "spoiler",
+    "weeb",
+];
+
 module.exports = {
     KEYCODES,
     DATE_FORMATS,
@@ -149,5 +157,6 @@ module.exports = {
     HALLOWEEN_BLACKLIST,
     HAT_BLACKLIST,
     HAT_SPECIAL_BLACKLIST,
-    DANK_WHITELIST
+    DANK_WHITELIST,
+    TAGS
 };
