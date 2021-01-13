@@ -346,16 +346,12 @@ class EmoteFormatter {
                 options.push(GENERIFY_OPTIONS[suffix]);
             }
             options = [...new Set(options)];
-            var shekelSpan = "";
-            if (suffixes.includes('worth')) {
-                shekelSpan = "<span class='worth'></span>";
-            }
-            var loveSpan = "";
-            if (suffixes.includes('love')) {
-                loveSpan = "<span class='love'></span>";
-            }
+            var generifySpans = ['worth', 'love', 'jam']
+                .filter((s) => suffixes.includes(s))
+                .map((s) => `<span class="${s}"></span>`)
+                .join();
 
-            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + shekelSpan + loveSpan + ' </span>';
+            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + generifySpans + ' </span>';
 
             var generifyClasses = [
                 "generify-container",
@@ -413,7 +409,7 @@ class AutocompleteEmoteFormatter extends RawEmoteFormatter {
     buildElement(chat, emoteName) {
         const container = new HtmlElement("span");
         container.addClass("autocomplete-emote-container");
-        
+
         // Some emotes require custom styling. This class does not exist for all emotes.
         container.addClass(`autocomplete-emote-container-${emoteName}`);
 

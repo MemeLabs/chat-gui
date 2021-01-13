@@ -488,3 +488,92 @@
 .spoiler:not(.visible) .generify-dank {
     background-image: none;
 }
+
+.generify-jam {
+    $animation-duration: 0.8s;
+
+    display: inline-block;
+    position: relative;
+    animation: generify-jam--animation 500ms 7;
+
+    @at-root {
+        @keyframes generify-jam--animation {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(2px); }
+        }
+
+        @keyframes generify-jam__note--animation {
+            0%, 2% {
+                opacity: 0;
+            }
+            0% {
+                visibility: visible;
+                transform: scale(0);
+                bottom: -30%;
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(0.6);
+            }
+
+            100% {
+                transform: scale(0.6);
+                bottom: 50%;
+                opacity: 0;
+            }
+        }
+    }
+
+    @mixin note {
+        content: "🎵";
+        text-indent: 0;
+        font-size: 18px;
+        position: absolute;
+        bottom: 10px;
+        z-index: 2;
+        visibility: hidden;
+        animation: generify-jam__note--animation $animation-duration 6;
+    }
+
+    .jam::before {
+        /* left-outer note */
+        @include note;
+        left: -8px;
+        animation-delay: -($animation-duration - $animation-duration*0.25);
+    }
+
+    .jam::after {
+        /* right-inner note */
+        @include note;
+        right: -2px;
+    }
+
+    & .chat-emote {
+        .jam::before {
+            /* left-inner note */
+            @include note;
+            left: -3px;
+            animation-delay: -($animation-duration - ($animation-duration*0.75));
+        }
+
+        .jam::after {
+            /* right-outer note */
+            @include note;
+            right: -7px;
+            animation-delay: -($animation-duration - $animation-duration*0.50);
+        }
+    }
+
+    &:hover {
+        .jam::before, .jam::after {
+            animation-iteration-count: infinite;
+        }
+
+        & .chat-emote {
+            .jam::before, .jam::after {
+                animation-iteration-count: infinite;
+            }
+        }
+    }
+}

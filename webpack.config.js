@@ -11,6 +11,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const imageSize = util.promisify(require('image-size'));
 const flatten = require('flatten');
+const { GENERIFY_OPTIONS, TAGS } = require('./assets/chat/js/const');
 
 const fsReadDirAsync = util.promisify(fs.readdir);
 const fsReadFileAsync = util.promisify(fs.readFile);
@@ -65,7 +66,9 @@ class EmoteManifestPlugin {
 
             const json = JSON.stringify({
                 emotes,
-                css: cssChunkFile
+                css: cssChunkFile,
+                modifiers: this.options.modifiers,
+                tags: this.options.tags
             });
 
             compilation.assets[this.options.filename] = {
@@ -145,7 +148,9 @@ const plugins = [
         index: './assets/emotes.json',
         emoteRoot: './assets/emotes/emoticons',
         animatedEmoteRoot: './assets/emotes/emoticons-animated/gif',
-        cssChunk: 'emotes'
+        cssChunk: 'emotes',
+        modifiers: Object.keys(GENERIFY_OPTIONS),
+        tags: TAGS
     })
 ];
 

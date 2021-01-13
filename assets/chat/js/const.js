@@ -68,7 +68,8 @@ const GENERIFY_OPTIONS = {
     lag: "lag",
     slow: "slow",
     fast: "fast",
-    reverse: "reverse"    
+    reverse: "reverse",
+    jam: "generify-jam",
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
@@ -136,7 +137,15 @@ const HAT_SPECIAL_BLACKLIST = {
     honk: ["YEE"]
 };
 
-export {
+const TAGS = [
+    "nsfl",
+    "nsfw",
+    "loud",
+    "spoiler",
+    "weeb",
+];
+
+module.exports = {
     KEYCODES,
     DATE_FORMATS,
     isKeyCode,
@@ -148,5 +157,6 @@ export {
     HALLOWEEN_BLACKLIST,
     HAT_BLACKLIST,
     HAT_SPECIAL_BLACKLIST,
-    DANK_WHITELIST
+    DANK_WHITELIST,
+    TAGS
 };
