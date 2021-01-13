@@ -68,7 +68,8 @@ const GENERIFY_OPTIONS = {
     lag: "lag",
     slow: "slow",
     fast: "fast",
-    reverse: "reverse"    
+    reverse: "reverse",
+    jam: "generify-jam",
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
@@ -136,7 +137,7 @@ const HAT_SPECIAL_BLACKLIST = {
     honk: ["YEE"]
 };
 
-export {
+module.exports = {
     KEYCODES,
     DATE_FORMATS,
     isKeyCode,
