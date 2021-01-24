@@ -121,7 +121,6 @@ const DANK_WHITELIST = [
     "KEKW",
     "HACKER",
     "RaveDoge",
-    "TRUMPED",
     "PepoSleep",
     "NOTMYTEMPO",
     "OhKrappa",
