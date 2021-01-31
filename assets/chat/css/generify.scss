@@ -437,6 +437,7 @@
 }
 
 // left facing with off-center faces,
+.generify-emote-4U.virus::after,
 .generify-emote-BERN.virus::after,
 .generify-emote-BOGGED.virus::after,
 .generify-emote-Facepalm.virus::after,
@@ -455,6 +456,7 @@
     left: calc(50% - 13px);
 }
 
+.generify-container.virus .chat-emote-4U,
 .generify-container.virus .chat-emote-BERN,
 .generify-container.virus .chat-emote-BOGGED,
 .generify-container.virus .chat-emote-Facepalm,
