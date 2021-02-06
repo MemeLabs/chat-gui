@@ -681,3 +681,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $iteration-count: 2,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: Cinnabunny,
+    $frame-count: 5,
+    $sprite-width: 140px,
+    $sprite-height: 28px,
+    $animation-duration: 500ms,
+    $iteration-count: 7,
+    $can-animate-forever: true
+);
