@@ -128,7 +128,7 @@ const settingsdefault = new Map([
     ["animateforever", true],
     ["formatter-green", true],
     ["formatter-emote", true],
-    ["valentinesemotemodifiers", true],
+    ["holidayemotemodifiers", true],
     ["disablespoilers", false],
     ["viewerstateindicator", 1],
     ["hiddenemotes", []]
@@ -867,7 +867,7 @@ class Chat {
                 !win.lastmessage.target &&
                 win.lastmessage.user &&
                 win.lastmessage.user.username.toLowerCase() ===
-                    message.user.username.toLowerCase();
+                message.user.username.toLowerCase();
             // get mentions from message
             message.mentioned = Chat.extractNicks(message.message).filter(a =>
                 this.users.has(a.toLowerCase())
@@ -890,8 +890,11 @@ class Chat {
                         this.regexhighlightcustom.test(
                             message.user.username + " " + message.message
                         )));
-            if (this.settings.get("valentinesemotemodifiers")) {
-                message.message = this.addAffixToEmotes(message.message, ":love");
+            if (this.settings.get("holidayemotemodifiers")){
+                const t = new Date();
+                if (t.getMonth() === 1 && t.getDate() === 14) {
+                    message.message = this.addAffixToEmotes(message.message, ":love");
+                }
             }
         }
 
