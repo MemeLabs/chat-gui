@@ -818,7 +818,7 @@ class Chat {
         text.trim();
         var updatedText = text.split(" ")
         for (var i = 0; i < updatedText.length; i++) {
-            if (!updatedText[i].includes(":love") && (this.emoticons.has(updatedText[i]) || this.emoteswithsuffixes.has(updatedText[i]))) {
+            if (!updatedText[i].includes(":love") && (this.emoticons.has(updatedText[i].split(":")[0]) || this.emoteswithsuffixes.has(updatedText[i]))) {
                 updatedText[i] += affix;
             }
         }
