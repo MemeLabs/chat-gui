@@ -42,5 +42,5 @@
     ["animateforever", false],
     ["formatter-green", true],
     ["formatter-emote", true],
-    ["valentinesemotemodifiers", true]
+    ["holidayemotemodifiers", true]
 ]
