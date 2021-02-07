@@ -128,6 +128,7 @@ const settingsdefault = new Map([
     ["animateforever", true],
     ["formatter-green", true],
     ["formatter-emote", true],
+    ["holidayemotemodifiers", true],
     ["disablespoilers", false],
     ["viewerstateindicator", 1],
     ["hiddenemotes", []]
@@ -813,6 +814,17 @@ class Chat {
         }
     }
 
+    addAffixToEmotes(text, affix) {
+        text.trim();
+        var updatedText = text.split(" ")
+        for (var i = 0; i < updatedText.length; i++) {
+            if (!updatedText[i].includes(":love") && (this.emoticons.has(updatedText[i]) || this.emoteswithsuffixes.has(updatedText[i]))) {
+                updatedText[i] += affix;
+            }
+        }
+        return updatedText.join(" ");
+    }
+
     addMessage(message, win = null) {
         // Dont add the gui if user is ignored
         if (
@@ -878,6 +890,9 @@ class Chat {
                         this.regexhighlightcustom.test(
                             message.user.username + " " + message.message
                         )));
+            if (this.settings.get("holidayemotemodifiers")) {
+                message.message = this.addAffixToEmotes(message.message, ":love");
+            }
         }
 
         /* else if(win.lastmessage && win.lastmessage.type === message.type && [MessageTypes.ERROR,MessageTypes.INFO,MessageTypes.COMMAND,MessageTypes.STATUS].indexOf(message.type)){
