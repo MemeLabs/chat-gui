@@ -128,7 +128,7 @@ const settingsdefault = new Map([
     ["animateforever", true],
     ["formatter-green", true],
     ["formatter-emote", true],
-    ["holidayemotemodifiers", true],
+    ["valentinesemotemodifiers", true],
     ["disablespoilers", false],
     ["viewerstateindicator", 1],
     ["hiddenemotes", []]
@@ -890,7 +890,7 @@ class Chat {
                         this.regexhighlightcustom.test(
                             message.user.username + " " + message.message
                         )));
-            if (this.settings.get("holidayemotemodifiers")) {
+            if (this.settings.get("valentinesemotemodifiers")) {
                 message.message = this.addAffixToEmotes(message.message, ":love");
             }
         }
