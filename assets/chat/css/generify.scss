@@ -60,6 +60,10 @@
     animation: pause-anim;
 }
 
+.pause .chat-emote:hover {
+    animation: pause-anim infinite;
+}
+
 .generify-rustle {
     animation: rustle 100ms 7;
 }
