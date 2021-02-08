@@ -52,6 +52,14 @@
     animation: lag-anim 4s 2;
 }
 
+@keyframes pause-anim {
+    100% {-webkit-mask-image: none;}
+}
+
+.pause .chat-emote {
+    animation: pause-anim;
+}
+
 .generify-rustle {
     animation: rustle 100ms 7;
 }

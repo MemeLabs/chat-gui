@@ -66,6 +66,7 @@ const GENERIFY_OPTIONS = {
     banned: "banned",
     // 'frozen': 'frozen',
     lag: "lag",
+    pause: "pause",
     slow: "slow",
     fast: "fast",
     reverse: "reverse",
