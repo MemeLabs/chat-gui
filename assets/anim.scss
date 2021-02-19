@@ -691,3 +691,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $iteration-count: 7,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: AlienPls,
+    $frame-count: 128,
+    $sprite-width: 3584px,
+    $sprite-height: 28px,
+    $animation-duration: 5000ms,
+    $iteration-count: 8,
+    $can-animate-forever: true
+);
