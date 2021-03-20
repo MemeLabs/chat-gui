@@ -619,7 +619,7 @@ class UrlFormatter {
             strict = "\\b" + scheme + pathCont,
             relaxed = strict + "|" + webURL;
         this.linkregex = new RegExp(relaxed, "gi");
-        this.discordmp4Regex = new RegExp("(https?:\/\/)?(www\.)?(cdn.discordapp\.com)?\.mp4")
+        this.discordmp4Regex = new RegExp("(https?:\/\/)?(www\.)?(cdn.discordapp\.com)?\.(mp4|webm)")
         this._elem = $("<div></div>");
     }
 
@@ -660,7 +660,6 @@ class UrlFormatter {
         }
 
         return str.replace(self.linkregex, function (url, scheme) {
-            debugger;
             scheme = scheme ? "" : "http://";
             var decodedUrl = self._elem.html(url).text();
             // replaces the discord links that automatically download a file when clicked
