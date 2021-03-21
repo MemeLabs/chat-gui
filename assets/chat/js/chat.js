@@ -58,7 +58,7 @@ const errorstrings = new Map([
     ["needbanreason", "Providing a reason for the ban is mandatory"],
     [
         "banned",
-        "You have been banned. You can contact the moderators in feeback channel in the community discord at https://discord.gg/qSXUukt."
+        "You have been banned."
     ],
     ["privmsgbanned", "Cannot send private messages while banned"],
     ["requiresocket", "This chat requires WebSockets"],
