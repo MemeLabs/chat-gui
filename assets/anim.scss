@@ -701,3 +701,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $iteration-count: 3,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: NODDERS,
+    $frame-count: 4,
+    $sprite-width: 112px,
+    $sprite-height: 28px,
+    $animation-duration: 320ms,
+    $iteration-count: 16,
+    $can-animate-forever: true
+);
