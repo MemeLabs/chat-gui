@@ -431,6 +431,22 @@ label small {
     .weeb-link {
         border-bottom: 1px dashed $color-underline-weeb !important;
     }
+    .embed_externallink {
+        text-decoration: none;
+        border-bottom: none;
+
+        &:after {
+            color: $color-chat-disabled;
+            content: "\f08e"; // External-link font-awesome
+            font: normal normal normal 19px FontAwesome;
+            margin: 0 4px;
+            vertical-align: middle;
+        }
+
+        &:hover:after {
+            color: $color-link-hover;
+        }
+    }
     &.msg-continue {
         margin-top: 1px;
         margin-bottom: 3px;

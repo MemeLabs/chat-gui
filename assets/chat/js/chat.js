@@ -484,6 +484,15 @@ class Chat {
                 focusIfNothingSelected(this);
             }
         });
+        this.output.on('click', '.embedlink', (e) => {
+            if (!e.ctrlKey && !e.metaKey && window.top !== window.self) {
+                const [service, channel] = $(e.target).data('embed').split('/');
+                const stream = { service, channel };
+                window.parent.postMessage({ action: 'STREAM_SET', payload: stream }, '*');
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
         this.ui.on("click", "#chat-tools-wrap", () => {
             ChatMenu.closeMenus(this);
             focusIfNothingSelected(this);
