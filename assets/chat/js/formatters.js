@@ -620,6 +620,52 @@ class UrlFormatter {
             relaxed = strict + "|" + webURL;
         this.linkregex = new RegExp(relaxed, "gi");
         this.discordmp4Regex = new RegExp("(https?:\/\/)?(www\.)?(cdn.discordapp\.com)?\.(mp4|webm)")
+
+        // e.g. youtube ids include "-" and "_".
+        const embedCommonId = '([\\w-]{1,30})';
+        this.embedSubstitutions = [
+            {
+                pattern: new RegExp(`twitch\\.tv/videos/${embedCommonId}`),
+                template: (v) => `twitch-vod/${v}`
+            },
+            {
+                pattern: new RegExp(`twitch\\.tv/${embedCommonId}/?$`),
+                template: (v) => `twitch/${v}`
+            },
+            {
+                pattern: new RegExp(`angelthump\\.com/(?:embed/)?${embedCommonId}`),
+                template: (v) => `angelthump/${v}`
+            },
+            {
+                pattern: new RegExp(`player\\.angelthump\\.com/.*?[&?]channel=${embedCommonId}`),
+                template: (v) => `angelthump/${v}`
+            },
+            {
+                pattern: new RegExp(`youtube\\.com/watch.*?[&?]v=${embedCommonId}`),
+                template: (v) => `youtube/${v}`
+            },
+            {
+                pattern: new RegExp(`youtu\\.be/${embedCommonId}`),
+                template: (v) => `youtube/${v}`
+            },
+            {
+                pattern: new RegExp(`youtube\\.com/embed/${embedCommonId}`),
+                template: (v) => `youtube/${v}`
+            },
+            {
+                pattern: new RegExp(`facebook\\.com/.*?/videos/${embedCommonId}/?`),
+                template: (v) => `facebook/${v}`
+            },
+            {
+                pattern: new RegExp(`mixer\\.com/(?:embed/player/)?${embedCommonId}$`),
+                template: (v) => `mixer/${v}`
+            },
+            {
+                pattern: new RegExp(`media\\.ccc\\.de/v/([^#]+)`),
+                template: (v) => `advanced/https://media.ccc.de/v/${v}/oembed`
+            }
+        ];
+
         this._elem = $("<div></div>");
     }
 
@@ -659,7 +705,7 @@ class UrlFormatter {
             extraclass = "weeb-link";
         }
 
-        return str.replace(self.linkregex, function (url, scheme) {
+        return str.replace(self.linkregex, (url, scheme) => {
             scheme = scheme ? "" : "http://";
             var decodedUrl = self._elem.html(url).text();
             // replaces the discord links that automatically download a file when clicked
@@ -671,6 +717,17 @@ class UrlFormatter {
                 url = self.encodeUrl(m[0]);
                 const extra = self.encodeUrl(decodedUrl.substring(m[0].length));
                 const href = scheme + url;
+
+                for (let i = 0; i < this.embedSubstitutions.length; i++) {
+                    const sub = this.embedSubstitutions[i];
+                    const sm = decodedUrl.match(sub.pattern);
+                    if (sm) {
+                        const embed = sub.template(sm[1]);
+                        const embedHref = `https://strims.gg/${embed}`;
+                        return `<a target="_blank" class="embedlink ${extraclass}" data-embed="${embed}" href="${embedHref}">${embed}</a><a target="_blank" class="embed_externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
+                    }
+                }
+
                 return `<a target="_blank" class="externallink ${extraclass}" href="${href}" rel="nofollow">${url}</a>${extra}`;
             }
             return url;
