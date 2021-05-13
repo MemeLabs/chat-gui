@@ -352,7 +352,7 @@ label small {
         }
         .externallink,
         .externallink:visited {
-            // pointer-events: none;
+            pointer-events: none;
             color: $color-spoiler-hidden;
         }
         .nsfw-link,
