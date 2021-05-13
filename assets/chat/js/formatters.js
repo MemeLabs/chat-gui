@@ -657,10 +657,6 @@ class UrlFormatter {
                 template: (v) => `facebook/${v}`
             },
             {
-                pattern: new RegExp(`mixer\\.com/(?:embed/player/)?${embedCommonId}$`),
-                template: (v) => `mixer/${v}`
-            },
-            {
                 pattern: new RegExp(`media\\.ccc\\.de/v/([^#]+)`),
                 template: (v) => `advanced/https://media.ccc.de/v/${v}/oembed`
             }
@@ -723,8 +719,8 @@ class UrlFormatter {
                     const sm = decodedUrl.match(sub.pattern);
                     if (sm) {
                         const embed = sub.template(sm[1]);
-                        const embedHref = `https://strims.gg/${embed}`;
-                        return `<a target="_blank" class="embedlink ${extraclass}" data-embed="${embed}" href="${embedHref}">${embed}</a><a target="_blank" class="embed_externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
+                        const embedHref = `${RUSTLA_URL}/${embed}`;
+                        return `<a target="_blank" class="${extraclass}" href="${embedHref}">${embed}</a><a target="_blank" class="embed_externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
                     }
                 }
 

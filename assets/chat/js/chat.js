@@ -484,11 +484,15 @@ class Chat {
                 focusIfNothingSelected(this);
             }
         });
-        this.output.on('click', '.embedlink', (e) => {
-            if (!e.ctrlKey && !e.metaKey && window.top !== window.self) {
-                const [service, channel] = $(e.target).data('embed').split('/');
-                const stream = { service, channel };
-                window.parent.postMessage({ action: 'STREAM_SET', payload: stream }, '*');
+
+        const rustlaUrl = new URL(RUSTLA_URL);
+        this.output.on('click', 'a', (e) => {
+            const linkUrl = new URL($(e.target).attr('href'));
+            const path = linkUrl.pathname.match(/^\/([a-z0-9\-_]+)(?:\/([a-z0-9\-_]+))?$/i);
+            if (rustlaUrl.host === linkUrl.host && path && !e.ctrlKey && !e.metaKey && window.top !== window.self) {
+                const [, service, channel] = path;
+                const payload = channel ? { service, channel } : { path: service };
+                window.parent.postMessage({ action: 'STREAM_SET', payload }, '*');
                 e.preventDefault();
                 e.stopPropagation();
             }
