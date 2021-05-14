@@ -633,7 +633,7 @@ class UrlFormatter {
                 template: (v) => `twitch/${v}`
             },
             {
-                pattern: new RegExp(`angelthump\\.com/(?:embed/)?${embedCommonId}`),
+                pattern: new RegExp(`angelthump\\.com/(?:embed/)?${embedCommonId}$`),
                 template: (v) => `angelthump/${v}`
             },
             {
