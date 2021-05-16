@@ -645,7 +645,7 @@ class UrlFormatter {
                 template: (v) => `youtube/${v}`
             },
             {
-                pattern: new RegExp(`youtu\\.be/${embedCommonId}`),
+                pattern: new RegExp(`youtu\\.be/${embedCommonId}(&(?!t)|$| )`),
                 template: (v) => `youtube/${v}`
             },
             {
