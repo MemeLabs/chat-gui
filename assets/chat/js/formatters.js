@@ -641,15 +641,15 @@ class UrlFormatter {
                 template: (v) => `angelthump/${v}`
             },
             {
-                pattern: new RegExp(`youtube\\.com/watch.*?[&?]v=${embedCommonId}`),
+                pattern: new RegExp(`youtube\\.com/watch.*?[&?]v=${embedCommonId}(?:&(?!t)|$| )`),
                 template: (v) => `youtube/${v}`
             },
             {
-                pattern: new RegExp(`youtu\\.be/${embedCommonId}(&(?!t)|$| )`),
+                pattern: new RegExp(`youtu\\.be/${embedCommonId}(?:&(?!t)|$| )`),
                 template: (v) => `youtube/${v}`
             },
             {
-                pattern: new RegExp(`youtube\\.com/embed/${embedCommonId}`),
+                pattern: new RegExp(`youtube\\.com/embed/${embedCommonId}(?:&(?!t)|$| )`),
                 template: (v) => `youtube/${v}`
             },
             {
