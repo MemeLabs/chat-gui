@@ -711,3 +711,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $iteration-count: 16,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: NOPERS,
+    $frame-count: 8,
+    $sprite-width: 224px,
+    $sprite-height: 28px,
+    $animation-duration: 640ms,
+    $iteration-count: 16,
+    $can-animate-forever: true,
+);
