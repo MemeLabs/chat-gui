@@ -731,3 +731,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $iteration-count: 16,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: DuckJAM,
+    $frame-count: 55,
+    $sprite-width: 1540px,
+    $sprite-height: 28px,
+    $animation-duration: 5500ms,
+    $iteration-count: 1,
+    $can-animate-forever: true
+);
