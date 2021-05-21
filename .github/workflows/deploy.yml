@@ -16,9 +16,9 @@ jobs:
       env:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-      run: docker login https://docker.pkg.github.com -u ${username} -p ${password}
+      run: docker login https://ghcr.io -u ${username} -p ${password}
     - name: Build image
-      run: docker build . -t docker.pkg.github.com/memelabs/chat-gui/chat-gui:latest
+      run: docker build . -t ghcr.io/memelabs/chat-gui/chat-gui:latest
     - name: Publish image
       run: docker push docker.pkg.github.com/memelabs/chat-gui/chat-gui:latest
     - name: ssh-deploy for chat-gui
