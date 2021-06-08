@@ -603,3 +603,23 @@
         }
     }
 }
+
+.generify-pride {
+  display: inline-block;
+  position: relative;
+}
+.generify-pride::before {
+    position: absolute;
+    background: linear-gradient(to bottom,
+     rgba(255, 0, 0, 0.6) 16%, 
+     rgba(255, 165, 0, 0.6) 16% 33%, 
+     rgba(255, 255, 0, 0.6) 33% 50%, 
+     rgba(0, 255, 0, 0.6) 50% 66%, 
+     rgba(0, 0, 255, 0.6) 66% 83%,
+     rgba(75,0,130, 0.6) 83%
+     );
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0
+}
