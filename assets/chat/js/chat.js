@@ -874,7 +874,7 @@ class Chat {
         if (
             win.lastmessage &&
             win.lastmessage.type === MessageTypes.EMOTE &&
-            win.lastmessage.emotecount > 1 
+            win.lastmessage.emotecount > 1
         ) {
             win.lastmessage.completeCombo();
         }

@@ -253,18 +253,17 @@ class ChatSettingsMenu extends ChatMenu {
 
         let data = $(e.target).val();
 
-        if(data ==""){
+        if(data == ""){
             return;
         } 
 
         const newmaxlines = Math.abs(parseInt(data, 10));
         if (!newmaxlines || (newmaxlines < 25 && newmaxlines > 500)) {
             $("#maximum-messages-error").css("display", "inline-block");
-        }
-        else{
+        } else {
             this.chat.settings.set("maxlines", data);
             this.chat.applySettings();
-            this.chat.commitSettings();    
+            this.chat.commitSettings();
         }
     }
 
