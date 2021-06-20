@@ -155,6 +155,9 @@ class ChatSettingsMenu extends ChatMenu {
         this.ui.on("keypress blur", `textarea[name="customhighlight"]`, e =>
             this.onCustomHighlightChange(e)
         );
+        this.ui.on("keypress blur", `input[name="maxlines"]`, e =>
+            this.onMaxLinesChange(e)
+        );
     }
 
     initNotificationsInput() {
@@ -237,6 +240,34 @@ class ChatSettingsMenu extends ChatMenu {
         this.chat.commitSettings();
     }
 
+    onMaxLinesChange(e) {
+        // Don't save on number keys to avoid cutting off messages before final value is decided
+        // e.g. start writing "100" and it cuts off messages at "1"
+        if ((e.key >= 0 && e.key <= 9)) { 
+            return;
+        }
+        let errorMessage = $("#maximum-messages-error");
+
+        // Reset error message
+        errorMessage.removeAttr("style");
+
+        let data = $(e.target).val();
+
+        if(data ==""){
+            return;
+        } 
+
+        const newmaxlines = Math.abs(parseInt(data, 10));
+        if (!newmaxlines || (newmaxlines < 25 && newmaxlines > 500)) {
+            $("#maximum-messages-error").css("display", "inline-block");
+        }
+        else{
+            this.chat.settings.set("maxlines", data);
+            this.chat.applySettings();
+            this.chat.commitSettings();    
+        }
+    }
+
     onSettingsChange(e) {
         const val = getSettingValue(e.target);
         const name = e.target.getAttribute("name");
@@ -271,6 +302,9 @@ class ChatSettingsMenu extends ChatMenu {
             this.ui
                 .find('textarea[name="customhighlight"]')
                 .val(this.chat.settings.get("customhighlight") || "");
+            this.ui
+                .find('input[name="maxlines"]')
+                .val(this.chat.settings.get("maxlines"));
             this.updateNotification();
         }
         super.show();

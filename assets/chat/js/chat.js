@@ -128,6 +128,7 @@ const settingsdefault = new Map([
     ["animateforever", true],
     ["formatter-green", true],
     ["formatter-emote", true],
+    ["formatter-combo", true],
     ["holidayemotemodifiers", true],
     ["disablespoilers", false],
     ["viewerstateindicator", 1],
@@ -508,6 +509,14 @@ class Chat {
             if (isKeyCode(e, KEYCODES.ESC)) ChatMenu.closeMenus(this); // ESC key
         });
 
+        // Focus textbox using the TAB button
+        document.addEventListener('keydown', e => {
+            if (isKeyCode(e, KEYCODES.TAB)) {
+                event.preventDefault(); 
+                this.input.focus();
+            }
+        });
+
         // Visibility
         document.addEventListener(
             "visibilitychange",
@@ -783,6 +792,10 @@ class Chat {
         [...this.windows].forEach(w => {
             w.maxlines = this.settings.get("maxlines");
         });
+        if (this.mainwindow !== null) {
+            this.mainwindow.maxlines = this.settings.get("maxlines");
+            this.mainwindow.cleanup();
+        }
 
         // Formatter enable/disable
         const messages = require("./messages.js");
@@ -861,7 +874,7 @@ class Chat {
         if (
             win.lastmessage &&
             win.lastmessage.type === MessageTypes.EMOTE &&
-            win.lastmessage.emotecount > 1
+            win.lastmessage.emotecount > 1 
         ) {
             win.lastmessage.completeCombo();
         }
@@ -1160,7 +1173,7 @@ class Chat {
         if (
             isemote &&
             win.lastmessage !== null &&
-            Chat.extractTextOnly(win.lastmessage.message) === textonly
+            Chat.extractTextOnly(win.lastmessage.message) === textonly && this.settings.get("formatter-combo")
         ) {
             if (win.lastmessage.type === MessageTypes.EMOTE) {
                 this.mainwindow.lock();

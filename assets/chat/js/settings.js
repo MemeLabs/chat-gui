@@ -39,6 +39,7 @@ function upgradeSettings(chat, oldversion, newversion) {
         chat.settings.set("soundnotificationwhisper", arr);
         chat.settings.set("notificationsoundfile", arr);
         chat.settings.set("holidayemotemodifiers", arr);
+        chat.settings.set("formatter-combo", arr);
 
         arr = chat.settings.get("notificationtimeout");
         chat.settings.set("notificationtimeout", arr !== -1);
