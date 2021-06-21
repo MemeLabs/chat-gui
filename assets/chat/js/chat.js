@@ -1173,7 +1173,8 @@ class Chat {
         if (
             isemote &&
             win.lastmessage !== null &&
-            Chat.extractTextOnly(win.lastmessage.message) === textonly && this.settings.get("formatter-combo")
+            Chat.extractTextOnly(win.lastmessage.message) === textonly &&
+            this.settings.get("formatter-combo")
         ) {
             if (win.lastmessage.type === MessageTypes.EMOTE) {
                 this.mainwindow.lock();
