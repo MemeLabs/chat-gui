@@ -127,6 +127,14 @@
                                 </label>
                             </div>
                             <div class="form-group">
+                                <label title="Maximum messages">
+                                    <span id="maximum-messages">Maximum messages </span> 
+                                    <span class="fa fa-refresh" title="Requires refresh"></span>
+                                    <span id="maximum-messages-error">Must be number over 25 and under 5000</span>
+                                    <input id="maximum-messages-input" class="form-control" name="maxlines" type="number"  /> 
+                                </label>
+                            </div>
+                            <div class="form-group">
                                 <label for="viewerstateindicator">Stream viewer indicators</label>
                                 <select class="form-control" id="viewerstateindicator" name="viewerstateindicator">
                                     <option value="0">disable</option>
@@ -253,6 +261,11 @@
                             <div class="form-group checkbox">
                                 <label title="Display emote pictures and combos">
                                     <input name="formatter-emote" type="checkbox" /> Emotes
+                                </label>
+                            </div>
+                            <div class="form-group checkbox">
+                                <label title="Display emote combos">
+                                    <input name="formatter-combo" type="checkbox" /> Combos
                                 </label>
                             </div>
                             <div class="form-group checkbox">

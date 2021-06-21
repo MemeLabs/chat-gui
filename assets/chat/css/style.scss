@@ -1644,6 +1644,15 @@ button.btn {
     top: 0px;
 }
 
+#maximum-messages-error{
+    display:none;
+    color:#D8000C;
+}
+#maximum-messages-input{
+    -moz-appearance: textfield;
+    width: 100%;
+}
+
 #chat-user-contextmenu {
     display: none;
     position: absolute;

@@ -5,10 +5,10 @@
     ["profilesettings", false],
     ["timestampformat", "HH:mm"],
     ["maxlines", 250],
-    [ "notificationwhisper", true ],
-    [ "soundnotificationwhisper", true ],
-    [ "notificationhighlight", true ],
-    [ "soundnotificationhighlight", true ],
+    ["notificationwhisper", true],
+    ["soundnotificationwhisper", true],
+    ["notificationhighlight", true],
+    ["soundnotificationhighlight", true],
     ["notificationsoundfile", "notificationsoundfile.wav"],
     ["highlight", true],
     ["customhighlight", ["highlighted"]],
@@ -16,7 +16,7 @@
     [
         "taggednicks",
         [
-            ["tagged-user", "sky" ],
+            ["tagged-user", "sky"],
             ["tagcolor-green", "green"],
             ["tagcolor-yellow", "yellow"],
             ["tagcolor-orange", "orange"],
@@ -42,5 +42,6 @@
     ["animateforever", false],
     ["formatter-green", true],
     ["formatter-emote", true],
+    ["formatter-combo", true],
     ["holidayemotemodifiers", true]
 ]
