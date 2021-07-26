@@ -741,3 +741,13 @@ $spritesDir : '../../emotes/emoticons-animated/';
     $iteration-count: 1,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: TANTIES,
+    $frame-count: 10,
+    $sprite-width: 280px,
+    $sprite-height: 28px,
+    $animation-duration: 1400ms,
+    $iteration-count: 5,
+    $can-animate-forever: true
+);
