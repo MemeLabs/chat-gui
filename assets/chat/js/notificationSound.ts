@@ -1,4 +1,4 @@
-const defaultNotificationSound = "/assets/sounds/notification.wav";
+import defaultNotificationSound from "../../sounds/notification.wav"
 
 export class AudioContextNotificatinPlayer {
     context: AudioContext;

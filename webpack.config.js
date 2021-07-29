@@ -345,7 +345,11 @@ module.exports = {
             },
             {
                 test: /\.(mp3|wav)$/i,
-                type: 'asset/resource'
+                loader: 'url-loader',
+                options: {
+                    limit: 8192
+                },
+                type: 'javascript/auto'
             }
         ]
     },
@@ -353,7 +357,7 @@ module.exports = {
         alias: {
             jquery: 'jquery/src/jquery'
         },
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js', '.wav']
     },
     context: __dirname,
     devtool: process.env.NODE_ENV !== 'production' && 'source-map'
