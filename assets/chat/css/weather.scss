@@ -27,14 +27,14 @@
 }
 /* rain */
 .weather.rain:before, .weather.rain:after {
-    background-image: url(../../emotes/modifiers/rain.png);
+    background-image: url(/assets/emotes/modifiers/rain.png);
 }
 .weather.rain:after {
     background-position-y: -32px;
 }
 /* snow */
 .weather.snow:before, .weather.snow:after {
-    background-image: url(../../emotes/modifiers/snow.png);
+    background-image: url(/assets/emotes/modifiers/snow.png);
 }
 .weather.snow:after {
     background-position-y: -32px;

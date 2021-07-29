@@ -12,7 +12,7 @@ import {
 } from "./formatters";
 import { DATE_FORMATS } from "./const";
 import UserFeatures from "./features";
-import throttle from "throttle-debounce/throttle";
+import { throttle } from "throttle-debounce";
 import moment from "moment";
 
 const MessageTypes = {

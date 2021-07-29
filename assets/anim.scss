@@ -266,7 +266,7 @@ $context-css-animated-emote-mixin: false;
     filter: invert(100%);
 }
 
-$spritesDir : '../../emotes/emoticons-animated/';
+$spritesDir : '/assets/emotes/emoticons-animated/';
 
 @mixin sprite-animation(
         $file-name,
@@ -318,7 +318,8 @@ $spritesDir : '../../emotes/emoticons-animated/';
         width: $frame-width;
         height: $sprite-height;
         margin-top: -$sprite-height;
-        background: url($path) left center;
+        // background: url($path) left center;
+        background-position: left center;
 
         @if $extra-animation {
             animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction , #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;

@@ -4,7 +4,7 @@ import ChatUser from "./user";
 import ChatScrollPlugin from "./scroll";
 import UserFeatures from "./features";
 import EventEmitter from "./emitter";
-import debounce from "throttle-debounce/debounce";
+import { debounce } from "throttle-debounce";
 import { isKeyCode, KEYCODES } from "./const";
 import { setStorage, getStorage } from "./transfer";
 import notificationSound from "./notificationSound";
@@ -243,7 +243,7 @@ class ChatSettingsMenu extends ChatMenu {
     onMaxLinesChange(e) {
         // Don't save on number keys to avoid cutting off messages before final value is decided
         // e.g. start writing "100" and it cuts off messages at "1"
-        if ((e.key >= 0 && e.key <= 9)) { 
+        if ((e.key >= 0 && e.key <= 9)) {
             return;
         }
         let errorMessage = $("#maximum-messages-error");
@@ -255,7 +255,7 @@ class ChatSettingsMenu extends ChatMenu {
 
         if(data == ""){
             return;
-        } 
+        }
 
         const newmaxlines = Math.abs(parseInt(data, 10));
         if (!newmaxlines || (newmaxlines < 25 && newmaxlines > 500)) {
