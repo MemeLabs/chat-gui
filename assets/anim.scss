@@ -723,12 +723,12 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
-    $file-name: peepoRun,
+    $file-name: PeepoRun,
     $frame-count: 6,
     $sprite-width: 168px,
     $sprite-height: 28px,
-    $animation-duration: 320ms,
-    $iteration-count: 16,
+    $animation-duration: 420ms,
+    $iteration-count: 12,
     $can-animate-forever: true
 );
 
