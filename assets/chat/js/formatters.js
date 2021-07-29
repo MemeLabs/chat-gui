@@ -159,14 +159,13 @@ function putHat(width, height, emote) {
 }
 
 function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
-    const innerEmoteCompStyle = getComputedStyle(
-        document.querySelector(".chat-emote-" + emoteName)
-    );
+    const emote = document.querySelector(".chat-emote-" + emoteName);
+    if (!emote) {
+        return;
+    }
 
-    //  getting the source image for the emote as not all emotes use the same atlas
-    const imgSrcRegex = /(img.*g)/gm;
-    let imgSrc = innerEmoteCompStyle.backgroundImage;
-    const maskUrl = imgSrc.match(imgSrcRegex)[0];
+    const innerEmoteCompStyle = getComputedStyle(emote, false)
+    let maskUrl = innerEmoteCompStyle.backgroundImage.slice(4, -1).replace(/"/g, '');
 
     const goldenModifierMask =
         "width: " +
@@ -245,19 +244,12 @@ class EmoteFormatter {
             style.type = "text/css";
 
             for (var i = 0; i < emoteArray.length; i++) {
-                if (
-                    document.getElementsByClassName(
-                        "chat-emote-" + emoteArray[i]
-                    ).length == 0
-                ) {
+                const target = document.getElementsByClassName("chat-emote-" + emoteArray[i]);
+                if (target.length === 0) {
                     break;
                 }
-                var width = document.getElementsByClassName(
-                    "chat-emote-" + emoteArray[i]
-                )[0].clientWidth;
-                var height = document.getElementsByClassName(
-                    "chat-emote-" + emoteArray[i]
-                )[0].clientHeight;
+                var width = target[0].clientWidth;
+                var height = target[0].clientHeight;
                 this.emotewidths[emoteArray[i]] = width;
                 this.emoteheights[emoteArray[i]] = height;
 

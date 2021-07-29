@@ -314,11 +314,10 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         }
     }
 
-    .chat-emote-#{$file-name} {
+    .chat-emote.chat-emote-#{$file-name} {
         width: $frame-width;
         height: $sprite-height;
         margin-top: -$sprite-height;
-        // background: url($path) left center;
         background-position: left center;
 
         @if $extra-animation {
