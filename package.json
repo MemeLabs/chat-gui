@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint .",
     "tld": "node scripts/tld.js",
-    "build": "npm run tld && webpack",
+    "glue": "node scripts/glue.js",
+    "build": "npm run tld && npm run glue && webpack",
     "build:production": "npm run --prod build",
     "watch": "webpack -w",
     "start": "webpack serve --mode development"
@@ -36,7 +37,7 @@
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "copy-webpack-plugin": "^9.0.1",
-    "core-js": "^3.15.2",
+    "core-js": "^2.5.7",
     "css-loader": "^6.2.0",
     "detect-browser": "^5.2.0",
     "dotenv": "^10.0.0",
@@ -73,5 +74,8 @@
   "engines": {
     "node": "~5.0.2",
     "npm": "~3.3.12"
-  }
+  },
+  "browserslist": [
+    "defaults"
+  ]
 }

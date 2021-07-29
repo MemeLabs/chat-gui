@@ -299,16 +299,28 @@ module.exports = {
                     {
                         loader: 'css-loader',
                         options: {
+                            sourceMap: true,
                             url: {
                                 filter: (url) =>  !url.startsWith(emoteManifestPlugin.options.emotePath)
                             }
                         }
                     },
-                    'resolve-url-loader',
-                    'postcss-loader',
+                    {
+                        loader: 'resolve-url-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
                     {
                         loader: 'sass-loader',
                         options: {
+                            sourceMap: true,
                             additionalData: (content, loaderContext) => {
                                 const { resourcePath, rootContext } = loaderContext;
                                 const relativePath = path.relative(rootContext, resourcePath);
