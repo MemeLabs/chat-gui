@@ -301,7 +301,7 @@ module.exports = {
                         options: {
                             sourceMap: true,
                             url: {
-                                filter: (url) =>  !url.startsWith(emoteManifestPlugin.options.emotePath)
+                                filter: (url) => !url.startsWith(emoteManifestPlugin.options.emotePath)
                             }
                         }
                     },
