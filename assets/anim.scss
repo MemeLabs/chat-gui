@@ -202,14 +202,6 @@ $context-css-animated-emote-mixin: false;
     }
 }
 
-@include css-animated-emote(KEKE, true) {
-    @include emote-animation(200ms, 5) {
-        0% { transform: translate(0px, 0px); }
-        50% { transform: translate(0px, 3px); }
-        100% { transform: translate(0px, 0px); }
-    }
-}
-
 @include css-animated-emote(PepeLaugh, true) {
     @include emote-animation(200ms, 5) {
         0% { transform: translate(0px, 0px); }
