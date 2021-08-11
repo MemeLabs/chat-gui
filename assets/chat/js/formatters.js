@@ -524,7 +524,10 @@ class MentionedUserFormatter {
                     )})(?=$|\\s|[\.\?!,])`,
                     "igm"
                 ),
-                `$1<span class="chat-user">$2</span>`
+                (m, prefix, target) => {
+                    const nick = message.mentioned.find(n => n.toLowerCase() === target.toLowerCase());
+                    return `${prefix}<span class="chat-user">${nick}</span>`;
+                }
             );
         }
         return str;

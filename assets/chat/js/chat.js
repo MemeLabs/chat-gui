@@ -896,9 +896,10 @@ class Chat {
                 win.lastmessage.user.username.toLowerCase() ===
                 message.user.username.toLowerCase();
             // get mentions from message
-            message.mentioned = Chat.extractNicks(message.message).filter(a =>
-                this.users.has(a.toLowerCase())
-            );
+            message.mentioned = Chat.extractNicks(message.message).reduce((m, a) => {
+                const user = this.users.get(a.toLowerCase());
+                return user ? [...m, user.nick] : m;
+            }, []);
             // set tagged state
             message.tag = this.taggednicks.get(message.user.nick.toLowerCase());
             // set highlighted state if this is not the current users message or a bot, as well as other highlight criteria
