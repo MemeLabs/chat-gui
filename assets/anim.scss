@@ -210,6 +210,14 @@ $context-css-animated-emote-mixin: false;
     }
 }
 
+@include css-animated-emote(NeneLaugh, true) {
+    @include emote-animation(200ms, 5) {
+        0% { transform: translate(0px, 0px); }
+        50% { transform: translate(0px, 3px); }
+        100% { transform: translate(0px, 0px); }
+    }
+}
+
 @keyframes emote-hit {
     0% { color: #B91010; font-size:200%; }
     1% { color: $color-light; font-size:190%; }
