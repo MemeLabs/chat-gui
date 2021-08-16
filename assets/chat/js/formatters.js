@@ -715,7 +715,7 @@ class UrlFormatter {
                     if (sm) {
                         const embed = sub.template(sm[1]);
                         const embedHref = `${RUSTLA_URL}/${embed}`;
-                        return `<a target="_blank" class="${extraclass}" href="${embedHref}">${embed}</a><a target="_blank" class="embed_externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
+                        return `<a target="_blank" class="embed-internallink ${extraclass}" href="${embedHref}">${embed}</a><a target="_blank" class="embed-externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
                     }
                 }
 

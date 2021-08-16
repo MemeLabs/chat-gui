@@ -350,8 +350,12 @@ label small {
                 transform: scale(0);
             }
         }
+
         .externallink,
-        .externallink:visited {
+        .externallink:visited,
+        .embed-externallink:after,
+        .embed-externallink:hover:after,
+        .embed-internallink {
             pointer-events: none;
             color: $color-spoiler-hidden;
         }
@@ -376,7 +380,8 @@ label small {
                     transform: scale(1);
                 }
             }
-            .externallink {
+            .externallink,
+            .embed-internallink {
                 pointer-events: auto;
                 color: $color-link;
             }
@@ -384,7 +389,15 @@ label small {
                 color: $color-link-visited;
             }
             .externallink:hover,
-            .externallink:focus {
+            .externallink:focus,
+            .embed-internallink:hover,
+            .embed-internallink:focus {
+                color: $color-link-hover;
+            }
+            .embed-externallink:after {
+                color: $color-chat-disabled;
+            }
+            .embed-externallink:hover:after {
                 color: $color-link-hover;
             }
             .nsfw-link {
@@ -402,21 +415,26 @@ label small {
         }
     }
     .externallink,
+    .embed-internallink,
     .nsfw-link {
         border-style: solid;
         border-color: transparent;
         border-width: 1px 0 1px 0;
     }
-    .externallink {
+    .externallink,
+    .embed-internallink {
         color: $color-link;
         position: relative;
         z-index: 120;
     }
-    .externallink:visited {
+    .externallink:visited,
+    .embed-internallink:visited {
         color: $color-link-visited;
     }
     .externallink:hover,
-    .externallink:focus {
+    .externallink:focus,
+    .embed-internallink:hover,
+    .embed-internallink:focus {
         color: $color-link-hover;
     }
     .nsfw-link {
@@ -431,7 +449,7 @@ label small {
     .weeb-link {
         border-bottom: 1px dashed $color-underline-weeb !important;
     }
-    .embed_externallink {
+    .embed-externallink {
         text-decoration: none;
         border-bottom: none;
 
