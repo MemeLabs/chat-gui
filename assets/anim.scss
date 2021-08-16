@@ -318,7 +318,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         width: $frame-width;
         height: $sprite-height;
         margin-top: -$sprite-height;
-        background-position: left center;
+        background-position-y: center;
 
         @if $extra-animation {
             animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction , #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
@@ -333,11 +333,15 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
             }
         }
 
+        $frame-width: $sprite-width / $frame-count;
         @if $end-on-last-frame {
-            background-position: #{$sprite-width / $frame-count};
+            background-position-x: -#{$sprite-width - $frame-width};
         }
         @else if $end-on-frame != 0 {
-            background-position: #{$sprite-width / $frame-count * $end-on-frame};
+            background-position-x: -#{$end-on-frame * $frame-width};
+        }
+        @else {
+            background-position-x: left;
         }
 
         @if $can-animate-forever {
