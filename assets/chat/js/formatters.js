@@ -340,7 +340,6 @@ class EmoteFormatter {
                 .filter((s) => suffixes.includes(s))
                 .map((s) => `<span class="${s}"></span>`)
                 .join();
-                
             var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + generifySpans + ' </span>';
 
             var generifyClasses = [
