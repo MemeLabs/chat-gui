@@ -269,13 +269,11 @@ class EmoteFormatter {
         var i = 0;
         return str.replace(this.regex, m => {
             // m is "emote:modifier"
-            const input = m.split(":");
+            // creating a set removes duplicates in an array
+            const input = [...new Set(m.split(":"))];
             const emote = input[0].replace(/\s/g, "");
-            var suffixes = [];
-            if (input.length > 1) {
-                for (var j = 1; j < input.length; j++)
-                    suffixes.push(input[j].replace(/\s/g, ""));
-            }
+            m = input.join(":");
+            var suffixes = input.slice(1);
 
             // the front modifier gets "executed" last
             suffixes = moveModifierToFront(suffixes, "banned");
@@ -337,12 +335,12 @@ class EmoteFormatter {
             for (var suffix of suffixes) {
                 options.push(GENERIFY_OPTIONS[suffix]);
             }
-            options = [...new Set(options)];
+
             var generifySpans = ['worth', 'love', 'jam']
                 .filter((s) => suffixes.includes(s))
                 .map((s) => `<span class="${s}"></span>`)
                 .join();
-
+                
             var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + generifySpans + ' </span>';
 
             var generifyClasses = [

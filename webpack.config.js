@@ -325,7 +325,7 @@ module.exports = {
                                 const { resourcePath, rootContext } = loaderContext;
                                 const relativePath = path.relative(rootContext, resourcePath);
 
-                                if (relativePath === 'assets/chat/css/emotes.scss') {
+                                if (relativePath === path.join('assets','chat','css','emotes.scss')) {
                                     return emoteManifestPlugin.emoteCss() + content;
                                 }
 
