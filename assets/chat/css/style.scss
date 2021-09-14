@@ -359,6 +359,14 @@ label small {
             pointer-events: none;
             color: $color-spoiler-hidden;
         }
+        .embed-externallink{
+            pointer-events: none;
+            visibility: hidden;
+        }
+        .externallink:visited,
+        .embed-internallink:visited {
+            color: $color-spoiler-hidden;
+        }
         .nsfw-link,
         .nsfl-link,
         .loud-link {
@@ -385,6 +393,10 @@ label small {
                 pointer-events: auto;
                 color: $color-link;
             }
+            .embed-externallink{
+                pointer-events:auto;
+                visibility: visible;
+            }
             .externallink:visited {
                 color: $color-link-visited;
             }
@@ -399,6 +411,10 @@ label small {
             }
             .embed-externallink:hover:after {
                 color: $color-link-hover;
+            }
+            .externallink:visited,
+            .embed-internallink:visited {
+                color: $color-link-visited;
             }
             .nsfw-link {
                 border-bottom: 1px dashed $color-underline-nsfw !important;
