@@ -8,7 +8,7 @@ import { debounce } from "throttle-debounce";
 import { isKeyCode, KEYCODES } from "./const";
 import { setStorage, getStorage } from "./transfer";
 import notificationSound from "./notificationSound";
-import { MessageBuilder } from "./messages";
+import EmoteCreators from "../../emotecreators.json";
 
 const Notification = window.Notification || {};
 
@@ -750,11 +750,112 @@ class ChatContextMenu {
     }
 }
 
+function isHalloween() {
+    const today = new Date();
+    // one UTC day grace period for america
+    return (
+        today.getUTCMonth() == 9 ||
+        (today.getUTCMonth() == 10 && today.getUTCDate() == 1)
+    );
+}
+
+class ChatEmoteInfoMenu {
+    constructor(chat, event) {
+        this.chat = chat;
+        this.ui = chat.output.find("#chat-emote-info");
+        this.emoteIcon = chat.output.find("#chat-emote-info-icon");
+        this.emoteName = chat.output.find("#chat-emote-info-emotename");
+        this.emoteCreator = chat.output.find("#chat-emote-info-creator");
+        this.emoteSeasonal = chat.output.find("#chat-emote-info-seasonal");
+        this.ui.css("min-height", "24px");
+        this.event = event;
+        this.targetEmote = event.target.innerText.split(":")[0];
+
+        if (this.emoteIcon[0].innerText != this.targetEmote) {
+            this.emoteIcon.children().remove();
+
+            this.emoteIcon.append(buildEmote(this.targetEmote));
+            this.emoteName[0].innerText = [...this.chat.emoticons].filter(
+                (emote) => emote == this.targetEmote
+            );
+
+            let defaultCreator =
+                EmoteCreators["default"][this.targetEmote]["createdby"];
+            if (defaultCreator)
+                this.emoteCreator[0].innerText =
+                    "Created by: " + defaultCreator;
+            else this.emoteCreator[0].innerText = "";
+            if (true) {
+                let seasonalCreator =
+                    EmoteCreators["halloween"][this.targetEmote]["createdby"];
+
+                if (seasonalCreator)
+                    this.emoteSeasonal[0].innerText =
+                        "Seasonal by: " +
+                        EmoteCreators["halloween"][this.targetEmote][
+                            "createdby"
+                        ];
+                else this.emoteSeasonal[0].innerText = "";
+            }
+        }
+    }
+
+    adjustPosition(e) {
+        let emoteElementClientRect = $(e.target)
+            .closest("span.text")
+            .find(".generify-emote-" + this.targetEmote)[0]
+            .getBoundingClientRect();
+        this.ui.css("left", emoteElementClientRect.left);
+
+        // has to be shown in beginning otherwise the height of the UI is inconsistent
+        let emoteIconElement = $("#chat-emote-info-icon .emote .chat-emote");
+
+        // set top and margin-top to 0 so that the emote fits inside the popup
+        emoteIconElement.css("top", "0px");
+        emoteIconElement.css("margin-top", "0px");
+
+        // vertical alignment
+        if (
+            this.event.pageY <
+            this.ui.height() + emoteElementClientRect.height
+        ) {
+            this.ui.css("top", emoteElementClientRect.bottom + 10);
+        } else {
+            this.ui.css(
+                "top",
+                emoteElementClientRect.top -
+                    (this.ui.height() + emoteElementClientRect.height)
+            );
+        }
+
+        // adjust horizontal alignment if it goes off screen
+        if (this.ui[0].getBoundingClientRect().right > window.innerWidth) {
+            this.ui.css(
+                "left",
+                emoteElementClientRect.left -
+                    (this.ui[0].getBoundingClientRect().right -
+                        window.innerWidth)
+            );
+        }
+    }
+
+    show(e) {
+        e.preventDefault();
+        this.ui.css("display", "block");
+        this.adjustPosition(e);
+    }
+
+    hide() {
+        this.ui.hide();
+    }
+}
+
 export {
     ChatMenu,
     ChatSettingsMenu,
     ChatUserMenu,
     ChatEmoteMenu,
+    ChatEmoteInfoMenu,
     ChatWhisperUsers,
     ChatContextMenu
 };
