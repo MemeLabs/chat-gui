@@ -785,7 +785,7 @@ class ChatEmoteInfoMenu {
                 this.emoteCreator[0].innerText =
                     "Created by: " + defaultCreator;
             else this.emoteCreator[0].innerText = "";
-            if (true) {
+            if (isHalloween()) {
                 let seasonalCreator =
                     EmoteCreators["halloween"][this.targetEmote]["createdby"];
 
