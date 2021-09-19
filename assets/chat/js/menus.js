@@ -793,7 +793,6 @@ class ChatEmoteInfoMenu {
 
         if (this.emoteIcon[0].innerText != this.targetEmote) {
             this.emoteIcon.children().remove();
-
             this.emoteIcon.append(buildEmote(this.targetEmote));
             this.emoteName[0].innerText = [...this.chat.emoticons].filter(
                 (emote) => emote == this.targetEmote
