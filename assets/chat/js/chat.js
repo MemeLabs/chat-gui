@@ -644,24 +644,32 @@ class Chat {
             this.mainwindow.lock();
         })
 
-        this.ui.on("click", e => {
+        this.ui.on("click","#chat-emote-info", (e) => {
+            // prevents hiding the popup accidentally if you're clicking text inside of it
+            e.stopPropagation();
+        });
+
+        this.ui.on("click", (e) => {
             if (this.contextMenu) {
                 if (!$(e.target).is(this.contextMenu.ui)) {
-                    this.contextMenu.hide()
+                    this.contextMenu.hide();
                     if (this.mainwindow.locked()) {
                         this.mainwindow.unlock();
                     }
                 }
             }
             if (this.emoteInfoMenu) {
-                if (!$(e.target).is(this.emoteInfoMenu.ui) && e.target.innerText.split(":")[0] != this.emoteInfoMenu.targetEmote) {
-                    this.emoteInfoMenu.hide()
+                if (
+                    e.target.innerText.split(":")[0] !=
+                    this.emoteInfoMenu.targetEmote
+                ) {
+                    this.emoteInfoMenu.hide();
                     if (this.mainwindow.locked()) {
                         this.mainwindow.unlock();
                     }
                 }
             }
-        })
+        });
 
         // Keep the website session alive.
         setInterval(() => $.ajax({ url: "/ping" }), 10 * 60 * 1000);

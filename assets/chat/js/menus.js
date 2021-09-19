@@ -770,9 +770,9 @@ function getSeasonal() {
    const today = new Date();
 
    if (isHalloween(today)) {
-       return "halloween";
+       return "october";
    } else if (isChristmas(today)) {
-       return "christmas";
+       return "december";
    }
 
    return ""
@@ -800,7 +800,7 @@ class ChatEmoteInfoMenu {
             );
 
             let defaultCreator =
-                EmoteCreators["default"][this.targetEmote]["createdby"]
+                EmoteCreators["default"][this.targetEmote]["createdby"];
             if (defaultCreator)
                 this.emoteCreator[0].innerText =
                     "Created by: " + defaultCreator;
@@ -808,12 +808,13 @@ class ChatEmoteInfoMenu {
 
             if (this.seasonal) {
                 let seasonalCreator =
-                    EmoteCreators[this.seasonal][this.targetEmote][this.seasonal];
-
+                    EmoteCreators["default"][this.targetEmote][this.seasonal];
                 if (seasonalCreator)
                     this.emoteSeasonal[0].innerText =
                         "Seasonal by: " +
-                        EmoteCreators[this.seasonal][this.targetEmote][this.seasonal];
+                        EmoteCreators["default"][this.targetEmote][
+                            this.seasonal
+                        ];
             } else this.emoteSeasonal[0].innerText = "";
         }
     }
