@@ -1752,7 +1752,7 @@ button.btn {
     display: none;
     position: absolute;
     z-index: 235;
-    background-color:$color-surface-dark4;
+    background-color:$color-surface-dark3;
 
     padding:4px;
 
@@ -1770,10 +1770,6 @@ button.btn {
     font-weight: bold;
     display: flex;
     justify-content: center;
-}
-
-#chat-emote-info-creators{
-    display:flex;
 }
 
 #chat-emote-info-creator,#chat-emote-info-seasonal{

@@ -750,13 +750,32 @@ class ChatContextMenu {
     }
 }
 
-function isHalloween() {
-    const today = new Date();
+function isHalloween(date) {
     // one UTC day grace period for america
     return (
-        today.getUTCMonth() == 9 ||
-        (today.getUTCMonth() == 10 && today.getUTCDate() == 1)
+        date.getUTCMonth() == 9 ||
+        (date.getUTCMonth() == 10 && date.getUTCDate() == 1)
     );
+}
+
+function isChristmas(date) {
+    // one UTC day grace period for america
+    return (
+        date.getUTCMonth() == 12 ||
+        (date.getUTCMonth() == 1 && date.getUTCDate() == 1)
+    );
+}
+
+function getSeasonal() {
+   const today = new Date();
+
+   if (isHalloween(today)) {
+       return "halloween";
+   } else if (isChristmas(today)) {
+       return "christmas";
+   }
+
+   return ""
 }
 
 class ChatEmoteInfoMenu {
@@ -770,6 +789,7 @@ class ChatEmoteInfoMenu {
         this.ui.css("min-height", "24px");
         this.event = event;
         this.targetEmote = event.target.innerText.split(":")[0];
+        this.seasonal = getSeasonal();
 
         if (this.emoteIcon[0].innerText != this.targetEmote) {
             this.emoteIcon.children().remove();
@@ -780,23 +800,21 @@ class ChatEmoteInfoMenu {
             );
 
             let defaultCreator =
-                EmoteCreators["default"][this.targetEmote]["createdby"];
+                EmoteCreators["default"][this.targetEmote]["createdby"]
             if (defaultCreator)
                 this.emoteCreator[0].innerText =
                     "Created by: " + defaultCreator;
             else this.emoteCreator[0].innerText = "";
-            if (isHalloween()) {
+
+            if (this.seasonal) {
                 let seasonalCreator =
-                    EmoteCreators["halloween"][this.targetEmote]["createdby"];
+                    EmoteCreators[this.seasonal][this.targetEmote][this.seasonal];
 
                 if (seasonalCreator)
                     this.emoteSeasonal[0].innerText =
                         "Seasonal by: " +
-                        EmoteCreators["halloween"][this.targetEmote][
-                            "createdby"
-                        ];
-                else this.emoteSeasonal[0].innerText = "";
-            }
+                        EmoteCreators[this.seasonal][this.targetEmote][this.seasonal];
+            } else this.emoteSeasonal[0].innerText = "";
         }
     }
 
