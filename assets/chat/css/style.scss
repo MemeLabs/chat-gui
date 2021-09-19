@@ -1739,3 +1739,40 @@ button.btn {
         max-width: 40vw;
     }
 }
+
+.d-flex{
+    display: flex;
+}
+
+.justify-content-center{
+    justify-content: center;
+}
+
+#chat-emote-info {
+    display: none;
+    position: absolute;
+    z-index: 235;
+    background-color:$color-surface-dark3;
+
+    padding:4px;
+
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+
+    min-height: 24px;
+
+    border: 2px solid $color-surface-dark4;
+    border-radius: 5px;
+}
+
+#chat-emote-info-emotename{
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+}
+
+#chat-emote-info-creator,#chat-emote-info-seasonal{
+    display: block;
+    font-size: 10px;
+}

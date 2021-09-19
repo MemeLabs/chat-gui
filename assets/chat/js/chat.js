@@ -14,7 +14,8 @@ import {
     ChatWhisperUsers,
     ChatEmoteMenu,
     ChatSettingsMenu,
-    ChatContextMenu
+    ChatContextMenu,
+    ChatEmoteInfoMenu
 } from "./menus";
 import ChatAutoComplete from "./autocomplete";
 import ChatInputHistory from "./history";
@@ -636,16 +637,39 @@ class Chat {
             }
         })
 
-        this.ui.on("click", e => {
+        this.output.on("click", "span.generify-container span.chat-emote", e => {
+            e.preventDefault();
+            this.emoteInfoMenu = new ChatEmoteInfoMenu(this, e);
+            this.emoteInfoMenu.show(e);
+            this.mainwindow.lock();
+        })
+
+        this.ui.on("click","#chat-emote-info", (e) => {
+            // prevents hiding the popup accidentally if you're clicking text inside of it
+            e.stopPropagation();
+        });
+
+        this.ui.on("click", (e) => {
             if (this.contextMenu) {
                 if (!$(e.target).is(this.contextMenu.ui)) {
-                    this.contextMenu.hide()
+                    this.contextMenu.hide();
                     if (this.mainwindow.locked()) {
                         this.mainwindow.unlock();
                     }
                 }
             }
-        })
+            if (this.emoteInfoMenu) {
+                if (
+                    e.target.innerText.split(":")[0] !=
+                    this.emoteInfoMenu.targetEmote
+                ) {
+                    this.emoteInfoMenu.hide();
+                    if (this.mainwindow.locked()) {
+                        this.mainwindow.unlock();
+                    }
+                }
+            }
+        });
 
         // Keep the website session alive.
         setInterval(() => $.ajax({ url: "/ping" }), 10 * 60 * 1000);
