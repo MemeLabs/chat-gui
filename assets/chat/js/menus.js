@@ -878,6 +878,7 @@ class ChatEmoteInfoMenu {
     }
 
     hide() {
+        this.emoteInfoID = ""
         this.ui.hide();
     }
 }
