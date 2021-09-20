@@ -639,9 +639,14 @@ class Chat {
 
         this.output.on("click", "span.generify-container span.chat-emote", e => {
             e.preventDefault();
+            let temp = this.emoteInfoMenu;
             this.emoteInfoMenu = new ChatEmoteInfoMenu(this, e);
             this.emoteInfoMenu.show(e);
-            this.mainwindow.lock();
+            if(temp && temp.emoteInfoID == this.emoteInfoMenu.emoteInfoID)
+            {
+                this.emoteInfoMenu.hide()
+                this.emoteInfoMenu = undefined;
+            }
         })
 
         this.ui.on("click","#chat-emote-info", (e) => {
@@ -664,9 +669,6 @@ class Chat {
                     this.emoteInfoMenu.targetEmote
                 ) {
                     this.emoteInfoMenu.hide();
-                    if (this.mainwindow.locked()) {
-                        this.mainwindow.unlock();
-                    }
                 }
             }
         });
