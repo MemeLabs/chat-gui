@@ -938,6 +938,7 @@ a.flair12:hover {
     text-indent: -90000px;
     vertical-align: middle;
     padding-left: 0.5em;
+    cursor:pointer;
 }
 .chat-combo {
     color: $color-chat-text1;
@@ -1770,6 +1771,10 @@ button.btn {
     font-weight: bold;
     display: flex;
     justify-content: center;
+}
+
+#chat-emote-info-icon{
+    cursor:pointer
 }
 
 #chat-emote-info-creator,#chat-emote-info-seasonal{

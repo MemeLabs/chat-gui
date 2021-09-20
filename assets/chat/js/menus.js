@@ -816,13 +816,25 @@ class ChatEmoteInfoMenu {
                         ];
             } else this.emoteSeasonal[0].innerText = "";
         }
-    }
 
+        this.emoteIcon.unbind("click");
+        this.emoteIcon.on("click", e => {
+            this.ui.hide()
+            let value = this.chat.input
+                .val()
+                .toString()
+                .trim();
+            this.chat.input
+                .val(value + (value === "" ? "" : " ") + this.targetEmote + " ")
+                .focus();
+        });
+    }
+    
     adjustPosition(e) {
-        let emoteElementClientRect = $(e.target)
-            .closest("span.text")
-            .find(".generify-emote-" + this.targetEmote)[0]
-            .getBoundingClientRect();
+        // we get the outmost span because it has a static position that we use to position our popup
+        let outerSpan = $(e.target).parents(".generify-container");
+        let emoteElementClientRect = outerSpan[outerSpan.length-1].getBoundingClientRect();
+
         this.ui.css("left", emoteElementClientRect.left);
 
         // has to be shown in beginning otherwise the height of the UI is inconsistent
