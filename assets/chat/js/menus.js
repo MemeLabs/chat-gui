@@ -786,6 +786,7 @@ class ChatEmoteInfoMenu {
         this.emoteName = chat.output.find("#chat-emote-info-emotename");
         this.emoteCreator = chat.output.find("#chat-emote-info-creator");
         this.emoteSeasonal = chat.output.find("#chat-emote-info-seasonal");
+        this.emoteInfoID = ""
         this.ui.css("min-height", "24px");
         this.event = event;
         this.targetEmote = event.target.innerText.split(":")[0];
@@ -829,12 +830,13 @@ class ChatEmoteInfoMenu {
                 .focus();
         });
     }
-    
+
     adjustPosition(e) {
         // we get the outmost span because it has a static position that we use to position our popup
         let outerSpan = $(e.target).parents(".generify-container");
         let emoteElementClientRect = outerSpan[outerSpan.length-1].getBoundingClientRect();
-
+        
+        this.emoteInfoID = this.targetEmote + emoteElementClientRect.top + emoteElementClientRect.left
         this.ui.css("left", emoteElementClientRect.left);
 
         // has to be shown in beginning otherwise the height of the UI is inconsistent
