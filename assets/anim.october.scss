@@ -87,3 +87,13 @@
     $iteration-count: 7,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: HACKER,
+    $frame-count: 2,
+    $sprite-width: 96px,
+    $sprite-height: 34px,
+    $animation-duration: 400ms,
+    $iteration-count: 10,
+    $can-animate-forever: true
+);
