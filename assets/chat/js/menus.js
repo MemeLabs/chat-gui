@@ -806,15 +806,11 @@ class ChatEmoteInfoMenu {
                     "Created by: " + defaultCreator;
             else this.emoteCreator[0].innerText = "";
 
-            if (this.seasonal) {
-                let seasonalCreator =
-                    EmoteCreators["default"][this.targetEmote][this.seasonal];
-                if (seasonalCreator)
-                    this.emoteSeasonal[0].innerText =
-                        "Seasonal by: " +
-                        EmoteCreators["default"][this.targetEmote][
-                            this.seasonal
-                        ];
+            let seasonalCreator =
+                EmoteCreators["default"][this.targetEmote][this.seasonal];
+            if (this.seasonal && seasonalCreator) {
+                this.emoteSeasonal[0].innerText =
+                    "Seasonal by: " + seasonalCreator;
             } else this.emoteSeasonal[0].innerText = "";
         }
 
