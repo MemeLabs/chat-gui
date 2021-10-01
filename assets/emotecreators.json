@@ -339,7 +339,7 @@
             "october": "Gehirnchirurg",
             "december": "Gehirnchirurg"
         },
-        "SEMPAI": { "createdby": "melun", "october": "", "december": "" },
+        "SEMPAI": { "createdby": "melun", "october": "melun", "december": "" },
         "OSTRIGGERED": { "createdby": "", "october": "", "december": "" },
         "MiyanoBird": { "createdby": "", "october": "", "december": "" },
         "KING": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
@@ -418,7 +418,7 @@
         "GODWOMAN": { "createdby": "Nept", "october": "", "december": "" },
         "POGGIES": {
             "createdby": "",
-            "october": "",
+            "october": "deadppls",
             "december": "Gehirnchirurg"
         },
         "SHRUG": {
