@@ -346,7 +346,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
         @if $can-animate-forever {
             &-animate-forever {
-                animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite;
+                animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction;
             }
         }
     }
