@@ -282,7 +282,7 @@
             "december": "Gehirnchirurg"
         },
         "FeelsOkayMan": { "createdby": "", "october": "", "december": "" },
-        "POKE": { "createdby": "", "october": "", "december": "" },
+        "POKE": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
         "PepoDance": {
             "createdby": "",
             "october": "Gehirnchirurg",
