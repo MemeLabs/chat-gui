@@ -182,6 +182,12 @@ const plugins = [
         favicon: './assets/chat/img/favicon.ico',
         chunks: ['notification-request']
     }),
+    new HTMLWebpackPlugin({
+        filename: 'emotelist.html',
+        template: 'assets/emotelist.html',
+        favicon: './assets/chat/img/favicon.ico',
+        chunks: ['emotelist']
+    }),
     new MiniCssExtractPlugin({
         filename: '[name].[contenthash].css'
     }),
@@ -214,6 +220,11 @@ const entry = {
         './assets/chat/css/style.scss',
         './assets/chat/css/onstream.scss',
         './assets/streamchat.js'
+    ],
+    'emotelist': [
+        'normalize.css',
+        './assets/emotelist.css',
+        './assets/emotelist.js'
     ],
     'emotes': [
         './assets/chat/css/emotes.scss'
