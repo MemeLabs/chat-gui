@@ -12,7 +12,7 @@ table.appendChild(thead);
     thead.appendChild(th);
 });
 
-Object.entries(emoteCreators.default).forEach(([name, creators]) => {
+Object.entries(emoteCreators.default).sort(([a], [b]) => a.localeCompare(b)).forEach(([name, creators]) => {
     const row = document.createElement('tr');
     table.appendChild(row);
     [name, creators.createdby, creators.october, creators.december].forEach((creator) => {
