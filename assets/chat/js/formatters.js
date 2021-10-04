@@ -719,7 +719,7 @@ class UrlFormatter {
 
                 // 70 characters is the 80th percentile for link length
                 if (shortenLinks && url.length > 75) {
-                    url = url.substring(0, 35) + '...' + url.substring(url.length - 35);
+                    url = url.substring(0, 35) + '<span class="ellipsis">...</span><span class="ellipsis-hidden">' + url.substring(35, url.length - 35) + '</span>' + url.substring(url.length - 35);
                 }
                 return `<a target="_blank" class="externallink ${extraclass}" href="${href}" rel="nofollow">${url}</a>${extra}`;
             }

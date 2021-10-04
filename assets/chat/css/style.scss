@@ -51,6 +51,12 @@ a:hover, a:focus {
     color: $color-accent-light;
     text-decoration: underline;
 }
+.ellipsis {
+    user-select: none;
+}
+.ellipsis-hidden {
+    font-size: 0;
+}
 hr {
     border: 0;
     margin: 15px 0;
