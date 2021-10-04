@@ -681,6 +681,7 @@ class UrlFormatter {
     format(chat, str, message = null) {
         if (!str) return;
         const self = this;
+        const shortenLinks = chat.settings.get("shortenlinks");
         let extraclass = "";
 
         if (/\b(?:NSFL)\b/i.test(str)) {
@@ -716,6 +717,10 @@ class UrlFormatter {
                     }
                 }
 
+                // 70 characters is the 80th percentile for link length
+                if (shortenLinks && url.length > 75) {
+                    url = url.substring(0, 35) + '...' + url.substring(url.length - 35);
+                }
                 return `<a target="_blank" class="externallink ${extraclass}" href="${href}" rel="nofollow">${url}</a>${extra}`;
             }
             return url;

@@ -133,6 +133,7 @@ const settingsdefault = new Map([
     ["holidayemotemodifiers", true],
     ["disablespoilers", false],
     ["viewerstateindicator", 1],
+    ["shortenlinks", true],
     ["hiddenemotes", []]
 ]);
 const commandsinfo = new Map([
