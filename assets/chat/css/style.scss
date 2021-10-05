@@ -46,6 +46,8 @@ body {
 a {
     color: $color-accent;
     text-decoration: none;
+    word-break: break-all;
+    overflow-wrap: anywhere;
 }
 a:hover, a:focus {
     color: $color-accent-light;
