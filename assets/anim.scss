@@ -709,10 +709,10 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: NODDERS,
     $frame-count: 4,
-    $sprite-width: 112px,
+    $sprite-width: 176px,
     $sprite-height: 28px,
-    $animation-duration: 320ms,
-    $iteration-count: 16,
+    $animation-duration: 400ms,
+    $iteration-count: 13,
     $can-animate-forever: true
 );
 
