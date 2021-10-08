@@ -15,7 +15,7 @@
             "october": "Gehirnchirurg",
             "december": ""
         },
-        "GameOfThrows": { "createdby": "", "october": "", "december": "" },
+        "GameOfThrows": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
         "Abathur": { "createdby": "SoMuchForSubtlety", "october": "", "december": "" },
         "LUL": { "createdby": "", "october": "", "december": "" },
         "SURPRISE": {
@@ -155,7 +155,7 @@
             "october": "Gehirnchirurg",
             "december": ""
         },
-        "PepoComfy": { "createdby": "", "october": "", "december": "" },
+        "PepoComfy": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
         "PepoWant": { "createdby": "", "october": "FizzyLongstockings", "december": "" },
         "PepeHands": { "createdby": "", "october": "", "december": "" },
         "BOGGED": {
@@ -200,7 +200,7 @@
             "october": "",
             "december": ""
         },
-        "MOOBERS": { "createdby": "", "october": "", "december": "" },
+        "MOOBERS": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
         "PepoBan": {
             "createdby": "SoMuchForSubtlety",
             "october": "Gehirnchirurg",
@@ -342,7 +342,7 @@
         "SEMPAI": { "createdby": "melun", "october": "melun", "december": "" },
         "OSTRIGGERED": { "createdby": "anon", "october": "", "december": "" },
         "MiyanoBird": { "createdby": "", "october": "Nept", "december": "" },
-        "KING": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
+        "KING": { "createdby": "", "october": "Gehirnchirurg", "december": "melun" },
         "PIKOHH": {
             "createdby": "",
             "october": "Gehirnchirurg",
@@ -358,7 +358,7 @@
         "RedCard": { "createdby": "", "october": "", "december": "" },
         "illyaTriggered": { "createdby": "", "october": "", "december": "" },
         "SadBenis": { "createdby": "", "october": "", "december": "" },
-        "PeepoHappy": { "createdby": "", "october": "", "december": "Nept" },
+        "PeepoHappy": { "createdby": "", "october": "deadppls", "december": "Nept" },
         "ComfyWAG": { "createdby": "j2y", "october": "", "december": "" },
         "MiyanoComfy": {
             "createdby": "",
