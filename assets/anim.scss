@@ -699,9 +699,9 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: monkaSteer,
     $frame-count: 24,
-    $sprite-width: 648px,
-    $sprite-height: 25px,
-    $animation-duration: 1680ms,
+    $sprite-width: 888px,
+    $sprite-height: 32px,
+    $animation-duration: 2040ms,
     $iteration-count: 3,
     $can-animate-forever: true
 );
