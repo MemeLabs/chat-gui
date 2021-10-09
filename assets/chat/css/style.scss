@@ -232,6 +232,7 @@ label small {
     border-radius: 3px;
     box-shadow: -1px 1px 2px rgba( black, 0.7 ) inset;
     display: block;
+    white-space: break-spaces;
 }
 #chat-input-control::placeholder {
     color: $color-chat-place;
