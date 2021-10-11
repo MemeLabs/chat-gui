@@ -625,6 +625,10 @@
     content: "";
 }
 
+.spoiler:not(.visible) .generify-pride::before {
+    display: none;
+}
+
 .generify-angel {
     padding: 0 40px;
     animation: angel-bounce 1.5s linear 4.43;
@@ -664,6 +668,13 @@
     &:before,
     &:after {
         animation-iteration-count: infinite;
+    }
+}
+
+
+.spoiler:not(.visible) .generify-angel {
+    &:before, &:after {
+        display: none;
     }
 }
 
