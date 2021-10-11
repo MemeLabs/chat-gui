@@ -57,7 +57,9 @@ a:hover, a:focus {
     user-select: none;
 }
 .ellipsis-hidden {
+    color: transparent;
     font-size: 0;
+    vertical-align: top;
 }
 hr {
     border: 0;
