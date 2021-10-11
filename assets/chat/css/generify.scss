@@ -3,6 +3,7 @@
 .generify-container {
     display: inline-block;
     position: relative;
+    z-index: 1;
 }
 
 .anim-fix {
@@ -640,6 +641,7 @@
         animation-timing-function: linear;
         animation-duration: 1.5s;
         transform-origin: right center;
+        z-index: 0;
     }
 
     &:before {
@@ -689,12 +691,12 @@
 
 @keyframes angel-bounce {
     0% {
-        top: 2px;
+        transform: translateY(2px);
     }
     50% {
-        top: -2px;
+        transform: translateY(-2px);
     }
     100% {
-        top: 2px;
+        transform: translateY(2px);
     }
 }
