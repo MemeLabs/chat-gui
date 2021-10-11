@@ -71,7 +71,8 @@ const GENERIFY_OPTIONS = {
     fast: "fast",
     reverse: "reverse",
     jam: "generify-jam",
-    pride: "generify-pride"
+    pride: "generify-pride",
+    angel: "generify-angel"
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [

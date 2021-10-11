@@ -623,3 +623,78 @@
     z-index: 0;
     content: "";
 }
+
+.generify-angel {
+    padding: 0 40px;
+    animation: angel-bounce 1.5s linear 4.43;
+
+    &:before,
+    &:after {
+        content: "";
+        background-image: image-set(url("/assets/emotes/modifiers/angel-october-4x.png") 4x, url("/assets/emotes/modifiers/angel-october-2x.png") 2x, url("/assets/emotes/modifiers/angel-october-1x.png") 1x);
+        height: 27px;
+        width: 65px;
+        position: absolute;
+        top: calc(50% - 13px);
+        animation-iteration-count: 4.43;
+        animation-timing-function: linear;
+        animation-duration: 1.5s;
+        transform-origin: right center;
+    }
+
+    &:before {
+        animation-name: angel-wing-l;
+        transform: scaleX(0.92) rotateZ(0deg) rotateY(24deg) rotateX(0deg);
+        left: -10px;
+    }
+
+    &:after {
+        animation-name: angel-wing-r;
+        transform: scaleX(-0.92) rotateZ(0deg) rotateY(24deg) rotateX(0deg);
+        right: 55px;
+    }
+
+}
+
+.generify-angel:hover,
+.pref-animateforever .generify-angel {
+    &,
+    &:before,
+    &:after {
+        animation-iteration-count: infinite;
+    }
+}
+
+@mixin angel-wing($side, $d) {
+    @keyframes angel-wing-#{$side} {
+        0% {
+            transform: scaleX($d * 0.9) rotateZ(40deg) rotateY(50deg) rotateX(60deg);
+        }
+        25% {
+            transform: scaleX($d * 1.1) rotateZ(25deg) rotateY(35deg) rotateX(50deg);
+        }
+        50% {
+            transform: scaleX($d * 0.85) rotateZ(-15deg) rotateY(20deg) rotateX(-20deg);
+        }
+        75% {
+            transform: scaleX($d * 0.6) rotateZ(10deg) rotateY(10deg) rotateX(35deg);
+        }
+        100% {
+            transform: scaleX($d * 0.9) rotateZ(40deg) rotateY(50deg) rotateX(65deg);
+        }
+    }
+}
+@include angel-wing("l", 1);
+@include angel-wing("r", -1);
+
+@keyframes angel-bounce {
+    0% {
+        top: 2px;
+    }
+    50% {
+        top: -2px;
+    }
+    100% {
+        top: 2px;
+    }
+}
