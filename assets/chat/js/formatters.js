@@ -26,7 +26,7 @@ class HtmlTextFormatter {
 // to generate different exponential functions use: http://www.wolframalpha.com/input/?i=solve+a*b%5E26+%3D+6;+a*b%5E31%3D20 (e.g. day 26 to 31)
 // http://www.wolframalpha.com/input/?i=1%2F5%5E(1%2F24)+*+(5%5E(1%2F24))%5Ex+from+1+to+25
 function procChance() {
-    const day = new Date().getUTCDate();
+    const day = new Date(Date.now() - (12 * 60 * 60 * 1000)).getUTCDate();
     if (day <= 29) {
         // 1% at day 1
         // 2.5% at day 25
