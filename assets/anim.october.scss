@@ -1,5 +1,3 @@
-@import "anim.scss";
-
 @include sprite-animation(
     $file-name: COGGERS,
     $frame-count: 60,
@@ -37,6 +35,16 @@
 );
 
 @include sprite-animation(
+    $file-name: HACKER,
+    $frame-count: 2,
+    $sprite-width: 96px,
+    $sprite-height: 34px,
+    $animation-duration: 400ms,
+    $iteration-count: 10,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
     $file-name: FeelsPepoMan,
     $frame-count: 5,
     $sprite-width: 150px,
@@ -47,12 +55,62 @@
 );
 
 @include sprite-animation(
-    $file-name: PepoSleep,
-    $frame-count: 48,
-    $sprite-width: 1680px,
+    $file-name: monkaSteer,
+    $frame-count: 24,
+    $sprite-width: 888px,
     $sprite-height: 32px,
-    $animation-duration: 12900ms,
-    $iteration-count: 2,
+    $animation-duration: 2040ms,
+    $iteration-count: 3,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: NODDERS,
+    $frame-count: 4,
+    $sprite-width: 176px,
+    $sprite-height: 28px,
+    $animation-duration: 400ms,
+    $iteration-count: 13,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: NOPERS,
+    $frame-count: 8,
+    $sprite-width: 336px,
+    $sprite-height: 28px,
+    $animation-duration: 800ms,
+    $iteration-count: 7,
+    $can-animate-forever: true,
+);
+
+@include sprite-animation(
+    $file-name: PeepoRun,
+    $frame-count: 6,
+    $sprite-width: 180px,
+    $sprite-height: 32px,
+    $animation-duration: 600ms,
+    $iteration-count: 10,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: SURPRISE,
+    $frame-count: 9,
+    $sprite-width: 261px,
+    $sprite-height: 31px,
+    $animation-duration: 900ms,
+    $iteration-count: 7,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: monkaMEGA,
+    $frame-count: 17,
+    $sprite-width: 578px,
+    $sprite-height: 32px,
+    $animation-duration: 850ms,
+    $iteration-count: 5,
     $can-animate-forever: true
 );
 
@@ -69,31 +127,11 @@
 );
 
 @include sprite-animation(
-    $file-name: monkaMEGA,
-    $frame-count: 17,
-    $sprite-width: 578px,
+    $file-name: PepoSleep,
+    $frame-count: 48,
+    $sprite-width: 1680px,
     $sprite-height: 32px,
-    $animation-duration: 850ms,
-    $iteration-count: 5,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
-    $file-name: SURPRISE,
-    $frame-count: 9,
-    $sprite-width: 261px,
-    $sprite-height: 31px,
-    $animation-duration: 900ms,
-    $iteration-count: 7,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
-    $file-name: HACKER,
-    $frame-count: 2,
-    $sprite-width: 96px,
-    $sprite-height: 34px,
-    $animation-duration: 400ms,
-    $iteration-count: 10,
+    $animation-duration: 12900ms,
+    $iteration-count: 2,
     $can-animate-forever: true
 );
