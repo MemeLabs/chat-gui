@@ -663,7 +663,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: HACKER,
     $frame-count: 16,
-    $sprite-width: 768px,
+    $sprite-width: 816px,
     $sprite-height: 32px,
     $animation-duration: 1600ms,
     $iteration-count: 2,
