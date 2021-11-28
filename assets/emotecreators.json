@@ -369,7 +369,7 @@
         "EZ": {
             "createdby": "Gehirnchirurg",
             "october": "Gehirnchirurg",
-            "december": ""
+            "december": "melun"
         },
         "Pepega": { "createdby": "", "october": "", "december": "" },
         "shyLurk": {
@@ -450,7 +450,11 @@
             "october": "Nept",
             "december": "Gehirnchirurg"
         },
-        "KING": { "createdby": "", "october": "Gehirnchirurg", "december": "melun" },
+        "KING": {
+            "createdby": "",
+            "october": "Gehirnchirurg",
+            "december": "melun"
+        },
         "PIKOHH": {
             "createdby": "",
             "october": "Gehirnchirurg",
@@ -496,7 +500,7 @@
         "ComfyFeels": {
             "createdby": "soadsoap",
             "october": "FizzyLongstockings",
-            "december": ""
+            "december": "soadsoap"
         },
         "MiyanoSip": { "createdby": "Nept", "october": "", "december": "Nept" },
         "PeepoWeird": {
