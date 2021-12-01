@@ -5,7 +5,7 @@ import ChatScrollPlugin from "./scroll";
 import UserFeatures from "./features";
 import EventEmitter from "./emitter";
 import { debounce } from "throttle-debounce";
-import { isKeyCode, KEYCODES } from "./const";
+import { isKeyCode, KEYCODES, SEASON } from "./const";
 import { setStorage, getStorage } from "./transfer";
 import notificationSound from "./notificationSound";
 import EmoteCreators from "../../emotecreators.json";
@@ -750,34 +750,6 @@ class ChatContextMenu {
     }
 }
 
-function isHalloween(date) {
-    // one UTC day grace period for america
-    return (
-        date.getUTCMonth() == 9 ||
-        (date.getUTCMonth() == 10 && date.getUTCDate() == 1)
-    );
-}
-
-function isChristmas(date) {
-    // one UTC day grace period for america
-    return (
-        date.getUTCMonth() == 12 ||
-        (date.getUTCMonth() == 1 && date.getUTCDate() == 1)
-    );
-}
-
-function getSeasonal() {
-   const today = new Date();
-
-   if (isHalloween(today)) {
-       return "october";
-   } else if (isChristmas(today)) {
-       return "december";
-   }
-
-   return ""
-}
-
 class ChatEmoteInfoMenu {
     constructor(chat, event) {
         this.chat = chat;
@@ -790,7 +762,6 @@ class ChatEmoteInfoMenu {
         this.ui.css("min-height", "24px");
         this.event = event;
         this.targetEmote = event.target.innerText.split(":")[0];
-        this.seasonal = getSeasonal();
 
         if (this.emoteIcon[0].innerText != this.targetEmote) {
             this.emoteIcon.children().remove();
@@ -807,8 +778,8 @@ class ChatEmoteInfoMenu {
             else this.emoteCreator[0].innerText = "";
 
             let seasonalCreator =
-                EmoteCreators["default"][this.targetEmote][this.seasonal];
-            if (this.seasonal && seasonalCreator) {
+                EmoteCreators["default"][this.targetEmote][SEASON];
+            if (SEASON && seasonalCreator) {
                 this.emoteSeasonal[0].innerText =
                     "Seasonal by: " + seasonalCreator;
             } else this.emoteSeasonal[0].innerText = "";
@@ -831,7 +802,7 @@ class ChatEmoteInfoMenu {
         // we get the outmost span because it has a static position that we use to position our popup
         let outerSpan = $(e.target).parents(".generify-container");
         let emoteElementClientRect = outerSpan[outerSpan.length-1].getBoundingClientRect();
-        
+
         this.emoteInfoID = this.targetEmote + emoteElementClientRect.top + emoteElementClientRect.left
         this.ui.css("left", emoteElementClientRect.left);
 

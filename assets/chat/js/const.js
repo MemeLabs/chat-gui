@@ -148,6 +148,8 @@ const TAGS = [
     "weeb",
 ];
 
+const SEASON = "december";
+
 module.exports = {
     KEYCODES,
     DATE_FORMATS,
@@ -161,5 +163,6 @@ module.exports = {
     HAT_BLACKLIST,
     HAT_SPECIAL_BLACKLIST,
     DANK_WHITELIST,
-    TAGS
+    TAGS,
+    SEASON
 };
