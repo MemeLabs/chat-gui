@@ -64,7 +64,7 @@ const GENERIFY_OPTIONS = {
     wide: "wide",
     virus: "virus",
     banned: "banned",
-    // 'frozen': 'frozen',
+    frozen: "frozen",
     lag: "lag",
     pause: "pause",
     slow: "slow",
