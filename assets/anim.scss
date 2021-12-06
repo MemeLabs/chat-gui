@@ -854,3 +854,37 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
+
+@include sprite-animation(
+    $file-name: SMUG,
+    $frame-count: 7,
+    $sprite-width: 238px,
+    $sprite-height: 32px,
+    $animation-duration: 1s,
+    $iteration-count: 3,
+    $can-animate-forever: true,
+    $extra-animation: true,
+    $extra-animation-duration: 333ms,
+    $extra-animation-iteration-count: 9
+) {
+    0% {
+        transform: translate(0px,0px);
+    }
+    25% {
+        transform: translate(0px,0.50px);
+        animation-timing-function: ease-in;
+    }
+    37% {
+        transform: translate(0px,0px);
+    }
+    55% {
+        transform: translate(0px,-2px);
+    }
+    60% {
+        transform: translate(0px,-1.5px);
+        animation-timing-function: ease;
+    }
+    100% {
+        transform: translate(0px,0px);
+    }
+}

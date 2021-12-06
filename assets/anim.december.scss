@@ -1,3 +1,110 @@
+.chat-emote.chat-emote-SMUG {
+    animation: laugh-anim 350ms 3 ;
+}
+
+.chat-emote.chat-emote-SMUG:hover {
+    animation: laugh-anim-hover infinite 350ms;
+}
+
+@keyframes laugh-anim{
+    0% {
+        transform: translate(0px,0px);
+    }
+    25% {
+        transform: translate(0px,0.50px);
+        animation-timing-function: ease-in;
+    }
+    37% {
+        transform: translate(0px,0px);
+    }
+    55% {
+        transform: translate(0px,-2px);
+    }
+    60% {
+        transform: translate(0px,-1.5px);
+        animation-timing-function: ease;
+    }
+    0% {
+        transform: translate(0px,0px);
+    }
+}
+
+@keyframes laugh-anim-hover{
+    0% {
+        transform: translate(0px,0px);
+    }
+    25% {
+        transform: translate(0px,0.50px);
+        animation-timing-function: ease-in;
+    }
+    37% {
+        transform: translate(0px,0px);
+    }
+    55% {
+        transform: translate(0px,-2px);
+    }
+    60% {
+        transform: translate(0px,-1.5px);
+        animation-timing-function: ease;
+    }
+    0% {
+        transform: translate(0px,0px);
+    }
+}
+
+.chat-emote.chat-emote-SMUG::after{
+    content: "";
+    position: relative;
+    border-radius: 70%;
+    top: 22px;
+    left: 12px;
+    width: 0px;
+    height: 0px;
+    animation: SMUG-anim-breath 1s 2;
+}
+
+.chat-emote.chat-emote-SMUG:hover::after{
+    content: "";
+    position: relative;
+    border-radius: 70%;
+    top: 22px;
+    left: 12px;
+    width: 0px;
+    height: 0px;
+    animation: SMUG-anim-breath-hover 1s 2;
+}
+
+@keyframes SMUG-anim-breath {
+    0% {
+        box-shadow: 0 0 0px 0px #f4f0ec;
+    }
+    50% {
+        box-shadow: 0 0 4px 3px #f4f0ec;
+        transform: translate(-2px,0px);
+        animation-timing-function: ease-in;
+    }
+    100% {
+        box-shadow: 0 0 0px 0px #f4f0ec;
+        transform: translate(-5px,0px);
+        animation-timing-function: ease-in;
+    }
+}
+@keyframes SMUG-anim-breath-hover {
+    0% {
+        box-shadow: 0 0 0px 0px #f4f0ec;
+    }
+    50% {
+        box-shadow: 0 0 6px 7px #f4f0ec;
+        transform: translate(-2px,0px);
+        animation-timing-function: ease-in;
+    }
+    100% {
+        box-shadow: 0 0 0px 0px #f4f0ec;
+        transform: translate(-5px,0px);
+        animation-timing-function: ease-in;
+    }
+}
+
 @include sprite-animation(
     $file-name: COGGERS,
     $frame-count: 60,
