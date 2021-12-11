@@ -299,3 +299,7 @@
     0% {background-position-y: 0px; }
     10% {background-position-y: 20px; }
 }
+
+.generify-emote-TIMID:not(.chat-user + .generify-emote-TIMID) .chat-emote-TIMID {
+    background-position-x: 0px !important;
+}
