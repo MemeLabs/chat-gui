@@ -1,3 +1,110 @@
+.chat-emote.chat-emote-SMUG {
+    animation: laugh-anim 350ms 3 ;
+}
+
+.chat-emote.chat-emote-SMUG:hover {
+    animation: laugh-anim-hover infinite 350ms;
+}
+
+@keyframes laugh-anim{
+    0% {
+        transform: translate(0px,0px);
+    }
+    25% {
+        transform: translate(0px,0.50px);
+        animation-timing-function: ease-in;
+    }
+    37% {
+        transform: translate(0px,0px);
+    }
+    55% {
+        transform: translate(0px,-2px);
+    }
+    60% {
+        transform: translate(0px,-1.5px);
+        animation-timing-function: ease;
+    }
+    0% {
+        transform: translate(0px,0px);
+    }
+}
+
+@keyframes laugh-anim-hover{
+    0% {
+        transform: translate(0px,0px);
+    }
+    25% {
+        transform: translate(0px,0.50px);
+        animation-timing-function: ease-in;
+    }
+    37% {
+        transform: translate(0px,0px);
+    }
+    55% {
+        transform: translate(0px,-2px);
+    }
+    60% {
+        transform: translate(0px,-1.5px);
+        animation-timing-function: ease;
+    }
+    0% {
+        transform: translate(0px,0px);
+    }
+}
+
+.chat-emote.chat-emote-SMUG::after{
+    content: "";
+    position: relative;
+    border-radius: 70%;
+    top: 22px;
+    left: 12px;
+    width: 0px;
+    height: 0px;
+    animation: SMUG-anim-breath 1s 2;
+}
+
+.chat-emote.chat-emote-SMUG:hover::after{
+    content: "";
+    position: relative;
+    border-radius: 70%;
+    top: 22px;
+    left: 12px;
+    width: 0px;
+    height: 0px;
+    animation: SMUG-anim-breath-hover 1s 2;
+}
+
+@keyframes SMUG-anim-breath {
+    0% {
+        box-shadow: 0 0 0px 0px #f4f0ec;
+    }
+    50% {
+        box-shadow: 0 0 4px 3px #f4f0ec;
+        transform: translate(-2px,0px);
+        animation-timing-function: ease-in;
+    }
+    100% {
+        box-shadow: 0 0 0px 0px #f4f0ec;
+        transform: translate(-5px,0px);
+        animation-timing-function: ease-in;
+    }
+}
+@keyframes SMUG-anim-breath-hover {
+    0% {
+        box-shadow: 0 0 0px 0px #f4f0ec;
+    }
+    50% {
+        box-shadow: 0 0 6px 7px #f4f0ec;
+        transform: translate(-2px,0px);
+        animation-timing-function: ease-in;
+    }
+    100% {
+        box-shadow: 0 0 0px 0px #f4f0ec;
+        transform: translate(-5px,0px);
+        animation-timing-function: ease-in;
+    }
+}
+
 @include sprite-animation(
     $file-name: COGGERS,
     $frame-count: 60,
@@ -29,7 +136,6 @@
     $file-name: WAG,
     $frame-count: 2,
     $sprite-width: 84px,
-    $sprite-width: 74px,
     $sprite-height: 32px,
     $animation-duration: 500ms,
     $iteration-count: 10
@@ -108,3 +214,92 @@
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
+
+@include sprite-animation(
+    $file-name: PauseChamp,
+    $frame-count: 80,
+    $sprite-width: 6480px,
+    $sprite-height: 32px,
+    $animation-duration: 1.2s,
+    $iteration-count: 4,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: DOGGO,
+    $frame-count: 181,
+    $sprite-width: 6154px,
+    $sprite-height: 32px,
+    $animation-duration: 3s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: ApeHands,
+    $frame-count: 91,
+    $sprite-width: 2912px,
+    $sprite-height: 32px,
+    $animation-duration: 2s,
+    $iteration-count: 3,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+
+@include sprite-animation(
+    $file-name: SMUG,
+    $frame-count: 7,
+    $sprite-width: 238px,
+    $sprite-height: 32px,
+    $animation-duration: 1s,
+    $iteration-count: 3,
+    $can-animate-forever: true,
+    $extra-animation: true,
+    $extra-animation-duration: 333ms,
+    $extra-animation-iteration-count: 9
+) {
+    0% {
+        transform: translate(0px,0px);
+    }
+    25% {
+        transform: translate(0px,0.50px);
+        animation-timing-function: ease-in;
+    }
+    37% {
+        transform: translate(0px,0px);
+    }
+    55% {
+        transform: translate(0px,-2px);
+    }
+    60% {
+        transform: translate(0px,-1.5px);
+        animation-timing-function: ease;
+    }
+    100% {
+        transform: translate(0px,0px);
+    }
+}
+
+@include sprite-animation(
+    $file-name: TIMID,
+    $frame-count: 12,
+    $sprite-width: 384px,
+    $sprite-height: 32px,
+    $animation-duration: 1s,
+    $iteration-count: 1,
+    $end-on-last-frame: true,
+    $can-animate-forever: false,
+    $extra-animation: true,
+    $extra-animation-duration: 6s,
+    $extra-animation-iteration-count: 1
+) {
+    0% {background-position-y: 0px; }
+    10% {background-position-y: 20px; }
+}
+
+.generify-emote-TIMID:not(.chat-user + .generify-emote-TIMID) .chat-emote-TIMID {
+    background-position-x: 0px !important;
+}

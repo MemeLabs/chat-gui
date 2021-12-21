@@ -195,6 +195,13 @@ $context-css-animated-emote-mixin: false;
     }
 }
 
+@include css-animated-emote(REE) {
+    @include emote-animation(100ms, 7) {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(3px); }
+    }
+}
+
 @include css-animated-emote(DJPepo, true) {
     @include emote-animation(500ms, 7) {
         0% { transform: translateY(0); }
@@ -225,68 +232,6 @@ $context-css-animated-emote-mixin: false;
     3% { color: $color-light; font-size:190%; }
     4% { color: #B91010; font-size:200%; }
     100% { color: $color-light; font-size:120%; }
-}
-
-@include css-animated-emote(PepoTurkey) {
-    transform-style: preserve-3d;
-    transform-origin: bottom center;
-
-    @include emote-animation(1.4s, 4) {
-        0% {
-            transform: translateY(0px);
-        }
-        6.25% {
-            transform: translateY(-3px) translateX(1px) rotate(7deg);
-        }
-        12.5% {
-            transform: translateY(-5px) translateX(4px) rotate(12deg);
-        }
-        18.75% {
-            transform: translateY(-3px) translateX(1px) rotate(7deg);
-        }
-        25% {
-            transform: translateY(0px);
-        }
-
-        31.25% {
-            transform: translateY(-3px) translateZ(1px) rotate(7deg);
-        }
-        37.5% {
-            transform: translateY(-5px) translateZ(4px) rotate(25deg);
-        }
-        43.75% {
-            transform: translateY(-3px) translateZ(1px) rotate(7deg);
-        }
-        50% {
-            transform: translateY(0px);
-        }
-
-        56.25% {
-            transform: translateY(-3px) translateX(-1px) rotate(-7deg);
-        }
-        62.5% {
-            transform: translateY(-5px) translateX(-4px) rotate(-12deg);
-        }
-        68.75% {
-            transform: translateY(-3px) translateX(-1px) rotate(-7deg);
-        }
-        75% {
-            transform: translateY(0px);
-        }
-
-        81.25% {
-            transform: translateY(-3px) translateZ(-1px) rotate(-7deg);
-        }
-        87.5% {
-            transform: translateY(-5px) translateZ(-4px) rotate(-25deg);
-        }
-        93.75% {
-            transform: translateY(-3px) translateZ(-1px) rotate(-7deg);
-        }
-        100% {
-            transform: translateY(0px);
-        }
-    }
 }
 
 @keyframes rustle {
@@ -368,11 +313,11 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
     @keyframes #{$file-name}-anim {
         0% {
-            background-position: 0;
+            background-position-x: 0;
         }
 
         100% {
-            background-position: -#{$sprite-width};
+            background-position-x: -#{$sprite-width};
         }
     }
 
@@ -493,7 +438,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: Clap,
     $frame-count: 2,
-    $sprite-width: 44px,
+    $sprite-width: 64px,
     $sprite-height: 32px,
     $animation-duration: 400ms,
     $iteration-count: 5
@@ -502,9 +447,9 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: COGGERS,
     $frame-count: 60,
-    $sprite-width: 1920px,
-    $sprite-height: 32px,
-    $animation-duration: 800ms,
+    $sprite-width: 1680px,
+    $sprite-height: 28px,
+    $animation-duration: 1800ms,
     $iteration-count: 2
 );
 
@@ -529,8 +474,8 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: PepoDance,
     $frame-count: 10,
-    $sprite-width: 460px,
-    $sprite-height: 32px,
+    $sprite-width: 280px,
+    $sprite-height: 28px,
     $animation-duration: 500ms,
     $iteration-count: 5
 );
@@ -546,8 +491,8 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
 @include sprite-animation(
     $file-name: LAG,
-    $frame-count: 9,
-    $sprite-width: 360px,
+    $frame-count: 10,
+    $sprite-width: 390px,
     $sprite-height: 32px,
     $animation-duration: 4000ms,
     $iteration-count: 2,
@@ -566,26 +511,26 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
 @include sprite-animation(
     $file-name: VroomVroom,
-    $frame-count: 101,
-    $sprite-width: 2828px,
-    $sprite-height: 28px,
-    $animation-duration: 4000ms,
-    $iteration-count: 2
+    $frame-count: 76,
+    $sprite-width: 7296px,
+    $sprite-height: 32px,
+    $animation-duration: 5320ms,
+    $iteration-count: 1
 );
 
 @include sprite-animation(
     $file-name: mikuDance,
-    $frame-count: 27,
-    $sprite-width: 756px,
-    $sprite-height: 32px,
-    $animation-duration: 3000ms,
+    $frame-count: 26,
+    $sprite-width: 676px,
+    $sprite-height: 28px,
+    $animation-duration: 2886ms,
     $iteration-count: 2
 );
 
 @include sprite-animation(
     $file-name: WAG,
     $frame-count: 2,
-    $sprite-width: 74px,
+    $sprite-width: 84px,
     $sprite-height: 32px,
     $animation-duration: 500ms,
     $iteration-count: 10
@@ -663,7 +608,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: HACKER,
     $frame-count: 16,
-    $sprite-width: 768px,
+    $sprite-width: 816px,
     $sprite-height: 32px,
     $animation-duration: 1600ms,
     $iteration-count: 2,
@@ -674,16 +619,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $file-name: KEKW,
     $frame-count: 16,
     $sprite-width: 1024px,
-    $sprite-height: 32px,
-    $animation-duration: 400ms,
-    $iteration-count: 7,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
-    $file-name: FeelsPepoMan,
-    $frame-count: 4,
-    $sprite-width: 128px,
     $sprite-height: 32px,
     $animation-duration: 400ms,
     $iteration-count: 7,
@@ -712,23 +647,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
-    $file-name: REE,
-    $frame-count: 39,
-    $sprite-width: 1248px,
-    $sprite-height: 32px,
-    $animation-duration: 3900ms,
-    $animation-direction: alternate,
-    $iteration-count: 2,
-    $can-animate-forever: true,
-    $extra-animation: true,
-    $extra-animation-duration: 100ms,
-    $extra-animation-iteration-count: 64
-) {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(3px); }
-}
-
-@include sprite-animation(
     $file-name: RIDIN,
     $frame-count: 8,
     $sprite-width: 640px,
@@ -741,7 +659,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 @include sprite-animation(
     $file-name: ComfyMoobers,
     $frame-count: 34,
-    $sprite-width: 1088px,
+    $sprite-width: 1122px,
     $sprite-height: 32px,
     $animation-duration: 2550ms,
     $iteration-count: 2,
@@ -817,3 +735,178 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $iteration-count: 5,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: SNOWBALL,
+    $frame-count: 35,
+    $sprite-width: 1750px,
+    $sprite-height: 32px,
+    $animation-duration: 2450ms,
+    $iteration-count: 2,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: PeepoS,
+    $frame-count: 35,
+    $sprite-width: 1750px,
+    $sprite-height: 32px,
+    $animation-duration: 2450ms,
+    $iteration-count: 2,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: PepoFight,
+    $frame-count: 35,
+    $sprite-width: 1855px,
+    $sprite-height: 32px,
+    $animation-duration: 2450ms,
+    $iteration-count: 2,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: PeepoWeird,
+    $frame-count: 35,
+    $sprite-width: 1750px,
+    $sprite-height: 32px,
+    $animation-duration: 2450ms,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+// @include sprite-animation(
+//     $file-name: PepoWant,
+//     $frame-count: 150,
+//     $sprite-width: 7050px,
+//     $sprite-height: 32px,
+//     $animation-duration: 2.5s,
+//     $animation-direction: alternate,
+//     $iteration-count: 2,
+//     $end-on-frame: 1,
+//     $can-animate-forever: true
+// );
+
+@include sprite-animation(
+    $file-name: SNOWBALLFIGHT,
+    $frame-count: 70,
+    $sprite-width: 3500px,
+    $sprite-height: 32px,
+    $animation-duration: 4900ms,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: PepoSleep,
+    $frame-count: 91,
+    $sprite-width: 5642px,
+    $sprite-height: 32px,
+    $animation-duration: 6370ms,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: OMEGALUL,
+    $frame-count: 11,
+    $sprite-width: 330px,
+    $sprite-height: 32px,
+    $animation-duration: 3080ms,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: PauseChamp,
+    $frame-count: 80,
+    $sprite-width: 6480px,
+    $sprite-height: 32px,
+    $animation-duration: 1.2s,
+    $iteration-count: 4,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: DOGGO,
+    $frame-count: 181,
+    $sprite-width: 6154px,
+    $sprite-height: 32px,
+    $animation-duration: 3s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: ApeHands,
+    $frame-count: 91,
+    $sprite-width: 2912px,
+    $sprite-height: 32px,
+    $animation-duration: 2s,
+    $iteration-count: 3,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: SMUG,
+    $frame-count: 7,
+    $sprite-width: 238px,
+    $sprite-height: 32px,
+    $animation-duration: 1s,
+    $iteration-count: 3,
+    $can-animate-forever: true,
+    $extra-animation: true,
+    $extra-animation-duration: 333ms,
+    $extra-animation-iteration-count: 9
+) {
+    0% {
+        transform: translate(0px,0px);
+    }
+    25% {
+        transform: translate(0px,0.50px);
+        animation-timing-function: ease-in;
+    }
+    37% {
+        transform: translate(0px,0px);
+    }
+    55% {
+        transform: translate(0px,-2px);
+    }
+    60% {
+        transform: translate(0px,-1.5px);
+        animation-timing-function: ease;
+    }
+    100% {
+        transform: translate(0px,0px);
+    }
+}
+
+@include sprite-animation(
+    $file-name: TIMID,
+    $frame-count: 12,
+    $sprite-width: 384px,
+    $sprite-height: 32px,
+    $animation-duration: 1s,
+    $iteration-count: 1,
+    $end-on-last-frame: true,
+    $can-animate-forever: false,
+    $extra-animation: true,
+    $extra-animation-duration: 6s,
+    $extra-animation-delay: 500ms,
+    $extra-animation-iteration-count: 1
+) {
+    0% {background-position-y: 0px; }
+    10% {background-position-y: 20px; }
+}
+
+.generify-emote-TIMID:not(.chat-user + .generify-emote-TIMID) .chat-emote-TIMID {
+    background-position-x: 0px !important;
+}

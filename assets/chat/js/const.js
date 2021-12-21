@@ -72,7 +72,8 @@ const GENERIFY_OPTIONS = {
     reverse: "reverse",
     jam: "generify-jam",
     pride: "generify-pride",
-    angel: "generify-angel"
+    angel: "generify-angel",
+    blur: "generify-blur"
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
@@ -147,6 +148,8 @@ const TAGS = [
     "weeb",
 ];
 
+const SEASON = "december";
+
 module.exports = {
     KEYCODES,
     DATE_FORMATS,
@@ -160,5 +163,6 @@ module.exports = {
     HAT_BLACKLIST,
     HAT_SPECIAL_BLACKLIST,
     DANK_WHITELIST,
-    TAGS
+    TAGS,
+    SEASON
 };
