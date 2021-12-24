@@ -162,16 +162,6 @@
 );
 
 @include sprite-animation(
-    $file-name: PepoFight,
-    $frame-count: 35,
-    $sprite-width: 1855px,
-    $sprite-height: 32px,
-    $animation-duration: 2450ms,
-    $iteration-count: 2,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
     $file-name: PeepoWeird,
     $frame-count: 35,
     $sprite-width: 1750px,
@@ -228,10 +218,10 @@
 
 @include sprite-animation(
     $file-name: DOGGO,
-    $frame-count: 181,
-    $sprite-width: 6154px,
+    $frame-count: 76,
+    $sprite-width: 2432px,
     $sprite-height: 32px,
-    $animation-duration: 3s,
+    $animation-duration: 2s,
     $iteration-count: 2,
     $can-animate-forever: true,
     $end-on-last-frame: true
@@ -247,7 +237,6 @@
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
-
 
 @include sprite-animation(
     $file-name: SMUG,
