@@ -239,6 +239,9 @@ label small {
 #chat-input-control::placeholder {
     color: $color-chat-place;
 }
+#chat-input-control.invalid-msg-warning{
+    border-color: red;
+}
 #chat-input-scaler {
     opacity: 0;
 }

@@ -452,6 +452,20 @@ class Chat {
             }
         });
 
+        //make the border red if a message exceeds the character limit
+        this.input.on("keydown", (e) => {
+            let chars = this.input.val().toString().length
+
+            if(isKeyCode(e, KEYCODES.BACKSPACE))
+            chars--
+
+            this.testIfValid(chars);
+        });
+
+        this.input.on("keyup", (e) => {
+            this.testIfValid(this.input.val().toString().length);
+        });
+
         /**
          * Syncing the text content of the scaler with the input, so that
          * the scaler grows the containing element to the exact size to
@@ -693,6 +707,14 @@ class Chat {
         this.input.val(ChatStore.read('chat.unsentMessage') ? ChatStore.read('chat.unsentMessage') : null);
         return this;
     }
+
+    testIfValid(messageLength){
+        if (messageLength > 512) {
+            this.input.addClass("invalid-msg-warning");
+        } else if (messageLength <= 512) {
+            this.input.removeClass("invalid-msg-warning");
+        }
+    };
 
     withEmotes(emotes) {
         this.emoticons = new Set(emotes["default"]);
