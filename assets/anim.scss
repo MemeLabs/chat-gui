@@ -767,3 +767,14 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $end-on-frame: 1,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: modCheck,
+    $frame-count: 28,
+    $sprite-width: 784px,
+    $sprite-height: 28px,
+    $animation-duration: 3.6s,
+    $iteration-count: 2,
+    $end-on-last-frame: true,
+    $can-animate-forever: true
+);
