@@ -789,3 +789,13 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $end-on-last-frame: true,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: WICKEDSTEER,
+    $frame-count: 24,
+    $sprite-width: 672px,
+    $sprite-height: 28px,
+    $animation-duration: 1.5s,
+    $iteration-count: 5,
+    $can-animate-forever: true
+);
