@@ -512,15 +512,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
-    $file-name: mikuDance,
-    $frame-count: 27,
-    $sprite-width: 756px,
-    $sprite-height: 32px,
-    $animation-duration: 3000ms,
-    $iteration-count: 2
-);
-
-@include sprite-animation(
     $file-name: WAG,
     $frame-count: 2,
     $sprite-width: 74px,
@@ -806,6 +797,17 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $sprite-width: 3328px,
     $sprite-height: 32px,
     $animation-duration: 5.2s,
+    $iteration-count: 2,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: Gigachad,
+    $frame-count: 60,
+    $sprite-width: 3120px,
+    $sprite-height: 32px,
+    $animation-duration: 2s,
+    $animation-direction: alternate,
     $iteration-count: 2,
     $can-animate-forever: true
 );
