@@ -60,7 +60,7 @@
             "december": ""
         },
         "DaFeels": {
-            "createdby": "Gehirnchirurg",
+            "createdby": "FizzyLongstockings",
             "october": "soadsoap",
             "december": "Gehirnchirurg"
         },
@@ -422,8 +422,8 @@
             "october": "Gehirnchirurg",
             "december": "Gehirnchirurg"
         },
-        "mikuDance": { "createdby": "Joannes", "october": "", "december": "UltimaTheSeventh" },
         "WAG": { "createdby": "melun", "october": "melun", "december": "abesus" },
+        "PaPaTuTuWaWa": { "createdby": "totallynotGehirnchirurg", "october": "", "december": "" },
         "PepoFight": {
             "createdby": "",
             "october": "Gehirnchirurg",
@@ -623,6 +623,16 @@
             "createdby": "SoMuchForSubtlety",
             "october": "",
             "december": "rayhond"
+        },
+        "MAGE": {
+            "createdby": "Nept",
+            "october": "",
+            "december": ""
+        },
+        "Gigachad": {
+            "createdby": "FizzyLongstockings",
+            "october": "",
+            "december": ""
         }
     }
 }
