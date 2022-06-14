@@ -496,6 +496,7 @@ class ChatEmoteMessage extends ChatMessage {
         );
 
         if (SWARM_EMOTES.includes(this.message.split(":")[0])) {
+            this._text.attr("class", "PeepoRunCombo");
             this._text.append(
                 `${formatters.get("emote").format(chat, this.message, this)}`
             );
