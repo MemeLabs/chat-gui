@@ -900,3 +900,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 .generify-emote-TIMID:not(.chat-user + .generify-emote-TIMID) .chat-emote-TIMID {
     background-position-x: 0px !important;
 }
+
+.PeepoRunCombo span:not(:first-child){
+    margin-left: -10px;
+}
