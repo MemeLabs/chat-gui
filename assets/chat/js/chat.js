@@ -504,7 +504,12 @@ class Chat {
 
         const rustlaUrl = new URL(RUSTLA_URL);
         this.output.on('click', 'a', (e) => {
-            const linkUrl = new URL($(e.target).attr('href'));
+            let linkUrl;
+            try {
+                linkUrl = new URL($(e.target).attr('href'));
+            } catch (e) {
+                return;
+            }
             const path = linkUrl.pathname.match(/^\/([a-z0-9\-_]+)(?:\/([^ ]+))?$/i);
             if (rustlaUrl.host === linkUrl.host && path && !e.ctrlKey && !e.metaKey && window.top !== window.self) {
                 const [, service, channel] = path;
@@ -687,9 +692,6 @@ class Chat {
                 }
             }
         });
-
-        // Keep the website session alive.
-        setInterval(() => $.ajax({ url: "/ping" }), 10 * 60 * 1000);
 
         window.addEventListener('beforeunload', (event) => ChatStore.write('chat.unsentMessage', this.input.val()));
 

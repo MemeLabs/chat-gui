@@ -283,6 +283,7 @@
     $can-animate-forever: false,
     $extra-animation: true,
     $extra-animation-duration: 6s,
+    $extra-animation-delay: 500ms,
     $extra-animation-iteration-count: 1
 ) {
     0% {background-position-y: 0px; }

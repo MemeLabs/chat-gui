@@ -153,7 +153,7 @@ const TAGS = [
     "weeb",
 ];
 
-const SEASON = "december";
+const SEASON = "";
 
 module.exports = {
     KEYCODES,
