@@ -812,62 +812,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $can-animate-forever: true
 );
 
-@include sprite-animation(
-    $file-name: SMUG,
-    $frame-count: 7,
-    $sprite-width: 238px,
-    $sprite-height: 32px,
-    $animation-duration: 1s,
-    $iteration-count: 3,
-    $can-animate-forever: true,
-    $extra-animation: true,
-    $extra-animation-duration: 333ms,
-    $extra-animation-iteration-count: 9
-) {
-    0% {
-        transform: translate(0px,0px);
-    }
-    25% {
-        transform: translate(0px,0.50px);
-        animation-timing-function: ease-in;
-    }
-    37% {
-        transform: translate(0px,0px);
-    }
-    55% {
-        transform: translate(0px,-2px);
-    }
-    60% {
-        transform: translate(0px,-1.5px);
-        animation-timing-function: ease;
-    }
-    100% {
-        transform: translate(0px,0px);
-    }
-}
-
-@include sprite-animation(
-    $file-name: TIMID,
-    $frame-count: 12,
-    $sprite-width: 384px,
-    $sprite-height: 32px,
-    $animation-duration: 1s,
-    $iteration-count: 1,
-    $end-on-last-frame: true,
-    $can-animate-forever: false,
-    $extra-animation: true,
-    $extra-animation-duration: 6s,
-    $extra-animation-delay: 500ms,
-    $extra-animation-iteration-count: 1
-) {
-    0% {background-position-y: 0px; }
-    10% {background-position-y: 20px; }
-}
-
-.generify-emote-TIMID:not(.chat-user + .generify-emote-TIMID) .chat-emote-TIMID {
-    background-position-x: 0px !important;
-}
-
 .PeepoRunCombo span:not(:first-child){
     margin-left: -10px;
 }
