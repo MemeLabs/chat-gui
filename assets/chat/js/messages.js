@@ -444,7 +444,7 @@ function ChatEmoteMessageCount(message) {
         SWARM_EMOTES.includes(message.message.split(":")[0]) &&
         message.emotecount <= 6
     ) {
-        message._text.attr("class", "PeepoRunCombo");
+        message._text.attr("class", message.message.split(":")[0] + "Combo");
 
         // get only the first emote section
         let temp =
@@ -496,7 +496,7 @@ class ChatEmoteMessage extends ChatMessage {
         );
 
         if (SWARM_EMOTES.includes(this.message.split(":")[0])) {
-            this._text.attr("class", "PeepoRunCombo");
+            this._text.attr("class", this.message.split(":")[0] + "Combo");
             this._text.append(
                 `${formatters.get("emote").format(chat, this.message, this)}`
             );
