@@ -28,6 +28,32 @@
     filter: blur(1px);
 }
 
+.generify-slide {
+    clip-path: polygon(0 -100%, 100% -100%, 100% 200%, 0 200%);
+
+    & > .generify-container, & > .chat-emote {
+        animation: slide 6s linear 1.5;
+
+        @at-root .pref-animateforever &, &:hover {
+            animation-iteration-count: infinite;
+        }
+
+        @at-root .reverse & {
+            animation-direction: reverse;
+        }
+    }
+}
+
+@keyframes slide {
+    0% {
+        transform: translate(-110%, 0);
+    }
+
+    100% {
+        transform: translate(110%, 0);
+    }
+}
+
 .frozen > .chat-emote {
     opacity: 0.7;
     transform: scale(0.8, 0.8);

@@ -73,7 +73,8 @@ const GENERIFY_OPTIONS = {
     jam: "generify-jam",
     pride: "generify-pride",
     angel: "generify-angel",
-    blur: "generify-blur"
+    blur: "generify-blur",
+    slide: "generify-slide"
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
