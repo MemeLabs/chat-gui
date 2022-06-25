@@ -41,6 +41,14 @@
         @at-root .reverse & {
             animation-direction: reverse;
         }
+
+        @at-root .slow & {
+            animation-duration: 12s;
+        }
+
+        @at-root .fast & {
+            animation-duration: 3s;
+        }
     }
 }
 
