@@ -74,7 +74,8 @@ const GENERIFY_OPTIONS = {
     pride: "generify-pride",
     angel: "generify-angel",
     blur: "generify-blur",
-    slide: "generify-slide"
+    slide: "generify-slide",
+    peek: "generify-peek",
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
