@@ -75,7 +75,7 @@ const GENERIFY_OPTIONS = {
     angel: "generify-angel",
     blur: "generify-blur",
     slide: "generify-slide",
-    peek: "generify-peek",
+    lurk: "generify-lurk",
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [

@@ -342,7 +342,7 @@ class EmoteFormatter {
                 .join();
             var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + generifySpans + ' </span>';
 
-            var generifyExtraWraps = ['slide', 'peek'];
+            var generifyExtraWraps = ['slide', 'lurk'];
 
             var generifyClasses = [
                 "generify-container",
