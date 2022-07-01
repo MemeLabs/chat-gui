@@ -322,13 +322,15 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
         @if $extra-animation {
             animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction , #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
-            &:hover {
+            &:hover,
+            &-animate-forever {
                 animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay infinite $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
             }
         }
         @else {
             animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction;
-            &:hover {
+            &:hover,
+            &-animate-forever {
                 animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction;
             }
         }
@@ -342,12 +344,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         }
         @else {
             background-position-x: left;
-        }
-
-        @if $can-animate-forever {
-            &-animate-forever {
-                animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction;
-            }
         }
     }
 
