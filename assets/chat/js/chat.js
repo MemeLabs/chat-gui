@@ -186,7 +186,8 @@ const commandsinfo = new Map([
         "hideemote",
         { desc: "Hide emotes in chat by converting them to plain text." }
     ],
-    ["unhideemote", { desc: "Unhide a hidden emote." }]
+    ["unhideemote", { desc: "Unhide a hidden emote." }],
+    ["spoiler", { desc: "Wraps a message in the spoiler tags `||`." }],
 ]);
 const banstruct = {
     id: 0,
@@ -315,6 +316,7 @@ class Chat {
         this.control.on("UNHIDEEMOTE", data =>
             this.cmdHIDEEMOTE(data, "UNHIDEEMOTE")
         );
+        this.control.on("SPOILER", data => this.cmdSPOILER(data))
 
         notificationSound.loadConfig();
     }
@@ -1973,6 +1975,10 @@ class Chat {
             this.windowToFront(this.mainwindow.name);
             this.removeWindow(win.name);
         }
+    }
+
+    cmdSPOILER(data) {
+        this.control.emit("SEND", `|| ${data.join(' ')} ||`)
     }
 
     openConversation(nick) {
