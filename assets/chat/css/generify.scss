@@ -68,24 +68,11 @@
     }
     
     50% {
-        transform: translate(-33%, 0);
+        transform: translate(-0%, 0);
     }
 
     100% {
         transform: translate(-110%, 0);
-    }
-}
-@keyframes reverse-peek {
-    0% {
-        transform: translate(110%, 0);
-    }
-    
-    50% {
-        transform: translate(33%, 0);
-    }
-
-    100% {
-        transform: translate(110%, 0);
     }
 }
 
@@ -93,14 +80,14 @@
     clip-path: polygon(0 -100%, 100% -100%, 100% 200%, 0 200%);
 
     & > .generify-container {
-        animation: peek 6s ease-in-out 4;
+        animation: peek 6s ease-in-out 1.5;
 
         @at-root .pref-animateforever &, &:hover {
             animation-iteration-count: infinite;
         }
 
         @at-root .reverse & {
-            animation: reverse-peek 6s ease-in-out infinite !important;
+            animation-direction: reverse;
         }
 
         @at-root .slow & {
