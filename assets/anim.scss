@@ -835,5 +835,28 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $animation-direction: alternate,
     $iteration-count: 7,
     $can-animate-forever: true,
-    $end-on-last-frame: true
-);
+    $end-on-last-frame: true,
+    $extra-animation: true,
+    $extra-animation-duration: 1.4s,
+    $extra-animation-iteration-count: 7,
+    $extra-animation-timing-function: ease-out,
+    $extra-animation-direction: alternate
+) {
+    0% {
+        transform: scale(1) translate(0, 0);
+        clip-path: inset(0);
+    }
+    30% {
+        transform: scale(1.2) translate(-5%, 10%);
+        clip-path: inset(0 5% 20% 15%);
+    }
+    100% {
+        transform: scale(1.2) translate(-5%, 10%);
+        clip-path: inset(0 5% 20% 15%);
+    }
+};
+
+.chat-emote.chat-emote-OHTTER {
+    transform: scale(1.2) translate(-5%, 10%);
+    clip-path: inset(0 5% 20% 15%);
+}
