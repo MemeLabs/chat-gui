@@ -1,0 +1,10 @@
+@include sprite-animation(
+    $file-name: DOGGO,
+    $frame-count: 76,
+    $sprite-width: 2432px,
+    $sprite-height: 32px,
+    $animation-duration: 2s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);

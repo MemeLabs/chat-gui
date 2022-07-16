@@ -322,13 +322,15 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
         @if $extra-animation {
             animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction , #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
-            &:hover {
+            &:hover,
+            &-animate-forever {
                 animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay infinite $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
             }
         }
         @else {
             animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction;
-            &:hover {
+            &:hover,
+            &-animate-forever {
                 animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction;
             }
         }
@@ -342,12 +344,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         }
         @else {
             background-position-x: left;
-        }
-
-        @if $can-animate-forever {
-            &-animate-forever {
-                animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction;
-            }
         }
     }
 
@@ -815,3 +811,67 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 .PeepoRunCombo span:not(:first-child){
     margin-left: -10px;
 }
+
+@include sprite-animation(
+    $file-name: PepoCopter,
+    $frame-count: 3,
+    $sprite-width: 174px,
+    $sprite-height: 32px,
+    $animation-duration: 240ms,
+    $iteration-count: 40,
+    $can-animate-forever: true,
+    $extra-animation: true,
+    $extra-animation-duration: 480ms,
+    $extra-animation-iteration-count: 20,
+    $extra-animation-timing-function: ease-in-out,
+    $extra-animation-direction: alternate
+) {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(3px); }
+};
+
+@include sprite-animation(
+    $file-name: OHTTER,
+    $frame-count: 42,
+    $sprite-width: 1386px,
+    $sprite-height: 32px,
+    $animation-duration: 1.4s,
+    $animation-direction: alternate,
+    $iteration-count: 7,
+    $can-animate-forever: true,
+    $end-on-last-frame: true,
+    $extra-animation: true,
+    $extra-animation-duration: 1.4s,
+    $extra-animation-iteration-count: 7,
+    $extra-animation-timing-function: ease-out,
+    $extra-animation-direction: alternate
+) {
+    0% {
+        transform: scale(1) translate(0, 0);
+        clip-path: inset(0);
+    }
+    30% {
+        transform: scale(1.2) translate(-5%, 10%);
+        clip-path: inset(0 5% 20% 15%);
+    }
+    100% {
+        transform: scale(1.2) translate(-5%, 10%);
+        clip-path: inset(0 5% 20% 15%);
+    }
+};
+
+.chat-emote.chat-emote-OHTTER {
+    transform: scale(1.2) translate(-5%, 10%);
+    clip-path: inset(0 5% 20% 15%);
+}
+
+@include sprite-animation(
+    $file-name: DOGGO,
+    $frame-count: 76,
+    $sprite-width: 2432px,
+    $sprite-height: 32px,
+    $animation-duration: 2s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
