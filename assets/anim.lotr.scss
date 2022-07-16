@@ -8,3 +8,13 @@
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
+
+@include sprite-animation(
+    $file-name: ComfyMoobers,
+    $frame-count: 34,
+    $sprite-width: 1122px,
+    $sprite-height: 32px,
+    $animation-duration: 2550ms,
+    $iteration-count: 2,
+    $can-animate-forever: true
+);
