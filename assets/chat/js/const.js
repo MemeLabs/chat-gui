@@ -136,6 +136,11 @@ const DANK_WHITELIST = [
     "PeepoHappy"
 ];
 
+//emotes that get placed multiple times when combo'd
+const SWARM_EMOTES = [
+    "PeepoRun",
+]
+
 //blacklists for special hats
 const HAT_SPECIAL_BLACKLIST = {
     bday: ["NoTears", "Klappa", "FeelsAmazingMan"],
@@ -165,6 +170,7 @@ module.exports = {
     HAT_BLACKLIST,
     HAT_SPECIAL_BLACKLIST,
     DANK_WHITELIST,
+    SWARM_EMOTES,
     TAGS,
     SEASON
 };

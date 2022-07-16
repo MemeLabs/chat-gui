@@ -808,6 +808,10 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $can-animate-forever: true
 );
 
+.PeepoRunCombo span:not(:first-child){
+    margin-left: -10px;
+}
+
 @include sprite-animation(
     $file-name: PepoCopter,
     $frame-count: 3,

@@ -10,7 +10,7 @@ import {
     CodeFormatter,
     SpoilerFormatter
 } from "./formatters";
-import { DATE_FORMATS } from "./const";
+import { DATE_FORMATS, SWARM_EMOTES } from "./const";
 import UserFeatures from "./features";
 import { throttle } from "throttle-debounce";
 import moment from "moment";
@@ -54,7 +54,7 @@ function buildMessageTxt(chat, message) {
     for (var i = 0; i < msgArray.length; i++) {
         if (msgArray[i].type === "text") {
             // format non code segment
-            formatters.forEach(f => {
+            formatters.forEach((f) => {
                 if (
                     f === formatters.get("emote") &&
                     message.ignoreemotes === true
@@ -84,7 +84,7 @@ function buildMessageTxt(chat, message) {
 }
 function buildFeatures(user) {
     const features = [...(user.features || [])]
-        .filter(e => !UserFeatures.SUBSCRIBER.equals(e))
+        .filter((e) => !UserFeatures.SUBSCRIBER.equals(e))
         .sort((a, b) => {
             let a1, a2;
 
@@ -146,7 +146,7 @@ function buildFeatures(user) {
             if (a < b) return 1;
             return 0;
         })
-        .map(e => {
+        .map((e) => {
             const f = UserFeatures.valueOf(e);
             return `<i class="flair icon-${e.toLowerCase()}" title="${
                 f !== null ? f.label : e
@@ -343,7 +343,9 @@ class ChatUserMessage extends ChatMessage {
         else if (this.slashme || this.continued) ctrl = "";
 
         const background = generateViewerStateBackground(this.user.viewerState);
-        const viewerStateProps = `title="${this.user.viewerState.getTitle()}" style="background-image: url(${background});" data-viewer-state="${JSON.stringify(this.user.viewerState).replace(/"/g, '&quot;')}")}"`;
+        const viewerStateProps = `title="${this.user.viewerState.getTitle()}" style="background-image: url(${background});" data-viewer-state="${JSON.stringify(
+            this.user.viewerState
+        ).replace(/"/g, "&quot;")}")}"`;
 
         const user =
             buildFeatures(this.user) +
@@ -437,6 +439,26 @@ function ChatEmoteMessageCount(message) {
     else if (message.emotecount >= 5) stepClass = " x5";
     if (!message._combo) console.error("no combo", message._combo);
     message._combo.attr("class", "chat-combo" + stepClass);
+
+    if (
+        SWARM_EMOTES.includes(message.message.split(":")[0]) &&
+        message.emotecount <= 6
+    ) {
+        message._text.attr("class", message.message.split(":")[0] + "Combo");
+
+        // get only the first emote section
+        let temp =
+            $(message._text[0]).first()[0].innerHTML.split("</")[0] +
+            "</span> </span> </span>";
+        let html = "";
+
+        // for every combo attatch 1 emote
+        for (let i = 0; i < message.emotecount; i++) {
+            html += temp;
+        }
+
+        message._text.html(html);
+    }
     message._combo_count.text(`${message.emotecount}`);
     message.ui.append(message._text.detach(), message._combo.detach());
 }
@@ -472,6 +494,13 @@ class ChatEmoteMessage extends ChatMessage {
             " ",
             this._combo_txt
         );
+
+        if (SWARM_EMOTES.includes(this.message.split(":")[0])) {
+            this._text.attr("class", this.message.split(":")[0] + "Combo");
+            this._text.append(
+                `${formatters.get("emote").format(chat, this.message, this)}`
+            );
+        }
         this.ui.append(this._text, this._combo);
     }
 
