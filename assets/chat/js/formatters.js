@@ -704,7 +704,7 @@ class UrlFormatter {
             var decodedUrl = self._elem.html(url).text();
             // replaces the discord links that automatically download a file when clicked
             if (self.discordmp4Regex.test(decodedUrl)) {
-                decodedUrl = decodedUrl.replace("cdn.discordapp.com", "media.discordapp.net");
+                decodedUrl = location.origin + "/discordmedia.html?v=" + encodeURIComponent(decodedUrl);
             }
             const m = decodedUrl.match(self.linkregex);
             if (m) {

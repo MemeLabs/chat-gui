@@ -188,6 +188,12 @@ const plugins = [
         favicon: './assets/chat/img/favicon.ico',
         chunks: ['emotelist']
     }),
+    new HTMLWebpackPlugin({
+        filename: 'discordmedia.html',
+        template: 'assets/discordmedia.html',
+        favicon: './assets/chat/img/favicon.ico',
+        chunks: ['discordmedia']
+    }),
     new MiniCssExtractPlugin({
         filename: '[name].[contenthash].css'
     }),
@@ -225,6 +231,11 @@ const entry = {
         'normalize.css',
         './assets/emotelist.css',
         './assets/emotelist.js'
+    ],
+    'discordmedia': [
+        'normalize.css',
+        './assets/discordmedia.css',
+        './assets/discordmedia.js'
     ],
     'emotes': [
         './assets/chat/css/emotes.scss'
