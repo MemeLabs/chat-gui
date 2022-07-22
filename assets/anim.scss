@@ -864,3 +864,14 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     transform: scale(1.2) translate(-5%, 10%);
     clip-path: inset(0 5% 20% 15%);
 }
+
+@include sprite-animation(
+    $file-name: PeepoShush,
+    $frame-count: 4,
+    $sprite-width: 112px,
+    $sprite-height: 28px,
+    $animation-duration: 4s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
