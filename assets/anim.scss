@@ -875,3 +875,14 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
+
+@include sprite-animation(
+    $file-name: YEE,
+    $frame-count: 192,
+    $sprite-width: 11904px,
+    $sprite-height: 32px,
+    $animation-duration: 3.2s,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
