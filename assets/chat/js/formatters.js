@@ -617,7 +617,7 @@ class UrlFormatter {
             relaxed = strict + "|" + webURL;
         this.linkregex = new RegExp(relaxed, "gi");
         this.discordmp4Regex = /https:\/\/(media|cdn)\.discordapp\.(net|com)\/attachments.*?\.(mp4|webm|mov)/i;
-        this.refLinkRegex = /^(https?:\/\/)?(www\.)?(amazon|twitter|spotify)\.[a-z]{2,3}/
+        this.refLinkRegex = /^(https?:\/\/)?(www\.)?(amazon|twitter|(open\.)?spotify)\.[a-z]{2,3}/
 
         // e.g. youtube ids include "-" and "_".
         const embedCommonId = '([\\w-]{1,30})';
