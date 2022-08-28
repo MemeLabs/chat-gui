@@ -612,7 +612,7 @@ class UrlFormatter {
             relaxed = strict + "|" + webURL;
         this.linkregex = new RegExp(relaxed, "gi");
         this.discordmp4Regex = new RegExp("(https?:\/\/)?(www\.)?(cdn.discordapp\.com)?\.(mp4|webm)")
-
+        this.refLinkRegex = new RegExp("(https?://)?(www.)?(amazon)?(twitter)?(spotify)?");
         // e.g. youtube ids include "-" and "_".
         const embedCommonId = '([\\w-]{1,30})';
         this.embedSubstitutions = [
@@ -700,6 +700,9 @@ class UrlFormatter {
             // replaces the discord links that automatically download a file when clicked
             if (self.discordmp4Regex.test(decodedUrl)) {
                 decodedUrl = decodedUrl.replace("cdn.discordapp.com", "media.discordapp.net");
+            }
+            if(self.refLinkRegex.test(decodedUrl)){
+                decodedUrl = decodedUrl.split('?')[0];
             }
             const m = decodedUrl.match(self.linkregex);
             if (m) {
