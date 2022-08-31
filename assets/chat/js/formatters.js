@@ -617,7 +617,7 @@ class UrlFormatter {
             relaxed = strict + "|" + webURL;
         this.linkregex = new RegExp(relaxed, "gi");
         this.discordmp4Regex = /https:\/\/(media|cdn)\.discordapp\.(net|com)\/attachments.*?\.(mp4|webm|mov)/i;
-        this.refLinkRegex = /^(https?:\/\/)?(www\.)?(amazon|twitter|(open\.)?spotify)\.[a-z]{2,3}/
+        this.refLinkRegex = /^(https?:\/\/)?(www\.)?(((smile\.)?amazon)|twitter|(open\.)?spotify)\.[a-z]{2,3}/
 
         // e.g. youtube ids include "-" and "_".
         const embedCommonId = '([\\w-]{1,30})';
@@ -708,7 +708,12 @@ class UrlFormatter {
                 decodedUrl = location.origin + "/discordmedia.html?v=" + encodeURIComponent(decodedUrl);
             }
             if(self.refLinkRegex.test(decodedUrl)){
-                decodedUrl = decodedUrl.split('?')[0];
+                if( decodedUrl.includes("?ref")){
+                    decodedUrl = decodedUrl.split('?ref')[0];
+                }
+                else if(decodedUrl.includes("?si")){
+                    decodedUrl = decodedUrl.split('?si')[0];
+                }
             }
             const m = decodedUrl.match(self.linkregex);
             if (m) {
