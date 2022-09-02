@@ -767,17 +767,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
-    $file-name: DaFeels,
-    $frame-count: 180,
-    $sprite-width: 5760px,
-    $sprite-height: 32px,
-    $animation-duration: 5s,
-    $iteration-count: 1,
-    $end-on-last-frame: true,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
     $file-name: WICKEDSTEER,
     $frame-count: 24,
     $sprite-width: 672px,
