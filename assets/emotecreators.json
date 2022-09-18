@@ -548,7 +548,7 @@
         "Facepalm": { "createdby": "melun", "october": "", "december": "" },
         "WAYTOODANK": { "createdby": "", "october": "", "december": "" },
         "BONK": { "createdby": "", "october": "", "december": "" },
-        "SMUG": { "createdby": "melun", "october": "", "december": "melun" },
+        "SMUG": { "createdby": "melun", "october": "melun", "december": "melun" },
         "Cinnabunny": { "createdby": "melun", "october": "", "december": "" },
         "RIDIN": {
             "createdby": "Gehirnchirurg",

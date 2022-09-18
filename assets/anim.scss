@@ -218,6 +218,59 @@ $context-css-animated-emote-mixin: false;
     }
 }
 
+@include css-animated-emote(SMUG, true) {
+    @include emote-animation(200ms, 5) {
+        0% { transform: translate(0px, 0px); }
+        50% { transform: translate(0px, 3px); }
+        100% { transform: translate(0px, 0px); }
+    }
+}
+
+.chat-emote-SMUG {
+    animation: SMUG-anim 900ms 1;
+
+    .generify-container.fast & {
+        animation-duration: 450ms;
+    }
+
+    .generify-container.slow & {
+        animation-duration: 1.8s;
+    }
+
+    &:hover {
+        animation: SMUG-anim-hover 300ms infinite;
+
+        .generify-container.fast & {
+            animation-duration: 150ms;
+        }
+
+        .generify-container.slow & {
+            animation-duration: 600ms;
+        }
+    }
+}
+
+@keyframes SMUG-anim {
+    0% { transform: translate(0px, 0px); }
+    10% { transform: translate(0px, -3px); }
+    20% { transform: translate(0px, 0px); }
+    30% { transform: translate(0px, 0px); }
+    40% { transform: translate(0px, -3px); }
+    50% { transform: translate(0px, 0px); }
+    60% { transform: translate(0px, 0px); }
+    70% { transform: translate(0px, -2px); }
+    77% { transform: translate(0px, -3px); }
+    84% { transform: translate(0px, -2px); }
+    91% { transform: translate(0px, 0px); }
+}
+
+@keyframes SMUG-anim-hover {
+    0% { transform: translate(0px, 0px); }
+    35% { transform: translate(0px, -3px); }
+    70% { transform: translate(0px, 0px); }
+}
+
+
 @keyframes emote-hit {
     0% { color: #B91010; font-size:200%; }
     1% { color: $color-light; font-size:190%; }
