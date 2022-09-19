@@ -332,6 +332,8 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         $end-on-frame: 0,
         $end-on-last-frame: false,
         $can-animate-forever: true,
+        $hold-start-frames: 0,
+        $hold-end-frames: 0,
         $extra-animation: false,
         $extra-animation-duration: 0s,
         $extra-animation-timing-function: ease,
@@ -344,6 +346,9 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
     $path: $spritesDir + $file-name + $file-ext;
     $frame-width: $sprite-width / $frame-count;
+    $total-frame-count: $frame-count + $hold-start-frames + $hold-end-frames;
+    $animation-duration: $animation-duration / $frame-count * $total-frame-count;
+    $steps: $frame-count - 1;
 
     @if $frame-width != round($frame-width) {
         @error
@@ -359,11 +364,23 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
     @keyframes #{$file-name}-anim {
         0% {
-            background-position-x: 0;
+            background-position-x: 0px;
+        }
+
+        @if $hold-start-frames != 0 {
+            #{100% / $total-frame-count * $hold-start-frames} {
+                background-position-x: 0px;
+            }
+        }
+
+        @if $hold-end-frames != 0 {
+            #{100% - 100% / $total-frame-count * $hold-end-frames} {
+                background-position-x: -#{$sprite-width - $frame-width};
+            }
         }
 
         100% {
-            background-position-x: -#{$sprite-width};
+            background-position-x: -#{$sprite-width - $frame-width};
         }
     }
 
@@ -374,17 +391,17 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         background-position-y: center;
 
         @if $extra-animation {
-            animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction , #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
+            animation: #{$file-name}-anim $animation-duration steps($steps) $iteration-count none $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
             &:hover,
             &-animate-forever {
-                animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay infinite $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
+                animation: #{$file-name}-anim $animation-duration steps($steps) infinite $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay infinite $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
             }
         }
         @else {
-            animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction;
+            animation: #{$file-name}-anim $animation-duration steps($steps) $iteration-count none $animation-direction;
             &:hover,
             &-animate-forever {
-                animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction;
+                animation: #{$file-name}-anim $animation-duration steps($steps) infinite $animation-direction;
             }
         }
 
@@ -982,3 +999,31 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $end-on-frame: 1,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: HocusPocus,
+    $frame-count: 33,
+    $sprite-width: 1254px,
+    $sprite-height: 32px,
+    $animation-duration: 1375ms,
+    $animation-direction: alternate,
+    $hold-start-frames: 12,
+    $hold-end-frames: 12,
+    $iteration-count: 3,
+    $end-on-last-frame: true,
+    $can-animate-forever: true,
+    $extra-animation: true,
+    $extra-animation-duration: 4750ms,
+    $extra-animation-iteration-count: 1,
+    $extra-animation-timing-function: ease-out,
+) {
+    0% {
+        filter: none;
+    }
+    73% {
+        filter: brightness(1) invert(0);
+    }
+    100% {
+        filter: brightness(0) invert(1);
+    }
+};
