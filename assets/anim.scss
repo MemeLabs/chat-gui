@@ -348,7 +348,10 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $frame-width: $sprite-width / $frame-count;
     $total-frame-count: $frame-count + $hold-start-frames + $hold-end-frames;
     $animation-duration: $animation-duration / $frame-count * $total-frame-count;
-    $steps: $frame-count - 1;
+    $steps: $frame-count;
+    @if $hold-start-frames != 0 or $hold-end-frames != 0 {
+        $steps: $frame-count - 1;
+    }
 
     @if $frame-width != round($frame-width) {
         @error
@@ -380,7 +383,12 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         }
 
         100% {
-            background-position-x: -#{$sprite-width - $frame-width};
+            @if $hold-start-frames != 0 or $hold-end-frames != 0 {
+                background-position-x: -#{$sprite-width - $frame-width};
+            }
+            @else {
+                background-position-x: -#{$sprite-width};
+            }
         }
     }
 
@@ -427,8 +435,14 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
     .generify-emote-#{$file-name} .fast {
         .chat-emote-#{$file-name} {
-            animation-duration: $animation-duration * 0.5;
-            animation-iteration-count: $iteration-count * 2;
+            @if $extra-animation {
+                animation-duration: $animation-duration * 0.5, $extra-animation-duration * 0.5;
+                animation-iteration-count: $iteration-count * 2, $extra-animation-iteration-count * 2;
+            }
+            @else {
+                animation-duration: $animation-duration * 0.5;
+                animation-iteration-count: $iteration-count * 2;
+            }
 
             &:hover {
                 animation-iteration-count: infinite;
@@ -459,7 +473,12 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
     .generify-emote-#{$file-name} .slow {
         .chat-emote-#{$file-name} {
-            animation-duration: $animation-duration * 2;
+            @if $extra-animation {
+                animation-duration: $animation-duration * 2, $extra-animation-duration * 2;
+            }
+            @else {
+                animation-duration: $animation-duration * 2;
+            }
         }
 
         @include dank-animation(
