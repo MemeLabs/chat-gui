@@ -147,3 +147,15 @@
     $end-on-frame: 1,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: TIMID,
+    $frame-count: 150,
+    $sprite-width: 4800px,
+    $sprite-height: 32px,
+    $animation-duration: 5s,
+    $animation-direction: alternate,
+    $iteration-count: 1,
+    $end-on-frame: 1,
+    $can-animate-forever: true
+);
