@@ -364,7 +364,9 @@ class EmoteFormatter {
             }
 
             return (
-                ' <span class="' +
+                ' <span data-modifiers="' +
+                options.join(' ') +
+                '" class="' +
                 generifyClasses.join(" ") + '">' +
                 goldenModifier +
                 hat +

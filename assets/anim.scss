@@ -513,8 +513,8 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $iteration-count: 3
 );
 
-.generify-container.generify-emote-MiyanoHype:has(.mirror) + .generify-container,
-.generify-container:has(+ .generify-container.generify-emote-MiyanoHype) {
+.text > .generify-container.generify-emote-MiyanoHype:has(.mirror) + .generify-container,
+.text > .generify-container:has(+ .generify-container.generify-emote-MiyanoHype:not([data-modifiers~="mirror"])) {
     margin-right: 0;
     margin-left: 0;
     animation: YUMP-anim 800ms 3;
