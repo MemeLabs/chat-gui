@@ -28,6 +28,10 @@
     filter: blur(1px);
 }
 
+.generify-gray {
+    filter: grayscale(100%);
+}
+
 .generify-slide {
     clip-path: polygon(0 -100%, 100% -100%, 100% 200%, 0 200%);
 

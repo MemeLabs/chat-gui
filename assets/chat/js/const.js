@@ -76,6 +76,7 @@ const GENERIFY_OPTIONS = {
     blur: "generify-blur",
     slide: "generify-slide",
     peek: "generify-peek",
+    gray: "generify-gray",
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
