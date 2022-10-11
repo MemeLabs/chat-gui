@@ -77,6 +77,7 @@ const GENERIFY_OPTIONS = {
     slide: "generify-slide",
     peek: "generify-peek",
     gray: "generify-gray",
+    noir: "generify-noir weather rain anim-fix",
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
