@@ -515,7 +515,7 @@
         },
         "HACKER": { "createdby": "deadppls", "october": "deadppls", "december": "" },
         "monkaVirus": { "createdby": "", "october": "", "december": "" },
-        "DOUBT": { "createdby": "Versicarius", "october": "", "december": "" },
+        "DOUBT": { "createdby": "Versicarius", "october": "Gehirnchirurg", "december": "" },
         "KEKW": { "createdby": "Ftwpala", "october": "", "december": "" },
         "SHOCK": {
             "createdby": "Ftwpala",
@@ -653,6 +653,7 @@
             "createdby": "",
             "october": "FizzyLongstockings & Slugalisk",
             "december": ""
-        }
+        },
+	"DEVILISH": { "createdby": "", "october": "Gehirnchirurg", "december": "" }
     }
 }
