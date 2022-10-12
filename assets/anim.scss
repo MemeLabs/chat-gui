@@ -345,7 +345,6 @@ $context-css-animated-emote-mixin: false;
     margin-right: 0;
     margin-left: 0;
     animation: PsiStorm-flicker-anim 2s 3;
-    animation-fill-mode: both;
 
     &::after, &::before {
         content: "";
