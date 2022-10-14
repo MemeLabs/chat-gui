@@ -436,6 +436,117 @@ $context-css-animated-emote-mixin: false;
     }
 }
 
+@mixin Gigachad() {
+    .text > .generify-container:has(+ .generify-container.generify-emote-Gigachad[data-modifiers~="mirror"]) {
+        @content;
+    }
+    .text > .generify-container.generify-emote-Gigachad:not([data-modifiers~="mirror"]) + .generify-container {
+        @content;
+    }
+}
+
+@include Gigachad() {
+    animation: Gigachad-shake-anim 6s linear;
+    transform-origin: 50% 100%;
+
+    &::before, &::after {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -8px -6px;
+        width: 16px;
+        height: 12px;
+        background-image: url("/assets/emotes/modifiers/fireball.png");
+        background-size: 240px 12px;
+        background-position: 16px 0px;
+        background-repeat: no-repeat;
+        animation: Gigachad-fireball-anim 750ms 8 step-start, Gigachad-fireball-fly-anim 6s linear;
+        animation-fill-mode: none, forwards;
+        z-index: 2;
+    }
+
+    &::before {
+        @for $i from 0 to 8 {
+            #{"--offset-x-" + $i}: (random(60) + 20) * 1%;
+            #{"--offset-y-" + $i}: (random(40) + 20) * 1%;
+            #{"--scale-" + $i}: (random(50) + 100) * 1%;
+        }
+        animation-delay: 0.5s;
+    }
+
+    &::after {
+        @for $i from 0 to 8 {
+            #{"--offset-x-" + $i}: (random(60) + 20) * 1%;
+            #{"--offset-y-" + $i}: (random(40) + 20) * 1%;
+            #{"--scale-" + $i}: (random(100) + 100) * 1%;
+        }
+    }
+
+    @at-root .pref-animateforever &, &:hover {
+        animation-iteration-count: infinite;
+    }
+
+    @at-root .pref-animateforever &::before, &:hover::before {
+        animation-iteration-count: infinite;
+    }
+
+    @at-root .pref-animateforever &::after, &:hover::after {
+        animation-iteration-count: infinite;
+    }
+}
+
+@keyframes Gigachad-shake-anim {
+    $cycles: 16;
+    @for $i from 0 to $cycles {
+        #{100 / $cycles * $i * 1%} {
+            transform: scaleY(1);
+            filter: brightness(1);
+        }
+        #{100 / $cycles * ($i + 9/15) * 1%} {
+            transform: scaleY(1);
+            filter: brightness(1.3);
+        }
+        #{100 / $cycles * ($i + 13/15) * 1% - 1%} {
+            transform: scaleY((random(20) + 70) * 1%);
+            filter: brightness(1);
+        }
+    }
+}
+
+@keyframes Gigachad-fireball-anim {
+    $frames: 15;
+    $width: 240px;
+    @for $i from 0 to $frames {
+        #{100 / $frames * $i * 1%} {
+            background-position-x: -$width / $frames * $i;
+        }
+    }
+    100% {
+        background-position-x: 240px;
+    }
+}
+
+@keyframes Gigachad-fireball-fly-anim {
+    $cycles: 8;
+    @for $i from 0 to $cycles {
+        #{100 / $cycles * $i * 1%} {
+            transform: translateY(-30px) rotate(90deg) scale(var(#{"--scale-" + $i}));
+            left: var(#{"--offset-x-" + $i});
+            top: var(#{"--offset-y-" + $i});
+        }
+        #{100 / $cycles * ($i + 7/15) * 1%} {
+            transform: translateY(0) rotate(90deg) scale(var(#{"--scale-" + $i}));
+        }
+        #{100 / $cycles * ($i + 1) * 1% - 1%} {
+            transform: translateY(0) rotate(90deg) scale(var(#{"--scale-" + $i}));
+            left: var(#{"--offset-x-" + $i});
+            top: var(#{"--offset-y-" + $i});
+        }
+    }
+}
+
 @keyframes emote-hit {
     0% { color: #B91010; font-size:200%; }
     1% { color: $color-light; font-size:190%; }
