@@ -446,7 +446,7 @@ $context-css-animated-emote-mixin: false;
 }
 
 @include Gigachad() {
-    animation: Gigachad-shake-anim 6s linear;
+    animation: Gigachad-shake-anim 6s 375ms linear;
     transform-origin: 50% 100%;
 
     &::before, &::after {
@@ -500,16 +500,20 @@ $context-css-animated-emote-mixin: false;
 @keyframes Gigachad-shake-anim {
     $cycles: 16;
     @for $i from 0 to $cycles {
-        #{100 / $cycles * $i * 1%} {
+        #{100 / $cycles * ($i) * 1%} {
             transform: scaleY(1);
             filter: brightness(1);
         }
-        #{100 / $cycles * ($i + 9/15) * 1%} {
+        #{100 / $cycles * ($i + 2/15) * 1%} {
             transform: scaleY(1);
             filter: brightness(1.3);
         }
-        #{100 / $cycles * ($i + 13/15) * 1% - 1%} {
-            transform: scaleY((random(20) + 70) * 1%);
+        #{100 / $cycles * ($i + 6/15) * 1%} {
+            transform: scaleY((random(30) + 60) * 1%);
+            filter: brightness(1.2);
+        }
+        #{100 / $cycles * ($i + 1) * 1% - 1%} {
+            transform: scaleY(1);
             filter: brightness(1);
         }
     }
