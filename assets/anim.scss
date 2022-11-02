@@ -911,22 +911,31 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $can-animate-forever: true
 );
 
-@include sprite-animation(
-    $file-name: REE,
-    $frame-count: 39,
-    $sprite-width: 1248px,
-    $sprite-height: 32px,
-    $animation-duration: 3900ms,
-    $animation-direction: alternate,
-    $iteration-count: 2,
-    $can-animate-forever: true,
-    $extra-animation: true,
-    $extra-animation-duration: 100ms,
-    $extra-animation-iteration-count: 64
-) {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(3px); }
+
+
+@include css-animated-emote(REE, true) {
+    @include emote-animation(200ms, 5) {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(3px); }
+    }
 }
+
+// @include sprite-animation(
+//     $file-name: REE,
+//     $frame-count: 39,
+//     $sprite-width: 1248px,
+//     $sprite-height: 32px,
+//     $animation-duration: 3900ms,
+//     $animation-direction: alternate,
+//     $iteration-count: 2,
+//     $can-animate-forever: true,
+//     $extra-animation: true,
+//     $extra-animation-duration: 100ms,
+//     $extra-animation-iteration-count: 64
+// ) {
+//     0% { transform: translateX(0); }
+//     100% { transform: translateX(3px); }
+// }
 
 @include sprite-animation(
     $file-name: RIDIN,
