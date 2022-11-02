@@ -84,7 +84,11 @@ class EmoteManifestPlugin {
                 return `url(${this.options.emotePath}/${name}.${hash}${ext}) ${size}`;
             });
 
-            const { dimensions, spritesheet, animated } = emoteImages.find(({ size }) => size === '1x');
+            const emoteImage = emoteImages.find(({ size }) => size === '1x');
+            if (!emoteImage) {
+                throw new Error(`missing asset for ${emoteName}`);
+            }
+            const { dimensions, spritesheet, animated } = emoteImage;
 
             const rules = [`background-image: image-set(${imageSet.join(', ')});`];
             if (!spritesheet && !animated) {

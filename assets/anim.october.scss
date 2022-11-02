@@ -7,8 +7,16 @@
     $iteration-count: 3
 );
 
-.text > .generify-container.generify-emote-MiyanoHype:has(.mirror) + .generify-container,
-.text > .generify-container:has(+ .generify-container.generify-emote-MiyanoHype:not([data-modifiers~="mirror"])) {
+@mixin MiyanoHype() {
+    .text > .generify-container:has(+ .generify-container.generify-emote-MiyanoHype:not([data-modifiers~="mirror"])) {
+        @content;
+    }
+    .text > .generify-container.generify-emote-MiyanoHype[data-modifiers~="mirror"] + .generify-container {
+        @content;
+    }
+}
+
+@include MiyanoHype() {
     margin-right: 0;
     margin-left: 0;
     animation: YUMP-anim 800ms 3;
@@ -69,6 +77,162 @@
     60% { transform: translate(0px, 0px) rotate(4deg); animation-timing-function: ease-in}
     75% { transform: translate(0px, -1.5px); animation-timing-function: ease }
     100% { transform: translate(0px, 0px); animation-timing-function: ease-in}
+}
+
+@include css-animated-emote(SMUG, true) {
+    @include emote-animation(200ms, 5) {
+        0% { transform: translate(0px, 0px); }
+        50% { transform: translate(0px, 3px); }
+        100% { transform: translate(0px, 0px); }
+    }
+}
+
+.chat-emote-SMUG {
+    animation: SMUG-anim 900ms 1;
+
+    .generify-container.fast & {
+        animation-duration: 450ms;
+    }
+
+    .generify-container.slow & {
+        animation-duration: 1.8s;
+    }
+
+    &:hover {
+        animation: SMUG-anim-hover 300ms infinite;
+
+        .generify-container.fast & {
+            animation-duration: 150ms;
+        }
+
+        .generify-container.slow & {
+            animation-duration: 600ms;
+        }
+    }
+}
+
+@keyframes SMUG-anim {
+    0% { transform: translate(0px, 0px); }
+    10% { transform: translate(0px, -3px); }
+    20% { transform: translate(0px, 0px); }
+    30% { transform: translate(0px, 0px); }
+    40% { transform: translate(0px, -3px); }
+    50% { transform: translate(0px, 0px); }
+    60% { transform: translate(0px, 0px); }
+    70% { transform: translate(0px, -2px); }
+    77% { transform: translate(0px, -3px); }
+    84% { transform: translate(0px, -2px); }
+    91% { transform: translate(0px, 0px); }
+}
+
+@keyframes SMUG-anim-hover {
+    0% { transform: translate(0px, 0px); }
+    35% { transform: translate(0px, -3px); }
+    70% { transform: translate(0px, 0px); }
+}
+
+@mixin MAGE() {
+    .text > .generify-container:has(+ .generify-container.generify-emote-MAGE[data-modifiers~="mirror"]) {
+        @content;
+    }
+    .text > .generify-container.generify-emote-MAGE:not([data-modifiers~="mirror"]) + .generify-container {
+        @content;
+    }
+}
+
+@include MAGE() {
+    margin-right: 0;
+    margin-left: 0;
+    animation: PsiStorm-flicker-anim 2s 3;
+
+    &::after, &::before {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        top: 50;
+        left: 50%;
+        margin: -20px -28px;
+        width: 64px;
+        height: 48px;
+    }
+
+    &::before {
+        opacity: 0.8;
+        mix-blend-mode: screen;
+        background-color: #00a;
+        mask-image: url("/assets/emotes/modifiers/psistorm-mask.png");
+        mask-size: 896px 48px;
+        mask-position: 64px 0px;
+        mask-repeat: no-repeat;
+        animation: PsiStorm-mask-anim 2s 3;
+        animation-timing-function: step-start;
+        z-index: 2;
+    }
+
+    &::after {
+        background-image: url("/assets/emotes/modifiers/psistorm.png");
+        background-size: 896px 48px;
+        background-position-x: 64px;
+        background-repeat: no-repeat;
+        animation: PsiStorm-anim 2s 3;
+        animation-timing-function: step-start;
+        z-index: 3;
+        filter: brightness(120%);
+    }
+
+    @at-root .pref-animateforever &, &:hover {
+        animation-iteration-count: infinite;
+    }
+
+    @at-root .pref-animateforever &::before, &:hover::before {
+        animation-iteration-count: infinite;
+    }
+
+    @at-root .pref-animateforever &::after, &:hover::after {
+        animation-iteration-count: infinite;
+    }
+}
+
+@keyframes PsiStorm-flicker-anim {
+    $frames: 28;
+    @for $i from 0 to $frames {
+        #{100 / $frames * $i * 1%} {
+            transform: translate3d(random(3) * 1px, random(3) * 1px, random(3) * 1px) scale((102 - random(4)) / 100);
+            filter: brightness(140 - random(80) * 1%);
+        }
+    }
+    100% {
+        transform: translate3d(random(3) * 1px, random(3) * 1px, random(3) * 1px) scale((102 - random(4)) / 100);
+        filter: brightness(1);
+    }
+}
+
+@keyframes PsiStorm-anim {
+    $frames: 14;
+    $width: 896px;
+    @for $i from 0 to $frames {
+        #{100 / $frames * $i * 1%} {
+            background-position-x: -$width / $frames * $i;
+        }
+    }
+    100% {
+        background-position-x: 0px;
+    }
+}
+
+@keyframes PsiStorm-mask-anim {
+    $frames: 14;
+    $width: 896px;
+    @for $i from 0 to $frames {
+        #{100 / $frames * $i * 1%} {
+            transform: translate3d(random(20) / 10px, random(20) / 10px, random(20) / 10px);
+            mask-position: -$width / $frames * $i 0px;
+        }
+    }
+    100% {
+        transform: translate3d(random(20) / 10px, random(20) / 10px, random(20) / 10px);
+        mask-position: 0px 0px;
+    }
 }
 
 @include sprite-animation(
