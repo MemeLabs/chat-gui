@@ -654,6 +654,7 @@
             "october": "FizzyLongstockings & Slugalisk",
             "december": ""
         },
-	"DEVILISH": { "createdby": "", "october": "Gehirnchirurg", "december": "" }
+	"DEVILISH": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
+	"Prayge": { "createdby": "", "october": "", "december": "Gehirnchirurg" }
     }
 }
