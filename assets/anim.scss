@@ -1110,12 +1110,12 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $sprite-height: 32px,
     $animation-duration: 1.4s,
     $animation-direction: alternate,
-    $iteration-count: 7,
+    $iteration-count: 1,
     $can-animate-forever: true,
     $end-on-last-frame: true,
     $extra-animation: true,
     $extra-animation-duration: 1.4s,
-    $extra-animation-iteration-count: 7,
+    $extra-animation-iteration-count: 1,
     $extra-animation-timing-function: ease-out,
     $extra-animation-direction: alternate
 ) {
