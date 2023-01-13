@@ -202,7 +202,7 @@
         "monkaS": { "createdby": "", "october": "", "december": "mcdoudles" },
         "RaveDoge": { "createdby": "", "october": "", "december": "" },
         "CuckCrab": { "createdby": "", "october": "", "december": "" },
-        "MiyanoHype": { "createdby": "Nept", "october": "Joannes", "december": "Joannes" },
+        "MiyanoHype": { "createdby": "Nept", "october": "legendarypotatoe", "december": "Joannes" },
         "ECH": { "createdby": "", "october": "", "december": "" },
         "NiceMeMe": {
             "createdby": "",
@@ -515,7 +515,7 @@
         },
         "HACKER": { "createdby": "deadppls", "october": "deadppls", "december": "" },
         "monkaVirus": { "createdby": "", "october": "", "december": "" },
-        "DOUBT": { "createdby": "Versicarius", "october": "", "december": "" },
+        "DOUBT": { "createdby": "Versicarius", "october": "Gehirnchirurg", "december": "" },
         "KEKW": { "createdby": "Ftwpala", "october": "", "december": "" },
         "SHOCK": {
             "createdby": "Ftwpala",
@@ -548,7 +548,7 @@
         "Facepalm": { "createdby": "melun", "october": "", "december": "" },
         "WAYTOODANK": { "createdby": "", "october": "", "december": "" },
         "BONK": { "createdby": "", "october": "", "december": "" },
-        "SMUG": { "createdby": "melun", "october": "", "december": "melun" },
+        "SMUG": { "createdby": "melun", "october": "melun", "december": "melun" },
         "Cinnabunny": { "createdby": "melun", "october": "", "december": "" },
         "RIDIN": {
             "createdby": "Gehirnchirurg",
@@ -561,7 +561,7 @@
             "october": "",
             "december": "Nept"
         },
-        "TIMID": { "createdby": "melun", "october": "", "december": "melun" },
+        "TIMID": { "createdby": "melun", "october": "legendarypotatoe & melun", "december": "melun" },
         "AOCFace": {
             "createdby": "Boocra",
             "october": "Nussinov",
@@ -577,7 +577,7 @@
             "december": ""
         },
         "SICKOOH": { "createdby": "soadsoap", "october": "Gehirnchirurg", "december": "" },
-        "PAIN": { "createdby": "melun", "october": "", "december": "" },
+        "PAIN": { "createdby": "melun", "october": "melun", "december": "melun" },
         "QUEEN": {
             "createdby": "Gehirnchirurg",
             "october": "",
@@ -596,7 +596,7 @@
         "COPIUM": { "createdby": "", "october": "", "december": "" },
         "YellowCard": { "createdby": "", "october": "", "december": "" },
         "PauseChamp": { "createdby": "", "october": "", "december": "FizzyLongstockings" },
-        "FeelsStrongMan": { "createdby": "", "october": "", "december": "" },
+        "FeelsStrongMan": { "createdby": "", "october": "", "december": "bawrroccoli" },
         "TANTIES": { "createdby": "", "october": "", "december": "" },
         "NeneLaugh": { "createdby": "", "october": "", "december": "" },
         "SNOWBALL": {
@@ -626,7 +626,7 @@
         },
         "MAGE": {
             "createdby": "Nept",
-            "october": "",
+            "october": "Gehirnchirurg",
             "december": ""
         },
         "Gigachad": {
@@ -648,6 +648,13 @@
             "createdby": "Gehirnchirurg",
             "october": "",
             "december": ""
-        }
+        },
+        "HocusPocus": {
+            "createdby": "",
+            "october": "FizzyLongstockings & Slugalisk",
+            "december": "Gehirnchirurg"
+        },
+	"DEVILISH": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
+	"Prayge": { "createdby": "", "october": "", "december": "Gehirnchirurg" }
     }
 }

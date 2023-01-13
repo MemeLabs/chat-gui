@@ -218,6 +218,121 @@ $context-css-animated-emote-mixin: false;
     }
 }
 
+@mixin Gigachad() {
+    .text > .generify-container:has(+ .generify-container.generify-emote-Gigachad[data-modifiers~="mirror"]) {
+        @content;
+    }
+    .text > .generify-container.generify-emote-Gigachad:not([data-modifiers~="mirror"]) + .generify-container {
+        @content;
+    }
+}
+
+@include Gigachad() {
+    animation: Gigachad-shake-anim 6s 375ms linear;
+    transform-origin: 50% 100%;
+
+    &::before, &::after {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -8px -6px;
+        width: 16px;
+        height: 12px;
+        background-image: url("/assets/emotes/modifiers/fireball.png");
+        background-size: 240px 12px;
+        background-position: 16px 0px;
+        background-repeat: no-repeat;
+        animation: Gigachad-fireball-anim 750ms 8 step-start, Gigachad-fireball-fly-anim 6s linear;
+        animation-fill-mode: none, forwards;
+        z-index: 2;
+    }
+
+    &::before {
+        @for $i from 0 to 8 {
+            #{"--offset-x-" + $i}: (random(60) + 20) * 1%;
+            #{"--offset-y-" + $i}: (random(40) + 20) * 1%;
+            #{"--scale-" + $i}: (random(50) + 100) * 1%;
+        }
+        animation-delay: 0.5s;
+    }
+
+    &::after {
+        @for $i from 0 to 8 {
+            #{"--offset-x-" + $i}: (random(60) + 20) * 1%;
+            #{"--offset-y-" + $i}: (random(40) + 20) * 1%;
+            #{"--scale-" + $i}: (random(100) + 100) * 1%;
+        }
+    }
+
+    @at-root .pref-animateforever &, &:hover {
+        animation-iteration-count: infinite;
+    }
+
+    @at-root .pref-animateforever &::before, &:hover::before {
+        animation-iteration-count: infinite;
+    }
+
+    @at-root .pref-animateforever &::after, &:hover::after {
+        animation-iteration-count: infinite;
+    }
+}
+
+@keyframes Gigachad-shake-anim {
+    $cycles: 16;
+    @for $i from 0 to $cycles {
+        #{100 / $cycles * ($i) * 1%} {
+            transform: scaleY(1);
+            filter: brightness(1);
+        }
+        #{100 / $cycles * ($i + 2/15) * 1%} {
+            transform: scaleY(1);
+            filter: brightness(1.3);
+        }
+        #{100 / $cycles * ($i + 6/15) * 1%} {
+            transform: scaleY((random(30) + 60) * 1%);
+            filter: brightness(1.2);
+        }
+        #{100 / $cycles * ($i + 1) * 1% - 1%} {
+            transform: scaleY(1);
+            filter: brightness(1);
+        }
+    }
+}
+
+@keyframes Gigachad-fireball-anim {
+    $frames: 15;
+    $width: 240px;
+    @for $i from 0 to $frames {
+        #{100 / $frames * $i * 1%} {
+            background-position-x: -$width / $frames * $i;
+        }
+    }
+    100% {
+        background-position-x: 240px;
+    }
+}
+
+@keyframes Gigachad-fireball-fly-anim {
+    $cycles: 8;
+    @for $i from 0 to $cycles {
+        #{100 / $cycles * $i * 1%} {
+            transform: translateY(-30px) rotate(90deg) scale(var(#{"--scale-" + $i}));
+            left: var(#{"--offset-x-" + $i});
+            top: var(#{"--offset-y-" + $i});
+        }
+        #{100 / $cycles * ($i + 7/15) * 1%} {
+            transform: translateY(0) rotate(90deg) scale(var(#{"--scale-" + $i}));
+        }
+        #{100 / $cycles * ($i + 1) * 1% - 1%} {
+            transform: translateY(0) rotate(90deg) scale(var(#{"--scale-" + $i}));
+            left: var(#{"--offset-x-" + $i});
+            top: var(#{"--offset-y-" + $i});
+        }
+    }
+}
+
 @keyframes emote-hit {
     0% { color: #B91010; font-size:200%; }
     1% { color: $color-light; font-size:190%; }
@@ -279,6 +394,8 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         $end-on-frame: 0,
         $end-on-last-frame: false,
         $can-animate-forever: true,
+        $hold-start-frames: 0,
+        $hold-end-frames: 0,
         $extra-animation: false,
         $extra-animation-duration: 0s,
         $extra-animation-timing-function: ease,
@@ -291,6 +408,12 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
     $path: $spritesDir + $file-name + $file-ext;
     $frame-width: $sprite-width / $frame-count;
+    $total-frame-count: $frame-count + $hold-start-frames + $hold-end-frames;
+    $animation-duration: $animation-duration / $frame-count * $total-frame-count;
+    $steps: $frame-count;
+    @if $hold-start-frames != 0 or $hold-end-frames != 0 {
+        $steps: $frame-count - 1;
+    }
 
     @if $frame-width != round($frame-width) {
         @error
@@ -306,11 +429,28 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
     @keyframes #{$file-name}-anim {
         0% {
-            background-position-x: 0;
+            background-position-x: 0px;
+        }
+
+        @if $hold-start-frames != 0 {
+            #{100% / $total-frame-count * $hold-start-frames} {
+                background-position-x: 0px;
+            }
+        }
+
+        @if $hold-end-frames != 0 {
+            #{100% - 100% / $total-frame-count * $hold-end-frames} {
+                background-position-x: -#{$sprite-width - $frame-width};
+            }
         }
 
         100% {
-            background-position-x: -#{$sprite-width};
+            @if $hold-start-frames != 0 or $hold-end-frames != 0 {
+                background-position-x: -#{$sprite-width - $frame-width};
+            }
+            @else {
+                background-position-x: -#{$sprite-width};
+            }
         }
     }
 
@@ -321,17 +461,17 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         background-position-y: center;
 
         @if $extra-animation {
-            animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction , #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
+            animation: #{$file-name}-anim $animation-duration steps($steps) $iteration-count none $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
             &:hover,
             &-animate-forever {
-                animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay infinite $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
+                animation: #{$file-name}-anim $animation-duration steps($steps) infinite $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay infinite $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
             }
         }
         @else {
-            animation: #{$file-name}-anim $animation-duration steps($frame-count) $iteration-count none $animation-direction;
+            animation: #{$file-name}-anim $animation-duration steps($steps) $iteration-count none $animation-direction;
             &:hover,
             &-animate-forever {
-                animation: #{$file-name}-anim $animation-duration steps($frame-count) infinite $animation-direction;
+                animation: #{$file-name}-anim $animation-duration steps($steps) infinite $animation-direction;
             }
         }
 
@@ -357,8 +497,14 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
     .generify-emote-#{$file-name} .fast {
         .chat-emote-#{$file-name} {
-            animation-duration: $animation-duration * 0.5;
-            animation-iteration-count: $iteration-count * 2;
+            @if $extra-animation {
+                animation-duration: $animation-duration * 0.5, $extra-animation-duration * 0.5;
+                animation-iteration-count: $iteration-count * 2, $extra-animation-iteration-count * 2;
+            }
+            @else {
+                animation-duration: $animation-duration * 0.5;
+                animation-iteration-count: $iteration-count * 2;
+            }
 
             &:hover {
                 animation-iteration-count: infinite;
@@ -389,7 +535,12 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
     .generify-emote-#{$file-name} .slow {
         .chat-emote-#{$file-name} {
-            animation-duration: $animation-duration * 2;
+            @if $extra-animation {
+                animation-duration: $animation-duration * 2, $extra-animation-duration * 2;
+            }
+            @else {
+                animation-duration: $animation-duration * 2;
+            }
         }
 
         @include dank-animation(
@@ -837,12 +988,12 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $sprite-height: 32px,
     $animation-duration: 1.4s,
     $animation-direction: alternate,
-    $iteration-count: 7,
+    $iteration-count: 1,
     $can-animate-forever: true,
     $end-on-last-frame: true,
     $extra-animation: true,
     $extra-animation-duration: 1.4s,
-    $extra-animation-iteration-count: 7,
+    $extra-animation-iteration-count: 1,
     $extra-animation-timing-function: ease-out,
     $extra-animation-direction: alternate
 ) {
@@ -886,3 +1037,31 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
+
+@include sprite-animation(
+    $file-name: HocusPocus,
+    $frame-count: 33,
+    $sprite-width: 1254px,
+    $sprite-height: 32px,
+    $animation-duration: 1375ms,
+    $animation-direction: alternate,
+    $hold-start-frames: 12,
+    $hold-end-frames: 12,
+    $iteration-count: 3,
+    $end-on-last-frame: true,
+    $can-animate-forever: true,
+    $extra-animation: true,
+    $extra-animation-duration: 4750ms,
+    $extra-animation-iteration-count: 1,
+    $extra-animation-timing-function: ease-out,
+) {
+    0% {
+        filter: none;
+    }
+    73% {
+        filter: brightness(1) invert(0);
+    }
+    100% {
+        filter: brightness(0) invert(1);
+    }
+};

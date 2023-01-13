@@ -18,3 +18,46 @@
     $iteration-count: 2,
     $can-animate-forever: true
 );
+
+@include sprite-animation(
+    $file-name: CampFire,
+    $frame-count: 90,
+    $sprite-width: 3780px,
+    $sprite-height: 32px,
+    $animation-duration: 3s,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: ZOOMER,
+    $frame-count: 30,
+    $sprite-width: 1500px,
+    $sprite-height: 32px,
+    $animation-duration: 1s,
+    $iteration-count: 7,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: GROND,
+    $frame-count: 149,
+    $sprite-width: 7450px,
+    $sprite-height: 32px,
+    $animation-duration: 6.208s,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: BOOMER,
+    $frame-count: 90,
+    $sprite-width: 4050px,
+    $sprite-height: 32px,
+    $animation-duration: 3s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);

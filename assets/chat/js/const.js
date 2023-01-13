@@ -76,6 +76,12 @@ const GENERIFY_OPTIONS = {
     blur: "generify-blur",
     slide: "generify-slide",
     peek: "generify-peek",
+    gray: "generify-gray",
+    noir: "generify-noir weather rain anim-fix",
+    // rohan: "generify-rohan",
+    // gondor: "generify-gondor",
+    // mordor: "generify-mordor",
+    // saruman: "generify-saruman",
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
