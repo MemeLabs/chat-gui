@@ -1253,7 +1253,7 @@ class Chat {
                 data.timestamp
             ).into(this);
         } else {
-            if(!this.ignored(data.data.toLowerCase())){
+            if(!this.ignored(data.data)){
                 MessageBuilder.command(
                     `${data.data} muted by ${data.nick}.`,
                     data.timestamp
