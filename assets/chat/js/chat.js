@@ -1253,10 +1253,12 @@ class Chat {
                 data.timestamp
             ).into(this);
         } else {
-            MessageBuilder.command(
-                `${data.data} muted by ${data.nick}.`,
-                data.timestamp
-            ).into(this);
+            if(!this.ignored(data.data)){
+                MessageBuilder.command(
+                    `${data.data} muted by ${data.nick}.`,
+                    data.timestamp
+                ).into(this);
+            }
         }
         this.censor(data.data);
     }

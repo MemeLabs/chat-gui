@@ -1065,3 +1065,14 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         filter: brightness(0) invert(1);
     }
 };
+
+@include sprite-animation(
+    $file-name: AlienPls,
+    $frame-count: 148,
+    $sprite-width: 2812px,
+    $sprite-height: 32px,
+    $animation-duration: 7.4s,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
