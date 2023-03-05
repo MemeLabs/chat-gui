@@ -962,6 +962,9 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 .PeepoRunCombo span:not(:first-child){
     margin-left: -10px;
 }
+.AlienPlsCombo span:not(:first-child){
+    margin-left: -5px;
+}
 
 @include sprite-animation(
     $file-name: PepoCopter,
