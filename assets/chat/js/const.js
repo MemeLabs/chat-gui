@@ -145,7 +145,9 @@ const DANK_WHITELIST = [
 //emotes that get placed multiple times when combo'd
 const SWARM_EMOTES = [
     "PeepoRun",
-    "AlienPls"
+    "AlienPls",
+    "DuckJAM",
+    "shyLurk"
 ]
 
 //blacklists for special hats
