@@ -962,6 +962,9 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 .PeepoRunCombo span:not(:first-child){
     margin-left: -10px;
 }
+.AlienPlsCombo span:not(:first-child){
+    margin-left: -5px;
+}
 
 @include sprite-animation(
     $file-name: PepoCopter,
@@ -1072,6 +1075,17 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $sprite-width: 2812px,
     $sprite-height: 32px,
     $animation-duration: 7.4s,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: Aware,
+    $frame-count: 60,
+    $sprite-width: 1680px,
+    $sprite-height: 28px,
+    $animation-duration: 4.2s,
     $iteration-count: 1,
     $can-animate-forever: true,
     $end-on-last-frame: true
