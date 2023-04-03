@@ -26,6 +26,7 @@ const MessageTypes = {
     USER: "USER",
     EMOTE: "EMOTE"
 };
+var resetAnimsOnCombo = true 
 const formatters = new Map();
 formatters.set("html", new HtmlTextFormatter());
 formatters.set("url", new UrlFormatter());
@@ -39,6 +40,8 @@ function setFormattersFromSettings(settings) {
         formatters.set("emote", new IdentityFormatter());
     if (!settings.get("formatter-green"))
         formatters.set("green", new IdentityFormatter());
+    if (!settings.get("resetanimsoncombo"))
+        resetAnimsOnCombo = settings.get("reset-animation-combo");
 }
 
 function buildMessageTxt(chat, message) {
@@ -452,15 +455,22 @@ function ChatEmoteMessageCount(message) {
             "</span> </span> </span>";
         let html = "";
 
-        // for every combo attatch 1 emote
+        // for every combo attach 1 emote
         for (let i = 0; i < message.emotecount; i++) {
             html += temp;
         }
-
+        
         message._text.html(html);
     }
     message._combo_count.text(`${message.emotecount}`);
-    message.ui.append(message._text.detach(), message._combo.detach());
+
+    // original behavior
+    if (resetAnimsOnCombo || message.emotecount === 2) {
+        message.ui.append(message._text.detach(), message._combo.detach());
+    } else {
+        // does not destroy the emote part, only updates the combo text to avoid the animation of the combo restarting entirely.
+        message.ui.append(message._combo.detach());
+    }
 }
 const ChatEmoteMessageCountThrottle = throttle(63, ChatEmoteMessageCount);
 
@@ -495,13 +505,20 @@ class ChatEmoteMessage extends ChatMessage {
             this._combo_txt
         );
 
+        // used to properly render when the combo goes from 1x -> 2x
         if (SWARM_EMOTES.includes(this.message.split(":")[0])) {
             this._text.attr("class", this.message.split(":")[0] + "Combo");
             this._text.append(
                 `${formatters.get("emote").format(chat, this.message, this)}`
             );
         }
-        this.ui.append(this._text, this._combo);
+        if (!resetAnimsOnCombo || this.emotecount === 2) {
+            // original behaviour
+            this.ui.append(this._text, this._combo);
+        } else {
+            // only updates the combo text to avoid the animation of the combo restarting entirely.
+            this.ui.append(this._combo);
+        }
     }
 
     incEmoteCount() {

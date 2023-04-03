@@ -1490,6 +1490,29 @@ a.flair12:hover {
         display: inline-block;
         max-width: 100%;
     }
+
+    .checkbox.checkbox-indented{
+        margin-left: 40px; margin-top: -5px;
+    }
+    .tree-indent::before{
+        content: "";
+        position: absolute;
+        left: -15px;
+        font-family: $chat-chrome-font;
+        height: 10px;
+        border-left: 1px solid #aaa;
+        border-bottom: 1px solid #aaa;
+        opacity: 0.7;
+    }
+    .tree-indent::after{
+        content: "";
+        position: absolute;
+        border-top: 1px solid #999;
+        left: -15px;
+        width: 5px;
+        top: 10px;
+        opacity: 0.7;
+    }
     .checkbox input {
         appearance: none;
         font: normal normal normal 14px FontAwesome;

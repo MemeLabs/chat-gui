@@ -130,6 +130,7 @@ const settingsdefault = new Map([
     ["formatter-green", true],
     ["formatter-emote", true],
     ["formatter-combo", true],
+    ["reset-animation-combo", true],
     ["holidayemotemodifiers", true],
     ["disablespoilers", false],
     ["viewerstateindicator", 1],
