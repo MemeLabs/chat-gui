@@ -61,3 +61,13 @@
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
+
+@include sprite-animation(
+    $file-name: SPYRON,
+    $frame-count: 90,
+    $sprite-width: 3960px,
+    $sprite-height: 32px,
+    $animation-duration: 3s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+);
