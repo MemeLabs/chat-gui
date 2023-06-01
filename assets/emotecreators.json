@@ -46,7 +46,12 @@
         "Klappa": { "createdby": "", "october": "", "december": "argonlo" },
         "DappaKappa": { "createdby": "", "october": "", "december": "" },
         "BibleThump": { "createdby": "", "october": "", "december": "" },
-        "AngelThump": { "createdby": "RightToBearArmsLOL", "october": "Gehirnchirurg", "december": "suvaac" },
+        "AngelThump": {
+            "createdby": "RightToBearArmsLOL",
+            "june": "FizzyLongstockings",
+            "october": "Gehirnchirurg",
+            "december": "suvaac"
+        },
         "BasedGod": {
             "createdby": "SoMuchForSubtlety",
             "october": "SoMuchForSubtlety",
