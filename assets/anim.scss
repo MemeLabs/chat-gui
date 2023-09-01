@@ -1404,7 +1404,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $sprite-height: 32px,
     $animation-duration: 4s,
     $iteration-count: 1,
-    $end-on-frame: 1,
+    $end-on-last-frame: true,
     $can-animate-forever: true
 );
 
@@ -1415,7 +1415,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $sprite-height: 32px,
     $animation-duration: 1.5s,
     $iteration-count: 3,
-    $end-on-frame: 1,
+    $end-on-last-frame: true,
     $can-animate-forever: true
 );
 
@@ -1426,6 +1426,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $sprite-height: 32px,
     $animation-duration: 4s,
     $iteration-count: 1,
-    $end-on-frame: 1,
+    $end-on-last-frame: true,
     $can-animate-forever: true
 );
