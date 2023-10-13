@@ -1,4 +1,3 @@
-import UserFeatures from "./features";
 import {
     GENERIFY_OPTIONS,
     HALLOWEEN_RANDOM_EFFECTS,
@@ -8,6 +7,7 @@ import {
     HAT_SPECIAL_BLACKLIST,
     DANK_WHITELIST
 } from "./const";
+import HtmlElement from "./htmlElement";
 
 /** @var Array tlds */
 const tlds = require("../../tld.json");
@@ -26,7 +26,7 @@ class HtmlTextFormatter {
 // to generate different exponential functions use: http://www.wolframalpha.com/input/?i=solve+a*b%5E26+%3D+6;+a*b%5E31%3D20 (e.g. day 26 to 31)
 // http://www.wolframalpha.com/input/?i=1%2F5%5E(1%2F24)+*+(5%5E(1%2F24))%5Ex+from+1+to+25
 function procChance() {
-    const day = new Date().getUTCDate();
+    const day = new Date(Date.now() - (12 * 60 * 60 * 1000)).getUTCDate();
     if (day <= 29) {
         // 1% at day 1
         // 2.5% at day 25
@@ -159,14 +159,13 @@ function putHat(width, height, emote) {
 }
 
 function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
-    const innerEmoteCompStyle = getComputedStyle(
-        document.querySelector(".chat-emote-" + emoteName)
-    );
+    const emote = document.querySelector(".chat-emote-" + emoteName);
+    if (!emote) {
+        return;
+    }
 
-    //  getting the source image for the emote as not all emotes use the same atlas
-    const imgSrcRegex = /(img.*g)/gm;
-    let imgSrc = innerEmoteCompStyle.backgroundImage;
-    const maskUrl = imgSrc.match(imgSrcRegex)[0];
+    const innerEmoteCompStyle = getComputedStyle(emote, false)
+    let maskUrl = innerEmoteCompStyle.backgroundImage.slice(4, -1).replace(/"/g, '');
 
     const goldenModifierMask =
         "width: " +
@@ -245,19 +244,12 @@ class EmoteFormatter {
             style.type = "text/css";
 
             for (var i = 0; i < emoteArray.length; i++) {
-                if (
-                    document.getElementsByClassName(
-                        "chat-emote-" + emoteArray[i]
-                    ).length == 0
-                ) {
+                const target = document.getElementsByClassName("chat-emote-" + emoteArray[i]);
+                if (target.length === 0) {
                     break;
                 }
-                var width = document.getElementsByClassName(
-                    "chat-emote-" + emoteArray[i]
-                )[0].clientWidth;
-                var height = document.getElementsByClassName(
-                    "chat-emote-" + emoteArray[i]
-                )[0].clientHeight;
+                var width = target[0].clientWidth;
+                var height = target[0].clientHeight;
                 this.emotewidths[emoteArray[i]] = width;
                 this.emoteheights[emoteArray[i]] = height;
 
@@ -277,13 +269,11 @@ class EmoteFormatter {
         var i = 0;
         return str.replace(this.regex, m => {
             // m is "emote:modifier"
-            const input = m.split(":");
+            // creating a set removes duplicates in an array
+            const input = [...new Set(m.split(":"))];
             const emote = input[0].replace(/\s/g, "");
-            var suffixes = [];
-            if (input.length > 1) {
-                for (var j = 1; j < input.length; j++)
-                    suffixes.push(input[j].replace(/\s/g, ""));
-            }
+            m = input.join(":");
+            var suffixes = input.slice(1);
 
             // the front modifier gets "executed" last
             suffixes = moveModifierToFront(suffixes, "banned");
@@ -345,17 +335,14 @@ class EmoteFormatter {
             for (var suffix of suffixes) {
                 options.push(GENERIFY_OPTIONS[suffix]);
             }
-            options = [...new Set(options)];
-            var shekelSpan = "";
-            if (suffixes.includes('worth')) {
-                shekelSpan = "<span class='worth'></span>";
-            }
-            var loveSpan = "";
-            if (suffixes.includes('love')) {
-                loveSpan = "<span class='love'></span>";
-            }
 
-            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + shekelSpan + loveSpan + ' </span>';
+            var generifySpans = ['worth', 'love', 'jam']
+                .filter((s) => suffixes.includes(s))
+                .map((s) => `<span class="${s}"></span>`)
+                .join();
+            var innerEmote = ' <span ' + goldenModifierInnerEmoteStyle + ' title="' + m + '" class="' + innerClasses.join(' ') + '">' + m + generifySpans + ' </span>';
+
+            var generifyExtraWraps = ['slide', 'peek'];
 
             var generifyClasses = [
                 "generify-container",
@@ -363,6 +350,9 @@ class EmoteFormatter {
             ];
 
             for (var j = 0; j < options.length; j++) {
+                if (generifyExtraWraps.includes(suffixes[j])) {
+                    innerEmote = `<span class="generify-container">${innerEmote}</span>`;
+                }
                 innerEmote = ' <span class="' +
                     generifyClasses.join(" ") + " " +
                     options[j] +
@@ -374,7 +364,9 @@ class EmoteFormatter {
             }
 
             return (
-                ' <span class="' +
+                ' <span data-modifiers="' +
+                options.join(' ') +
+                '" class="' +
                 generifyClasses.join(" ") + '">' +
                 goldenModifier +
                 hat +
@@ -382,6 +374,45 @@ class EmoteFormatter {
                 "</span>"
             );
         });
+    }
+}
+
+// Formats a single emote without any effects or modifiers.
+class RawEmoteFormatter {
+    buildElement(chat, emoteName) {
+        const element = new HtmlElement("span");
+        element.addClass("chat-emote");
+        element.addClass(`chat-emote-${emoteName}`);
+
+        if (chat.settings.get("animateforever")) {
+            element.addClass(`chat-emote-${emoteName}-animate-forever`);
+        }
+
+        element.setAttribute("title", emoteName);
+        element.setContent(emoteName);
+
+        return element;
+    }
+
+    format(chat, emoteName) {
+        const element = this.buildElement(chat, emoteName);
+        return element.toString();
+    }
+}
+
+// Formats a single emote for display within the autocomplete menu.
+class AutocompleteEmoteFormatter extends RawEmoteFormatter {
+    buildElement(chat, emoteName) {
+        const container = new HtmlElement("span");
+        container.addClass("autocomplete-emote-container");
+
+        // Some emotes require custom styling. This class does not exist for all emotes.
+        container.addClass(`autocomplete-emote-container-${emoteName}`);
+
+        const emote = super.buildElement(chat, emoteName);
+        container.setContent(emote.toString());
+
+        return container;
     }
 }
 
@@ -497,7 +528,10 @@ class MentionedUserFormatter {
                     )})(?=$|\\s|[\.\?!,])`,
                     "igm"
                 ),
-                `$1<span class="chat-user">$2</span>`
+                (m, prefix, target) => {
+                    const nick = message.mentioned.find(n => n.toLowerCase() === target.toLowerCase());
+                    return `${prefix}<span class="chat-user">${nick}</span>`;
+                }
             );
         }
         return str;
@@ -584,7 +618,50 @@ class UrlFormatter {
             strict = "\\b" + scheme + pathCont,
             relaxed = strict + "|" + webURL;
         this.linkregex = new RegExp(relaxed, "gi");
-        this.discordmp4Regex = new RegExp("(https?:\/\/)?(www\.)?(cdn.discordapp\.com)?\.mp4")
+        this.discordmp4Regex = /https:\/\/(media|cdn)\.discordapp\.(net|com)\/attachments.*?\.(mp4|webm|mov)/i;
+        this.refLinkRegex = /^(https?:\/\/)?(www\.)?(((smile\.)?amazon)|twitter|(open\.)?spotify)\.[a-z]{2,3}/
+
+        // e.g. youtube ids include "-" and "_".
+        const embedCommonId = '([\\w-]{1,30})';
+        this.embedSubstitutions = [
+            {
+                pattern: new RegExp(`twitch\\.tv/videos/${embedCommonId}`),
+                template: (v) => `twitch-vod/${v}`
+            },
+            {
+                pattern: new RegExp(`twitch\\.tv/${embedCommonId}/?$`),
+                template: (v) => `twitch/${v}`
+            },
+            {
+                pattern: new RegExp(`angelthump\\.com/(?:embed/)?${embedCommonId}$`),
+                template: (v) => `angelthump/${v}`
+            },
+            {
+                pattern: new RegExp(`player\\.angelthump\\.com/.*?[&?]channel=${embedCommonId}`),
+                template: (v) => `angelthump/${v}`
+            },
+            {
+                pattern: new RegExp(`youtube\\.com/watch.*?[&?]v=${embedCommonId}(?:&(?!t)|$| )`),
+                template: (v) => `youtube/${v}`
+            },
+            {
+                pattern: new RegExp(`youtu\\.be/${embedCommonId}(?:&(?!t)|$| )`),
+                template: (v) => `youtube/${v}`
+            },
+            {
+                pattern: new RegExp(`youtube\\.com/embed/${embedCommonId}(?:&(?!t)|$| )`),
+                template: (v) => `youtube/${v}`
+            },
+            {
+                pattern: new RegExp(`facebook\\.com/.*?/videos/${embedCommonId}/?`),
+                template: (v) => `facebook/${v}`
+            },
+            {
+                pattern: new RegExp(`media\\.ccc\\.de/v/([^#]+)`),
+                template: (v) => `advanced/https://media.ccc.de/v/${v}/oembed`
+            }
+        ];
+
         this._elem = $("<div></div>");
     }
 
@@ -612,6 +689,7 @@ class UrlFormatter {
     format(chat, str, message = null) {
         if (!str) return;
         const self = this;
+        const shortenLinks = chat.settings.get("shortenlinks");
         let extraclass = "";
 
         if (/\b(?:NSFL)\b/i.test(str)) {
@@ -624,19 +702,41 @@ class UrlFormatter {
             extraclass = "weeb-link";
         }
 
-        return str.replace(self.linkregex, function (url, scheme) {
-            debugger;
+        return str.replace(self.linkregex, (url, scheme) => {
             scheme = scheme ? "" : "http://";
             var decodedUrl = self._elem.html(url).text();
             // replaces the discord links that automatically download a file when clicked
             if (self.discordmp4Regex.test(decodedUrl)) {
-                decodedUrl = decodedUrl.replace("cdn.discordapp.com", "media.discordapp.net");
+                decodedUrl = location.origin + "/discordmedia.html?v=" + encodeURIComponent(decodedUrl);
+            }
+            if(self.refLinkRegex.test(decodedUrl)){
+                if( decodedUrl.includes("?ref")){
+                    decodedUrl = decodedUrl.split('?ref')[0];
+                }
+                else if(decodedUrl.includes("?si")){
+                    decodedUrl = decodedUrl.split('?si')[0];
+                }
             }
             const m = decodedUrl.match(self.linkregex);
             if (m) {
                 url = self.encodeUrl(m[0]);
                 const extra = self.encodeUrl(decodedUrl.substring(m[0].length));
                 const href = scheme + url;
+
+                for (let i = 0; i < this.embedSubstitutions.length; i++) {
+                    const sub = this.embedSubstitutions[i];
+                    const sm = decodedUrl.match(sub.pattern);
+                    if (sm) {
+                        const embed = sub.template(sm[1]);
+                        const embedHref = `${RUSTLA_URL}/${embed}`;
+                        return `<a target="_blank" class="embed-internallink ${extraclass}" href="${embedHref}">${embed}</a><a target="_blank" class="embed-externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
+                    }
+                }
+
+                // 70 characters is the 80th percentile for link length
+                if (shortenLinks && url.length > 75) {
+                    url = url.substring(0, 35) + '<span class="ellipsis">...</span><span class="ellipsis-hidden">' + url.substring(35, url.length - 35) + '</span>' + url.substring(url.length - 35);
+                }
                 return `<a target="_blank" class="externallink ${extraclass}" href="${href}" rel="nofollow">${url}</a>${extra}`;
             }
             return url;
@@ -645,12 +745,14 @@ class UrlFormatter {
 }
 
 export {
+    AutocompleteEmoteFormatter,
+    CodeFormatter,
     EmoteFormatter,
     GreenTextFormatter,
     HtmlTextFormatter,
-    MentionedUserFormatter,
-    UrlFormatter,
     IdentityFormatter,
-    CodeFormatter,
-    SpoilerFormatter
+    MentionedUserFormatter,
+    RawEmoteFormatter,
+    SpoilerFormatter,
+    UrlFormatter
 };

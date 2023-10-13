@@ -1,7 +1,7 @@
 /* global $, window, document */
 
 import { KEYCODES, DATE_FORMATS, isKeyCode, GENERIFY_OPTIONS } from "./const";
-import debounce from "throttle-debounce/debounce";
+import { debounce } from "throttle-debounce";
 import moment from "moment";
 import EventEmitter from "./emitter";
 import ChatSource from "./source";
@@ -14,7 +14,8 @@ import {
     ChatWhisperUsers,
     ChatEmoteMenu,
     ChatSettingsMenu,
-    ChatContextMenu
+    ChatContextMenu,
+    ChatEmoteInfoMenu
 } from "./menus";
 import ChatAutoComplete from "./autocomplete";
 import ChatInputHistory from "./history";
@@ -58,7 +59,7 @@ const errorstrings = new Map([
     ["needbanreason", "Providing a reason for the ban is mandatory"],
     [
         "banned",
-        "You have been banned. Check your profile for more information."
+        "You have been banned."
     ],
     ["privmsgbanned", "Cannot send private messages while banned"],
     ["requiresocket", "This chat requires WebSockets"],
@@ -122,13 +123,17 @@ const settingsdefault = new Map([
     ["notificationtimeout", true],
     ["ignorementions", false],
     ["autocompletehelper", true],
+    ["autocompleteemotepreview", true],
     ["taggedvisibility", false],
     ["hidensfw", false],
     ["animateforever", true],
     ["formatter-green", true],
     ["formatter-emote", true],
+    ["formatter-combo", true],
+    ["holidayemotemodifiers", true],
     ["disablespoilers", false],
     ["viewerstateindicator", 1],
+    ["shortenlinks", true],
     ["hiddenemotes", []]
 ]);
 const commandsinfo = new Map([
@@ -181,7 +186,8 @@ const commandsinfo = new Map([
         "hideemote",
         { desc: "Hide emotes in chat by converting them to plain text." }
     ],
-    ["unhideemote", { desc: "Unhide a hidden emote." }]
+    ["unhideemote", { desc: "Unhide a hidden emote." }],
+    ["spoiler", { desc: "Wraps a message in the spoiler tags `||`." }],
 ]);
 const banstruct = {
     id: 0,
@@ -310,6 +316,7 @@ class Chat {
         this.control.on("UNHIDEEMOTE", data =>
             this.cmdHIDEEMOTE(data, "UNHIDEEMOTE")
         );
+        this.control.on("SPOILER", data => this.cmdSPOILER(data))
 
         notificationSound.loadConfig();
     }
@@ -447,6 +454,20 @@ class Chat {
             }
         });
 
+        //make the border red if a message exceeds the character limit
+        this.input.on("keydown", (e) => {
+            let chars = this.input.val().toString().length
+
+            if(isKeyCode(e, KEYCODES.BACKSPACE))
+            chars--
+
+            this.testIfValid(chars);
+        });
+
+        this.input.on("keyup", (e) => {
+            this.testIfValid(this.input.val().toString().length);
+        });
+
         /**
          * Syncing the text content of the scaler with the input, so that
          * the scaler grows the containing element to the exact size to
@@ -482,6 +503,25 @@ class Chat {
                 focusIfNothingSelected(this);
             }
         });
+
+        const rustlaUrl = new URL(RUSTLA_URL);
+        this.output.on('click', 'a', (e) => {
+            let linkUrl;
+            try {
+                linkUrl = new URL($(e.target).attr('href'));
+            } catch (e) {
+                return;
+            }
+            const path = linkUrl.pathname.match(/^\/([a-z0-9\-_]+)(?:\/([^ ]+))?$/i);
+            if (rustlaUrl.host === linkUrl.host && path && !e.ctrlKey && !e.metaKey && window.top !== window.self) {
+                const [, service, channel] = path;
+                const payload = channel ? { service, channel } : { path: service };
+                window.parent.postMessage({ action: 'STREAM_SET', payload }, '*');
+                console.log({ action: 'STREAM_SET', payload });
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
         this.ui.on("click", "#chat-tools-wrap", () => {
             ChatMenu.closeMenus(this);
             focusIfNothingSelected(this);
@@ -490,6 +530,14 @@ class Chat {
         // ESC
         document.addEventListener("keydown", e => {
             if (isKeyCode(e, KEYCODES.ESC)) ChatMenu.closeMenus(this); // ESC key
+        });
+
+        // Focus textbox using the TAB button
+        document.addEventListener('keydown', e => {
+            if (isKeyCode(e, KEYCODES.TAB)) {
+                event.preventDefault();
+                this.input.focus();
+            }
         });
 
         // Visibility
@@ -611,19 +659,41 @@ class Chat {
             }
         })
 
-        this.ui.on("click", e => {
+        this.output.on("click", "span.generify-container span.chat-emote", e => {
+            e.preventDefault();
+            let temp = this.emoteInfoMenu;
+            this.emoteInfoMenu = new ChatEmoteInfoMenu(this, e);
+            this.emoteInfoMenu.show(e);
+            if(temp && temp.emoteInfoID == this.emoteInfoMenu.emoteInfoID)
+            {
+                this.emoteInfoMenu.hide()
+                this.emoteInfoMenu = undefined;
+            }
+        })
+
+        this.ui.on("click","#chat-emote-info", (e) => {
+            // prevents hiding the popup accidentally if you're clicking text inside of it
+            e.stopPropagation();
+        });
+
+        this.ui.on("click", (e) => {
             if (this.contextMenu) {
                 if (!$(e.target).is(this.contextMenu.ui)) {
-                    this.contextMenu.hide()
+                    this.contextMenu.hide();
                     if (this.mainwindow.locked()) {
                         this.mainwindow.unlock();
                     }
                 }
             }
-        })
-
-        // Keep the website session alive.
-        setInterval(() => $.ajax({ url: "/ping" }), 10 * 60 * 1000);
+            if (this.emoteInfoMenu) {
+                if (
+                    e.target.innerText.split(":")[0] !=
+                    this.emoteInfoMenu.targetEmote
+                ) {
+                    this.emoteInfoMenu.hide();
+                }
+            }
+        });
 
         window.addEventListener('beforeunload', (event) => ChatStore.write('chat.unsentMessage', this.input.val()));
 
@@ -641,6 +711,14 @@ class Chat {
         this.input.val(ChatStore.read('chat.unsentMessage') ? ChatStore.read('chat.unsentMessage') : null);
         return this;
     }
+
+    testIfValid(messageLength){
+        if (messageLength > 512) {
+            this.input.addClass("invalid-msg-warning");
+        } else if (messageLength <= 512) {
+            this.input.removeClass("invalid-msg-warning");
+        }
+    };
 
     withEmotes(emotes) {
         this.emoticons = new Set(emotes["default"]);
@@ -767,6 +845,10 @@ class Chat {
         [...this.windows].forEach(w => {
             w.maxlines = this.settings.get("maxlines");
         });
+        if (this.mainwindow !== null) {
+            this.mainwindow.maxlines = this.settings.get("maxlines");
+            this.mainwindow.cleanup();
+        }
 
         // Formatter enable/disable
         const messages = require("./messages.js");
@@ -812,6 +894,17 @@ class Chat {
         }
     }
 
+    addAffixToEmotes(text, affix) {
+        text.trim();
+        var updatedText = text.split(" ")
+        for (var i = 0; i < updatedText.length; i++) {
+            if (!updatedText[i].includes(":love") && (this.emoticons.has(updatedText[i].split(":")[0]) || this.emoteswithsuffixes.has(updatedText[i]))) {
+                updatedText[i] += affix;
+            }
+        }
+        return updatedText.join(" ");
+    }
+
     addMessage(message, win = null) {
         // Dont add the gui if user is ignored
         if (
@@ -854,11 +947,12 @@ class Chat {
                 !win.lastmessage.target &&
                 win.lastmessage.user &&
                 win.lastmessage.user.username.toLowerCase() ===
-                    message.user.username.toLowerCase();
+                message.user.username.toLowerCase();
             // get mentions from message
-            message.mentioned = Chat.extractNicks(message.message).filter(a =>
-                this.users.has(a.toLowerCase())
-            );
+            message.mentioned = Chat.extractNicks(message.message).reduce((m, a) => {
+                const user = this.users.get(a.toLowerCase());
+                return user ? [...m, user.nick] : m;
+            }, []);
             // set tagged state
             message.tag = this.taggednicks.get(message.user.nick.toLowerCase());
             // set highlighted state if this is not the current users message or a bot, as well as other highlight criteria
@@ -877,6 +971,12 @@ class Chat {
                         this.regexhighlightcustom.test(
                             message.user.username + " " + message.message
                         )));
+            if (this.settings.get("holidayemotemodifiers")){
+                const t = new Date();
+                if (t.getMonth() === 1 && t.getDate() === 14) {
+                    message.message = this.addAffixToEmotes(message.message, ":love");
+                }
+            }
         }
 
         /* else if(win.lastmessage && win.lastmessage.type === message.type && [MessageTypes.ERROR,MessageTypes.INFO,MessageTypes.COMMAND,MessageTypes.STATUS].indexOf(message.type)){
@@ -1127,7 +1227,8 @@ class Chat {
         if (
             isemote &&
             win.lastmessage !== null &&
-            Chat.extractTextOnly(win.lastmessage.message) === textonly
+            Chat.extractTextOnly(win.lastmessage.message) === textonly &&
+            this.settings.get("formatter-combo")
         ) {
             if (win.lastmessage.type === MessageTypes.EMOTE) {
                 this.mainwindow.lock();
@@ -1152,10 +1253,12 @@ class Chat {
                 data.timestamp
             ).into(this);
         } else {
-            MessageBuilder.command(
-                `${data.data} muted by ${data.nick}.`,
-                data.timestamp
-            ).into(this);
+            if(!this.ignored(data.data)){
+                MessageBuilder.command(
+                    `${data.data} muted by ${data.nick}.`,
+                    data.timestamp
+                ).into(this);
+            }
         }
         this.censor(data.data);
     }
@@ -1322,7 +1425,7 @@ class Chat {
 
             if ((this.settings.get("soundnotificationwhisper") || this.settings.get("soundnotificationhighlight")) && this.ishidden) {
                 // play sound
-                playSound();
+                notificationSound.play();
             }
 
             const win = this.getWindow(normalized);
@@ -1874,6 +1977,10 @@ class Chat {
             this.windowToFront(this.mainwindow.name);
             this.removeWindow(win.name);
         }
+    }
+
+    cmdSPOILER(data) {
+        this.control.emit("SEND", `|| ${data.join(' ')} ||`)
     }
 
     openConversation(nick) {

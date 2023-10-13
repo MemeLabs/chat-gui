@@ -51,6 +51,16 @@
                     </div>
                 </div>
             </div>
+            <div id="chat-emote-info">
+                <span id="chat-emote-info-emotename" ></span>
+                <div class="d-flex justify-content-center">
+                    <span id="chat-emote-info-icon"></span>
+                    <div id="chat-emote-info-creators">
+                        <span id="chat-emote-info-creator"></span>
+                        <span id="chat-emote-info-seasonal"></span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="chat-input-frame">
@@ -124,6 +134,19 @@
                             <div class="form-group checkbox">
                                 <label title="Disable spoilers">
                                     <input name="disablespoilers" type="checkbox" /> Disable spoilers
+                                </label>
+                            </div>
+                            <div class="form-group checkbox">
+                                <label title="Shorten links">
+                                    <input name="shortenlinks" type="checkbox" /> Shorten links
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label title="Maximum messages">
+                                    <span id="maximum-messages">Maximum messages </span>
+                                    <span class="fa fa-refresh" title="Requires refresh"></span>
+                                    <span id="maximum-messages-error">Must be number over 25 and under 5000</span>
+                                    <input id="maximum-messages-input" class="form-control" name="maxlines" type="number"  />
                                 </label>
                             </div>
                             <div class="form-group">
@@ -239,6 +262,11 @@
                                     <input name="autocompletehelper" type="checkbox" /> Auto-complete helper
                                 </label>
                             </div>
+                            <div class="form-group checkbox">
+                                <label>
+                                    <input name="autocompleteemotepreview" type="checkbox" /> Show emote previews
+                                </label>
+                            </div>
                             <h4>Message Formatters</h4>
                             <div class="form-group checkbox">
                                 <label title="Display text starting with '>' in green">
@@ -248,6 +276,16 @@
                             <div class="form-group checkbox">
                                 <label title="Display emote pictures and combos">
                                     <input name="formatter-emote" type="checkbox" /> Emotes
+                                </label>
+                            </div>
+                            <div class="form-group checkbox">
+                                <label title="Display emote combos">
+                                    <input name="formatter-combo" type="checkbox" /> Combos
+                                </label>
+                            </div>
+                            <div class="form-group checkbox">
+                                <label title="Display holiday emote modifiers">
+                                    <input name="holidayemotemodifiers" type="checkbox" /> Holiday emote modifiers
                                 </label>
                             </div>
                             <h4>Import & Export settings</h4>

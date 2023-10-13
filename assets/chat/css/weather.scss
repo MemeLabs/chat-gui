@@ -8,34 +8,57 @@
  * Licensed under MIT License (http://opensource.org/licenses/MIT)
  */
 
-/* main element */
+ /* main element */
 .weather {
     position: relative;
-    overflow: hidden;
 }
 
 /* pseudo elements: positioning and setup */
 .weather:before, .weather:after {
     content: "";
-    position: absolute; left: -50%; top: -50%; right: -50%; bottom: -50%;
+    position: absolute; left: 0; top: 0; right: 0; bottom: 0;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.7;
-}
-.weather:after {
-    opacity: 0.8;
 }
 /* rain */
 .weather.rain:before, .weather.rain:after {
-    background-image: url(../../emotes/modifiers/rain.png);
+    background-image: url(/assets/emotes/modifiers/rain-static.png);
+    animation: rain 6s 1;
 }
 .weather.rain:after {
-    background-position-y: -32px;
+    background-position: 32px 32px;
+}
+@keyframes rain {
+    0% {
+        background-image: url(/assets/emotes/modifiers/rain.png);
+    }
+    100% {
+        background-image: url(/assets/emotes/modifiers/rain.png);
+    }
 }
 /* snow */
 .weather.snow:before, .weather.snow:after {
-    background-image: url(../../emotes/modifiers/snow.png);
+    background-image: url(/assets/emotes/modifiers/snow-static.png);
+    animation: snow 6s 1;
 }
 .weather.snow:after {
-    background-position-y: -32px;
+    background-position: 32px 32px;
+}
+@keyframes snow {
+    0% {
+        background-image: url(/assets/emotes/modifiers/snow.png);
+    }
+    100% {
+        background-image: url(/assets/emotes/modifiers/snow.png);
+    }
+}
+
+.weather.rain:hover,
+.pref-animateforever .weather.rain,
+.weather.snow:hover,
+.pref-animateforever .weather.snow {
+    &:before,
+    &:after {
+        animation-iteration-count: infinite;
+    }
 }

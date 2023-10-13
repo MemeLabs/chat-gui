@@ -66,8 +66,22 @@ const GENERIFY_OPTIONS = {
     banned: "banned",
     // 'frozen': 'frozen',
     lag: "lag",
+    pause: "pause",
     slow: "slow",
-    fast: "fast"
+    fast: "fast",
+    reverse: "reverse",
+    jam: "generify-jam",
+    pride: "generify-pride",
+    angel: "generify-angel",
+    blur: "generify-blur",
+    slide: "generify-slide",
+    peek: "generify-peek",
+    gray: "generify-gray",
+    noir: "generify-noir weather rain anim-fix",
+    // rohan: "generify-rohan",
+    // gondor: "generify-gondor",
+    // mordor: "generify-mordor",
+    // saruman: "generify-saruman",
 };
 
 const CUSTOM_AUTOCOMPLETE_ORDER = [
@@ -119,7 +133,6 @@ const DANK_WHITELIST = [
     "KEKW",
     "HACKER",
     "RaveDoge",
-    "TRUMPED",
     "PepoSleep",
     "NOTMYTEMPO",
     "OhKrappa",
@@ -129,13 +142,31 @@ const DANK_WHITELIST = [
     "PeepoHappy"
 ];
 
+//emotes that get placed multiple times when combo'd
+const SWARM_EMOTES = [
+    "PeepoRun",
+    "AlienPls",
+    "DuckJAM",
+    "shyLurk"
+]
+
 //blacklists for special hats
 const HAT_SPECIAL_BLACKLIST = {
     bday: ["NoTears", "Klappa", "FeelsAmazingMan"],
     honk: ["YEE"]
 };
 
-export {
+const TAGS = [
+    "nsfl",
+    "nsfw",
+    "loud",
+    "spoiler",
+    "weeb",
+];
+
+const SEASON = "october";
+
+module.exports = {
     KEYCODES,
     DATE_FORMATS,
     isKeyCode,
@@ -147,5 +178,8 @@ export {
     HALLOWEEN_BLACKLIST,
     HAT_BLACKLIST,
     HAT_SPECIAL_BLACKLIST,
-    DANK_WHITELIST
+    DANK_WHITELIST,
+    SWARM_EMOTES,
+    TAGS,
+    SEASON
 };

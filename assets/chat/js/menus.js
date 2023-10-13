@@ -4,11 +4,11 @@ import ChatUser from "./user";
 import ChatScrollPlugin from "./scroll";
 import UserFeatures from "./features";
 import EventEmitter from "./emitter";
-import debounce from "throttle-debounce/debounce";
-import { isKeyCode, KEYCODES } from "./const";
+import { debounce } from "throttle-debounce";
+import { isKeyCode, KEYCODES, SEASON } from "./const";
 import { setStorage, getStorage } from "./transfer";
 import notificationSound from "./notificationSound";
-import { MessageBuilder } from "./messages";
+import EmoteCreators from "../../emotecreators.json";
 
 const Notification = window.Notification || {};
 
@@ -155,6 +155,9 @@ class ChatSettingsMenu extends ChatMenu {
         this.ui.on("keypress blur", `textarea[name="customhighlight"]`, e =>
             this.onCustomHighlightChange(e)
         );
+        this.ui.on("keypress blur", `input[name="maxlines"]`, e =>
+            this.onMaxLinesChange(e)
+        );
     }
 
     initNotificationsInput() {
@@ -237,6 +240,33 @@ class ChatSettingsMenu extends ChatMenu {
         this.chat.commitSettings();
     }
 
+    onMaxLinesChange(e) {
+        // Don't save on number keys to avoid cutting off messages before final value is decided
+        // e.g. start writing "100" and it cuts off messages at "1"
+        if ((e.key >= 0 && e.key <= 9)) {
+            return;
+        }
+        let errorMessage = $("#maximum-messages-error");
+
+        // Reset error message
+        errorMessage.removeAttr("style");
+
+        let data = $(e.target).val();
+
+        if(data == ""){
+            return;
+        }
+
+        const newmaxlines = Math.abs(parseInt(data, 10));
+        if (!newmaxlines || (newmaxlines < 25 && newmaxlines > 500)) {
+            $("#maximum-messages-error").css("display", "inline-block");
+        } else {
+            this.chat.settings.set("maxlines", data);
+            this.chat.applySettings();
+            this.chat.commitSettings();
+        }
+    }
+
     onSettingsChange(e) {
         const val = getSettingValue(e.target);
         const name = e.target.getAttribute("name");
@@ -271,6 +301,9 @@ class ChatSettingsMenu extends ChatMenu {
             this.ui
                 .find('textarea[name="customhighlight"]')
                 .val(this.chat.settings.get("customhighlight") || "");
+            this.ui
+                .find('input[name="maxlines"]')
+                .val(this.chat.settings.get("maxlines"));
             this.updateNotification();
         }
         super.show();
@@ -717,11 +750,112 @@ class ChatContextMenu {
     }
 }
 
+class ChatEmoteInfoMenu {
+    constructor(chat, event) {
+        this.chat = chat;
+        this.ui = chat.output.find("#chat-emote-info");
+        this.emoteIcon = chat.output.find("#chat-emote-info-icon");
+        this.emoteName = chat.output.find("#chat-emote-info-emotename");
+        this.emoteCreator = chat.output.find("#chat-emote-info-creator");
+        this.emoteSeasonal = chat.output.find("#chat-emote-info-seasonal");
+        this.emoteInfoID = ""
+        this.ui.css("min-height", "24px");
+        this.event = event;
+        this.targetEmote = event.target.innerText.split(":")[0];
+
+        if (this.emoteIcon[0].innerText != this.targetEmote) {
+            this.emoteIcon.children().remove();
+            this.emoteIcon.append(buildEmote(this.targetEmote));
+            this.emoteName[0].innerText = [...this.chat.emoticons].filter(
+                (emote) => emote == this.targetEmote
+            );
+
+            let defaultCreator =
+                EmoteCreators["default"][this.targetEmote]["createdby"];
+            if (defaultCreator)
+                this.emoteCreator[0].innerText =
+                    "Created by: " + defaultCreator;
+            else this.emoteCreator[0].innerText = "";
+
+            let seasonalCreator =
+                EmoteCreators["default"][this.targetEmote][SEASON];
+            if (SEASON && seasonalCreator) {
+                this.emoteSeasonal[0].innerText =
+                    "Seasonal by: " + seasonalCreator;
+            } else this.emoteSeasonal[0].innerText = "";
+        }
+
+        this.emoteIcon.unbind("click");
+        this.emoteIcon.on("click", e => {
+            this.ui.hide()
+            let value = this.chat.input
+                .val()
+                .toString()
+                .trim();
+            this.chat.input
+                .val(value + (value === "" ? "" : " ") + this.targetEmote + " ")
+                .focus();
+        });
+    }
+
+    adjustPosition(e) {
+        // we get the outmost span because it has a static position that we use to position our popup
+        let outerSpan = $(e.target).parents(".generify-container");
+        let emoteElementClientRect = outerSpan[outerSpan.length-1].getBoundingClientRect();
+
+        this.emoteInfoID = this.targetEmote + emoteElementClientRect.top + emoteElementClientRect.left
+        this.ui.css("left", emoteElementClientRect.left);
+
+        // has to be shown in beginning otherwise the height of the UI is inconsistent
+        let emoteIconElement = $("#chat-emote-info-icon .emote .chat-emote");
+
+        // set top and margin-top to 0 so that the emote fits inside the popup
+        emoteIconElement.css("top", "0px");
+        emoteIconElement.css("margin-top", "0px");
+
+        // vertical alignment
+        if (
+            this.event.pageY <
+            this.ui.height() + emoteElementClientRect.height
+        ) {
+            this.ui.css("top", emoteElementClientRect.bottom + 10);
+        } else {
+            this.ui.css(
+                "top",
+                emoteElementClientRect.top -
+                    (this.ui.height() + emoteElementClientRect.height)
+            );
+        }
+
+        // adjust horizontal alignment if it goes off screen
+        if (this.ui[0].getBoundingClientRect().right > window.innerWidth) {
+            this.ui.css(
+                "left",
+                emoteElementClientRect.left -
+                    (this.ui[0].getBoundingClientRect().right -
+                        window.innerWidth)
+            );
+        }
+    }
+
+    show(e) {
+        e.preventDefault();
+        this.ui.css("display", "block");
+        this.adjustPosition(e);
+    }
+
+    hide() {
+        this.emoteInfoID = ""
+        this.ui.hide();
+    }
+}
+
 export {
     ChatMenu,
     ChatSettingsMenu,
     ChatUserMenu,
     ChatEmoteMenu,
+    ChatEmoteInfoMenu,
     ChatWhisperUsers,
     ChatContextMenu
 };

@@ -6,11 +6,12 @@ const path = require('path');
 const webpack = require('webpack');
 const util = require('util');
 const crypto = require('crypto');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const imageSize = util.promisify(require('image-size'));
 const flatten = require('flatten');
+const { GENERIFY_OPTIONS, TAGS } = require('./assets/chat/js/const');
 
 const fsReadDirAsync = util.promisify(fs.readdir);
 const fsReadFileAsync = util.promisify(fs.readFile);
@@ -21,28 +22,28 @@ class EmoteManifestPlugin {
     }
 
     apply(compiler) {
-        compiler.hooks.emit.tapAsync('HtmlWebpackPlugin', async (compilation, callback) => {
-            const cssChunkFile = compilation.entrypoints.get(this.options.cssChunk).getFiles().find(name => /\.css$/.test(name));
+        compiler.hooks.beforeCompile.tapAsync('EmoteManifestPlugin', async (params, callback) => {
             const indexJSON = await fsReadFileAsync(this.options.index);
-            const { default: emoteNames } = JSON.parse(indexJSON);
+            this.emoteNames = JSON.parse(indexJSON).default;
 
-            const images = flatten(await Promise.all([
-                this.processImages(this.options.emoteRoot, '1x', false),
-                this.processImages(this.options.animatedEmoteRoot, '1x', true),
-                this.processImages(path.join(this.options.emoteRoot, '2x'), '2x', false),
-                this.processImages(path.join(this.options.animatedEmoteRoot, '2x'), '2x', true),
-                this.processImages(path.join(this.options.emoteRoot, '4x'), '4x', false),
-                this.processImages(path.join(this.options.animatedEmoteRoot, '4x'), '4x', true)
+            this.images = flatten(await Promise.all([
+                this.processImages(this.options.emoteRoot, '1x', false, false),
+                this.processImages(this.options.animatedEmoteRoot, '1x', true, false),
+                this.processImages(this.options.spritesheetEmoteRoot, '1x', false, true),
+                this.processImages(path.join(this.options.emoteRoot, '2x'), '2x', false, false),
+                this.processImages(path.join(this.options.animatedEmoteRoot, '2x'), '2x', true, false),
+                this.processImages(path.join(this.options.spritesheetEmoteRoot, '2x'), '2x', false, true),
+                this.processImages(path.join(this.options.emoteRoot, '4x'), '4x', false, false),
+                this.processImages(path.join(this.options.animatedEmoteRoot, '4x'), '4x', true, false),
+                this.processImages(path.join(this.options.spritesheetEmoteRoot, '4x'), '4x', false, true)
             ]));
 
-            const emotes = await Promise.all(emoteNames.map(async (emoteName) => {
-                const emoteImages = images.filter(({ name }) => name === emoteName);
+            callback();
+        });
 
-                if (emoteImages.length === 0) {
-                    throw new Error(`missing file for emote ${emoteName}`);
-                }
-
-                const versions = emoteImages.map(({ ext, hash, name, src, animated, dimensions, size }) => {
+        compiler.hooks.thisCompilation.tap('EmoteManifestPlugin', async (compilation) => {
+            const emotes = this.mapEmotes(this.emoteNames, this.images, (emoteName, emoteImages) => {
+                const versions = emoteImages.map(({ ext, hash, name, src, animated, spritesheet, dimensions, size }) => {
                     const path = `${this.options.emotePath}/${name}.${hash}${ext}`;
                     compilation.assets[path] = {
                         source: () => src,
@@ -52,6 +53,7 @@ class EmoteManifestPlugin {
                     return {
                         path,
                         animated,
+                        spritesheet,
                         dimensions,
                         size
                     };
@@ -61,23 +63,59 @@ class EmoteManifestPlugin {
                     name: emoteName,
                     versions
                 };
-            }));
+            });
 
             const json = JSON.stringify({
                 emotes,
-                css: cssChunkFile
+                modifiers: this.options.modifiers,
+                tags: this.options.tags
             });
 
             compilation.assets[this.options.filename] = {
                 source: () => json,
                 size: () => json.length
             };
-
-            return callback();
         });
     }
 
-    async processImages(root, size, animated) {
+    emoteCss() {
+        return this.mapEmotes(this.emoteNames, this.images, (emoteName, emoteImages) => {
+            const imageSet = emoteImages.filter(({ animated }) => !animated).map(({ name, hash, ext, size }) => {
+                return `url(${this.options.emotePath}/${name}.${hash}${ext}) ${size}`;
+            });
+
+            const emoteImage = emoteImages.find(({ size }) => size === '1x');
+            if (!emoteImage) {
+                throw new Error(`missing asset for ${emoteName}`);
+            }
+            const { dimensions, spritesheet, animated } = emoteImage;
+
+            const rules = [`background-image: image-set(${imageSet.join(', ')});`];
+            if (!spritesheet && !animated) {
+                rules.push(
+                    `height: ${dimensions.height}px;`,
+                    `width: ${dimensions.width}px;`,
+                    `margin-top: -${dimensions.height}px;`
+                );
+            }
+
+            return `.chat-emote.chat-emote-${emoteName} {\n${rules.map((r) => `  ${r}`).join('\n')}\n}\n`;
+        }).join('\n');
+    }
+
+    mapEmotes(emoteNames, images, cb) {
+        return emoteNames.map((emoteName) => {
+            const emoteImages = images.filter(({ name }) => name === emoteName);
+
+            if (emoteImages.length === 0) {
+                throw new Error(`missing file for emote ${emoteName}`);
+            }
+
+            return cb(emoteName, emoteImages);
+        });
+    }
+
+    async processImages(root, size, animated, spritesheet) {
         const entries = await fsReadDirAsync(root, { withFileTypes: true });
         return Promise.all(entries.filter(entry => entry.isFile()).map(async ({ name }) => {
             const filePath = path.join(root, name);
@@ -97,24 +135,39 @@ class EmoteManifestPlugin {
                 ext,
                 src,
                 size,
-                animated
-            }
+                animated,
+                spritesheet
+            };
         }));
     }
 }
 
+const emoteManifestPlugin = new EmoteManifestPlugin({
+    filename: './emote-manifest.json',
+    emotePath: './assets/emotes',
+    index: './assets/emotes.json',
+    emoteRoot: './assets/emotes/emoticons',
+    animatedEmoteRoot: './assets/emotes/emoticons-animated/gif',
+    spritesheetEmoteRoot: './assets/emotes/emoticons-animated',
+    cssFilename: './assets/emotes/emoticons.scss',
+    modifiers: Object.keys(GENERIFY_OPTIONS),
+    tags: TAGS
+});
+
 const plugins = [
-    new CopyWebpackPlugin([
-        { from: 'robots.txt' }
-    ]),
-    new CleanWebpackPlugin(
-        ['static'],
-        {
-            root: __dirname,
-            verbose: false,
-            exclude: ['cache', 'index.htm']
-        }
-    ),
+    new CopyWebpackPlugin({
+        patterns: [
+            { from: 'robots.txt' }
+        ]
+    }),
+    new CleanWebpackPlugin({
+        verbose: false,
+        cleanOnceBeforeBuildPatterns: [
+            '**/*',
+            '!cache',
+            '!index.htm'
+        ]
+    }),
     new HTMLWebpackPlugin({
         filename: 'index.html',
         template: 'assets/index.html',
@@ -133,20 +186,28 @@ const plugins = [
         favicon: './assets/chat/img/favicon.ico',
         chunks: ['notification-request']
     }),
-    new MiniCssExtractPlugin({ filename: '[name].[contentHash].css' }),
+    new HTMLWebpackPlugin({
+        filename: 'emotelist.html',
+        template: 'assets/emotelist.html',
+        favicon: './assets/chat/img/favicon.ico',
+        chunks: ['emotelist']
+    }),
+    new HTMLWebpackPlugin({
+        filename: 'discordmedia.html',
+        template: 'assets/discordmedia.html',
+        favicon: './assets/chat/img/favicon.ico',
+        chunks: ['discordmedia']
+    }),
+    new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css'
+    }),
     new webpack.DefinePlugin({
         WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://chat.strims.gg/ws"',
         API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '""',
-        LOGIN_URI: process.env.LOGIN_URI ? `'${process.env.LOGIN_URI}'` : 'false'
+        LOGIN_URI: process.env.LOGIN_URI ? `'${process.env.LOGIN_URI}'` : 'false',
+        RUSTLA_URL: process.env.RUSTLA_URL ? `'${process.env.RUSTLA_URL}'` : '"https://strims.gg"'
     }),
-    new EmoteManifestPlugin({
-        filename: 'emote-manifest.json',
-        emotePath: 'img/emotes',
-        index: './assets/emotes.json',
-        emoteRoot: './assets/emotes/emoticons',
-        animatedEmoteRoot: './assets/emotes/emoticons-animated/gif',
-        cssChunk: 'emotes'
-    })
+    emoteManifestPlugin
 ];
 
 const entry = {
@@ -170,6 +231,16 @@ const entry = {
         './assets/chat/css/onstream.scss',
         './assets/streamchat.js'
     ],
+    'emotelist': [
+        'normalize.css',
+        './assets/emotelist.css',
+        './assets/emotelist.js'
+    ],
+    'discordmedia': [
+        'normalize.css',
+        './assets/discordmedia.css',
+        './assets/discordmedia.js'
+    ],
     'emotes': [
         './assets/chat/css/emotes.scss'
     ],
@@ -185,9 +256,11 @@ if (process.env.NODE_ENV !== 'production') {
     console.log('\n!!!!!!!!!!!! DEVELOPMENT BUILD !!!!!!!!!!!!\n');
 
     plugins.push(
-        new CopyWebpackPlugin([
-            { from: 'assets/dev/chat-embedded.html', to: 'dev/' }
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'assets/dev/chat-embedded.html', to: 'dev/' }
+            ]
+        }),
         new HTMLWebpackPlugin({
             filename: 'dev/dev-chat.html',
             template: 'assets/index.html',
@@ -220,7 +293,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'static'),
         hashDigestLength: 6,
-        filename: '[name].[contentHash].js'
+        filename: '[name].[contenthash].js',
+        assetModuleFilename: 'assets/[hash][ext][query]'
     },
     plugins: plugins,
     watchOptions: {
@@ -230,10 +304,10 @@ module.exports = {
         rules: [
             {
                 test: /\.html$/,
-                loader: 'html-loader?attrs=img:src'
+                loader: 'html-loader'
             },
             {
-                test: /\.(ts|tsx)$/,
+                test: /\.(tsx?)$/,
                 use: [
                     'babel-loader',
                     'ts-loader'
@@ -245,31 +319,63 @@ module.exports = {
                 loader: 'babel-loader'
             },
             {
-                test: /\.(scss|css)$/,
+                test: /\.(s?css)$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'postcss-loader',
-                    'sass-loader'
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                            url: {
+                                filter: (url) => !url.startsWith(emoteManifestPlugin.options.emotePath)
+                            }
+                        }
+                    },
+                    {
+                        loader: 'resolve-url-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: true,
+                            additionalData: (content, loaderContext) => {
+                                const { resourcePath, rootContext } = loaderContext;
+                                const relativePath = path.relative(rootContext, resourcePath);
+
+                                if (relativePath === path.join('assets','chat','css','emotes.scss')) {
+                                    return emoteManifestPlugin.emoteCss() + content;
+                                }
+
+                                return content;
+                            }
+                        }
+                    }
                 ]
             },
             {
                 test: /\.(eot|svg|ttf|woff2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'file-loader',
-                options: { name: 'fonts/[name].[md5:hash:base64:6].[ext]' }
+                type: 'asset/resource'
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
-                exclude: path.resolve(__dirname, 'node_modules/font-awesome/'),
-                loader: 'file-loader',
-                options: { name: 'img/[name].[md5:hash:base64:6].[ext]' }
+                type: 'asset/resource'
             },
             {
                 test: /\.(mp3|wav)$/i,
-                loader: 'file-loader',
+                loader: 'url-loader',
                 options: {
-                    name: '[path][name].[ext]'
-                }
+                    limit: 8192
+                },
+                type: 'javascript/auto'
             }
         ]
     },
@@ -277,7 +383,7 @@ module.exports = {
         alias: {
             jquery: 'jquery/src/jquery'
         },
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js', '.wav']
     },
     context: __dirname,
     devtool: process.env.NODE_ENV !== 'production' && 'source-map'
