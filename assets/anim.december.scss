@@ -54,6 +54,33 @@
 );
 
 @include sprite-animation(
+    $file-name: HocusPocus,
+    $frame-count: 53,
+    $sprite-width: 5300px,
+    $sprite-height: 32px,
+    $animation-duration: 2650ms,
+    $hold-start-frames: 12,
+    $hold-end-frames: 12,
+    $iteration-count: 1.5,
+    $end-on-frame: 27,
+    $can-animate-forever: true,
+    $extra-animation: true,
+    $extra-animation-duration: 3850ms,
+    $extra-animation-iteration-count: 1,
+    $extra-animation-timing-function: ease-out,
+) {
+    0% {
+        filter: none;
+    }
+    73% {
+        filter: brightness(1) invert(0);
+    }
+    100% {
+        filter: brightness(0) invert(1);
+    }
+};
+
+@include sprite-animation(
     $file-name: WAG,
     $frame-count: 2,
     $sprite-width: 84px,
