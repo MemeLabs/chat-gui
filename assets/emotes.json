@@ -214,6 +214,8 @@
         "HocusPocus",
         "AlienPls",
         "Aware",
-        "LOGGERS"
+        "LOGGERS",
+        "SNOWBALL",
+        "SNOWBALLFIGHT"
     ]
 }

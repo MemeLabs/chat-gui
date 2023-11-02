@@ -1,3 +1,10 @@
+@include css-animated-emote(REE) {
+    @include emote-animation(100ms, 7) {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(3px); }
+    }
+}
+
 @include sprite-animation(
     $file-name: COGGERS,
     $frame-count: 60,
