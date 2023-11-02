@@ -1250,3 +1250,33 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         }
     }
 }
+
+@include sprite-animation(
+    $file-name: PAIN,
+    $frame-count: 2,
+    $sprite-width: 64px,
+    $sprite-height: 32px,
+    $animation-duration: 3s,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $extra-animation: true,
+    $extra-animation-duration: 1s,
+    $extra-animation-iteration-count: 3
+) {
+    0% {transform: translate(0px,0px);}
+
+    13% {transform: translate(0px,0px);}
+    20% {transform: translate(0px,-2px);}
+
+    33% {transform: translate(0px,0px);}
+
+    46% {transform: translate(0px,0px);}
+    53% {transform: translate(0px,-2px);}
+
+    67% {transform: translate(0px,0px);}
+
+    80% {transform: translate(0px,0px);}
+    87% {transform: translate(0px,-2px);}
+
+    100% {transform: translate(0px,0px);}
+}
