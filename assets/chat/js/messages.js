@@ -6,7 +6,7 @@ import {
     HtmlTextFormatter,
     MentionedUserFormatter,
     UrlFormatter,
-    IdentityFormatter as DisabledFormatter,
+    DisabledFormatter,
     CodeFormatter,
     SpoilerFormatter
 } from "./formatters";
