@@ -217,7 +217,7 @@ function moveModifierToFront(modifierList, modifierName) {
     return modifierList;
 }
 
-class DisabledFormatter {
+class IdentityFormatter {
     format(chat, str, message = null) {
         return str;
     }
@@ -750,7 +750,7 @@ export {
     EmoteFormatter,
     GreenTextFormatter,
     HtmlTextFormatter,
-    DisabledFormatter as IdentityFormatter,
+    IdentityFormatter,
     MentionedUserFormatter,
     RawEmoteFormatter,
     SpoilerFormatter,

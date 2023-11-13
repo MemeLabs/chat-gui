@@ -6,7 +6,7 @@ import {
     HtmlTextFormatter,
     MentionedUserFormatter,
     UrlFormatter,
-    DisabledFormatter,
+    IdentityFormatter,
     CodeFormatter,
     SpoilerFormatter
 } from "./formatters";
@@ -36,9 +36,9 @@ formatters.set("green", new GreenTextFormatter());
 
 function setFormattersFromSettings(settings) {
     if (!settings.get("formatter-emote"))
-        formatters.set("emote", new DisabledFormatter());
+        formatters.set("emote", new IdentityFormatter());
     if (!settings.get("formatter-green"))
-        formatters.set("green", new DisabledFormatter());
+        formatters.set("green", new IdentityFormatter());
 }
 
 function buildMessageTxt(chat, message) {
@@ -440,11 +440,9 @@ function ChatEmoteMessageCount(message) {
     if (!message._combo) console.error("no combo", message._combo);
     message._combo.attr("class", "chat-combo" + stepClass);
 
-    // TODO: currently this does not get hit on "2x" combos, and requires a hack to get swarm emotes to work properly.
-    // consider finding the reason why it isn't going into this function on "2x" combos and swarm emote hack in the "afterRender" function in the ChatEmoteMessage class
     if (
         SWARM_EMOTES.includes(message.message.split(":")[0]) &&
-        message.emotecount <= 6 && !(formatters.get("emote") instanceof DisabledFormatter)
+        message.emotecount <= 6
     ) {
         message._text.attr("class", message.message.split(":")[0] + "Combo");
 
@@ -454,7 +452,7 @@ function ChatEmoteMessageCount(message) {
             "</span> </span> </span>";
         let html = "";
 
-        // for every combo attach 1 emote
+        // for every combo attatch 1 emote
         for (let i = 0; i < message.emotecount; i++) {
             html += temp;
         }
@@ -496,8 +494,8 @@ class ChatEmoteMessage extends ChatMessage {
             " ",
             this._combo_txt
         );
-        // this fixes a bug when an emote hits "2x" it does not enter the ChatEmoteMessageCount function until 3x 
-        if (SWARM_EMOTES.includes(this.message.split(":")[0]) && !(formatters.get("emote") instanceof DisabledFormatter)) {
+
+        if (SWARM_EMOTES.includes(this.message.split(":")[0])) {
             this._text.attr("class", this.message.split(":")[0] + "Combo");
             this._text.append(
                 `${formatters.get("emote").format(chat, this.message, this)}`
