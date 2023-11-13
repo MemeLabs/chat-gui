@@ -750,7 +750,7 @@ export {
     EmoteFormatter,
     GreenTextFormatter,
     HtmlTextFormatter,
-    DisabledFormatter as IdentityFormatter,
+    DisabledFormatter,
     MentionedUserFormatter,
     RawEmoteFormatter,
     SpoilerFormatter,

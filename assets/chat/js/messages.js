@@ -444,7 +444,8 @@ function ChatEmoteMessageCount(message) {
     // consider finding the reason why it isn't going into this function on "2x" combos and swarm emote hack in the "afterRender" function in the ChatEmoteMessage class
     if (
         SWARM_EMOTES.includes(message.message.split(":")[0]) &&
-        message.emotecount <= 6 && !(formatters.get("emote") instanceof DisabledFormatter)
+        message.emotecount <= 6 &&
+        formatters.get("emote").constructor.name !== "DisabledFormatter"
     ) {
         message._text.attr("class", message.message.split(":")[0] + "Combo");
 
@@ -497,7 +498,7 @@ class ChatEmoteMessage extends ChatMessage {
             this._combo_txt
         );
         // this fixes a bug when an emote hits "2x" it does not enter the ChatEmoteMessageCount function until 3x 
-        if (SWARM_EMOTES.includes(this.message.split(":")[0]) && !(formatters.get("emote") instanceof DisabledFormatter)) {
+        if (SWARM_EMOTES.includes(this.message.split(":")[0]) && formatters.get("emote").constructor.name !== "DisabledFormatter") {
             this._text.attr("class", this.message.split(":")[0] + "Combo");
             this._text.append(
                 `${formatters.get("emote").format(chat, this.message, this)}`
