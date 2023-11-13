@@ -6,7 +6,7 @@ import {
     HtmlTextFormatter,
     MentionedUserFormatter,
     UrlFormatter,
-    IdentityFormatter,
+    DisabledFormatter,
     CodeFormatter,
     SpoilerFormatter
 } from "./formatters";
@@ -36,9 +36,9 @@ formatters.set("green", new GreenTextFormatter());
 
 function setFormattersFromSettings(settings) {
     if (!settings.get("formatter-emote"))
-        formatters.set("emote", new IdentityFormatter());
+        formatters.set("emote", new DisabledFormatter());
     if (!settings.get("formatter-green"))
-        formatters.set("green", new IdentityFormatter());
+        formatters.set("green", new DisabledFormatter());
 }
 
 function buildMessageTxt(chat, message) {
@@ -440,9 +440,12 @@ function ChatEmoteMessageCount(message) {
     if (!message._combo) console.error("no combo", message._combo);
     message._combo.attr("class", "chat-combo" + stepClass);
 
+    // TODO: currently this does not get hit on "2x" combos, and requires a hack to get swarm emotes to work properly.
+    // consider finding the reason why it isn't going into this function on "2x" combos and swarm emote hack in the "afterRender" function in the ChatEmoteMessage class
     if (
         SWARM_EMOTES.includes(message.message.split(":")[0]) &&
-        message.emotecount <= 6
+        message.emotecount <= 6 &&
+        formatters.get("emote").constructor.name !== "DisabledFormatter"
     ) {
         message._text.attr("class", message.message.split(":")[0] + "Combo");
 
@@ -495,7 +498,8 @@ class ChatEmoteMessage extends ChatMessage {
             this._combo_txt
         );
 
-        if (SWARM_EMOTES.includes(this.message.split(":")[0])) {
+        // this fixes a bug when a swarm emote hits "2x" it does not enter the ChatEmoteMessageCount function until 3x
+        if (SWARM_EMOTES.includes(this.message.split(":")[0]) && formatters.get("emote").constructor.name !== "DisabledFormatter") {
             this._text.attr("class", this.message.split(":")[0] + "Combo");
             this._text.append(
                 `${formatters.get("emote").format(chat, this.message, this)}`
