@@ -684,6 +684,15 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
+    $file-name: ComfyWAG,
+    $frame-count: 2,
+    $sprite-width: 76px,
+    $sprite-height: 32px,
+    $animation-duration: 500ms,
+    $iteration-count: 10
+);
+
+@include sprite-animation(
     $file-name: illyaTriggered,
     $frame-count: 8,
     $sprite-width: 256px,
