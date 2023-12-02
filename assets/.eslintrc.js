@@ -5,7 +5,8 @@ module.exports = {
         API_URI: false,
         LOGIN_URI: false,
         WEBSOCKET_URI: false,
-        RUSTLA_URL: false
+        RUSTLA_URL: false,
+        NITTER_URL: false
     },
     env: {
         browser: true,

@@ -619,7 +619,8 @@ class UrlFormatter {
             relaxed = strict + "|" + webURL;
         this.linkregex = new RegExp(relaxed, "gi");
         this.discordmp4Regex = /https:\/\/(media|cdn)\.discordapp\.(net|com)\/attachments.*?\.(mp4|webm|mov)/i;
-        this.refLinkRegex = /^(https?:\/\/)?(www\.)?(((smile\.)?amazon)|twitter|(open\.)?spotify)\.[a-z]{2,3}/
+        this.refLinkRegex = /^(https?:\/\/)?(www\.)?(((smile\.)?amazon)|twitter|(open\.)?spotify)\.[a-z]{2,3}/;
+        this.twitterRegex = /^(?:https:\/\/)?(?:www\.)?twitter\.com\/([^ ?]+)/i;
 
         // e.g. youtube ids include "-" and "_".
         const embedCommonId = '([\\w-]{1,30})';
@@ -708,6 +709,15 @@ class UrlFormatter {
             // replaces the discord links that automatically download a file when clicked
             if (self.discordmp4Regex.test(decodedUrl)) {
                 decodedUrl = location.origin + "/discordmedia.html?v=" + encodeURIComponent(decodedUrl);
+            }
+            const tm = decodedUrl.match(self.twitterRegex);
+            if (tm) {
+                url = self.encodeUrl(tm[0]);
+                const href = scheme + url;
+                if (tm) {
+                    const embedHref = `${NITTER_URL}/${tm[1]}`;
+                    return `<a target="_blank" class="embed-internallink ${extraclass}" href="${embedHref}">${embedHref}</a><a target="_blank" class="embed-externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
+                }
             }
             if(self.refLinkRegex.test(decodedUrl)){
                 if( decodedUrl.includes("?ref")){

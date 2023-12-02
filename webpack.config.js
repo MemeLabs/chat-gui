@@ -205,7 +205,8 @@ const plugins = [
         WEBSOCKET_URI: process.env.WEBSOCKET_URI ? `'${process.env.WEBSOCKET_URI}'` : '"wss://chat.strims.gg/ws"',
         API_URI: process.env.API_URI ? `'${process.env.API_URI}'` : '""',
         LOGIN_URI: process.env.LOGIN_URI ? `'${process.env.LOGIN_URI}'` : 'false',
-        RUSTLA_URL: process.env.RUSTLA_URL ? `'${process.env.RUSTLA_URL}'` : '"https://strims.gg"'
+        RUSTLA_URL: process.env.RUSTLA_URL ? `'${process.env.RUSTLA_URL}'` : '"https://strims.gg"',
+        NITTER_URL: process.env.NITTER_URL ? `'${process.env.NITTER_URL}'` : '"https://nitter.net"'
     }),
     emoteManifestPlugin
 ];
