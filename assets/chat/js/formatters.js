@@ -715,7 +715,7 @@ class UrlFormatter {
                 url = self.encodeUrl(tm[0]);
                 const href = scheme + url;
                 if (tm) {
-                    const embedHref = `${NITTER_URL}/${tm[1]}`;
+                    const embedHref = `${NITTER_URL}/${self.encodeUrl(tm[1])}`;
                     return `<a target="_blank" class="embed-internallink ${extraclass}" href="${embedHref}">${embedHref}</a><a target="_blank" class="embed-externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
                 }
             }
@@ -737,7 +737,7 @@ class UrlFormatter {
                     const sub = this.embedSubstitutions[i];
                     const sm = decodedUrl.match(sub.pattern);
                     if (sm) {
-                        const embed = sub.template(sm[1]);
+                        const embed = self.encodeUrl(sub.template(sm[1]));
                         const embedHref = `${RUSTLA_URL}/${embed}`;
                         return `<a target="_blank" class="embed-internallink ${extraclass}" href="${embedHref}">${embed}</a><a target="_blank" class="embed-externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
                     }
