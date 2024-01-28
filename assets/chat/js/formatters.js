@@ -710,15 +710,16 @@ class UrlFormatter {
             if (self.discordmp4Regex.test(decodedUrl)) {
                 decodedUrl = location.origin + "/discordmedia.html?v=" + encodeURIComponent(decodedUrl);
             }
-            const tm = decodedUrl.match(self.twitterRegex);
-            if (tm) {
-                url = self.encodeUrl(tm[0]);
-                const href = scheme + url;
-                if (tm) {
-                    const embedHref = `${NITTER_URL}/${self.encodeUrl(tm[1])}`;
-                    return `<a target="_blank" class="embed-internallink ${extraclass}" href="${embedHref}">${embedHref}</a><a target="_blank" class="embed-externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
-                }
-            }
+            // TODO: reenable or clean up if nitter shuts down
+            // const tm = decodedUrl.match(self.twitterRegex);
+            // if (tm) {
+            //     url = self.encodeUrl(tm[0]);
+            //     const href = scheme + url;
+            //     if (tm) {
+            //         const embedHref = `${NITTER_URL}/${self.encodeUrl(tm[1])}`;
+            //         return `<a target="_blank" class="embed-internallink ${extraclass}" href="${embedHref}">${embedHref}</a><a target="_blank" class="embed-externallink" href="${href}" rel="nofollow" title="${url}"></a>`;
+            //     }
+            // }
             if(self.refLinkRegex.test(decodedUrl)){
                 if( decodedUrl.includes("?ref")){
                     decodedUrl = decodedUrl.split('?ref')[0];
