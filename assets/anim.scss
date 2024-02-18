@@ -1088,7 +1088,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $animation-duration: 4.2s,
     $iteration-count: 1,
     $can-animate-forever: true,
-    $end-on-last-frame: true
+    $end-on-last-frame: false
 );
 
 @include sprite-animation(
