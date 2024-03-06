@@ -838,3 +838,26 @@
         transform: translateY(2px);
     }
 }
+
+
+//manually tweaked gold emotes, mostly spritesheets
+.golden-modifier-HocusPocus {
+    mask-position: 38px;
+    mask-repeat: repeat-x !important;
+}
+.golden-modifier-AngelThump {
+    mask-position: 84px;
+    mask-repeat: repeat-x !important;
+}
+.golden-modifier-LAG {
+    mask-position: 40px;
+    mask-repeat: repeat-x !important;
+}
+.golden-modifier-WAYTOODANK {
+    mask-position: 1904px;
+    mask-repeat: repeat !important;
+}
+
+.golden-modifier-Gigachad {
+    mask-position-x: -3068px !important;
+}

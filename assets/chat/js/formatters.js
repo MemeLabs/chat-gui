@@ -165,24 +165,22 @@ function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
     }
 
     const innerEmoteCompStyle = getComputedStyle(emote, false)
-    let maskUrl = innerEmoteCompStyle.backgroundImage.slice(4, -1).replace(/"/g, '');
+    let maskUrl = innerEmoteCompStyle.backgroundImage.replace(/"/g, '');
 
     const goldenModifierMask =
         "width: " +
         emoteWidth +
         "px; height: " +
         emoteHeight +
-        "px; " +
-        "-webkit-mask-position: " +
-        innerEmoteCompStyle.backgroundPosition +
-        ";";
+        "px; ";
     const goldenModifierMarginTop = 30 - emoteHeight - 8;
     const goldenModifierStyle =
         'style="margin:' +
         goldenModifierMarginTop +
-        "px 2px 0px 2px; -webkit-mask-image: url(/" +
+        "px 2px 0px 2px; mask-image: " +
         maskUrl +
-        ");" +
+        ";" +
+        "mask-repeat: space;" +
         goldenModifierMask +
         '"';
 
@@ -196,7 +194,7 @@ function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
     const goldenModifier =
         "<span " +
         goldenModifierStyle +
-        'class="golden-modifier">' +
+        'class="golden-modifier golden-modifier-' + emoteName + '">' +
         goldenModifierGlimmer +
         "</span>";
 
@@ -320,7 +318,8 @@ class EmoteFormatter {
                 goldenProcChance = goldenProcChance / (emoteCount / 2);
             }
             // 0.001% proc chance
-            if (!isHalloween() && proc(seed, punish, goldenProcChance)) {
+            var isGolden = proc(seed, punish, goldenProcChance);
+            if (!isHalloween() && isGolden) {
                 var goldenEmote = genGoldenEmote(
                     emote,
                     this.emoteheights[emote],
@@ -348,19 +347,22 @@ class EmoteFormatter {
                 "generify-container",
                 "generify-emote-" + emote
             ];
-
-            for (var j = 0; j < options.length; j++) {
-                if (generifyExtraWraps.includes(suffixes[j])) {
-                    innerEmote = `<span class="generify-container">${innerEmote}</span>`;
+            
+            //do not display modifiers on golden emotes
+            if (!isGolden) {
+                for (var j = 0; j < options.length; j++) {
+                    if (generifyExtraWraps.includes(suffixes[j])) {
+                        innerEmote = `<span class="generify-container">${innerEmote}</span>`;
+                    }
+                    innerEmote = ' <span class="' +
+                        generifyClasses.join(" ") + " " +
+                        options[j] +
+                        '" data-modifiers="' +
+                        options[j] +
+                        '">' +
+                        innerEmote +
+                        "</span>"
                 }
-                innerEmote = ' <span class="' +
-                    generifyClasses.join(" ") + " " +
-                    options[j] +
-                    '" data-modifiers="' +
-                    options[j] +
-                    '">' +
-                    innerEmote +
-                    "</span>"
             }
 
             return (
