@@ -177,10 +177,10 @@ function genGoldenEmote(emoteName, emoteHeight, emoteWidth) {
     const goldenModifierStyle =
         'style="margin:' +
         goldenModifierMarginTop +
-        "px 2px 0px 2px; mask-image: " +
+        "px 2px 0px 2px; -webkit-mask-image: " +
         maskUrl +
         ";" +
-        "mask-repeat: space;" +
+        "-webkit-mask-repeat: space;" +
         goldenModifierMask +
         '"';
 
