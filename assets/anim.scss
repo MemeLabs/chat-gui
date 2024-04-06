@@ -968,15 +968,15 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 
 @include sprite-animation(
     $file-name: PepoCopter,
-    $frame-count: 3,
-    $sprite-width: 174px,
+    $frame-count: 30,
+    $sprite-width: 2280px,
     $sprite-height: 32px,
-    $animation-duration: 240ms,
-    $iteration-count: 40,
+    $animation-duration: 1s,
+    $iteration-count: 8,
     $can-animate-forever: true,
     $extra-animation: true,
-    $extra-animation-duration: 480ms,
-    $extra-animation-iteration-count: 20,
+    $extra-animation-duration: 500ms,
+    $extra-animation-iteration-count: 16,
     $extra-animation-timing-function: ease-in-out,
     $extra-animation-direction: alternate
 ) {
@@ -1101,7 +1101,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
-
 
 @include sprite-animation(
     $file-name: STIR,
