@@ -1111,3 +1111,13 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $iteration-count: 3,
     $can-animate-forever: true,
 );
+
+@include sprite-animation(
+    $file-name: CLASSIC,
+    $frame-count: 51,
+    $sprite-width: 1836px,
+    $sprite-height: 32px,
+    $animation-duration: 2.55s,
+    $iteration-count: 3,
+    $can-animate-forever: true,
+);
