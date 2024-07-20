@@ -1,4 +1,4 @@
-FROM node:14-alpine AS build
+FROM node:22 AS build
 
 RUN mkdir /ui
 WORKDIR /ui
