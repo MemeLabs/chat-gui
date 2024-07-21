@@ -83,13 +83,3 @@
     $end-on-frame: 1,
     $can-animate-forever: true
 );
-
-@include sprite-animation(
-    $file-name: PepoFight,
-    $frame-count: 35,
-    $sprite-width: 1855px,
-    $sprite-height: 32px,
-    $animation-duration: 2450ms,
-    $iteration-count: 2,
-    $can-animate-forever: true
-);
