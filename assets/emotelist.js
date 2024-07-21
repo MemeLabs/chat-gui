@@ -15,7 +15,7 @@ table.appendChild(thead);
 Object.entries(emoteCreators.default).sort(([a], [b]) => a.localeCompare(b)).forEach(([name, creators]) => {
     const row = document.createElement('tr');
     table.appendChild(row);
-    [name, creators.createdby, creators.october, creators.december].forEach((creator) => {
+    [name, creators.createdby, creators.october, creators.december, creators.lotr].forEach((creator) => {
         const col = document.createElement('td');
         col.innerText = creator;
         if (!creator) {
