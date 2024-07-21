@@ -40,7 +40,8 @@
         "DuckerZ": {
             "createdby": "RightToBearArmsLOL",
             "october": "Gehirnchirurg",
-            "december": "rayhond"
+            "december": "rayhond",
+            "lotr": "FizzyLongstockings"
         },
         "Kappa": { "createdby": "SoMuchForSubtlety", "october": "", "december": "argonlo" },
         "Klappa": { "createdby": "", "october": "", "december": "argonlo" },
@@ -226,7 +227,8 @@
         "SMOrc": {
             "createdby": "",
             "october": "Gehirnchirurg",
-            "december": "rayhond"
+            "december": "rayhond",
+            "lotr": "bawrroccoli"
         },
         "NotLikeThis": {
             "createdby": "",
@@ -243,12 +245,14 @@
         "PepoComfy": {
             "createdby": "",
             "october": "Gehirnchirurg",
-            "december": "Gehirnchirurg"
+            "december": "Gehirnchirurg",
+            "lotr": "Nept"
         },
         "PepoWant": {
             "createdby": "",
             "october": "FizzyLongstockings",
-            "december": "Gehirnchirurg"
+            "december": "Gehirnchirurg",
+            "lotr": "FizzyLongstockings"
         },
         "PepeHands": { "createdby": "", "october": "", "december": "" },
         "BOGGED": {
@@ -309,11 +313,17 @@
             "october": "Gehirnchirurg",
             "december": "Gehirnchirurg"
         },
-        "BOOMER": { "createdby": "", "october": "", "december": "rayhond" },
+        "BOOMER": {
+            "createdby": "",
+            "october": "",
+            "december": "rayhond",
+            "lotr": "FizzyLongstockings"
+        },
         "ZOOMER": {
             "createdby": "",
             "october": "",
-            "december": "Gehirnchirurg"
+            "december": "Gehirnchirurg",
+            "lotr": "FizzyLongstockings"
         },
         "FeelsPepoMan": {
             "createdby": "",
@@ -339,7 +349,8 @@
         "CampFire": {
             "createdby": "deadppls",
             "october": "Gehirnchirurg",
-            "december": ""
+            "december": "",
+            "lotr": "FizzyLongstockings"
         },
         "ComfyYEE": {
             "createdby": "Gehirnchirurg",
@@ -364,7 +375,12 @@
             "october": "Gehirnchirurg",
             "december": "Gehirnchirurg"
         },
-        "monkaHmm": { "createdby": "", "october": "", "december": "Nept" },
+        "monkaHmm": {
+            "createdby": "",
+            "october": "",
+            "december": "Nept",
+            "lotr": "Gehirnchirurg"
+         },
         "PepoHmm": { "createdby": "Gehirnchirurg", "october": "", "december": "" },
         "PepeComfy": {
             "createdby": "",
@@ -390,7 +406,8 @@
         "POKE": {
             "createdby": "",
             "october": "Gehirnchirurg",
-            "december": "Gehirnchirurg"
+            "december": "Gehirnchirurg",
+            "lotr": "bawrroccoli"
         },
         "PepoDance": {
             "createdby": "",
@@ -432,7 +449,8 @@
         "PepoFight": {
             "createdby": "",
             "october": "Gehirnchirurg",
-            "december": "Gehirnchirurg"
+            "december": "Gehirnchirurg",
+            "lotr": "bawrroccoli"
         },
         "PepeLaugh": { "createdby": "", "october": "", "december": "" },
         "PeepoS": {
@@ -458,7 +476,8 @@
         "KING": {
             "createdby": "",
             "october": "Gehirnchirurg",
-            "december": "melun"
+            "december": "melun",
+            "lotr": "Nept"
         },
         "PIKOHH": {
             "createdby": "",
@@ -564,7 +583,8 @@
         "ComfyMoobers": {
             "createdby": "Nept",
             "october": "",
-            "december": "Nept"
+            "december": "Nept",
+            "lotr": "Nept"
         },
         "TIMID": { "createdby": "melun", "october": "legendarypotatoe & melun", "december": "melun" },
         "AOCFace": {
@@ -575,7 +595,12 @@
         "4U": { "createdby": "Boocra", "october": "", "december": "" },
         "GandalfFace": { "createdby": "Boocra", "october": "Gehirnchirurg", "december": "" },
         "WICKED": { "createdby": "Gehirnchirurg", "october": "Gehirnchirurg", "december": "" },
-        "DOGGO": { "createdby": "soadsoap", "october": "", "december": "FizzyLongstockings" },
+        "DOGGO": {
+            "createdby": "soadsoap",
+            "october": "",
+            "december": "FizzyLongstockings",
+            "lotr": "Gehirnchirurg"
+        },
         "OHDEAR": {
             "createdby": "jimothy_jang and deadppls",
             "october": "",
@@ -632,7 +657,8 @@
         "MAGE": {
             "createdby": "Nept",
             "october": "Gehirnchirurg",
-            "december": ""
+            "december": "",
+            "lotr": ""
         },
         "Gigachad": {
             "createdby": "FizzyLongstockings",
@@ -686,6 +712,30 @@
             "createdby": "FizzyLongstockings",
             "october": "",
             "december": ""
+        },
+        "GROND": {
+            "createdby": "",
+            "october": "",
+            "december": "",
+            "lotr": "FizzyLongstockings"
+        },
+        "DEEEATH": {
+            "createdby": "",
+            "october": "",
+            "december": "",
+            "lotr": "Gehirnchirurg"
+        },
+        "SPYRON": {
+            "createdby": "",
+            "october": "",
+            "december": "",
+            "lotr": "FizzyLongstockings"
+        },
+        "GimliFlushed": {
+            "createdby": "",
+            "october": "",
+            "december": "",
+            "lotr": "Nept"
         }
     }
 }
