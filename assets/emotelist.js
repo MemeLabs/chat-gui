@@ -17,7 +17,7 @@ Object.entries(emoteCreators.default).sort(([a], [b]) => a.localeCompare(b)).for
     table.appendChild(row);
     [name, creators.createdby, creators.october, creators.december, creators.lotr].forEach((creator) => {
         const col = document.createElement('td');
-        col.innerText = creator;
+        col.innerText = creator || '';
         if (!creator) {
             col.classList.add('missing');
         }
