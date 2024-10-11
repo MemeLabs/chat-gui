@@ -128,7 +128,7 @@
         },
         "SWEATY": {
             "createdby": "SoMuchForSubtlety",
-            "october": "",
+            "october": "Gehirnchirurg",
             "december": ""
         },
         "PEPE": {
@@ -592,7 +592,11 @@
             "october": "Nussinov",
             "december": ""
         },
-        "4U": { "createdby": "Boocra", "october": "", "december": "" },
+        "4U": {
+            "createdby": "Boocra",
+            "october": "Gehirnchirurg",
+            "december": ""
+        },
         "GandalfFace": { "createdby": "Boocra", "october": "Gehirnchirurg", "december": "" },
         "WICKED": { "createdby": "Gehirnchirurg", "october": "Gehirnchirurg", "december": "" },
         "DOGGO": {
@@ -678,7 +682,7 @@
         },
         "SHUSH": {
             "createdby": "Gehirnchirurg",
-            "october": "",
+            "october": "Gehirnchirurg",
             "december": ""
         },
         "HocusPocus": {

@@ -431,7 +431,6 @@
     $can-animate-forever: true
 );
 
-
 @include sprite-animation(
     $file-name: PEPE,
     $frame-count: 150,
@@ -442,4 +441,15 @@
     $iteration-count: 1,
     $end-on-last-frame: true,
     $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: SHUSH,
+    $frame-count: 4,
+    $sprite-width: 156px,
+    $sprite-height: 28px,
+    $animation-duration: 4s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
 );
