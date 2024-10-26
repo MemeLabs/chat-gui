@@ -453,3 +453,13 @@
     $can-animate-forever: true,
     $end-on-last-frame: true
 );
+
+@include sprite-animation(
+    $file-name: Gigachad,
+    $frame-count: 42,
+    $sprite-width: 6006px,
+    $sprite-height: 32px,
+    $animation-duration: 4.2s,
+    $iteration-count: 1,
+    $end-on-last-frame: true,
+);

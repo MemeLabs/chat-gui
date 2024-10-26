@@ -459,7 +459,7 @@
             "december": "Gehirnchirurg"
         },
         "SLEEPY": { "createdby": "SoMuchForSubtlety", "october": "", "december": "" },
-        "GODMAN": { "createdby": "", "october": "", "december": "" },
+        "GODMAN": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
         "NOM": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
         "FeelsDumbMan": {
             "createdby": "",
@@ -666,7 +666,7 @@
         },
         "Gigachad": {
             "createdby": "FizzyLongstockings",
-            "october": "",
+            "october": "Gehirnchirurg",
             "december": ""
         },
         "PepoCopter": {
