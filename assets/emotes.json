@@ -222,6 +222,8 @@
         "CONTEXT",
         "Krankenwagen",
         "CAUGHT",
-        "PepoTurkey"
+        "PepoTurkey",
+        "SNOWBALL",
+        "SNOWBALLFIGHT"
     ]
 }
