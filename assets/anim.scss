@@ -459,6 +459,7 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
         height: $sprite-height;
         margin-top: -$sprite-height;
         background-position-y: center;
+        transform: translateZ(1px);
 
         @if $extra-animation {
             animation: #{$file-name}-anim $animation-duration steps($steps) $iteration-count none $animation-direction, #{$file-name}-extra-anim $extra-animation-duration $extra-animation-timing-function $extra-animation-delay $extra-animation-iteration-count $extra-animation-direction $extra-animation-fill-mode $extra-animation-play-state;
