@@ -132,6 +132,9 @@ label small {
     #chat-whisper-btn {
         margin-right: 20px;
     }
+    #chat-settings-btn {
+        margin-left: 20px;
+    }
 }
 #chat-windows-select {
     box-shadow: 0 2px 6px black;
@@ -208,14 +211,15 @@ label small {
     font-family: $chat-lines-font;
     font-size: $text-size-md;
     color: red;
-    display: none;
+    opacity: 0;
     text-align: center;
     align-content: center;
-    user-select: text; // otherwise it feels weird
+    user-select: none;
 }
 
 #chat-input-error.show {
-    display: block;
+    opacity: 1;
+    user-select: text; // otherwise it feels weird
 }
 
 #chat-input-scaler, #chat-input-control {
