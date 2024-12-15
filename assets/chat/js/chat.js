@@ -380,6 +380,7 @@ class Chat {
             (document["visibilityState"] || "visible") !== "visible";
         this.output = this.ui.find("#chat-output-frame");
         this.input = this.ui.find("#chat-input-control");
+        this.chatinputerror = this.ui.find("#chat-input-error");
         this.loginscrn = this.ui.find("#chat-login-screen");
         this.loadingscrn = this.ui.find("#chat-loading");
         this.windowselect = this.ui.find("#chat-windows-select");
@@ -441,14 +442,16 @@ class Chat {
                 if (!this.authenticated) {
                     this.loginscrn.show();
                 } else {
-                    this.control.emit(
-                        "SEND",
-                        this.input
-                            .val()
-                            .toString()
-                            .trim()
-                    );
-                    this.input.val("").trigger("input");
+                    if (!this.input.hasClass("invalid-msg-warning")) {
+                        this.control.emit(
+                            "SEND",
+                            this.input.val().toString().trim()
+                        );
+                        this.input.val("").trigger("input");
+                    }
+                    else{
+                        // do nothing because the message is too long
+                    }
                 }
                 this.input.focus();
             }
@@ -715,8 +718,10 @@ class Chat {
     testIfValid(messageLength){
         if (messageLength > 512) {
             this.input.addClass("invalid-msg-warning");
+            this.chatinputerror.addClass("show")
         } else if (messageLength <= 512) {
             this.input.removeClass("invalid-msg-warning");
+            this.chatinputerror.removeClass("show")
         }
     };
 
