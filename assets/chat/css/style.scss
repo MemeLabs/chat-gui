@@ -203,6 +203,21 @@ label small {
     min-height: 3.7em;
     max-height: 16em;
 }
+
+#chat-input-error {
+    font-family: $chat-lines-font;
+    font-size: $text-size-md;
+    color: red;
+    display: none;
+    text-align: center;
+    align-content: center;
+    user-select: text; // otherwise it feels weird
+}
+
+#chat-input-error.show {
+    display: block;
+}
+
 #chat-input-scaler, #chat-input-control {
     /**
      * `input-control` and `input-scaler` should have identical properties
