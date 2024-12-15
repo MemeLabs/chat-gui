@@ -442,15 +442,13 @@ class Chat {
                 if (!this.authenticated) {
                     this.loginscrn.show();
                 } else {
+                    // don't do anything if the message is marked invalid client-side (currently only when the message is too long)
                     if (!this.input.hasClass("invalid-msg-warning")) {
                         this.control.emit(
                             "SEND",
                             this.input.val().toString().trim()
                         );
                         this.input.val("").trigger("input");
-                    }
-                    else{
-                        // do nothing because the message is too long
                     }
                 }
                 this.input.focus();
