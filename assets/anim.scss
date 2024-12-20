@@ -1210,16 +1210,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
-    $file-name: ComfyMoobers,
-    $frame-count: 34,
-    $sprite-width: 1122px,
-    $sprite-height: 32px,
-    $animation-duration: 2550ms,
-    $iteration-count: 2,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
     $file-name: HocusPocus,
     $frame-count: 53,
     $sprite-width: 5300px,
@@ -1341,17 +1331,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
-    $file-name: DOGGO,
-    $frame-count: 181,
-    $sprite-width: 6154px,
-    $sprite-height: 32px,
-    $animation-duration: 3s,
-    $iteration-count: 2,
-    $can-animate-forever: true,
-    $end-on-last-frame: true
-);
-
-@include sprite-animation(
     $file-name: ApeHands,
     $frame-count: 91,
     $sprite-width: 2912px,
@@ -1457,4 +1436,90 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
     $iteration-count: 3,
     $can-animate-forever: true,
     $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: DOGGO,
+    $frame-count: 76,
+    $sprite-width: 2432px,
+    $sprite-height: 32px,
+    $animation-duration: 2s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: ComfyMoobers,
+    $frame-count: 34,
+    $sprite-width: 1122px,
+    $sprite-height: 32px,
+    $animation-duration: 2550ms,
+    $iteration-count: 2,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: CampFire,
+    $frame-count: 90,
+    $sprite-width: 3780px,
+    $sprite-height: 32px,
+    $animation-duration: 3s,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: ZOOMER,
+    $frame-count: 30,
+    $sprite-width: 1500px,
+    $sprite-height: 32px,
+    $animation-duration: 1s,
+    $iteration-count: 7,
+    $can-animate-forever: true
+);
+
+@include sprite-animation(
+    $file-name: GROND,
+    $frame-count: 149,
+    $sprite-width: 7450px,
+    $sprite-height: 32px,
+    $animation-duration: 6.208s,
+    $iteration-count: 1,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: BOOMER,
+    $frame-count: 90,
+    $sprite-width: 4050px,
+    $sprite-height: 32px,
+    $animation-duration: 3s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+    $end-on-last-frame: true
+);
+
+@include sprite-animation(
+    $file-name: SPYRON,
+    $frame-count: 90,
+    $sprite-width: 3960px,
+    $sprite-height: 32px,
+    $animation-duration: 3s,
+    $iteration-count: 2,
+    $can-animate-forever: true,
+);
+
+@include sprite-animation(
+    $file-name: PepoWant,
+    $frame-count: 150,
+    $sprite-width: 7050px,
+    $sprite-height: 32px,
+    $animation-duration: 2.5s,
+    $animation-direction: alternate,
+    $iteration-count: 2,
+    $end-on-frame: 1,
+    $can-animate-forever: true
 );
