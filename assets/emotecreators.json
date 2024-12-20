@@ -119,7 +119,8 @@
         "LeRuse": {
             "createdby": "SoMuchForSubtlety",
             "october": "",
-            "december": ""
+            "december": "",
+            "lotr": "Gehirnchirurg"
         },
         "YEE": {
             "createdby": "",
@@ -139,7 +140,8 @@
         "SpookerZ": {
             "createdby": "",
             "october": "Gehirnchirurg",
-            "december": "Gehirnchirurg"
+            "december": "Gehirnchirurg",
+            "lotr": "Gehirnchirurg"
         },
         "WEEWOO": {
             "createdby": "",
@@ -216,7 +218,12 @@
             "december": "rayhond"
         },
         "ITSRAWWW": { "createdby": "SoMuchForSubtlety", "october": "", "december": "" },
-        "Riperino": { "createdby": "", "october": "", "december": "Gehirnchirurg" },
+        "Riperino": {
+            "createdby": "",
+            "october": "",
+            "december": "Gehirnchirurg",
+            "lotr": "Gehirnchirurg"
+        },
         "4Head": { "createdby": "SoMuchForSubtlety", "october": "Gehirnchirurg", "december": "" },
         "BabyRage": {
             "createdby": "",
@@ -524,7 +531,8 @@
         "ComfyFeels": {
             "createdby": "soadsoap",
             "october": "FizzyLongstockings",
-            "december": "soadsoap"
+            "december": "soadsoap",
+            "lotr": "Gehirnchirurg"
         },
         "MiyanoSip": { "createdby": "Nept", "october": "", "december": "Nept" },
         "PeepoWeird": {
@@ -745,7 +753,7 @@
             "createdby": "Gehirnchirurg",
             "october": "",
             "december": "",
-            "lotr": ""
+            "lotr": "Gehirnchirurg"
         },
         "CONTEXT": {
             "createdby": "bawrroccoli & Gehirnchirurg",
@@ -763,6 +771,9 @@
             "createdby": "Gehirnchirurg",
             "october": "Gehirnchirurg",
             "december": ""
+        },
+        "GRUG": {
+            "lotr": "Gehirnchirurg"
         }
     }
 }
