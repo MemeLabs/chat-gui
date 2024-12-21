@@ -509,7 +509,12 @@
             "december": ""
         },
         "sataniaLUL": { "createdby": "", "october": "", "december": "" },
-        "DELUSIONAL": { "createdby": "anon", "october": "Gehirnchirurg", "december": "" },
+        "DELUSIONAL": {
+            "createdby": "anon",
+            "october": "Gehirnchirurg",
+            "december": "",
+            "lotr": "Gehirnchirurg"
+        },
         "GREED": {
             "createdby": "SoMuchForSubtlety",
             "october": "Gehirnchirurg",
@@ -623,7 +628,8 @@
         "QUEEN": {
             "createdby": "Gehirnchirurg",
             "october": "",
-            "december": ""
+            "december": "",
+            "lotr": "Gehirnchirurg"
         },
         "monkaSteer": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
         "NODDERS": { "createdby": "", "october": "Gehirnchirurg", "december": "" },
