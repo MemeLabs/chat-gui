@@ -1,0 +1,22 @@
+table {
+  border-collapse: collapse;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 20px;
+}
+
+table tr:first-child {
+  background: grey;
+}
+
+table tr:not(:first-child) td:first-child {
+  background-color: lightgrey;
+}
+
+table td, table th {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+table td:nth-child(n+3).missing {
+  background-color: pink;
+}
