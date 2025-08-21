@@ -64,10 +64,13 @@ export default class MockStream {
                 } catch (ignored) {
                     data = payload;
                 }
-
                 if (eventname === "MSG") {
                     data.nick = username;
                     this.server.emit("message", `MSG ${JSON.stringify(data)}`);
+                }
+                else if (eventname === "MSGREPLY") {
+                    data.nick = username;
+                    this.server.emit("MSGREPLY", `MSGREPLY ${JSON.stringify(data)}`);
                 }
             });
         });
@@ -109,6 +112,18 @@ export default class MockStream {
 
             sendMessage();
         });
+    }
+
+    sendReply(nick, target, message, prevMessage, prevmId, messageId) {
+        const messageObject = {
+            nick: nick,
+            target: target,
+            data: message,
+            prev: prevMessage,
+            prevMessageId: prevmId,
+            messageId: messageId
+        };
+        this.server.emit("message", `MSGREPLY ${JSON.stringify(messageObject)}`);
     }
 
     sendMessage(nick, message, type = "MSG") {
@@ -192,5 +207,55 @@ export default class MockStream {
         });
 
         return this.sendMessages(messages, "combo");
+    }
+    conversation() {
+        const user1 = "Ghostface";
+        const user2 = "FrostedJimmy";
+
+        // Initial message about Strims' DRS performance
+        this.sendMessage(
+            user1,
+            "Yall see the speed boost after DRS on Strims!?"
+        );
+
+        // FrostedJimmy responds, comparing Strims' DRS to Memlabs
+        this.sendReply(
+            user2,
+            user1,
+            "Strims’ DRS was wild, like 10 km/h gain down the straight! But Memlabs’ DRS felt even quicker, no?",
+            "Yall see the speed boost after DRS on Strims!?",
+            "0001",
+            "0002"
+        );
+
+        // Ghostface highlights Memlabs' DRS advantage
+        this.sendReply(
+            user1,
+            user2,
+            "Memlabs’ DRS is nuts, prob hitting 12 km/h extra. Their rear wing flap opens wider, I bet. Strims still owns the corners though.",
+            "Strims’ DRS was wild, like 10 km/h gain down the straight! But Memlabs’ DRS felt even quicker, no?",
+            "0002",
+            "0003"
+        );
+
+        // FrostedJimmy praises Strims' cornering
+        this.sendReply(
+            user2,
+            user1,
+            "True, Strims’ cornering is unreal—those high-downforce wings grip like glue in Turn 9. Memlabs slides a bit there. TopTierMemer98",
+            "Memlabs’ DRS is nuts, prob hitting 12 km/h extra. Their rear wing flap opens wider, I bet. Strims still owns the corners though.",
+            "0003",
+            "0004"
+        );
+
+        // Ghostface wraps up, balancing both strengths
+        this.sendReply(
+            user1,
+            user2,
+            "Yeah, Strims nails corners with that downforce, but Memlabs’ DRS speed on the straight might clinch the win next time!",
+            "True, Strims’ cornering is unreal—those high-downforce wings grip like glue in Turn 9. Memlabs slides a bit there. TopTierMemer98",
+            "0004",
+            "0005"
+        );
     }
 }

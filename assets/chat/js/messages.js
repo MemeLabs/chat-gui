@@ -148,9 +148,8 @@ function buildFeatures(user) {
         })
         .map((e) => {
             const f = UserFeatures.valueOf(e);
-            return `<i class="flair icon-${e.toLowerCase()}" title="${
-                f !== null ? f.label : e
-            }"></i>`;
+            return `<i class="flair icon-${e.toLowerCase()}" title="${f !== null ? f.label : e
+                }"></i>`;
         })
         .join("");
     return features.length > 0
@@ -217,6 +216,10 @@ class MessageBuilder {
         return new ChatUserMessage(message, user, timestamp);
     }
 
+    static reply(message, user, target, prevMessage, prevMessageId, messageId = null, timestamp = null) {
+        return new ChatReplyMessage(message, user, target, prevMessage, prevMessageId, messageId, timestamp);
+    }
+
     static emote(emote, timestamp, count = 1) {
         return new ChatEmoteMessage(emote, timestamp, count);
     }
@@ -270,7 +273,7 @@ class ChatUIMessage {
         return this.wrap(this.message);
     }
 
-    afterRender(chat = null) {}
+    afterRender(chat = null) { }
 }
 
 class ChatMessage extends ChatUIMessage {
@@ -306,6 +309,7 @@ class ChatUserMessage extends ChatMessage {
         super(message, timestamp, MessageTypes.USER);
         this.user = user;
         this.id = null;
+        this.msgid = Date.now().toString() + Math.floor(Math.random() * 1000);
         this.isown = false;
         this.highlighted = false;
         this.historical = false;
@@ -320,6 +324,7 @@ class ChatUserMessage extends ChatMessage {
         const classes = [],
             attr = {};
 
+        if (this.msgid) attr["data-msg-id"] = this.msgid;
         if (this.id) attr["data-id"] = this.id;
         if (this.user && this.user.username)
             attr["data-username"] = this.user.username.toLowerCase();
@@ -362,6 +367,91 @@ class ChatUserMessage extends ChatMessage {
             attr
         );
     }
+}
+class ChatReplyMessage extends ChatUserMessage {
+    constructor(message, user, target, prevMessage, prevMessageId, messageId = null, timestamp = null) {
+        super(message, user, timestamp);
+        this.prevMessage = prevMessage;
+        this.prevMessageId = prevMessageId;
+        this.target = target;
+        this.msgid = messageId ?? Date.now().toString() + Math.floor(Math.random() * 1000);
+    }
+
+    html(chat = null) {
+        const classes = [],
+            attr = {};
+
+        if (this.msgid) attr["data-msg-id"] = this.msgid;
+        if (this.user && this.user.username)
+            attr["data-username"] = this.user.username.toLowerCase();
+
+        if (this.isown) classes.push("msg-own");
+        if (this.highlighted) classes.push("msg-highlight");
+
+        // Cutoff previous message at 200 chars
+        const prevPreview =
+            this.prevMessage.length > 200
+                ? this.prevMessage.substring(0, 200) + "…"
+                : this.prevMessage;
+
+        // Highlight mentions inside reply text
+        let replyText = escapeHtml(prevPreview);
+        if (chat && chat.currentUser) {
+            const uname = chat.currentUser.username.toLowerCase();
+            const regex = new RegExp(`\\b${uname}\\b`, "gi");
+            replyText = replyText.replace(
+                regex,
+                `<span class="msg-highlight">$&</span>`
+            );
+        }
+
+        // Reply block
+        const replyBlock = `
+        <div class="msg-reply-preview${this.highlighted ? "msg-highlight" : ""}" data-reply-to="${this.prevMessageId}">
+            <span class="reply-arrow">↳</span>
+            <span class="reply-label">Replying to</span>
+            <span class="reply-user">${this.target.username ?? this.target}</span>:
+            <span class="reply-text">${replyText}</span>
+        </div>`;
+
+        // Actual message
+        const background = generateViewerStateBackground(this.user.viewerState);
+        const viewerStateProps = `title="${this.user.viewerState.getTitle()}" style="background-image: url(${background});" data-viewer-state="${JSON.stringify(
+            this.user.viewerState
+        ).replace(/"/g, "&quot;")}")}"`;
+
+        const user =
+            buildFeatures(this.user) +
+            ` <a class="user ${this.user.features.join(
+                " "
+            )}" ${viewerStateProps}>${this.user.username}</a>`;
+
+        const combined =
+            ` ${user}<span class="ctrl">: </span> ` +
+            buildMessageTxt(chat, this);
+
+        return this.wrap(
+            replyBlock + buildTime(this) + combined,
+            classes,
+            attr
+        );
+    }
+}
+
+
+// Helper to escape HTML safely
+function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, function (m) {
+        return (
+            {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;",
+            }[m] || m
+        );
+    });
 }
 
 const vsScratchCanvas = document.createElement("canvas");

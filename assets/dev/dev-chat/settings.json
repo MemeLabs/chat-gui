@@ -1,6 +1,6 @@
 [
     ["schemaversion", 2],
-    ["showtime", false],
+    ["showtime", true],
     ["hideflairicons", false],
     ["profilesettings", false],
     ["timestampformat", "HH:mm"],

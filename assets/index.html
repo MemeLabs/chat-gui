@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div id="chat-emote-info">
-                <span id="chat-emote-info-emotename" ></span>
+                <span id="chat-emote-info-emotename"></span>
                 <div class="d-flex justify-content-center">
                     <span id="chat-emote-info-icon"></span>
                     <div id="chat-emote-info-creators">
@@ -64,9 +64,22 @@
         </div>
 
         <div id="chat-input-frame">
+            <div id="chat-reply-banner" style="display: none;">
+                <div id="chat-reply-container">
+                    <span> Replying to </span>
+                    <span id="chat-reply-user"></span>
+                </div>
+                <span class="chat-reply-cancel"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </span>
+            </div>
             <div id="chat-input-wrap">
                 <div id="chat-input-scaler"></div>
-                <textarea id="chat-input-control" placeholder="Getting things ready ..." autocomplete="off" tabindex="1" autofocus spellcheck></textarea>
+                <textarea id="chat-input-control" placeholder="Getting things ready ..." autocomplete="off" tabindex="1"
+                    autofocus spellcheck></textarea>
             </div>
             <div id="chat-tools-wrap">
                 <a id="chat-emoticon-btn" class="chat-tool-btn" title="Emotes">
@@ -75,7 +88,7 @@
                 <a id="chat-whisper-btn" class="chat-tool-btn" title="Whispers">
                     <span class="fa fa-comments-o"></span>
                 </a>
-                <div id="chat-input-error" style="flex:1;">  
+                <div id="chat-input-error" style="flex:1;">
                     Message too long!
                 </div>
                 <a id="chat-settings-btn" class="chat-tool-btn" title="Settings">
@@ -148,7 +161,8 @@
                                     <span id="maximum-messages">Maximum messages </span>
                                     <span class="fa fa-refresh" title="Requires refresh"></span>
                                     <span id="maximum-messages-error">Must be number over 25 and under 5000</span>
-                                    <input id="maximum-messages-input" class="form-control" name="maxlines" type="number"  />
+                                    <input id="maximum-messages-input" class="form-control" name="maxlines"
+                                        type="number" />
                                 </label>
                             </div>
                             <div class="form-group">
@@ -216,12 +230,15 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label title="Upload custom sound" for="import-custom-sound" id="import-custom-sound-label" class="import-export">
-                                        <input type="file" accept="audio/*" name="notificationsoundfile" id="import-custom-sound" style="display:none">
+                                    <label title="Upload custom sound" for="import-custom-sound"
+                                        id="import-custom-sound-label" class="import-export">
+                                        <input type="file" accept="audio/*" name="notificationsoundfile"
+                                            id="import-custom-sound" style="display:none">
                                         <span id="customSoundUploadLabel">Upload sound</span>
                                     </label>
                                     <label title="Reset to default" id="reset-custom-sound-label" class="import-export">
-                                        <input type="button" name="reset-sound" id="reset-custom-sound" style="display:none">
+                                        <input type="button" name="reset-sound" id="reset-custom-sound"
+                                            style="display:none">
                                         <span id="soundResetLabel">Reset sound</span>
                                     </label>
                                 </div>
@@ -250,12 +267,14 @@
                             </div>
                             <div class="form-group checkbox">
                                 <label>
-                                    <input name="taggedvisibility" type="checkbox" /> Increased visibility of tagged users
+                                    <input name="taggedvisibility" type="checkbox" /> Increased visibility of tagged
+                                    users
                                 </label>
                             </div>
                             <div class="form-group row">
                                 <label title="Highlights usernames or text that match">Custom Highlights</label>
-                                <textarea name="customhighlight" style="resize: vertical;" class="form-control" placeholder="Comma separated ..."></textarea>
+                                <textarea name="customhighlight" style="resize: vertical;" class="form-control"
+                                    placeholder="Comma separated ..."></textarea>
                             </div>
 
                             <h4>Autocomplete</h4>
@@ -292,11 +311,13 @@
                             </div>
                             <h4>Import & Export settings</h4>
                             <div class="form-group">
-                                <label title="Import Settings" for="import-settings-Btn" id="import-settings-Label" class="import-export">
+                                <label title="Import Settings" for="import-settings-Btn" id="import-settings-Label"
+                                    class="import-export">
                                     <input type="file" accept=".json" id="import-settings-Btn">Import Settings
                                 </label>
                                 <label title="Export Settings">
-                                    <input type="button" name="export-settings" class="btn import-export" value="Export Settings" id="export-settings-Btn">
+                                    <input type="button" name="export-settings" class="btn import-export"
+                                        value="Export Settings" id="export-settings-Btn">
                                 </label>
                             </div>
                         </div>
