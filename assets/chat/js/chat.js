@@ -458,8 +458,7 @@ class Chat {
 
                 if (prevMessageId && prevText && targetUser) {
                     // Build the MSGREPLY payload 
-                    this.control.emit("message", {  data: text, nick: this.user,  target: targetUser, prev: prevText, prevMessageId: prevMessageId });
-                    MessageBuilder.reply(text, this.user, targetUser, prevText, prevMessageId).into(this);
+                    this.source.emit("MSGREPLY", { data: text, nick: this.user.nick, target: targetUser.nick, prev: prevText, prevMessageId: prevMessageId });
 
                     // Clear banner state
                     $("#chat-reply-banner").hide().removeData("replyTo").removeData("prevText").removeData("targetUser");
@@ -1309,8 +1308,10 @@ class Chat {
     }
 
     onREPLY(data) {
+        console.log("onREPLY:", data);
         const user = this.users.get(data.nick.toLowerCase());
         const target = this.users.get(data.target.toLowerCase());
+
 
         MessageBuilder.reply(
             data.data,        // current message
@@ -2105,8 +2106,8 @@ class Chat {
             MessageBuilder.error(`No recent message found from ${targetNick}`).into(this);
             return;
         }
-        // this.control.emit("SEND", `MSGREPLY ${JSON.stringify(messageObject)}`); 
-        MessageBuilder.reply(replyText, this.user, targetNick, prevMessage.message, prevMessage.id).into(this);
+
+        this.source.emit("MSGREPLY", { data: replyText, nick: this.user.nick, target: targetNick, prev: prevMessage.message, prevMessageId: prevMessage.id });
 
         // Add to input history
         this.inputhistory.add(`/reply ${targetNick} ${replyText}`);
