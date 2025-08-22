@@ -212,7 +212,7 @@ class ChatSettingsMenu extends ChatMenu {
                     .catch(() => importCustomSoundLabel.css("color", "red"));
                 reader.readAsDataURL(file);
             } else {
-                importCustomSoundLabel.css("color","red")
+                importCustomSoundLabel.css("color", "red")
                 uploadCriteria.css("color", "red");
             }
         }, false);
@@ -253,7 +253,7 @@ class ChatSettingsMenu extends ChatMenu {
 
         let data = $(e.target).val();
 
-        if(data == ""){
+        if (data == "") {
             return;
         }
 
@@ -616,9 +616,8 @@ class ChatWhisperUsers extends ChatMenu {
         this.usersEl.append(`
             <li class="conversation unread-${unread}">
                 <a data-username="${user.nick}" title="Hide" class="fa fa-times remove"></a>
-                <a data-username="${user.nick}" class="user">${
-            user.nick
-        } <span class="badge">${unread}</span></a>
+                <a data-username="${user.nick}" class="user">${user.nick
+            } <span class="badge">${unread}</span></a>
             </li>
         `);
     }
@@ -634,7 +633,7 @@ class ChatContextMenu {
         this.targetUsername = this.targetUser.find("a.user").text()
         this.targetUserViewerstate = this.targetUser.find("a.user").data("viewer-state");
         this.button = {}
-        this.permissionsLevels = ["anonymous","authenticated","moderator"]
+        this.permissionsLevels = ["anonymous", "authenticated", "moderator"]
         this.userLevel = this.getPermissionLevel(this.chat)
         this.unownedPermissionLevels = this.getUnownedPermissions(this.permissionsLevels, this.userLevel)
 
@@ -686,6 +685,25 @@ class ChatContextMenu {
                 .focus()
                 .val(`/whisper ${this.targetUsername} `)
         })
+        
+        this.button.reply = this.addButton("contextmenu-reply", (id, e) => {
+            const msgChat = $(this.event.currentTarget).closest(".msg-chat");
+            const msgObj = msgChat.data("message");
+            const prevId = msgChat.attr("data-msg-id") || (msgObj && msgObj.id);
+            const targetUser = msgObj && msgObj.user;
+            const prevText = msgObj && msgObj.message;
+
+            if (!prevId || !targetUser || !prevText) return;
+
+            $("#chat-reply-user").text(targetUser.username ?? targetUser);
+            $("#chat-reply-banner")
+                .data("replyTo", prevId)
+                .data("prevText", prevText)
+                .data("targetUser", targetUser)
+                .show();
+
+            $("#chat-input-control").focus();
+        });
 
         if (this.chat.settings.get("highlightnicks").includes(this.targetUsername.toLowerCase())) {
             this.button.highlight = this.addButton("contextmenu-unhighlight", (id, e) => {
@@ -801,7 +819,7 @@ class ChatEmoteInfoMenu {
     adjustPosition(e) {
         // we get the outmost span because it has a static position that we use to position our popup
         let outerSpan = $(e.target).parents(".generify-container");
-        let emoteElementClientRect = outerSpan[outerSpan.length-1].getBoundingClientRect();
+        let emoteElementClientRect = outerSpan[outerSpan.length - 1].getBoundingClientRect();
 
         this.emoteInfoID = this.targetEmote + emoteElementClientRect.top + emoteElementClientRect.left
         this.ui.css("left", emoteElementClientRect.left);
@@ -823,7 +841,7 @@ class ChatEmoteInfoMenu {
             this.ui.css(
                 "top",
                 emoteElementClientRect.top -
-                    (this.ui.height() + emoteElementClientRect.height)
+                (this.ui.height() + emoteElementClientRect.height)
             );
         }
 
@@ -832,8 +850,8 @@ class ChatEmoteInfoMenu {
             this.ui.css(
                 "left",
                 emoteElementClientRect.left -
-                    (this.ui[0].getBoundingClientRect().right -
-                        window.innerWidth)
+                (this.ui[0].getBoundingClientRect().right -
+                    window.innerWidth)
             );
         }
     }

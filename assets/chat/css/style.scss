@@ -1091,6 +1091,11 @@ a.flair12:hover {
 }
 
 /* Highlight */
+.msg-highlight-reply {
+    color: #CCDCD1 !important;
+    background-color: #224E61 !important;
+}
+
 .msg-highlight {
     color: #CCC;
     background-color: $color-chat-highlight;
@@ -2153,6 +2158,7 @@ button.btn {
     &:hover {
         color: $color-chat-text1;
     }
+
     &:active {
         scale: 0.95;
     }

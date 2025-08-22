@@ -212,13 +212,12 @@ export default class MockStream {
         const user1 = "Ghostface";
         const user2 = "FrostedJimmy";
 
-        // Initial message about Strims' DRS performance
+        // Fake convo between 2 people to display replies
         this.sendMessage(
             user1,
             "Yall see the speed boost after DRS on Strims!?"
         );
 
-        // FrostedJimmy responds, comparing Strims' DRS to Memlabs
         this.sendReply(
             user2,
             user1,
@@ -228,7 +227,6 @@ export default class MockStream {
             "0002"
         );
 
-        // Ghostface highlights Memlabs' DRS advantage
         this.sendReply(
             user1,
             user2,
@@ -238,22 +236,20 @@ export default class MockStream {
             "0003"
         );
 
-        // FrostedJimmy praises Strims' cornering
         this.sendReply(
             user2,
             user1,
-            "True, Strims’ cornering is unreal—those high-downforce wings grip like glue in Turn 9. Memlabs slides a bit there. TopTierMemer98",
+            "True, Strims’ cornering is unreal—those high-downforce wings grip like glue in Turn 9. Memlabs slides a bit there.",
             "Memlabs’ DRS is nuts, prob hitting 12 km/h extra. Their rear wing flap opens wider, I bet. Strims still owns the corners though.",
             "0003",
             "0004"
         );
 
-        // Ghostface wraps up, balancing both strengths
         this.sendReply(
             user1,
             user2,
             "Yeah, Strims nails corners with that downforce, but Memlabs’ DRS speed on the straight might clinch the win next time!",
-            "True, Strims’ cornering is unreal—those high-downforce wings grip like glue in Turn 9. Memlabs slides a bit there. TopTierMemer98",
+            "True, Strims’ cornering is unreal—those high-downforce wings grip like glue in Turn 9. Memlabs slides a bit there.",
             "0004",
             "0005"
         );

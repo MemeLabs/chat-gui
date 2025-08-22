@@ -572,35 +572,15 @@ class Chat {
                     original[0].scrollIntoView({ behavior: "smooth", block: "center" });
 
                     // temporary highlight
-                    original.addClass("msg-highlight");
-                    setTimeout(() => original.removeClass("msg-highlight"), 1500);
+                    original.addClass("msg-highlight-reply");
+                    setTimeout(() => original.removeClass("msg-highlight-reply"), 1500);
                 } else {
                     console.log("Original message not found in DOM:", targetId);
                 }
             }
         });
-        // right click a message to reply to it
-        this.ui.on("contextmenu", ".msg-chat .text", e => {
-            e.preventDefault();
 
-            const msgChat = $(e.currentTarget).closest(".msg-chat"); // parent .msg-chat
-            const msgObj = msgChat.data("message");                // or line.data("message")
-            const prevId = msgChat.attr("data-msg-id") || (msgObj && msgObj.id);
-            const targetUser = msgObj && msgObj.user;
-            const prevText = msgObj && msgObj.message;
-
-
-            if (!prevId || !targetUser || !prevText) return;
-
-            $("#chat-reply-user").text(targetUser.username ?? targetUser);
-            $("#chat-reply-banner").data("replyTo", prevId)
-                .data("prevText", prevText)
-                .data("targetUser", targetUser)
-                .show();
-
-            $("#chat-input-control").focus();
-        });
-
+        // Cancel a repl to someone
         this.ui.on("click", ".chat-reply-cancel", () => {
             $("#chat-reply-banner").hide().removeData("replyTo").removeData("prevText").removeData("targetUser");
         });
@@ -1308,10 +1288,8 @@ class Chat {
     }
 
     onREPLY(data) {
-        console.log("onREPLY:", data);
         const user = this.users.get(data.nick.toLowerCase());
         const target = this.users.get(data.target.toLowerCase());
-
 
         MessageBuilder.reply(
             data.data,        // current message
@@ -2105,9 +2083,9 @@ class Chat {
         if (!prevMessage) {
             MessageBuilder.error(`No recent message found from ${targetNick}`).into(this);
             return;
-        }
+        }        
 
-        this.source.emit("MSGREPLY", { data: replyText, nick: this.user.nick, target: targetNick, prev: prevMessage.message, prevMessageId: prevMessage.id });
+        this.source.emit("MSGREPLY", { data: replyText, nick: this.user.nick, target: targetNick, prev: prevMessage.message, prevMessageId: prevMessage.msgid });
 
         // Add to input history
         this.inputhistory.add(`/reply ${targetNick} ${replyText}`);

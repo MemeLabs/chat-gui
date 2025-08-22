@@ -368,90 +368,55 @@ class ChatUserMessage extends ChatMessage {
         );
     }
 }
+
 class ChatReplyMessage extends ChatUserMessage {
     constructor(message, user, target, prevMessage, prevMessageId, messageId = null, timestamp = null) {
         super(message, user, timestamp);
         this.prevMessage = prevMessage;
         this.prevMessageId = prevMessageId;
-        this.target = target;
+        this.replytarget = target;
         this.msgid = messageId ?? Date.now().toString() + Math.floor(Math.random() * 1000);
+        this.isown = false;
+        this.highlighted = false;
+        this.historical = false;
+        this.targetoutgoing = null;
+        this.tag = null;
+        this.slashme = false;
+        this.mentioned = [];
     }
-
     html(chat = null) {
         const classes = [],
             attr = {};
-
         if (this.msgid) attr["data-msg-id"] = this.msgid;
         if (this.user && this.user.username)
             attr["data-username"] = this.user.username.toLowerCase();
+        if (this.mentioned && this.mentioned.length > 0)
+            attr["data-mentioned"] = this.mentioned.join(" ").toLowerCase();
 
         if (this.isown) classes.push("msg-own");
+        if (this.slashme && !this.target && !this.targetoutgoing)
+            classes.push("msg-me");
+        if (this.historical) classes.push("msg-historical");
         if (this.highlighted) classes.push("msg-highlight");
+        // Cuts the message limit into a quater
+        const prevPreview = this.prevMessage.length > 128 ? this.prevMessage.substring(0, 128) + "…" : this.prevMessage;
+        // Previous message block
+        // Possable problem getting the traget username here 
+        const replyBlock = ` 
+            <div class="msg-reply-preview" data-reply-to="${this.prevMessageId}"> 
+              <span class="reply-arrow">↳</span> <span class="reply-label">Replying to</span> 
+              <span class="reply-user chat-user">${this.replytarget.username ?? this.replytarget}</span>: 
+              <span class="reply-text">${prevPreview}</span> </div>`;
 
-        // Cutoff previous message at 200 chars
-        const prevPreview =
-            this.prevMessage.length > 200
-                ? this.prevMessage.substring(0, 200) + "…"
-                : this.prevMessage;
-
-        // Highlight mentions inside reply text
-        let replyText = escapeHtml(prevPreview);
-        if (chat && chat.currentUser) {
-            const uname = chat.currentUser.username.toLowerCase();
-            const regex = new RegExp(`\\b${uname}\\b`, "gi");
-            replyText = replyText.replace(
-                regex,
-                `<span class="msg-highlight">$&</span>`
-            );
-        }
-
-        // Reply block
-        const replyBlock = `
-        <div class="msg-reply-preview${this.highlighted ? "msg-highlight" : ""}" data-reply-to="${this.prevMessageId}">
-            <span class="reply-arrow">↳</span>
-            <span class="reply-label">Replying to</span>
-            <span class="reply-user">${this.target.username ?? this.target}</span>:
-            <span class="reply-text">${replyText}</span>
-        </div>`;
-
-        // Actual message
+        // Actual message 
         const background = generateViewerStateBackground(this.user.viewerState);
         const viewerStateProps = `title="${this.user.viewerState.getTitle()}" style="background-image: url(${background});" data-viewer-state="${JSON.stringify(
-            this.user.viewerState
-        ).replace(/"/g, "&quot;")}")}"`;
+            this.user.viewerState).replace(/"/g, "&quot;")}")}"`;
+        const user = buildFeatures(this.user) + `<a class="user ${this.user.features.join(" ")}" ${viewerStateProps}>${this.user.username}</a>`;
+        const combined = ` ${user}<span class="ctrl">: </span> ` + buildMessageTxt(chat, this);
 
-        const user =
-            buildFeatures(this.user) +
-            ` <a class="user ${this.user.features.join(
-                " "
-            )}" ${viewerStateProps}>${this.user.username}</a>`;
-
-        const combined =
-            ` ${user}<span class="ctrl">: </span> ` +
-            buildMessageTxt(chat, this);
-
-        return this.wrap(
-            replyBlock + buildTime(this) + combined,
-            classes,
-            attr
-        );
+        return this.wrap(replyBlock + buildTime(this) + combined, classes, attr);
     }
-}
-
-
-// Helper to escape HTML safely
-function escapeHtml(str) {
-    return str.replace(/[&<>"']/g, function (m) {
-        return (
-            {
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#039;",
-            }[m] || m
-        );
-    });
 }
 
 const vsScratchCanvas = document.createElement("canvas");
