@@ -464,11 +464,17 @@ class Chat {
                     $("#chat-reply-banner").hide().removeData("replyTo").removeData("prevText").removeData("targetUser");
                     $("#chat-reply-user").text("");
                 } else {
-                    // Plain message
-                    this.control.emit("SEND", text);
+                    // don't do anything if the message is marked invalid client-side (currently only when the message is too long)
+                    if (!this.input.hasClass("invalid-msg-warning")) {
+                        this.control.emit(
+                            "SEND",
+                            this.input.val().toString().trim()
+                        );
+                        this.input.val("").trigger("input");
+                    }
                 }
 
-                this.input.val("").trigger("input").focus();
+                this.input.focus();
             }
         });
 
@@ -1555,7 +1561,7 @@ class Chat {
                     ).match(/([^ ]+)/g);
                     this.control.emit(normalized, parts || []);
                 } else {
-                    MessageBuilder.error(`Unknown command??. Try /help`).into(
+                    MessageBuilder.error(`Unknown command. Try /help`).into(
                         this,
                         win
                     );
@@ -2083,7 +2089,7 @@ class Chat {
         if (!prevMessage) {
             MessageBuilder.error(`No recent message found from ${targetNick}`).into(this);
             return;
-        }        
+        }
 
         this.source.emit("MSGREPLY", { data: replyText, nick: this.user.nick, target: targetNick, prev: prevMessage.message, prevMessageId: prevMessage.msgid });
 
