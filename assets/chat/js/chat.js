@@ -457,12 +457,13 @@ class Chat {
                 const targetUser = $("#chat-reply-banner").data("targetUser");
 
                 if (prevMessageId && prevText && targetUser) {
-                    // Build the MSGREPLY payload 
+                    // Build the MSGREPLY payload
                     this.source.emit("MSGREPLY", { data: text, nick: this.user.nick, target: targetUser.nick, prev: prevText, prevMessageId: prevMessageId });
 
                     // Clear banner state
                     $("#chat-reply-banner").hide().removeData("replyTo").removeData("prevText").removeData("targetUser");
                     $("#chat-reply-user").text("");
+                    this.input.val("").trigger("input");
                 } else {
                     // don't do anything if the message is marked invalid client-side (currently only when the message is too long)
                     if (!this.input.hasClass("invalid-msg-warning")) {
@@ -1000,21 +1001,36 @@ class Chat {
                 win.lastmessage.user &&
                 win.lastmessage.user.username.toLowerCase() ===
                 message.user.username.toLowerCase();
-            // get mentions from message
-            message.mentioned = Chat.extractNicks(message.message).reduce((m, a) => {
+            // Gets mentions from message and a reply mentions
+            message.mentioned = [
+                ...Chat.extractNicks(message.message),
+                ...(message.prevMessage ? Chat.extractNicks(message.prevMessage) : [])
+            ].reduce((m, a) => {
                 const user = this.users.get(a.toLowerCase());
-                return user ? [...m, user.nick] : m;
+                if (user && !m.includes(user.nick)) {
+                    m.push(user.nick);
+                }
+                return m;
             }, []);
+
+            // add replytarget nick if present
+            if (message.replytarget?.nick && !message.mentioned.includes(message.replytarget.nick)) {
+                message.mentioned.push(message.replytarget.nick);
+            }
+
             // set tagged state
             message.tag = this.taggednicks.get(message.user.nick.toLowerCase());
             // set highlighted state if this is not the current users message or a bot, as well as other highlight criteria
             message.highlighted =
                 !message.isown &&
                 !message.user.hasFeature(UserFeatures.BOT) &&
-                // Check current user nick against msg.message (if highlight setting is on)
-                ((this.regexhighlightself &&
-                    this.settings.get("highlight") &&
-                    this.regexhighlightself.test(message.message)) ||
+                (
+                    // Highlight if the replytarget is the current user
+                    (message.replytarget?.username === this.user.username) ||
+                    // Check current user nick against msg.message (if highlight setting is on)
+                    (this.regexhighlightself &&
+                        this.settings.get("highlight") &&
+                        this.regexhighlightself.test(message.message)) ||
                     // Check /highlight nicks against msg.nick
                     (this.regexhighlightnicks &&
                         this.regexhighlightnicks.test(message.user.username)) ||
