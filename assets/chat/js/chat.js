@@ -714,7 +714,7 @@ class Chat {
             let temp = this.emoteInfoMenu;
             this.emoteInfoMenu = new ChatEmoteInfoMenu(this, e);
             this.emoteInfoMenu.show(e);
-            if (temp && temp.emoteInfoID == this.emoteInfoMenu.emoteInfoID) 
+            if(temp && temp.emoteInfoID == this.emoteInfoMenu.emoteInfoID)
             {
                 this.emoteInfoMenu.hide()
                 this.emoteInfoMenu = undefined;
@@ -1592,7 +1592,7 @@ class Chat {
                 // MESSAGE
                 this.source.send("MSG", { data: str });
                 this.inputhistory.add(str);
-                if (ChatStore.read('chat.unsentMessage') !== null) ChatStore.write('chat.unsentMessage', null);
+                if(ChatStore.read('chat.unsentMessage') !== null) ChatStore.write('chat.unsentMessage', null);
             }
         }
     }
@@ -2218,7 +2218,7 @@ class Chat {
     static isArraysEqual(a, b) {
         return !a || !b
             ? a.length !== b.length ||
-                a.sort().toString() !== b.sort().toString()
+                  a.sort().toString() !== b.sort().toString()
             : false;
     }
 

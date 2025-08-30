@@ -64,7 +64,7 @@ export default class MockStream {
                 } catch (ignored) {
                     data = payload;
                 }
-                
+
                 if (eventname === "MSG") {
                     data.nick = username;
                     this.server.emit("message", `MSG ${JSON.stringify(data)}`);

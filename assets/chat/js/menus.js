@@ -835,14 +835,14 @@ class ChatEmoteInfoMenu {
         // vertical alignment
         if (
             this.event.pageY <
-                this.ui.height() + emoteElementClientRect.height
+            this.ui.height() + emoteElementClientRect.height
         ) {
             this.ui.css("top", emoteElementClientRect.bottom + 10);
         } else {
             this.ui.css(
                 "top",
                 emoteElementClientRect.top -
-                (this.ui.height() + emoteElementClientRect.height)
+                    (this.ui.height() + emoteElementClientRect.height)
             );
         }
 
