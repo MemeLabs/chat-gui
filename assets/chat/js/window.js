@@ -28,9 +28,9 @@ class ChatWindow extends EventEmitter {
         this.lastmessage = null;
         this.ui = $(
             `<div id="chat-win-${name}" class="chat-output ${type} nano" style="display: none;">` +
-            `<div class="chat-lines nano-content"></div>` +
-            `<div class="chat-scroll-notify">More messages below</div>` +
-            `</div>`
+                `<div class="chat-lines nano-content"></div>` +
+                `<div class="chat-scroll-notify">More messages below</div>` +
+                `</div>`
         );
         this.lines = this.ui.find(".chat-lines");
     }

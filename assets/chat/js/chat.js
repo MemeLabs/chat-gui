@@ -346,8 +346,8 @@ class Chat {
         // Else use whats in LocalStorage#chat.settings
         let stored =
             settings !== null &&
-                this.authenticated &&
-                settings.get("profilesettings")
+            this.authenticated &&
+            settings.get("profilesettings")
                 ? settings
                 : new Map(ChatStore.read("chat.settings") || []);
 
@@ -442,7 +442,6 @@ class Chat {
             if (isKeyCode(e, KEYCODES.ENTER) && !e.shiftKey && !e.ctrlKey) {
                 e.preventDefault();
                 e.stopPropagation();
-
                 if (!this.authenticated) {
                     this.loginscrn.show();
                     return;
@@ -474,7 +473,6 @@ class Chat {
                         this.input.val("").trigger("input");
                     }
                 }
-
                 this.input.focus();
             }
         });
@@ -483,8 +481,8 @@ class Chat {
         this.input.on("keydown", (e) => {
             let chars = this.input.val().toString().length
 
-            if (isKeyCode(e, KEYCODES.BACKSPACE))
-                chars--
+            if(isKeyCode(e, KEYCODES.BACKSPACE))
+            chars--
 
             this.testIfValid(chars);
         });
@@ -670,7 +668,7 @@ class Chat {
                     let follow = "";
                     try {
                         follow = encodeURIComponent(pathname);
-                    } catch (_) { }
+                    } catch (_) {}
                     location.href = `${origin}/login?follow=${follow}`;
                 } else {
                     location.href = `${origin}/login`;
@@ -716,13 +714,14 @@ class Chat {
             let temp = this.emoteInfoMenu;
             this.emoteInfoMenu = new ChatEmoteInfoMenu(this, e);
             this.emoteInfoMenu.show(e);
-            if (temp && temp.emoteInfoID == this.emoteInfoMenu.emoteInfoID) {
+            if (temp && temp.emoteInfoID == this.emoteInfoMenu.emoteInfoID) 
+            {
                 this.emoteInfoMenu.hide()
                 this.emoteInfoMenu = undefined;
             }
         })
 
-        this.ui.on("click", "#chat-emote-info", (e) => {
+        this.ui.on("click","#chat-emote-info", (e) => {
             // prevents hiding the popup accidentally if you're clicking text inside of it
             e.stopPropagation();
         });
@@ -763,7 +762,7 @@ class Chat {
         return this;
     }
 
-    testIfValid(messageLength) {
+    testIfValid(messageLength){
         if (messageLength > 512) {
             this.input.addClass("invalid-msg-warning");
             this.chatinputerror.addClass("show")
@@ -1012,7 +1011,6 @@ class Chat {
                 }
                 return m;
             }, []);
-
             // add replytarget nick if present
             if (message.replytarget?.nick && !message.mentioned.includes(message.replytarget.nick)) {
                 message.mentioned.push(message.replytarget.nick);
@@ -1039,7 +1037,7 @@ class Chat {
                         this.regexhighlightcustom.test(
                             message.user.username + " " + message.message
                         )));
-            if (this.settings.get("holidayemotemodifiers")) {
+            if (this.settings.get("holidayemotemodifiers")){
                 const t = new Date();
                 if (t.getMonth() === 1 && t.getDate() === 14) {
                     message.message = this.addAffixToEmotes(message.message, ":love");
@@ -1151,15 +1149,19 @@ class Chat {
             this.windows.forEach(w => {
                 if (w.name === "main") {
                     this.windowselect.append(
-                        `<span title="Strims Chat" data-name="main" class="tab win-main tag-${w.tag
+                        `<span title="Strims Chat" data-name="main" class="tab win-main tag-${
+                            w.tag
                         } ${w.visible ? "active" : ""}">Strims Chat</span>`
                     );
                 } else {
                     const conv = this.whispers.get(w.name);
                     this.windowselect.append(
-                        `<span title="${w.label}" data-name="${w.name
-                        }" class="tab win-${w.name} tag-${w.tag} ${w.visible ? "active" : ""
-                        } ${conv.unread > 0 ? "unread" : ""}">${w.label} ${conv.unread > 0 ? "(" + conv.unread + ")" : ""
+                        `<span title="${w.label}" data-name="${
+                            w.name
+                        }" class="tab win-${w.name} tag-${w.tag} ${
+                            w.visible ? "active" : ""
+                        } ${conv.unread > 0 ? "unread" : ""}">${w.label} ${
+                            conv.unread > 0 ? "(" + conv.unread + ")" : ""
                         } <i class="fa fa-close" title="Close" /></span>`
                     );
                 }
@@ -1266,7 +1268,7 @@ class Chat {
     onNAMES(data) {
         MessageBuilder.info(
             `Currently serving ${data["connectioncount"] ||
-            0} connections and ${data["users"].length} users.`
+                0} connections and ${data["users"].length} users.`
         ).into(this);
         if (this.showmotd) {
             this.cmdHINT([Math.floor(Math.random() * hintstrings.size)]);
@@ -1332,7 +1334,7 @@ class Chat {
                 data.timestamp
             ).into(this);
         } else {
-            if (!this.ignored(data.data)) {
+            if(!this.ignored(data.data)){
                 MessageBuilder.command(
                     `${data.data} muted by ${data.nick}.`,
                     data.timestamp
@@ -1843,11 +1845,11 @@ class Chat {
         if (color[0] === "#") {
             color = color.substring(1);
             var css =
-                ".msg-tagged-" +
-                color +
-                ":before{ background-color: #" +
-                color +
-                "; }",
+                    ".msg-tagged-" +
+                    color +
+                    ":before{ background-color: #" +
+                    color +
+                    "; }",
                 head =
                     document.head || document.getElementsByTagName("head")[0],
                 style = document.getElementById("hexColors");
@@ -2206,7 +2208,7 @@ class Chat {
     }
 
     static removeClasses(search) {
-        return function (i, c) {
+        return function(i, c) {
             return (
                 c.match(new RegExp(`\\b${search}(?:[A-z-0-9]+)?\\b`, "g")) || []
             ).join(" ");
@@ -2216,7 +2218,7 @@ class Chat {
     static isArraysEqual(a, b) {
         return !a || !b
             ? a.length !== b.length ||
-            a.sort().toString() !== b.sort().toString()
+                a.sort().toString() !== b.sort().toString()
             : false;
     }
 
@@ -2262,7 +2264,7 @@ class Chat {
             day: 86400000000000,
             days: 86400000000000
         };
-        str.replace(regextime, function ($0, number, unit) {
+        str.replace(regextime, function($0, number, unit) {
             number *= unit ? units[unit.toLowerCase()] || units.s : units.s;
             nanoseconds += +number;
         });

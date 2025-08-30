@@ -148,8 +148,9 @@ function buildFeatures(user) {
         })
         .map((e) => {
             const f = UserFeatures.valueOf(e);
-            return `<i class="flair icon-${e.toLowerCase()}" title="${f !== null ? f.label : e
-                }"></i>`;
+            return `<i class="flair icon-${e.toLowerCase()}" title="${
+                f !== null ? f.label : e
+            }"></i>`;
         })
         .join("");
     return features.length > 0
@@ -273,7 +274,7 @@ class ChatUIMessage {
         return this.wrap(this.message);
     }
 
-    afterRender(chat = null) { }
+    afterRender(chat = null) {}
 }
 
 class ChatMessage extends ChatUIMessage {
