@@ -954,6 +954,11 @@ a.flair12:hover {
     background-color: $color-chat-highlight;
 }
 
+.msg-highlight-reply {
+    color: #CCDCD1 !important;
+    background-color: #224E61 !important;
+}
+
 /* Focus or highlight a line */
 .focus-user .msg-chat {
     opacity:0.3;
@@ -1853,6 +1858,8 @@ button.btn {
     position: relative;
     z-index: 220;
     box-shadow: 0px -1px 4px rgba(black, 0.3);
+    white-space: nowrap; 
+    text-overflow: ellipsis;
 }
 
 #chat-reply-container {
@@ -1868,20 +1875,13 @@ button.btn {
 .chat-reply-cancel {
     cursor: pointer;
     display: flex;
+    font-size: 20px;
     align-items: center;
     color: $color-chat-text3;
     transition: color 0.2s ease;
 
-    svg {
-        width: 20px;
-        height: 20px;
-    }
 
     &:hover {
         color: $color-chat-text1;
-    }
-
-    &:active {
-        scale: 0.95;
     }
 }

@@ -402,7 +402,7 @@ class ChatReplyMessage extends ChatUserMessage {
         // Cuts the message limit into a quater
         const prevPreview = this.prevMessage.length > 128 ? this.prevMessage.substring(0, 128) + "…" : this.prevMessage;
         // Previous message block
-        // Possable problem getting the traget username here 
+        // Possable problem getting the target username here 
         const replyBlock = ` 
             <div class="msg-reply-preview" data-reply-to="${this.prevMessageId}"> 
               <span class="reply-arrow">↳</span> <span class="reply-label">Replying to</span> 

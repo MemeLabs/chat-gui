@@ -585,7 +585,7 @@ class Chat {
             }
         });
 
-        // Cancel a repl to someone
+        // Cancel a reply to someone
         this.ui.on("click", ".chat-reply-cancel", () => {
             $("#chat-reply-banner").hide().removeData("replyTo").removeData("prevText").removeData("targetUser");
         });
