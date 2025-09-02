@@ -188,6 +188,7 @@ const commandsinfo = new Map([
     ],
     ["unhideemote", { desc: "Unhide a hidden emote." }],
     ["spoiler", { desc: "Wraps a message in the spoiler tags `||`." }],
+    ["reply", { desc: "Reply to a user's most recent message." }],
 ]);
 const banstruct = {
     id: 0,
@@ -263,6 +264,7 @@ class Chat {
         this.source.on("NAMES", data => this.onNAMES(data));
         this.source.on("QUIT", data => this.onQUIT(data));
         this.source.on("MSG", data => this.onMSG(data));
+        this.source.on("MSGREPLY", data => this.onREPLY(data));
         this.source.on("MUTE", data => this.onMUTE(data));
         this.source.on("UNMUTE", data => this.onUNMUTE(data));
         this.source.on("BAN", data => this.onBAN(data));
@@ -317,6 +319,7 @@ class Chat {
             this.cmdHIDEEMOTE(data, "UNHIDEEMOTE")
         );
         this.control.on("SPOILER", data => this.cmdSPOILER(data))
+        this.control.on("REPLY", data => this.cmdREPLY(data))
 
         notificationSound.loadConfig();
     }
@@ -441,6 +444,25 @@ class Chat {
                 e.stopPropagation();
                 if (!this.authenticated) {
                     this.loginscrn.show();
+                    return;
+                }
+                if (this.input.hasClass("invalid-msg-warning")) return;
+
+                const text = this.input.val().toString().trim();
+                if (!text) return;
+
+                const prevMessageId = $("#chat-reply-banner").data("replyTo");
+                const prevText = $("#chat-reply-banner").data("prevText");
+                const targetUser = $("#chat-reply-banner").data("targetUser");
+
+                if (prevMessageId && prevText && targetUser) {
+                    // Build the MSGREPLY payload
+                    this.source.emit("MSGREPLY", { data: text, nick: this.user.nick, target: targetUser.nick, prev: prevText, prevMessageId: prevMessageId });
+
+                    // Clear banner state
+                    $("#chat-reply-banner").hide().removeData("replyTo").removeData("prevText").removeData("targetUser");
+                    $("#chat-reply-user").text("");
+                    this.input.val("").trigger("input");
                 } else {
                     // don't do anything if the message is marked invalid client-side (currently only when the message is too long)
                     if (!this.input.hasClass("invalid-msg-warning")) {
@@ -539,6 +561,33 @@ class Chat {
                 event.preventDefault();
                 this.input.focus();
             }
+        });
+
+        // Right click a reply to scroll to the orginal message
+        this.ui.on("contextmenu", ".msg-reply-preview", function (e) {
+            e.preventDefault();
+
+            const preview = $(this); // the reply preview div
+            const targetId = preview.data("reply-to"); // uses data-reply-to attr
+
+            if (targetId) {
+                const original = $(`[data-msg-id="${targetId}"]`);
+
+                if (original.length) {
+                    original[0].scrollIntoView({ behavior: "smooth", block: "center" });
+
+                    // temporary highlight
+                    original.addClass("msg-highlight-reply");
+                    setTimeout(() => original.removeClass("msg-highlight-reply"), 1500);
+                } else {
+                    console.log("Original message not found in DOM:", targetId);
+                }
+            }
+        });
+
+        // Cancel a reply to someone
+        this.ui.on("click", ".chat-reply-cancel", () => {
+            $("#chat-reply-banner").hide().removeData("replyTo").removeData("prevText").removeData("targetUser");
         });
 
         // Visibility
@@ -951,21 +1000,35 @@ class Chat {
                 win.lastmessage.user &&
                 win.lastmessage.user.username.toLowerCase() ===
                 message.user.username.toLowerCase();
-            // get mentions from message
-            message.mentioned = Chat.extractNicks(message.message).reduce((m, a) => {
+            // Gets mentions from message and a reply mentions
+            message.mentioned = [
+                ...Chat.extractNicks(message.message),
+                ...(message.prevMessage ? Chat.extractNicks(message.prevMessage) : [])
+            ].reduce((m, a) => {
                 const user = this.users.get(a.toLowerCase());
-                return user ? [...m, user.nick] : m;
+                if (user && !m.includes(user.nick)) {
+                    m.push(user.nick);
+                }
+                return m;
             }, []);
+            // add replytarget nick if present
+            if (message.replytarget?.nick && !message.mentioned.includes(message.replytarget.nick)) {
+                message.mentioned.push(message.replytarget.nick);
+            }
+
             // set tagged state
             message.tag = this.taggednicks.get(message.user.nick.toLowerCase());
             // set highlighted state if this is not the current users message or a bot, as well as other highlight criteria
             message.highlighted =
                 !message.isown &&
                 !message.user.hasFeature(UserFeatures.BOT) &&
-                // Check current user nick against msg.message (if highlight setting is on)
-                ((this.regexhighlightself &&
-                    this.settings.get("highlight") &&
-                    this.regexhighlightself.test(message.message)) ||
+                (
+                    // Highlight if the replytarget is the current user
+                    (message.replytarget?.username === this.user.username) ||
+                    // Check current user nick against msg.message (if highlight setting is on)
+                    (this.regexhighlightself &&
+                        this.settings.get("highlight") &&
+                        this.regexhighlightself.test(message.message)) ||
                     // Check /highlight nicks against msg.nick
                     (this.regexhighlightnicks &&
                         this.regexhighlightnicks.test(message.user.username)) ||
@@ -1246,6 +1309,21 @@ class Chat {
             const user = this.users.get(data.nick.toLowerCase());
             MessageBuilder.message(data.data, user, data.timestamp).into(this);
         }
+    }
+
+    onREPLY(data) {
+        const user = this.users.get(data.nick.toLowerCase());
+        const target = this.users.get(data.target.toLowerCase());
+
+        MessageBuilder.reply(
+            data.data,        // current message
+            user,              // sender user object
+            target,             // target user object
+            data.prev,        // previoustext
+            data.prevMessageId,        // previoustext
+            data.messageId,    // optional message ID
+            data.timestamp    // optional timestamp
+        ).into(this);
     }
 
     onMUTE(data) {
@@ -1985,6 +2063,58 @@ class Chat {
     cmdSPOILER(data) {
         this.control.emit("SEND", `|| ${data.join(' ')} ||`)
     }
+
+    findLastMessageByUser({ nick, id }, win = this.getActiveWindow()) {
+        const children = win.getlines();
+
+        for (let i = children.length - 1; i >= 0; i--) {
+            const line = $(children[i]);
+            const msg = line.data("message");
+
+            if (!msg) continue;
+
+            // Match by ID first
+            if (id && msg.id === id) {
+                return msg;
+            }
+
+            // Match by nickname
+            if (nick && msg.user && msg.user.nick.toLowerCase() === nick.toLowerCase()) {
+                return msg;
+            }
+        }
+
+        return null;
+    }
+
+
+    cmdREPLY(parts) {
+        if (!parts[0] || !nickregex.test(parts[0])) {
+            MessageBuilder.error("Usage: /reply <nick> <message>").into(this);
+            return;
+        }
+
+        const targetNick = parts[0];
+        const replyText = parts.slice(1).join(" ");
+
+        if (!replyText) {
+            MessageBuilder.error("Reply message cannot be empty").into(this);
+            return;
+        }
+
+        // Find the last message from that user in the active window
+        const prevMessage = this.findLastMessageByUser({ nick: targetNick });
+        if (!prevMessage) {
+            MessageBuilder.error(`No recent message found from ${targetNick}`).into(this);
+            return;
+        }
+
+        this.source.emit("MSGREPLY", { data: replyText, nick: this.user.nick, target: targetNick, prev: prevMessage.message, prevMessageId: prevMessage.msgid });
+
+        // Add to input history
+        this.inputhistory.add(`/reply ${targetNick} ${replyText}`);
+    }
+
 
     openConversation(nick) {
         const normalized = nick.toLowerCase();
