@@ -24,11 +24,6 @@
                             <span id="contextmenu-viewerstate-status-icon"></span>
                         </div>
                     </div>
-                    <div class="form-group contextmenu-level-authenticated" id="contextmenu-reply">
-                        <label title="reply" class="contextmenu-label">
-                            <input type="button" class="btn">Reply
-                        </label>
-                    </div>
                     <div class="form-group contextmenu-level-authenticated" id="contextmenu-whisper">
                         <label title="Whisper" class="contextmenu-label">
                             <input type="button" class="btn">Whisper
@@ -69,15 +64,6 @@
         </div>
 
         <div id="chat-input-frame">
-            <div id="chat-reply-banner" style="display: none;">
-                <div id="chat-reply-container">
-                    <span> Replying to </span>
-                    <span id="chat-reply-user"></span>
-                </div>
-                <span class="chat-reply-cancel">
-                    <span class="fa fa-times-circle"></span>
-                </span>
-            </div>
             <div id="chat-input-wrap">
                 <div id="chat-input-scaler"></div>
                 <textarea id="chat-input-control" placeholder="Getting things ready ..." autocomplete="off" tabindex="1" autofocus spellcheck></textarea>
@@ -89,7 +75,7 @@
                 <a id="chat-whisper-btn" class="chat-tool-btn" title="Whispers">
                     <span class="fa fa-comments-o"></span>
                 </a>
-                <div id="chat-input-error" style="flex:1;"> 
+                <div id="chat-input-error" style="flex:1;">  
                     Message too long!
                 </div>
                 <a id="chat-settings-btn" class="chat-tool-btn" title="Settings">

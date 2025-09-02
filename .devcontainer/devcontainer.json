@@ -6,6 +6,5 @@
 		"context": "..",
 		"dockerfile": "./Dockerfile"
 	},
-	"forwardPorts": [8282],
-	"runArgs": ["--publish=8282:8282"]
+	"forwardPorts": [8282]
 }

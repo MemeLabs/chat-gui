@@ -71,7 +71,6 @@ class ChatWindow extends EventEmitter {
 
     addMessage(chat, message) {
         message.ui = $(message.html(chat));
-        message.ui.data("message", message);
         message.afterRender(chat);
         this.lastmessage = message;
         this.lines.append(message.ui);
