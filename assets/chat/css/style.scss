@@ -954,11 +954,6 @@ a.flair12:hover {
     background-color: $color-chat-highlight;
 }
 
-.msg-highlight-reply {
-    color: #CCDCD1 !important;
-    background-color: #224E61 !important;
-}
-
 /* Focus or highlight a line */
 .focus-user .msg-chat {
     opacity:0.3;
@@ -1815,73 +1810,4 @@ button.btn {
 #chat-emote-info-creator,#chat-emote-info-seasonal{
     display: block;
     font-size: 10px;
-}
-
-.msg-reply-preview {
-    font-size: 0.85em;
-    color: #888;
-    margin-bottom: 2px;
-
-    .reply-arrow {
-        margin-right: 4px;
-        color: #666;
-    }
-
-    .reply-label {
-        margin-right: 2px;
-        color: #aaa;
-    }
-
-    .reply-user {
-        font-weight: 600;
-        color: #ccc;
-        margin: 0 2px;
-    }
-
-    .reply-text {
-        color: #bbb;
-        font-style: italic;
-    }
-}
-
-#chat-reply-banner {
-    background: #030303;
-    border: 1px solid #321a10;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    padding: $chat-gutter-sm;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: $text-size-sm;
-    color: $color-chat-text2;
-    position: relative;
-    z-index: 220;
-    box-shadow: 0px -1px 4px rgba(black, 0.3);
-    white-space: nowrap; 
-    text-overflow: ellipsis;
-}
-
-#chat-reply-container {
-    display: flex;
-}
-
-#chat-reply-user {
-    color: $color-chat-text1;
-    font-weight: 500;
-    margin-left: 5px;
-}
-
-.chat-reply-cancel {
-    cursor: pointer;
-    display: flex;
-    font-size: 20px;
-    align-items: center;
-    color: $color-chat-text3;
-    transition: color 0.2s ease;
-
-
-    &:hover {
-        color: $color-chat-text1;
-    }
 }

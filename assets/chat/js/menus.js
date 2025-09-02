@@ -686,25 +686,6 @@ class ChatContextMenu {
                 .focus()
                 .val(`/whisper ${this.targetUsername} `)
         })
-        
-        this.button.reply = this.addButton("contextmenu-reply", (id, e) => {
-            const msgChat = $(this.event.currentTarget).closest(".msg-chat");
-            const msgObj = msgChat.data("message");
-            const prevId = msgChat.attr("data-msg-id") || (msgObj && msgObj.id);
-            const targetUser = msgObj && msgObj.user;
-            const prevText = msgObj && msgObj.message;
-
-            if (!prevId || !targetUser || !prevText) return;
-
-            $("#chat-reply-user").text(targetUser.username ?? targetUser);
-            $("#chat-reply-banner")
-                .data("replyTo", prevId)
-                .data("prevText", prevText)
-                .data("targetUser", targetUser)
-                .show();
-
-            $("#chat-input-control").focus();
-        });
 
         if (this.chat.settings.get("highlightnicks").includes(this.targetUsername.toLowerCase())) {
             this.button.highlight = this.addButton("contextmenu-unhighlight", (id, e) => {
