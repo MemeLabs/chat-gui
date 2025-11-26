@@ -630,16 +630,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
-    $file-name: FeelsPepoMan,
-    $frame-count: 4,
-    $sprite-width: 128px,
-    $sprite-height: 32px,
-    $animation-duration: 400ms,
-    $iteration-count: 7,
-    $can-animate-forever: true
-);
-
-@include sprite-animation(
     $file-name: BONK,
     $frame-count: 2,
     $sprite-width: 110px,
