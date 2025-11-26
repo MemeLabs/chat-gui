@@ -1306,17 +1306,6 @@ $spritesDir : '/assets/emotes/emoticons-animated/';
 );
 
 @include sprite-animation(
-    $file-name: ApeHands,
-    $frame-count: 91,
-    $sprite-width: 2912px,
-    $sprite-height: 32px,
-    $animation-duration: 2s,
-    $iteration-count: 3,
-    $can-animate-forever: true,
-    $end-on-last-frame: true
-);
-
-@include sprite-animation(
     $file-name: SMUG,
     $frame-count: 7,
     $sprite-width: 238px,
