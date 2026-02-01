@@ -1652,6 +1652,30 @@ a.flair12:hover {
 textarea.form-control {
     width: 100%;
 }
+// modal when image is opened
+.image-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.image-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+}
+
+.image-modal__content {
+  position: relative;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.image-modal img {
+  max-width: 90vw;
+  max-height: 90vh;
+}
 
 button.btn {
     display: inline-block;
