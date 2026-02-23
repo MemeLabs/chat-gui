@@ -215,6 +215,11 @@ function moveModifierToFront(modifierList, modifierName) {
     return modifierList;
 }
 
+window.__openImageModalFromLink = function (e, src) {
+  e.preventDefault();
+  window.parent.postMessage({ action: 'IMAGE_MODAL_SRC', payload: src }, '*');
+};
+
 class DisabledFormatter {
     format(chat, str, message = null) {
         return str;
@@ -623,6 +628,7 @@ class UrlFormatter {
         this.discordmp4Regex = /https:\/\/(media|cdn)\.discordapp\.(net|com)\/attachments.*?\.(mp4|webm|mov)/i;
         this.refLinkRegex = /^(https?:\/\/)?(www\.)?(((smile\.)?amazon)|twitter|(open\.)?spotify)\.[a-z]{2,3}/;
         this.twitterRegex = /^(?:https:\/\/)?(?:www\.)?twitter\.com\/([^ ?]+)/i;
+        this.imageRegEx = /\.(png|jpe?g|gif|webp|bmp|svg|avif)$/; // make sure to split at "?" if testing URL
 
         // e.g. youtube ids include "-" and "_".
         const embedCommonId = '([\\w-]{1,30})';
@@ -748,7 +754,17 @@ class UrlFormatter {
 
                 // 70 characters is the 80th percentile for link length
                 if (shortenLinks && url.length > 75) {
-                    url = url.substring(0, 35) + '<span class="ellipsis">...</span><span class="ellipsis-hidden">' + url.substring(35, url.length - 35) + '</span>' + url.substring(url.length - 35);
+                  url = url.substring(0, 35) + '<span class="ellipsis">...</span><span class="ellipsis-hidden">' + url.substring(35, url.length - 35) + '</span>' + url.substring(url.length - 35);
+                }
+                // if URL is an image, allow modal, otherwise treat it normally
+                if (chat.settings.get("image-modal-preview") && this.imageRegEx.test(url.split("?")[0].toLowerCase())) {
+                    return `<a
+                    target="_blank"
+                    class="externallink ${extraclass}"
+                    href="${href}"
+                    rel="nofollow"
+                    onclick="window.__openImageModalFromLink(event, this.href)"
+                  >${url}</a>${extra}<a target="_blank" class="embed-externallink" href="${href}" rel="nofollow" ></a>`;
                 }
                 return `<a target="_blank" class="externallink ${extraclass}" href="${href}" rel="nofollow">${url}</a>${extra}`;
             }
