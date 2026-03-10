@@ -41,6 +41,7 @@ function upgradeSettings(chat, oldversion, newversion) {
         chat.settings.set("holidayemotemodifiers", arr);
         chat.settings.set("formatter-combo", arr);
         chat.settings.set("image-modal-preview", arr);
+        chat.settings.set("in-chat-image-preview", arr);
 
         arr = chat.settings.get("notificationtimeout");
         chat.settings.set("notificationtimeout", arr !== -1);

@@ -216,8 +216,18 @@ function moveModifierToFront(modifierList, modifierName) {
 }
 
 window.__openImageModalFromLink = function (e, src) {
-  e.preventDefault();
-  window.parent.postMessage({ action: 'IMAGE_MODAL_SRC', payload: src }, '*');
+    e.preventDefault();
+    if (window.location.href.includes("chat.strims.gg") || window.location.href.includes("localhost") ) {
+        const imagemodal = $("#image-modal");
+        const modalImageElement = $("#modal-img");
+        modalImageElement.attr("src", src)
+        imagemodal.addClass("show");
+    } else {
+        window.parent.postMessage(
+            { action: "IMAGE_MODAL_SRC", payload: src },
+            "*",
+        );
+    }
 };
 
 class DisabledFormatter {
@@ -757,14 +767,32 @@ class UrlFormatter {
                   url = url.substring(0, 35) + '<span class="ellipsis">...</span><span class="ellipsis-hidden">' + url.substring(35, url.length - 35) + '</span>' + url.substring(url.length - 35);
                 }
                 // if URL is an image, allow modal, otherwise treat it normally
-                if (chat.settings.get("image-modal-preview") && this.imageRegEx.test(url.split("?")[0].toLowerCase())) {
-                    return `<a
-                    target="_blank"
-                    class="externallink ${extraclass}"
-                    href="${href}"
-                    rel="nofollow"
-                    onclick="window.__openImageModalFromLink(event, this.href)"
-                  >${url}</a>${extra}<a target="_blank" class="embed-externallink" href="${href}" rel="nofollow" ></a>`;
+                if (this.imageRegEx.test(url.split("?")[0].toLowerCase())) {
+                    let imageMessage = "";
+
+                    // if modal enabled, add on to variable
+                    if (chat.settings.get("image-modal-preview")) {
+                        imageMessage += `<a
+                        target="_blank"
+                        class="externallink ${extraclass}"
+                        href="${href}"
+                        rel="nofollow"
+                        onclick="window.__openImageModalFromLink(event, this.href)"
+                        >${url}</a>${extra}<a target="_blank" class="embed-externallink" href="${href}" rel="nofollow" ></a>`;
+                    }
+
+                    // if image preview enabled and modal enabled / if image preview enabled and modal disabled, add on to variable
+                    if(chat.settings.get("in-chat-image-preview")){
+                        if (chat.settings.get("image-modal-preview")) {
+                            imageMessage += `<br> <img class="in-chat-preview-image" src="${href}" onclick="window.__openImageModalFromLink(event, this.src)" width="175"/>`;
+                        } else {
+                            imageMessage += `<a target="_blank" class="externallink ${extraclass}" href="${href}" rel="nofollow">${url}</a>${extra} <br> <img class="in-chat-preview-image" src="${href}" onclick="window.open(this.src, '_blank').focus();" width="175"/>`;
+                        }
+                    }
+                    // test if variable has anything and return it, if not, continue
+                    if (imageMessage.length > 0) {
+                        return imageMessage;
+                    }
                 }
                 return `<a target="_blank" class="externallink ${extraclass}" href="${href}" rel="nofollow">${url}</a>${extra}`;
             }

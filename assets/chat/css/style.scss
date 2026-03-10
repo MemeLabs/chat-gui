@@ -1842,3 +1842,76 @@ button.btn {
     display: block;
     font-size: 10px;
 }
+
+.button-orange{
+  border: none;
+  background-color: transparent;
+  color: #D17134;
+  &:hover {
+    color: darken(#D17134, 20%);
+  }
+}
+
+// modal when image is opened
+#image-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+}
+
+#image-modal.show {
+    display: flex;
+}
+
+#image-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+#image-modal__content {
+    place-items: end;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    width: max-content;
+    z-index: 100;
+    position: relative;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.image-modal__btn {
+    margin-left: 15px;
+    cursor: pointer;
+    &.copySuccessful{
+        color: green;
+    }
+}
+
+#image-modal__toolbar {
+    margin-bottom: 10px;
+    button {
+        span {
+            font-size: 25px;
+        }
+    }
+}
+
+.in-chat-preview-image{
+    max-height:175px;
+    max-width:225px;
+    height:auto;
+    width:auto;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+#image-modal img {
+    max-width: 90vw;
+    max-height: 90vh;
+    user-select: none;
+}

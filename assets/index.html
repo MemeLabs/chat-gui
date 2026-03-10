@@ -12,6 +12,27 @@
 <body class="embed">
 
     <div id="chat" class="chat chat-icons">
+        <div id="image-modal" tabindex="{-1}">
+            <div id="image-modal__backdrop"></div>
+
+            <div id="image-modal__content">
+                <div id="image-modal__toolbar">
+                    <button id="image-modal__open" class="image-modal__btn button-orange" tabindex="{0}" target="_blank">
+                        <span class="fa fa-external-link" />
+                    </button>
+                    <button id="image-modal__copy" class="image-modal__btn button-orange" tabindex="{0}">
+                        <span class="fa fa-clone" />
+                    </button>
+
+                    <button id="image-modal__close" class="image-modal__btn image-modal__btn--close button-orange" aria-label="Close"
+                        tabindex="{0}" autofocus>
+                        <span class="fa fa-times" />
+                    </button>
+                </div>
+
+                <img id="modal-img" src="https://i.imgur.com/mj5BSOf.jpeg" alt="" />
+            </div>
+        </div>
 
         <div id="chat-windows-select"></div>
 
@@ -144,8 +165,13 @@
                                 </label>
                             </div>
                             <div class="form-group checkbox">
-                                <label title="Shorten links">
+                                <label title="Image modal prievew">
                                     <input name="image-modal-preview" type="checkbox" /> Image modal preview
+                                </label>
+                            </div>
+                            <div class="form-group checkbox">
+                                <label title="In-chat image preview">
+                                    <input name="in-chat-image-preview" type="checkbox" /> In-chat image preview
                                 </label>
                             </div>
                             <div class="form-group">
