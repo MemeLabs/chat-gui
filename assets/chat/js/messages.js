@@ -41,6 +41,38 @@ function setFormattersFromSettings(settings) {
         formatters.set("green", new DisabledFormatter());
 }
 
+function moveImagesToEndFlex(htmlString) {
+  const container = document.createElement("div");
+  container.innerHTML = htmlString;
+
+  const extractedImages = [];
+
+  for (const img of Array.from(container.querySelectorAll("img"))) {
+    const prevEl = img.previousElementSibling;
+
+    if (prevEl && prevEl.tagName === "BR") {
+      prevEl.remove();
+      img.remove();
+      extractedImages.push(img);
+    }
+  }
+
+  if (extractedImages.length) {
+    const flexRow = document.createElement("div");
+    flexRow.style.display = "flex";
+    flexRow.style.flexWrap = "wrap";
+    flexRow.style.gap = "8px";
+
+    for (const img of extractedImages) {
+      flexRow.appendChild(img);
+    }
+
+    container.appendChild(flexRow);
+  }
+
+  return container.innerHTML;
+}
+
 function buildMessageTxt(chat, message) {
     // TODO we strip off the `/me ` of every message -- must be a better way to do this
     let msg =
@@ -78,6 +110,9 @@ function buildMessageTxt(chat, message) {
             );
         }
         fullMsg += msgArray[i].value;
+    }
+    if(chat.settings.get("in-chat-image-preview")) {
+        fullMsg = moveImagesToEndFlex(fullMsg);
     }
     fullMsg = fullMsg.replace(/\\`/g, "`");
     return `<span class="text">${fullMsg}</span>`;

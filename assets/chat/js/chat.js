@@ -130,6 +130,8 @@ const settingsdefault = new Map([
     ["formatter-green", true],
     ["formatter-emote", true],
     ["formatter-combo", true],
+    ["image-modal-preview", true],
+    ["in-chat-image-preview", true],
     ["holidayemotemodifiers", true],
     ["disablespoilers", false],
     ["viewerstateindicator", 1],
@@ -389,6 +391,13 @@ class Chat {
         this.spoiler = new ChatSpoiler(this);
         this.mainwindow = new ChatWindow("main").into(this);
 
+        this.imagemodal = this.ui.find("#image-modal");
+        this.modalbuttonclose = this.imagemodal.find("#image-modal__close");
+        this.modalbuttonopen = this.imagemodal.find("#image-modal__open");
+        this.modalbuttoncopy = this.imagemodal.find("#image-modal__copy");
+        this.modalbackdrop = this.imagemodal.find("#image-modal__backdrop");
+        this.modalimageelement = this.imagemodal.find("#modal-img");
+
         this.windowToFront("main");
 
         this.menus.set(
@@ -433,6 +442,34 @@ class Chat {
         suffixes.forEach(e => this.autocomplete.add(`:${e}`, true));
         this.autocomplete.bind(this);
         this.applySettings(false);
+
+         this.modalbackdrop.on("click", (e) => {
+            this.imagemodal.removeClass("show");
+            this.modalimageelement.attr("src", "");
+        })
+        
+        this.modalbuttonclose.on("click", (e) => {
+            this.imagemodal.removeClass("show");
+            this.modalimageelement.attr("src", "");
+        })
+
+        this.modalbuttoncopy.on("click", (e) => {
+            this.modalbuttoncopy.removeClass("copySuccessful")
+            this.modalbuttoncopy.offsetHeight = this.modalbuttoncopy.offsetHeight + 0; /* trigger reflow */
+
+            const url = this.modalimageelement.attr("src");
+            navigator.clipboard.writeText(url)
+            this.modalbuttoncopy.addClass("copySuccessful")
+            setTimeout(() => {
+                this.modalbuttoncopy.removeClass("copySuccessful")
+            }, 2000)
+        })
+                
+        this.modalbuttonopen.on("click", (e) => {
+          const url = this.modalimageelement.attr("src");
+          window.open(url, '_blank').focus();
+        })
+
 
         // Chat input
         this.input.on("keypress", e => {

@@ -43,5 +43,7 @@
     ["formatter-green", true],
     ["formatter-emote", true],
     ["formatter-combo", true],
+    ["image-modal-preview", true],
+    ["in-chat-image-preview", true],
     ["holidayemotemodifiers", true]
 ]
