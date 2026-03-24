@@ -454,16 +454,18 @@ class Chat {
         })
 
         this.modalbuttoncopy.on("click", (e) => {
-            this.modalbuttoncopy.removeClass("copySuccessful")
-            this.modalbuttoncopy.offsetHeight = this.modalbuttoncopy.offsetHeight + 0; /* trigger reflow */
+            this.modalbuttoncopy.removeClass("copySuccessful");
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    this.modalbuttoncopy.addClass("copySuccessful");
+                });
+            });
 
             const url = this.modalimageelement.attr("src");
-            navigator.clipboard.writeText(url)
-            this.modalbuttoncopy.addClass("copySuccessful")
-            setTimeout(() => {
-                this.modalbuttoncopy.removeClass("copySuccessful")
-            }, 2000)
-        })
+            navigator.clipboard.writeText(url);
+        });
+
                 
         this.modalbuttonopen.on("click", (e) => {
           const url = this.modalimageelement.attr("src");

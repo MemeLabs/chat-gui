@@ -1843,13 +1843,13 @@ button.btn {
     font-size: 10px;
 }
 
-.button-orange{
-  border: none;
-  background-color: transparent;
-  color: #D17134;
-  &:hover {
-    color: darken(#D17134, 20%);
-  }
+.button-orange {
+    border: none;
+    background-color: transparent;
+    color: #d17134;
+    &:hover {
+        color: darken(#d17134, 20%);
+    }
 }
 
 // modal when image is opened
@@ -1887,13 +1887,29 @@ button.btn {
 .image-modal__btn {
     margin-left: 15px;
     cursor: pointer;
-    &.copySuccessful{
+    &.copySuccessful {
+        animation: greenFade 1000ms 1;
+    }
+}
+
+@keyframes greenFade {
+    0% {
         color: green;
+        &:hover {
+            color: green;
+        }
+    }
+    100% {
+        color: #d17134;
+        &:hover {
+            color: darken(#d17134, 20%);
+        }
     }
 }
 
 #image-modal__toolbar {
     margin-bottom: 10px;
+    user-select: none;
     button {
         span {
             font-size: 25px;
@@ -1901,11 +1917,11 @@ button.btn {
     }
 }
 
-.in-chat-preview-image{
-    max-height:175px;
-    max-width:225px;
-    height:auto;
-    width:auto;
+.in-chat-preview-image {
+    max-height: 125px;
+    max-width: 225px;
+    height: auto;
+    width: auto;
     object-fit: contain;
     cursor: pointer;
 }
