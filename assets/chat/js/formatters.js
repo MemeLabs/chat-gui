@@ -623,11 +623,20 @@ class UrlFormatter {
         this.discordmp4Regex = /https:\/\/(media|cdn)\.discordapp\.(net|com)\/attachments.*?\.(mp4|webm|mov)/i;
         this.refLinkRegex = /^(https?:\/\/)?(www\.)?(((smile\.)?amazon)|twitter|(open\.)?spotify)\.[a-z]{2,3}/;
         this.twitterRegex = /^(?:https:\/\/)?(?:www\.)?twitter\.com\/([^ ?]+)/i;
-        this.strimLinkRegex = /^(?:https?:\/\/)?(?:www\.)?strims\.gg\/(?:(?:angelthump|twitch)\/)?([a-zA-Z0-9_]+)\/?(?:[?#].*)?$/i;
 
         // e.g. youtube ids include "-" and "_".
         const embedCommonId = '([\\w-]{1,30})';
         this.embedSubstitutions = [
+            // strims.gg links already are embed routes, so the path is the label.
+            // Two-segment first, so `angelthump/foo` wins over a bare name.
+            {
+                pattern: /strims\.gg\/([a-z0-9_-]+\/[^\s/?#]+)\/?(?:[?#]|$)/i,
+                template: (v) => v
+            },
+            {
+                pattern: /strims\.gg\/([a-z0-9_-]+)\/?(?:[?#]|$)/i,
+                template: (v) => v
+            },
             {
                 pattern: new RegExp(`twitch\\.tv/videos/${embedCommonId}`),
                 template: (v) => `twitch-vod/${v}`
@@ -736,13 +745,6 @@ class UrlFormatter {
                 url = self.encodeUrl(m[0]);
                 const extra = self.encodeUrl(decodedUrl.substring(m[0].length));
                 const href = scheme + url;
-
-                const strimMatch = decodedUrl.match(self.strimLinkRegex);
-                if (strimMatch) {
-                    const username = strimMatch[1];
-                    const capitalizedUsername = username.charAt(0).toUpperCase() + username.slice(1);
-                    return `<a target="_blank" class="externallink strim-link ${extraclass}" href="${href}" rel="nofollow">${capitalizedUsername} - Strim</a>${extra}`;
-                }
 
                 for (let i = 0; i < this.embedSubstitutions.length; i++) {
                     const sub = this.embedSubstitutions[i];
