@@ -227,6 +227,7 @@ class Chat {
         this.showmotd = true;
         this.authenticated = false;
         this.backlogloading = false;
+        this.resumedConnection = false;
         this.unresolved = [];
         this.emoticons = new Set();
         this.emoteswithsuffixes = new Set();
@@ -260,6 +261,8 @@ class Chat {
         this.source.on("OPEN", data => this.onOPEN(data));
         this.source.on("DISPATCH", data => this.onDISPATCH(data));
         this.source.on("CLOSE", data => this.onCLOSE(data));
+        this.source.on("RECONNECTING", () => this.onRECONNECTING());
+        this.source.on("REPLAY", data => this.onREPLAY(data));
         this.source.on("NAMES", data => this.onNAMES(data));
         this.source.on("QUIT", data => this.onQUIT(data));
         this.source.on("MSG", data => this.onMSG(data));
@@ -1179,6 +1182,8 @@ class Chat {
     }
 
     onCLOSE({ retryMilli }) {
+        // the source is quietly resuming the connection, see onRECONNECTING
+        if (this.source.silent) return;
         // https://www.iana.org/assignments/websocket/websocket.xml#close-code-number
         // const code = e.event.code || 1006
         if (retryMilli > 0) {
@@ -1192,21 +1197,43 @@ class Chat {
         }
     }
 
+    onRECONNECTING() {
+        MessageBuilder.error(`Disconnected, reconnecting ...`).into(this);
+    }
+
+    onREPLAY({ events, complete }) {
+        // events the server broadcast while we were disconnected
+        if (!complete) {
+            MessageBuilder.element("<hr/>").into(this);
+            MessageBuilder.info(
+                `Some messages were missed while you were disconnected.`
+            ).into(this);
+        }
+        (events || []).forEach(line =>
+            this.source.parseAndDispatch({ data: line })
+        );
+    }
+
     onCONNECTING(url) {
+        if (this.source.silent) return;
         MessageBuilder.status(`Connecting to ${extractHostname(url)} ...`).into(
             this
         );
     }
 
-    onOPEN() {
+    onOPEN({ resumed }) {
+        this.resumedConnection = resumed;
+        if (resumed) return;
         MessageBuilder.status(`Connection established.`).into(this);
     }
 
     onNAMES(data) {
-        MessageBuilder.info(
-            `Currently serving ${data["connectioncount"] ||
-                0} connections and ${data["users"].length} users.`
-        ).into(this);
+        if (!this.resumedConnection) {
+            MessageBuilder.info(
+                `Currently serving ${data["connectioncount"] ||
+                    0} connections and ${data["users"].length} users.`
+            ).into(this);
+        }
         if (this.showmotd) {
             this.cmdHINT([Math.floor(Math.random() * hintstrings.size)]);
             this.showmotd = false;
